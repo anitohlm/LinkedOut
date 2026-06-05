@@ -24,16 +24,20 @@ interface Invitation {
   options?: { accept: string; negotiate: string; decline: string };
 }
 
-export default function MultiverseInvitations({ state, transitionTo }: Props) {
-  const [invitations, setInvitations] = useState<Invitation[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [openId, setOpenId] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const hasInit = useRef(false);
-
+export default function MultiverseInvitations({ state, transitionTo, updateState }: Props) {
   const universeId = state.selectedUniverse;
   const universe = universeId ? getUniverse(universeId) : null;
   const profile = universeId ? state.allProfiles?.[universeId] : null;
+
+  const cached = universeId ? state.cachedInvitations?.[universeId] : null;
+  const [invitations, setInvitations] = useState<Invitation[]>(cached ? [cached] : []);
+  const [loading, setLoading] = useState(!cached);
+  const [openId, setOpenId] = useState<string | null>(cached ? cached.id : null);
+  const [error, setError] = useState<string | null>(null);
+  const [decision, setDecision] = useState<"accept" | "negotiate" | "decline" | null>(
+    universeId ? state.invitationDecisions?.[universeId] ?? null : null
+  );
+  const hasInit = useRef(false);
 
   // Universe-themed mailbox titles
   const MAILBOX = {
@@ -53,18 +57,29 @@ export default function MultiverseInvitations({ state, transitionTo }: Props) {
     }
     if (hasInit.current) return;
     hasInit.current = true;
+    if (cached) { setLoading(false); return; } // already generated — reuse it
     load();
   }, []);
 
   const load = async () => {
     try {
-      // Only generate the offer for the currently selected universe
       const inv = await generateRecruiter(profile as any, universeId!);
       setInvitations([inv as Invitation]);
+      // Cache so we never regenerate this universe's offer
+      updateState({ cachedInvitations: { ...(state.cachedInvitations || {}), [universeId!]: inv } });
     } catch (e: any) {
       setError(e.message || "Failed to load offers.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const decide = (choice: "accept" | "negotiate" | "decline" | null) => {
+    setDecision(choice);
+    if (universeId) {
+      const next = { ...(state.invitationDecisions || {}) };
+      if (choice) next[universeId] = choice; else delete next[universeId];
+      updateState({ invitationDecisions: next });
     }
   };
 
@@ -164,9 +179,51 @@ export default function MultiverseInvitations({ state, transitionTo }: Props) {
                         </div>
                       )}
                       {inv.sign && (
-                        <p style={{ fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontSize: 14, color: "var(--text3)" }}>
+                        <p style={{ fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontSize: 14, color: "var(--text3)", marginBottom: 20 }}>
                           — {inv.sign}
                         </p>
+                      )}
+
+                      {/* Decision actions */}
+                      {!decision ? (
+                        <div onClick={e => e.stopPropagation()} style={{ display: "flex", gap: 10, marginTop: 4 }}>
+                          <button onClick={() => decide("accept")}
+                            style={{ flex: 1, padding: "12px", borderRadius: 10, border: "none", cursor: "pointer",
+                              background: u.color, color: "#0a0a0a", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 700 }}>
+                            ✓ Accept
+                          </button>
+                          <button onClick={() => decide("negotiate")}
+                            style={{ flex: 1, padding: "12px", borderRadius: 10, cursor: "pointer",
+                              background: "transparent", border: `1px solid ${u.color}55`, color: u.color,
+                              fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600 }}>
+                            ⇄ Negotiate
+                          </button>
+                          <button onClick={() => decide("decline")}
+                            style={{ flex: 1, padding: "12px", borderRadius: 10, cursor: "pointer",
+                              background: "transparent", border: "1px solid var(--border2)", color: "var(--text3)",
+                              fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600 }}>
+                            ✕ Ignore
+                          </button>
+                        </div>
+                      ) : (
+                        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                          onClick={e => e.stopPropagation()}
+                          style={{ marginTop: 4, padding: 18, borderRadius: 12,
+                            background: decision === "decline" ? "var(--bg2)" : `${u.color}10`,
+                            border: `1px solid ${decision === "decline" ? "var(--border)" : u.color + "30"}` }}>
+                          <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
+                            color: decision === "decline" ? "var(--text3)" : u.color, marginBottom: 8 }}>
+                            {decision === "accept" ? "✓ You accepted" : decision === "negotiate" ? "⇄ You negotiated" : "✕ You declined"}
+                          </p>
+                          <p style={{ fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontSize: 15, color: "var(--text2)", lineHeight: 1.6 }}>
+                            {inv.options?.[decision === "decline" ? "decline" : decision] || "The choice is made."}
+                          </p>
+                          <button onClick={() => decide(null)}
+                            style={{ marginTop: 12, background: "none", border: "none", color: "var(--text3)",
+                              fontSize: 12, cursor: "pointer", fontFamily: "Sora, sans-serif", textDecoration: "underline" }}>
+                            Reconsider
+                          </button>
+                        </motion.div>
                       )}
                     </motion.div>
                   )}

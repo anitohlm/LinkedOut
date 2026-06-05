@@ -31,6 +31,11 @@ const initialState: AppState = {
   butterFlyDecisions: [],
   invitations: [],
   shareCard: null,
+  councilMessages: [],
+  councilSpecials: [],
+  councilConcluded: false,
+  cachedInvitations: {},
+  invitationDecisions: {},
 };
 
 export function AppOrchestrator() {

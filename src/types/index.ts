@@ -188,4 +188,11 @@ export interface AppState {
   butterFlyDecisions: ButterflyDecision[];
   invitations: MultiverseInvitation[];
   shareCard: ShareCard | null;
+  // Council of Selves persistence
+  councilMessages?: any[];
+  councilSpecials?: any[];
+  councilConcluded?: boolean;
+  // Recruiter invitations cached per universe + the user's decision
+  cachedInvitations?: Record<string, any>;
+  invitationDecisions?: Record<string, "accept" | "negotiate" | "decline">;
 }
