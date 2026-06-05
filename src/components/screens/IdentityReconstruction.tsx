@@ -15,49 +15,11 @@ export default function IdentityReconstruction({
   transitionTo,
   updateState,
 }: IdentityReconstructionProps) {
-  const [profile, setProfile] = useState<AlternateProfile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const profile = state.selectedUniverse ? state.allProfiles?.[state.selectedUniverse] ?? null : null;
+  const isLoading = false;
+  const error = !profile ? "Profile not found" : null;
 
-  const generateProfile = async () => {
-    if (!state.selectedUniverse || !state.resumeAnalysis) {
-      setError("Missing universe or resume data");
-      return;
-    }
-
-    try {
-      const response = await fetch("/api/generate-profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          resumeAnalysis: state.resumeAnalysis,
-          universeId: state.selectedUniverse,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to generate profile");
-      }
-
-      const generatedProfile: AlternateProfile = await response.json();
-      setProfile(generatedProfile);
-      updateState({
-        allProfiles: {
-          ...state.allProfiles,
-          [state.selectedUniverse]: generatedProfile,
-        },
-      });
-    } catch (err) {
-      console.error("Profile generation error:", err);
-      setError("Failed to generate profile. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    generateProfile();
-  }, [state.selectedUniverse]);
+  useEffect(() => {}, []);
 
   if (isLoading) {
     return (

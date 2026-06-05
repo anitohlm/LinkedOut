@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #08090d;
+  --bg2: #0e1018;
+  --bg3: #14161f;
+  --bg4: #1a1d29;
+  --surface: #1e2133;
+  --surface2: #252a3d;
+  --surface3: #2d3347;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.13);
+  --border3: rgba(255,255,255,0.21);
+  --text: #f0f2ff;
+  --text2: #a8adc8;
+  --text3: #6b7094;
+  --gold: #e8c97e;
+  --gold2: #f5dfa0;
+  --gold3: #c9a84c;
+  --violet: #7c6ef7;
+  --violet2: #9d91ff;
+  --violet3: #5a4fd4;
+  --cyan: #4ecdc4;
+  --cyan2: #7ee8e1;
+  --cyan3: #2db8af;
+  --rose: #f07070;
+  --rose2: #ff9595;
+  --rose3: #d44f4f;
+  --amber: #f0a050;
+  --amber2: #ffc278;
+  --amber3: #c97d30;
+  --grad1: linear-gradient(135deg, #1a1025 0%, #0d1a2e 50%, #0a1510 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glass card */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+}
+
+/* Text gradient */
+.text-gradient {
+  background: linear-gradient(90deg, var(--violet2), var(--cyan2), var(--gold2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: all 0.3s ease;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
