@@ -34,8 +34,25 @@ export async function POST(req: NextRequest) {
     const relationshipNote = relationshipStage
       ? `\n\nYOUR BOND: You are at the "${relationshipStage}" stage with them. Let your warmth and openness match that closeness.`
       : "";
+    const TONE: Record<string, string> = {
+      galactic: "Reflective leadership lessons — the weight of command, the cost of distance, the long view.",
+      cyberpunk: "Ambition and rebellion — the climb, the system, the price of staying free.",
+      pirate: "Bold and adventurous — freedom, the open sea, the thrill of the uncharted.",
+      dragon: "Wise and philosophical — patience measured in centuries, the slow burn of power.",
+      medieval: "Honor and duty — oaths kept, reputation, the weight of the crown.",
+      vampire: "Introspective and emotional — memory, eternity, the ache of long solitude.",
+    };
     const answerNote = answeredQuestion
-      ? `\n\nThey just answered your question ("${answeredQuestion}") with what they chose. React to their answer specifically and personally — affirm it, challenge it, or reflect on how it mirrors your own past. Keep it short.`
+      ? `\n\nThey just answered your question ("${answeredQuestion}"). This is a STORY MOMENT — the emotional heart of the experience, not small talk.
+
+React in 3 to 5 SHORT lines, each on its own line, building like a confession:
+1. Echo their answer back in your own words.
+2. Compare it to YOUR life — e.g. "I remember saying exactly that," or how your path diverged from it.
+3. Reveal a fragment of lore from your world or your lived journey.
+4. End on a line that deepens the bond — vulnerable, knowing, or quietly hopeful.
+
+Tone for the ${universe.title} universe: ${TONE[futureSelf.universeId] || "personal and reflective"}.
+Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
       : "";
     const shiftNote = (stabilityShift ?? 0) <= -8
       ? `\n\nTheir choice diverged sharply from the path you walked. You feel the timeline shift. Show unease — say something like "That's not how I remember things happening" or "Something just... changed."`

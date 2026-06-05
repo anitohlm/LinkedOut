@@ -11,6 +11,7 @@ import { applyDelta, corruptionLevel } from "@/lib/stability";
 import {
   getNextQuestion, getStage, answersRecap, type InterviewQuestion, type InterviewOption,
 } from "@/lib/interview";
+import { markActivity } from "@/lib/progress";
 
 interface Props {
   state: AppState;
@@ -19,7 +20,7 @@ interface Props {
 }
 
 interface Msg {
-  role: "user" | "assistant";
+  role: "user" | "assistant" | "system";
   content: string;
   villain?: boolean;
 }
@@ -64,6 +65,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     }
     if (hasInit.current) return;
     hasInit.current = true;
+    markActivity(state, updateState, universeId, "future");
     if (saved && saved.messages?.length) { setBooting(false); return; } // restore prior conversation
     boot();
   }, []);
@@ -133,7 +135,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     if (!input.trim() || loading || !futureSelf) return;
     const userMsg = input.trim();
     setInput("");
-    const history = messages.map(m => ({ role: m.role, content: m.content }));
+    const history = messages.filter(m => m.role !== "system").map(m => ({ role: m.role as "user" | "assistant", content: m.content }));
     setMessages(prev => [...prev, { role: "user", content: userMsg }]);
     setLoading(true);
     try {
@@ -177,11 +179,13 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     setAsked(prev => [...prev, q.id]);
     if (opt.stab) updateState({ timelineState: applyDelta(state.timelineState.stability, opt.stab) });
 
-    // Record the exchange in the transcript
+    // Record the exchange + the reward feedback in the transcript
+    const fb = `Relationship +${opt.rel}` + (opt.stab ? `  ·  Timeline Stability ${opt.stab > 0 ? "+" : ""}${opt.stab}` : "");
     setMessages(prev => [
       ...prev,
       { role: "assistant", content: q.prompt },
       { role: "user", content: opt.label },
+      { role: "system", content: fb },
     ]);
     setQuestion(null);
     setPicked(null);
@@ -190,7 +194,8 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     setLoading(true);
     try {
       const history = [...messages, { role: "assistant" as const, content: q.prompt }, { role: "user" as const, content: opt.label }]
-        .map(m => ({ role: m.role, content: m.content }));
+        .filter(m => m.role !== "system")
+        .map(m => ({ role: m.role as "user" | "assistant", content: m.content }));
       const res = await sendFutureTransmission({
         userMessage: opt.label,
         futureSelf: futureSelf!,
@@ -322,6 +327,18 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
 
           <AnimatePresence>
             {messages.map((m, i) => (
+              m.role === "system" ? (
+                <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+                  style={{ display: "flex", justifyContent: "center" }}>
+                  <span style={{
+                    fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
+                    padding: "5px 14px", borderRadius: 100,
+                    background: `${accent}14`, border: `1px solid ${accent}33`, color: accent,
+                  }}>
+                    ✦ {m.content}
+                  </span>
+                </motion.div>
+              ) : (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                 style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
                 <div style={{
@@ -337,6 +354,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
                   {m.content.replace(/\\n/g, "\n")}
                 </div>
               </motion.div>
+              )
             ))}
           </AnimatePresence>
 

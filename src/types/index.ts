@@ -202,4 +202,5 @@ export interface AppState {
   // Game progression
   explored?: string[];        // universe ids the user has visited
   usedButterfly?: boolean;    // has run the Butterfly Effect
+  universeActivity?: Record<string, string[]>; // per-universe completed activities
 }

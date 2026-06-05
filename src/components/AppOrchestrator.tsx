@@ -45,6 +45,7 @@ const initialState: AppState = {
   interviews: {},
   explored: [],
   usedButterfly: false,
+  universeActivity: {},
 };
 
 const SAVE_KEY = "linkedout_save_v1";
@@ -229,11 +230,11 @@ export function AppOrchestrator() {
         {toast && (
           <motion.div
             key={toast.key}
-            initial={{ opacity: 0, y: -20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            initial={{ opacity: 0, x: 20, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 20, scale: 0.95 }}
             style={{
-              position: "fixed", top: 80, left: "50%", transform: "translateX(-50%)", zIndex: 1100,
+              position: "fixed", top: 80, right: 24, zIndex: 1100,
               display: "flex", alignItems: "center", gap: 12, padding: "12px 20px", borderRadius: 12,
               background: "rgba(14,16,24,0.95)", border: `1px solid ${tier.color}55`,
               backdropFilter: "blur(12px)", boxShadow: `0 8px 32px -8px ${tier.color}55`,

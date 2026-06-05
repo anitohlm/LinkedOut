@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import UniverseBackground from "@/components/UniverseBackground";
+import { markActivity } from "@/lib/progress";
 
 interface Props {
   state: AppState;
@@ -17,7 +18,8 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
   const universe = state.selectedUniverse ? getUniverse(state.selectedUniverse) : null;
 
   useEffect(() => {
-    if (!state.selectedUniverse || !profile) transitionTo("universe-discovery");
+    if (!state.selectedUniverse || !profile) { transitionTo("universe-discovery"); return; }
+    markActivity(state, updateState, state.selectedUniverse, "profile");
   }, []);
 
   if (!profile || !universe) return null;
@@ -220,7 +222,7 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
 
               <div style={{ display: "flex", gap: 10 }}>
                 <button
-                  onClick={() => transitionTo("legendary-self")}
+                  onClick={() => { markActivity(state, updateState, state.selectedUniverse!, "legendary"); transitionTo("legendary-self"); }}
                   style={{
                     flex: 1, padding: 12, borderRadius: 12,
                     background: "rgba(232,201,126,0.1)", border: "1px solid rgba(232,201,126,0.3)",
@@ -233,7 +235,7 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
                   👑 Legendary
                 </button>
                 <button
-                  onClick={() => transitionTo("villain-self")}
+                  onClick={() => { markActivity(state, updateState, state.selectedUniverse!, "shadow"); transitionTo("villain-self"); }}
                   style={{
                     flex: 1, padding: 12, borderRadius: 12,
                     background: "rgba(240,112,112,0.08)", border: "1px solid rgba(240,112,112,0.3)",

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
 import { StabilityHUD } from "@/components/StabilityHUD";
+import { UNIVERSE_ACTIVITIES, universePercent } from "@/lib/progress";
 
 interface Props {
   state: AppState;
@@ -107,6 +108,8 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
                 const profile = state.allProfiles?.[universe.id];
                 const c = universe.color;
                 const visited = explored.includes(universe.id);
+                const activities = state.universeActivity?.[universe.id] || [];
+                const pct = universePercent(activities);
                 return (
                   <motion.div
                     key={universe.id}
@@ -160,6 +163,34 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
                               <div style={{ fontSize: 9, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 2 }}>{key}</div>
                             </div>
                           ))}
+                        </div>
+
+                        {/* Exploration progress */}
+                        <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                            <span style={{ fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Explored</span>
+                            <span style={{ fontSize: 12, fontWeight: 700, color: pct === 100 ? c : "var(--text2)" }}>
+                              {pct}%{pct === 100 ? " ✦" : ""}
+                            </span>
+                          </div>
+                          <div style={{ height: 4, background: "var(--surface3)", borderRadius: 4, overflow: "hidden", marginBottom: 10 }}>
+                            <motion.div animate={{ width: `${pct}%` }} transition={{ duration: 0.6 }}
+                              style={{ height: "100%", background: c, borderRadius: 4 }} />
+                          </div>
+                          <div style={{ display: "flex", gap: 6 }}>
+                            {UNIVERSE_ACTIVITIES.map(a => {
+                              const done = activities.includes(a.key);
+                              return (
+                                <span key={a.key} title={a.label} style={{
+                                  fontSize: 11, width: 22, height: 22, borderRadius: 6,
+                                  display: "flex", alignItems: "center", justifyContent: "center",
+                                  background: done ? `${c}22` : "var(--surface)",
+                                  border: `1px solid ${done ? c + "55" : "var(--border)"}`,
+                                  opacity: done ? 1 : 0.4, filter: done ? "none" : "grayscale(1)",
+                                }}>{a.icon}</span>
+                              );
+                            })}
+                          </div>
                         </div>
                       </>
                     ) : <div style={{ color: "var(--text3)", fontSize: 13 }}>Loading profile...</div>}

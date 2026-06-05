@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import { generateRecruiter } from "@/lib/agents/useAgents";
+import { markActivity } from "@/lib/progress";
 
 interface Props {
   state: AppState;
@@ -57,6 +58,7 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
     }
     if (hasInit.current) return;
     hasInit.current = true;
+    markActivity(state, updateState, universeId!, "recruiter");
     if (cached) { setLoading(false); return; } // already generated — reuse it
     load();
   }, []);
