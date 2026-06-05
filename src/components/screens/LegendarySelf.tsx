@@ -48,7 +48,7 @@ export default function LegendarySelf({ state, transitionTo }: Props) {
         background: "rgba(8,9,13,0.8)", backdropFilter: "blur(20px)", borderBottom: "1px solid var(--border)" }}>
         <button onClick={() => transitionTo("identity-reconstruction")}
           style={{ background: "none", border: "none", color: "var(--text2)", cursor: "pointer", fontSize: 14, fontFamily: "Sora, sans-serif" }}>← Back</button>
-        <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px" }}>Linked<span style={{ color: "var(--violet2)" }}>Out</span></span>
+        <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>Linked<span style={{ color: "var(--violet2)" }}>Out</span></button>
         <span style={{ width: 50 }} />
       </nav>
 

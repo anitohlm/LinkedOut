@@ -78,6 +78,7 @@ export const sendCouncilMessage = (payload: {
   allMembers: Array<{ name: string; universe: string; title: string }>;
   conversationHistory: Array<{ role: string; content: string; speaker?: string }>;
   isClosing?: boolean;
+  sharedMemory?: string;
 }) => post<{ message: string; speakerName: string; speakerTitle: string; universeId: UniverseType; isClosing: boolean }>(
   "/api/council-response",
   payload

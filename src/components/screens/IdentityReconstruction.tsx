@@ -77,9 +77,9 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
         >
           ← Back
         </button>
-        <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px" }}>
+        <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
-        </span>
+        </button>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <button
             onClick={() => transitionTo("multiverse-invitations")}
@@ -246,18 +246,6 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
                   🌑 Shadow
                 </button>
               </div>
-
-              <button
-                onClick={() => transitionTo("universe-discovery")}
-                style={{
-                  width: "100%", padding: 10, borderRadius: 12,
-                  background: "transparent", border: "1px solid var(--border2)",
-                  color: "var(--text2)", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 500,
-                  cursor: "pointer",
-                }}
-              >
-                ← Choose Another Universe
-              </button>
             </motion.div>
 
             {/* Personality */}

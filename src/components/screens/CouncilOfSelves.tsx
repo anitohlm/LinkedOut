@@ -113,6 +113,20 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
 
   const allMembers = members.map(m => ({ name: m.name, universe: metaFor(m.key).label, title: m.title }));
 
+  // Recap of prior Future Transmission conversations — gives the council memory
+  const buildSharedMemory = () => {
+    const t = state.transmissions || {};
+    const lines: string[] = [];
+    Object.entries(t).forEach(([uid, conv]) => {
+      const msgs = (conv as any)?.messages || [];
+      if (!msgs.length) return;
+      const who = (conv as any)?.futureSelf?.name || getUniverse(uid as UniverseType).title;
+      const recap = msgs.slice(-4).map((m: any) => `${m.role === "user" ? "Them" : who}: ${m.content}`).join("\n");
+      lines.push(`— With ${who} (${getUniverse(uid as UniverseType).title}):\n${recap}`);
+    });
+    return lines.join("\n\n").slice(0, 2500);
+  };
+
   const speakerFor = (idx: number) => {
     const m = members[idx % members.length];
     return {
@@ -134,6 +148,7 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
         allMembers,
         conversationHistory: messages.map(m => ({ role: m.role === "council" ? "future-self" : m.role, content: m.content, speaker: m.speaker })),
         isClosing: closing,
+        sharedMemory: buildSharedMemory(),
       });
       const cleaned = (res.message || "").replace(/^\s*\[[^\]]+\]\s*[:\-]?\s*/, "").trim();
       setMessages(prev => [...prev, { role: "council", content: cleaned, speaker: res.speakerName, metaKey: (res as any).universeId || speaker.universeId }]);

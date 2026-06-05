@@ -65,9 +65,9 @@ export default function ResumeUpload({ state, transitionTo, updateState }: Resum
         >
           ← Back
         </button>
-        <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)" }}>
+        <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
-        </span>
+        </button>
       </nav>
 
       {/* Content */}

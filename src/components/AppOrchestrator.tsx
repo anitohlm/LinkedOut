@@ -36,6 +36,7 @@ const initialState: AppState = {
   councilConcluded: false,
   cachedInvitations: {},
   invitationDecisions: {},
+  transmissions: {},
 };
 
 export function AppOrchestrator() {

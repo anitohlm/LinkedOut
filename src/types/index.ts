@@ -195,4 +195,6 @@ export interface AppState {
   // Recruiter invitations cached per universe + the user's decision
   cachedInvitations?: Record<string, any>;
   invitationDecisions?: Record<string, "accept" | "negotiate" | "decline">;
+  // Future Transmission conversations, persisted per universe
+  transmissions?: Record<string, { futureSelf: any; messages: any[] }>;
 }

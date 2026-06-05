@@ -19,16 +19,18 @@ interface Msg {
   villain?: boolean;
 }
 
-export default function FutureTransmission({ state, transitionTo }: Props) {
+export default function FutureTransmission({ state, transitionTo, updateState }: Props) {
   const universeId = state.selectedUniverse;
   const profile = universeId ? state.allProfiles?.[universeId] : null;
   const universe = universeId ? getUniverse(universeId) : null;
 
-  const [futureSelf, setFutureSelf] = useState<FutureSelf | null>(null);
-  const [messages, setMessages] = useState<Msg[]>([]);
+  const saved = universeId ? state.transmissions?.[universeId] : null;
+
+  const [futureSelf, setFutureSelf] = useState<FutureSelf | null>(saved?.futureSelf || null);
+  const [messages, setMessages] = useState<Msg[]>(saved?.messages || []);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [booting, setBooting] = useState(true);
+  const [booting, setBooting] = useState(!saved);
   const [error, setError] = useState<string | null>(null);
   const hasInit = useRef(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -42,12 +44,22 @@ export default function FutureTransmission({ state, transitionTo }: Props) {
     }
     if (hasInit.current) return;
     hasInit.current = true;
+    if (saved && saved.messages?.length) { setBooting(false); return; } // restore prior conversation
     boot();
   }, []);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
+
+  // Persist conversation per universe so it survives navigation & is retrievable by other agents
+  useEffect(() => {
+    if (universeId && futureSelf && messages.length) {
+      updateState({
+        transmissions: { ...(state.transmissions || {}), [universeId]: { futureSelf, messages } },
+      });
+    }
+  }, [messages, futureSelf]);
 
   const boot = async () => {
     try {

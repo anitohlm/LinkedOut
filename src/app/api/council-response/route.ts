@@ -6,14 +6,17 @@ import { buildCouncilPrompt } from "@/lib/agents/prompts";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userMessage, speaker, allMembers, conversationHistory, isClosing } = await req.json();
+    const { userMessage, speaker, allMembers, conversationHistory, isClosing, sharedMemory } = await req.json();
     if (!userMessage || !speaker) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
     const closingNote = isClosing ? "\n\nCLOSING: Pose the final question in YOUR voice: 'Which future are you willing to become?'" : "";
+    const memoryNote = sharedMemory
+      ? `\n\nWHAT YOU REMEMBER — earlier private transmissions between you and them. Reference these naturally if relevant; they prove you remember your conversations:\n${sharedMemory}`
+      : "";
     const systemPrompt = buildCouncilPrompt(
       speaker.futureSelf.name, speaker.futureSelf.universeId,
       speaker.futureSelf.personality, speaker.futureSelf.philosophy, allMembers
-    ) + closingNote;
+    ) + memoryNote + closingNote;
 
     const history = conversationHistory.slice(-8).map((m: any) => ({
       role: m.role === "future-self" ? "assistant" : m.role as "user" | "assistant",

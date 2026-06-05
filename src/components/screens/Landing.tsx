@@ -220,7 +220,88 @@ export default function Landing({ transitionTo }: LandingProps) {
             ))}
           </motion.div>
         </motion.div>
+
+        {/* ── FEATURES ── */}
+        <div style={{ maxWidth: 1080, margin: "0 auto", padding: "40px 40px 100px" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5 }}
+            style={{ textAlign: "center", marginBottom: 48 }}
+          >
+            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--violet2)", marginBottom: 12 }}>
+              An entire multiverse, powered by AI agents
+            </p>
+            <h2 style={{ fontSize: 34, fontWeight: 700, letterSpacing: "-1px", color: "var(--text)" }}>
+              More than a résumé. A story of every life you could live.
+            </h2>
+          </motion.div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+            {FEATURES.map((f, i) => (
+              <motion.div
+                key={f.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.45, delay: (i % 3) * 0.08 }}
+                style={{
+                  background: "var(--surface)", border: "1px solid var(--border)",
+                  borderRadius: 18, padding: 26, textAlign: "left", transition: "border-color 0.3s",
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = `${f.color}55`; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border)"; }}
+              >
+                <div style={{
+                  width: 46, height: 46, borderRadius: 12, marginBottom: 16,
+                  background: `${f.color}18`, border: `1px solid ${f.color}30`,
+                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24,
+                }}>{f.icon}</div>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text)", marginBottom: 8, letterSpacing: "-0.3px" }}>{f.title}</h3>
+                <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6 }}>{f.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Closing CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            style={{ textAlign: "center", marginTop: 64 }}
+          >
+            <h2 style={{ fontSize: 28, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", marginBottom: 20 }}>
+              Who could you have become?
+            </h2>
+            <button
+              onClick={() => transitionTo("upload-resume")}
+              style={{
+                padding: "14px 32px", borderRadius: 12, fontSize: 15, fontWeight: 600,
+                cursor: "pointer", fontFamily: "Sora, sans-serif", letterSpacing: "-0.2px",
+                background: "var(--violet)", border: "1px solid var(--violet2)", color: "#fff",
+                boxShadow: "0 0 40px rgba(124,110,247,0.3)", transition: "all 0.25s",
+              }}
+              onMouseEnter={e => { const b = e.currentTarget as HTMLButtonElement; b.style.background = "var(--violet2)"; b.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { const b = e.currentTarget as HTMLButtonElement; b.style.background = "var(--violet)"; b.style.transform = "translateY(0)"; }}
+            >
+              Generate My Alternate Lives
+            </button>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
 }
+
+const FEATURES = [
+  { icon: "🧬", color: "#7c6ef7", title: "Career DNA Analysis", desc: "An AI agent decodes the identity hidden in your résumé — your skills, drives, and the thread running through every role." },
+  { icon: "🌌", color: "#4ecdc4", title: "Six Alternate Universes", desc: "Become a knight, a netrunner, a corsair, a dragon-keeper, a starfarer, or an immortal. Same you — a different world." },
+  { icon: "📡", color: "#9d91ff", title: "Talk to Your Future Self", desc: "Hold a real conversation with the person you became — who remembers your life and speaks from decades ahead." },
+  { icon: "📜", color: "#e8c97e", title: "Multiverse Recruiters", desc: "Receive offers from royal courts, megacorps, and ancient orders. Accept, negotiate, or walk away." },
+  { icon: "👑", color: "#f5dfa0", title: "Legendary & Shadow Selves", desc: "Meet your greatest possible self — and the cautionary one who let ambition outrun their values." },
+  { icon: "🦋", color: "#7ee8e1", title: "Butterfly Effect", desc: "Change one decision and watch your life fracture across four wildly different timelines." },
+  { icon: "⚖️", color: "#ff9595", title: "Council of Selves", desc: "Every version of you gathers to debate — then asks the question you've been avoiding." },
+  { icon: "📖", color: "#ffc278", title: "Your Chronicle", desc: "Your entire journey becomes a personalized novella about the life you chose to become." },
+];
