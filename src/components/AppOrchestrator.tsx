@@ -4,7 +4,9 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { getTier } from "@/lib/stability";
+import { historianLine, type HistorianEvent } from "@/lib/historian";
 import { TimelineWarningBanner } from "./StabilityHUD";
+import HistorianObservation from "./HistorianObservation";
 import Landing from "./screens/Landing";
 import ResumeUpload from "./screens/ResumeUpload";
 import TimelineScan from "./screens/TimelineScan";
@@ -66,6 +68,50 @@ export function AppOrchestrator() {
   // Hide global HUD chrome on entry / landing screens
   const showChrome = !["landing", "upload-resume", "timeline-scan"].includes(state.currentScreen);
 
+  // ── The Multiversal Historian ──────────────────────────────────────
+  const firstName = state.resumeAnalysis?.firstName || (state.resumeAnalysis?.name || "").split(" ")[0] || "they";
+  const [obsQueue, setObsQueue] = useState<string[]>([]);
+  const [currentObs, setCurrentObs] = useState<string | null>(null);
+  const observe = useCallback((event: HistorianEvent) => {
+    setObsQueue(q => [...q, historianLine(event, firstName)]);
+  }, [firstName]);
+
+  // Pull next observation from the queue when idle
+  useEffect(() => {
+    if (!currentObs && obsQueue.length) {
+      setCurrentObs(obsQueue[0]);
+      setObsQueue(q => q.slice(1));
+    }
+  }, [obsQueue, currentObs]);
+
+  // Watch stability tier crossings (own ref so it isn't clobbered by the toast effect)
+  const prevTierLabel = useRef(getTier(stability).label);
+  const prevTierStability = useRef(stability);
+  useEffect(() => {
+    const tier = getTier(stability);
+    if (tier.label !== prevTierLabel.current) {
+      const rose = stability > prevTierStability.current;
+      if (tier.status === "critical" || tier.status === "collapse") observe("timeline-critical");
+      else if (rose) observe("stability-rose");
+      else observe("stability-fell");
+      prevTierLabel.current = tier.label;
+    }
+    prevTierStability.current = stability;
+  }, [stability, observe]);
+
+  // Watch story milestones (screen-based, fire once each)
+  const seen = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    const s = state.currentScreen;
+    const fireOnce = (key: string, event: HistorianEvent) => {
+      if (!seen.current.has(key)) { seen.current.add(key); observe(event); }
+    };
+    if (s === "universe-discovery" && Object.keys(state.allProfiles || {}).length >= 6) fireOnce("multiverse", "multiverse-born");
+    if (s === "future-transmission") fireOnce("transmission", "first-transmission");
+    if (s === "council-of-selves") fireOnce("council", "divergence-approaching");
+    if (s === "chronicle") fireOnce("final", "final-choice");
+  }, [state.currentScreen, state.allProfiles, observe]);
+
   const transitionTo = useCallback(
     (screen: AppScreenState, updates?: Partial<AppState>) => {
       setIsTransitioning(true);
@@ -126,6 +172,13 @@ export function AppOrchestrator() {
     <>
       {/* Persistent low-stability warning banner */}
       {showChrome && <TimelineWarningBanner stability={stability} />}
+
+      {/* The Multiversal Historian observes */}
+      <AnimatePresence>
+        {showChrome && currentObs && (
+          <HistorianObservation key={currentObs} text={currentObs} onDone={() => setCurrentObs(null)} />
+        )}
+      </AnimatePresence>
 
       {/* Stability change toast */}
       <AnimatePresence>
