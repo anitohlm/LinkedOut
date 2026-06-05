@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
+import { StabilityHUD } from "@/components/StabilityHUD";
 
 interface Props {
   state: AppState;
@@ -48,9 +49,7 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
         <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
         </button>
-        <span style={{ fontSize: 13, color: "var(--text3)" }}>
-          Timeline Stability: <span style={{ color: "var(--cyan2)" }}>{state.timelineState.stability}%</span>
-        </span>
+        <StabilityHUD stability={state.timelineState.stability} />
       </nav>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 40px" }}>

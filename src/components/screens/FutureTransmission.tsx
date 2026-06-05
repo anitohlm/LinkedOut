@@ -6,6 +6,8 @@ import { AppState, AppScreenState, FutureSelf } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import { generateFutureSelf, sendFutureTransmission } from "@/lib/agents/useAgents";
 import UniverseBackground from "@/components/UniverseBackground";
+import ShadowIntercept from "@/components/ShadowIntercept";
+import { applyDelta, corruptionLevel } from "@/lib/stability";
 
 interface Props {
   state: AppState;
@@ -32,8 +34,12 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
   const [loading, setLoading] = useState(false);
   const [booting, setBooting] = useState(!saved);
   const [error, setError] = useState<string | null>(null);
+  const [intercept, setIntercept] = useState(false);
+  const [interceptAdvice, setInterceptAdvice] = useState("");
   const hasInit = useRef(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const firstName = state.resumeAnalysis?.firstName || (state.resumeAnalysis?.name || "").split(" ")[0] || "You";
 
   const accent = universe?.color || "#7c6ef7";
 
@@ -106,7 +112,13 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
         conversationHistory: history,
         timelineStability: state.timelineState.stability,
       });
-      setMessages(prev => [...prev, { role: "assistant", content: res.message, villain: res.isVillainIntercept }]);
+
+      if (res.isVillainIntercept) {
+        // The Shadow Self hijacks the channel — full-screen cinematic takeover
+        triggerIntercept();
+      } else {
+        setMessages(prev => [...prev, { role: "assistant", content: res.message }]);
+      }
     } catch (e: any) {
       setMessages(prev => [...prev, { role: "assistant", content: "...the signal broke. Say that again." }]);
     } finally {
@@ -114,11 +126,37 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     }
   };
 
+  const triggerIntercept = () => {
+    // The advice the villain will challenge = the last thing the Future Self said
+    const lastAdvice = [...messages].reverse().find(m => m.role === "assistant")?.content || futureSelf?.philosophy || "patience and staying true to your values";
+    setInterceptAdvice(lastAdvice);
+    setIntercept(true);
+  };
+
+  const closeIntercept = () => {
+    setIntercept(false);
+    // The intrusion destabilizes the timeline
+    updateState({ timelineState: applyDelta(state.timelineState.stability, -10) });
+    setMessages(prev => [...prev, {
+      role: "assistant",
+      content: "...I'm back. Something forced its way into our channel.\n\nThat was you — another you. The one I became when I stopped listening to myself.\n\nDon't let her have the last word.",
+    }]);
+  };
+
+  const corruption = corruptionLevel(state.timelineState.stability);
+
   if (!universe || !profile) return null;
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", paddingTop: 64, position: "relative" }}>
       <UniverseBackground universeId={universe.id} color={accent} />
+
+      {/* Shadow Self intercept — full-screen cinematic takeover */}
+      <AnimatePresence>
+        {intercept && (
+          <ShadowIntercept firstName={firstName} futureMeAdvice={interceptAdvice} onClose={closeIntercept} />
+        )}
+      </AnimatePresence>
 
       {/* Nav */}
       <nav style={{
@@ -131,7 +169,20 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
           ← Back
         </button>
         <span style={{ fontSize: 13, color: "var(--text3)" }}>{universe.emoji} Future Transmission</span>
-        <span style={{ width: 60 }} />
+        {/* Demo control: force a Shadow intercept */}
+        <button
+          onClick={() => !intercept && !booting && triggerIntercept()}
+          title="Shadow intercept"
+          style={{
+            background: "none", border: "1px solid rgba(240,112,112,0.25)", borderRadius: 8,
+            padding: "5px 10px", color: "rgba(240,112,112,0.7)", cursor: "pointer",
+            fontSize: 13, fontFamily: "Sora, sans-serif",
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(240,112,112,0.6)"; (e.currentTarget as HTMLButtonElement).style.color = "#f07070"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(240,112,112,0.25)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(240,112,112,0.7)"; }}
+        >
+          ⚠
+        </button>
       </nav>
 
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "32px 24px 0", position: "relative", zIndex: 1, height: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
@@ -139,10 +190,15 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24, paddingBottom: 24, borderBottom: "1px solid var(--border)" }}>
           <div style={{
-            width: 56, height: 56, borderRadius: 16, flexShrink: 0,
+            width: 56, height: 56, borderRadius: 16, flexShrink: 0, position: "relative", overflow: "hidden",
             background: `linear-gradient(135deg, ${accent}40, ${accent}20)`, border: `1px solid ${accent}40`,
             display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26,
-          }}>{universe.emoji}</div>
+            filter: corruption > 0 ? `saturate(${1 - corruption * 0.6}) contrast(${1 + corruption * 0.5})` : "none",
+            animation: corruption > 0.5 ? "glitch-shift 0.4s steps(2) infinite" : "none",
+          }}>
+            <span style={{ filter: corruption > 0.3 ? `blur(${corruption * 1.5}px)` : "none" }}>{universe.emoji}</span>
+            {corruption > 0.2 && <div className="scanlines" style={{ position: "absolute", inset: 0, opacity: corruption * 0.7 }} />}
+          </div>
           <div>
             <div style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }}>
               {futureSelf?.name || profile.alternativeName}

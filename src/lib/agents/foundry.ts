@@ -54,8 +54,32 @@ export async function callAI(
   return data.choices[0].message.content;
 }
 
+const NUMBER_WORDS: Record<string, number> = {
+  zero: 0, ten: 10, twenty: 20, thirty: 30, forty: 40, fifty: 50,
+  sixty: 60, seventy: 70, eighty: 80, ninety: 90, hundred: 100,
+  "one hundred": 100,
+};
+
 export function extractJSON<T>(text: string): T {
   const match = text.match(/\{[\s\S]*\}/);
   if (!match) throw new Error(`No JSON in response: ${text.slice(0, 200)}`);
-  return JSON.parse(match[0]) as T;
+  let raw = match[0];
+
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    // Repair common model mistakes (e.g. `"ambition": ninety` instead of 90)
+    let fixed = raw
+      // remove trailing commas before } or ]
+      .replace(/,\s*([}\]])/g, "$1")
+      // spelled-out number words used as values → digits
+      .replace(/:\s*([A-Za-z][A-Za-z ]*?)\s*([,}])/g, (m, word: string, end: string) => {
+        const key = word.trim().toLowerCase();
+        if (key === "true" || key === "false" || key === "null") return `: ${key}${end}`;
+        if (key in NUMBER_WORDS) return `: ${NUMBER_WORDS[key]}${end}`;
+        // unquoted bare word value that isn't a keyword → wrap in quotes
+        return `: "${word.trim()}"${end}`;
+      });
+    return JSON.parse(fixed) as T;
+  }
 }

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { generateButterflyEffect } from "@/lib/agents/useAgents";
+import { applyDelta } from "@/lib/stability";
 
 interface Props {
   state: AppState;
@@ -28,10 +29,9 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
     try {
       const res = await generateButterflyEffect(decision.trim(), state.resumeAnalysis);
       setTimelines(res.timelines || []);
-      if (res.stabilityDelta) {
-        const s = Math.max(0, Math.min(100, state.timelineState.stability + res.stabilityDelta));
-        updateState({ timelineState: { stability: s, status: s >= 70 ? "stable" : s >= 40 ? "unstable" : "critical" } });
-      }
+      // Rewriting a decision always destabilizes the timeline
+      const delta = res.stabilityDelta || -10;
+      updateState({ timelineState: applyDelta(state.timelineState.stability, delta) });
     } catch (e: any) {
       setError(e.message || "The timelines refused to fracture. Try again.");
     } finally {

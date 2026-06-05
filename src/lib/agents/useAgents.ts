@@ -63,6 +63,13 @@ export const generateVillainSelf = (resumeAnalysis: ResumeAnalysis) =>
 export const generateButterflyEffect = (decision: string, resumeAnalysis: ResumeAnalysis) =>
   post<{ timelines: unknown[]; stabilityDelta: number }>("/api/butterfly-effect", { decision, resumeAnalysis });
 
+// Shadow Intercept content
+export const getShadowIntercept = (payload: { futureMeAdvice: string; firstName: string }) =>
+  post<{ lines: string[]; revealAfter: number; identity: { name: string; timeline: string; classification: string } }>(
+    "/api/shadow-intercept",
+    payload
+  );
+
 // Agent 9
 export const generateChronicle = (payload: {
   resumeAnalysis: ResumeAnalysis;
@@ -79,6 +86,7 @@ export const sendCouncilMessage = (payload: {
   conversationHistory: Array<{ role: string; content: string; speaker?: string }>;
   isClosing?: boolean;
   sharedMemory?: string;
+  timelineStability?: number;
 }) => post<{ message: string; speakerName: string; speakerTitle: string; universeId: UniverseType; isClosing: boolean }>(
   "/api/council-response",
   payload

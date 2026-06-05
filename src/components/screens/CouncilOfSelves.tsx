@@ -149,6 +149,7 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
         conversationHistory: messages.map(m => ({ role: m.role === "council" ? "future-self" : m.role, content: m.content, speaker: m.speaker })),
         isClosing: closing,
         sharedMemory: buildSharedMemory(),
+        timelineStability: state.timelineState.stability,
       });
       const cleaned = (res.message || "").replace(/^\s*\[[^\]]+\]\s*[:\-]?\s*/, "").trim();
       setMessages(prev => [...prev, { role: "council", content: cleaned, speaker: res.speakerName, metaKey: (res as any).universeId || speaker.universeId }]);

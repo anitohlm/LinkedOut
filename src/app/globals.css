@@ -94,3 +94,62 @@ body {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* ── Shadow Intercept / glitch effects ── */
+@keyframes glitch-flicker {
+  0%, 100% { opacity: 1; }
+  4% { opacity: 0.7; }
+  8% { opacity: 1; }
+  42% { opacity: 1; }
+  44% { opacity: 0.4; }
+  46% { opacity: 1; }
+  70% { opacity: 0.85; }
+  72% { opacity: 1; }
+}
+
+@keyframes glitch-shift {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 1px); }
+}
+
+@keyframes scanlines-move {
+  from { background-position: 0 0; }
+  to { background-position: 0 8px; }
+}
+
+@keyframes static-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3%, 2%); }
+  50% { transform: translate(2%, -3%); }
+  75% { transform: translate(-2%, -2%); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes intercept-in {
+  from { opacity: 0; transform: scale(1.04); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Glitch text — red/cyan chromatic aberration */
+.glitch-text {
+  position: relative;
+  animation: glitch-flicker 3s infinite, glitch-shift 0.4s steps(2) infinite;
+  text-shadow:
+    -1.5px 0 rgba(240, 112, 112, 0.7),
+    1.5px 0 rgba(78, 205, 196, 0.5);
+}
+
+.scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(240, 112, 112, 0.06) 0px,
+    rgba(240, 112, 112, 0.06) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  background-size: 100% 8px;
+  animation: scanlines-move 0.5s linear infinite;
+}

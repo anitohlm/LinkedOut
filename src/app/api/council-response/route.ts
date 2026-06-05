@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { UniverseType } from "@/types";
 import { callAI } from "@/lib/agents/foundry";
 import { buildCouncilPrompt } from "@/lib/agents/prompts";
+import { stabilityBehaviorNote } from "@/lib/stability";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userMessage, speaker, allMembers, conversationHistory, isClosing, sharedMemory } = await req.json();
+    const { userMessage, speaker, allMembers, conversationHistory, isClosing, sharedMemory, timelineStability } = await req.json();
     if (!userMessage || !speaker) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
     const closingNote = isClosing ? "\n\nCLOSING: Pose the final question in YOUR voice: 'Which future are you willing to become?'" : "";
@@ -16,7 +17,7 @@ export async function POST(req: NextRequest) {
     const systemPrompt = buildCouncilPrompt(
       speaker.futureSelf.name, speaker.futureSelf.universeId,
       speaker.futureSelf.personality, speaker.futureSelf.philosophy, allMembers
-    ) + memoryNote + closingNote;
+    ) + memoryNote + closingNote + stabilityBehaviorNote(timelineStability ?? 100, "council");
 
     const history = conversationHistory.slice(-8).map((m: any) => ({
       role: m.role === "future-self" ? "assistant" : m.role as "user" | "assistant",

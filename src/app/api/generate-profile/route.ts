@@ -36,7 +36,9 @@ Return this exact JSON:
   "careerTrajectory": "where are they going in this universe?",
   "portraitPrompt": "vivid image generation prompt",
   "radarScores": { "innovation": 0, "leadership": 0, "collaboration": 0, "adaptability": 0, "ambition": 0, "wisdom": 0 }
-}`);
+}
+
+IMPORTANT: every radarScores value MUST be an integer written with digits (e.g. 87), between 0 and 100. Never spell numbers as words. Output valid JSON only.`);
 
     const d = extractJSON<Record<string, unknown>>(response);
 

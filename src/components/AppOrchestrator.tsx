@@ -1,7 +1,10 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
+import { getTier } from "@/lib/stability";
+import { TimelineWarningBanner } from "./StabilityHUD";
 import Landing from "./screens/Landing";
 import ResumeUpload from "./screens/ResumeUpload";
 import TimelineScan from "./screens/TimelineScan";
@@ -42,6 +45,25 @@ const initialState: AppState = {
 export function AppOrchestrator() {
   const [state, setState] = useState<AppState>(initialState);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Timeline stability change feedback
+  const stability = state.timelineState.stability;
+  const prevStability = useRef(stability);
+  const [toast, setToast] = useState<{ value: number; delta: number; key: number } | null>(null);
+
+  useEffect(() => {
+    const prev = prevStability.current;
+    if (stability !== prev) {
+      const delta = stability - prev;
+      setToast({ value: stability, delta, key: Date.now() });
+      prevStability.current = stability;
+      const t = setTimeout(() => setToast(null), 3500);
+      return () => clearTimeout(t);
+    }
+  }, [stability]);
+
+  // Hide global HUD chrome on entry / landing screens
+  const showChrome = !["landing", "upload-resume", "timeline-scan"].includes(state.currentScreen);
 
   const transitionTo = useCallback(
     (screen: AppScreenState, updates?: Partial<AppState>) => {
@@ -97,15 +119,46 @@ export function AppOrchestrator() {
     }
   };
 
+  const tier = getTier(stability);
+
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        transition: "opacity 0.5s",
-        opacity: isTransitioning ? 0 : 1,
-      }}
-    >
-      {renderScreen()}
-    </div>
+    <>
+      {/* Persistent low-stability warning banner */}
+      {showChrome && <TimelineWarningBanner stability={stability} />}
+
+      {/* Stability change toast */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            key={toast.key}
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            style={{
+              position: "fixed", top: 80, left: "50%", transform: "translateX(-50%)", zIndex: 1100,
+              display: "flex", alignItems: "center", gap: 12, padding: "12px 20px", borderRadius: 12,
+              background: "rgba(14,16,24,0.95)", border: `1px solid ${tier.color}55`,
+              backdropFilter: "blur(12px)", boxShadow: `0 8px 32px -8px ${tier.color}55`,
+            }}
+          >
+            <span style={{ fontSize: 13, color: "var(--text2)" }}>Timeline Stability</span>
+            <span style={{ fontSize: 18, fontWeight: 700, color: tier.color }}>{toast.value}%</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: toast.delta < 0 ? "var(--rose2)" : "var(--cyan2)" }}>
+              {toast.delta < 0 ? "▼" : "▲"} {Math.abs(toast.delta)}
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div
+        style={{
+          minHeight: "100vh",
+          transition: "opacity 0.5s",
+          opacity: isTransitioning ? 0 : 1,
+        }}
+      >
+        {renderScreen()}
+      </div>
+    </>
   );
 }

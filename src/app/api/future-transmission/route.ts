@@ -4,6 +4,7 @@ import { FutureSelf, ResumeAnalysis } from "@/types";
 import { callAI } from "@/lib/agents/foundry";
 import { buildFutureMeSystemPrompt } from "@/lib/agents/prompts";
 import { getUniverse } from "@/lib/universes";
+import { stabilityBehaviorNote, interceptChance } from "@/lib/stability";
 
 export async function POST(req: NextRequest) {
   try {
@@ -37,12 +38,13 @@ export async function POST(req: NextRequest) {
       : "\n\nDEEP: Full trust. Speak freely. Reveal hidden truths.";
 
     const response = await callAI(
-      systemPrompt + depthNote,
+      systemPrompt + depthNote + stabilityBehaviorNote(stability, "future"),
       userMessage,
       conversationHistory
     );
 
-    const isVillainIntercept = stability < 35 && Math.random() < 0.2;
+    // Shadow Self may hijack the channel when the timeline grows unstable
+    const isVillainIntercept = Math.random() < interceptChance(stability);
     return NextResponse.json({
       message: response,
       isVillainIntercept,
