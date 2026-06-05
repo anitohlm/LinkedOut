@@ -25,6 +25,19 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
         background: "rgba(8,9,13,0.8)", backdropFilter: "blur(20px)",
         borderBottom: "1px solid var(--border)",
       }}>
+        <button
+          onClick={() => transitionTo("upload-resume")}
+          style={{
+            display: "flex", alignItems: "center", gap: 6,
+            fontSize: 14, fontWeight: 500,
+            cursor: "pointer", background: "none", border: "none", color: "var(--text2)",
+            fontFamily: "Sora, sans-serif", transition: "color 0.2s",
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text)"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text2)"; }}
+        >
+          ← Back
+        </button>
         <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
         </span>

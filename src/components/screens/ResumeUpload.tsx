@@ -48,20 +48,26 @@ export default function ResumeUpload({ state, transitionTo, updateState }: Resum
       {/* Nav */}
       <nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-        height: 64, display: "flex", alignItems: "center", padding: "0 40px",
+        height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 40px",
         background: "rgba(8,9,13,0.8)", backdropFilter: "blur(20px)",
         borderBottom: "1px solid var(--border)",
       }}>
         <button
           onClick={() => transitionTo("landing")}
           style={{
-            fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px",
-            cursor: "pointer", background: "none", border: "none", color: "var(--text)",
-            fontFamily: "Sora, sans-serif",
+            display: "flex", alignItems: "center", gap: 6,
+            fontSize: 14, fontWeight: 500,
+            cursor: "pointer", background: "none", border: "none", color: "var(--text2)",
+            fontFamily: "Sora, sans-serif", transition: "color 0.2s",
           }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text)"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text2)"; }}
         >
-          Linked<span style={{ color: "var(--violet2)" }}>Out</span>
+          ← Back
         </button>
+        <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)" }}>
+          Linked<span style={{ color: "var(--violet2)" }}>Out</span>
+        </span>
       </nav>
 
       {/* Content */}

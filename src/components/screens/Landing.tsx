@@ -145,7 +145,7 @@ export default function Landing({ transitionTo }: LandingProps) {
             fontSize: 18, color: "var(--text2)", lineHeight: 1.7,
             maxWidth: 560, margin: "0 auto 48px", fontWeight: 300,
           }}>
-            Upload your resume and discover who you could have become in another reality.
+            Paste your resume and discover who you could have become in another reality.
             Powered by AI. Inspired by you.
           </motion.p>
 
@@ -172,26 +172,7 @@ export default function Landing({ transitionTo }: LandingProps) {
                 b.style.boxShadow = "0 0 40px rgba(124,110,247,0.3)";
               }}
             >
-              Generate My Alternate Career
-            </button>
-            <button style={{
-              padding: "14px 32px", borderRadius: 12, fontSize: 15, fontWeight: 600,
-              cursor: "pointer", fontFamily: "Sora, sans-serif", letterSpacing: "-0.2px",
-              background: "transparent", border: "1px solid var(--border2)", color: "var(--text)",
-              transition: "all 0.25s",
-            }}
-              onMouseEnter={e => {
-                const b = e.currentTarget as HTMLButtonElement;
-                b.style.borderColor = "var(--border3)";
-                b.style.background = "var(--surface)";
-              }}
-              onMouseLeave={e => {
-                const b = e.currentTarget as HTMLButtonElement;
-                b.style.borderColor = "var(--border2)";
-                b.style.background = "transparent";
-              }}
-            >
-              View Sample Universes
+              Generate My Alternate Lives
             </button>
           </motion.div>
 
@@ -200,7 +181,7 @@ export default function Landing({ transitionTo }: LandingProps) {
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
             gap: 16,
-            maxWidth: 560,
+            maxWidth: 900,
             margin: "0 auto",
             paddingBottom: 80,
           }}>
@@ -209,12 +190,12 @@ export default function Landing({ transitionTo }: LandingProps) {
                 key={universe.id}
                 onClick={() => transitionTo("upload-resume")}
                 style={{
-                  padding: "20px 24px",
+                  padding: "24px",
                   background: "var(--surface)",
                   border: "1px solid var(--border)",
                   borderRadius: 16,
                   cursor: "pointer",
-                  textAlign: "center",
+                  textAlign: "left",
                   transition: "all 0.3s",
                   animation: `float 6s ease-in-out infinite`,
                   animationDelay: `${-i}s`,
@@ -232,8 +213,9 @@ export default function Landing({ transitionTo }: LandingProps) {
                   el.style.transform = "translateY(0) scale(1)";
                 }}
               >
-                <div style={{ fontSize: 28, marginBottom: 8 }}>{universe.emoji}</div>
-                <div style={{ fontSize: 12, fontWeight: 500, color: "var(--text2)" }}>{universe.title}</div>
+                <div style={{ fontSize: 28, marginBottom: 10 }}>{universe.emoji}</div>
+                <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text)", marginBottom: 6 }}>{universe.title}</div>
+                <div style={{ fontSize: 12, fontWeight: 400, color: "var(--text3)", lineHeight: 1.5 }}>{universe.lore}</div>
               </div>
             ))}
           </motion.div>
