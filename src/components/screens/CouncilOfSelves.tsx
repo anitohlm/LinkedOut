@@ -113,46 +113,88 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
 
   const allMembers = members.map(m => ({ name: m.name, universe: metaFor(m.key).label, title: m.title }));
 
-  // Recap of prior Future Transmission conversations — gives the council memory
+  // Recap of prior Future Transmission conversations + interview profile — the council's memory
   const buildSharedMemory = () => {
-    const t = state.transmissions || {};
     const lines: string[] = [];
+
+    // Interview answer profile (what they fear, value, dream of)
+    const interviews = state.interviews || {};
+    const profile: Record<string, string> = {};
+    Object.values(interviews).forEach((iv: any) => Object.assign(profile, iv?.answers || {}));
+    if (Object.keys(profile).length) {
+      lines.push("WHAT THEY'VE TOLD US ABOUT THEMSELVES:\n" +
+        Object.entries(profile).map(([k, v]) => `- ${k}: ${String(v).replace(/_/g, " ")}`).join("\n"));
+    }
+
+    // Prior transmission recaps
+    const t = state.transmissions || {};
     Object.entries(t).forEach(([uid, conv]) => {
       const msgs = (conv as any)?.messages || [];
       if (!msgs.length) return;
       const who = (conv as any)?.futureSelf?.name || getUniverse(uid as UniverseType).title;
-      const recap = msgs.slice(-4).map((m: any) => `${m.role === "user" ? "Them" : who}: ${m.content}`).join("\n");
+      const recap = msgs.slice(-3).map((m: any) => `${m.role === "user" ? "Them" : who}: ${m.content}`).join("\n");
       lines.push(`— With ${who} (${getUniverse(uid as UniverseType).title}):\n${recap}`);
     });
     return lines.join("\n\n").slice(0, 2500);
   };
 
-  const speakerFor = (idx: number) => {
-    const m = members[idx % members.length];
-    return {
-      universeId: m.key,
-      futureSelf: { name: m.name, universeId: m.key, title: m.title, personality: m.personality, philosophy: m.philosophy },
-    };
+  const speakerPayload = (m: Member) => ({
+    universeId: m.key,
+    futureSelf: { name: m.name, universeId: m.key, title: m.title, personality: m.personality, philosophy: m.philosophy },
+  });
+
+  // Pick a rotating panel of 3 distinct members to speak this round
+  const panelFor = (round: number): Member[] => {
+    const n = members.length;
+    if (n <= 3) return members;
+    const picks: Member[] = [];
+    const seen = new Set<number>();
+    [0, 1, 2].forEach(k => {
+      let idx = (round * 2 + k * 3) % n;
+      while (seen.has(idx)) idx = (idx + 1) % n;
+      seen.add(idx);
+      picks.push(members[idx]);
+    });
+    return picks;
   };
 
   const ask = async (closing = false) => {
-    const userMsg = closing ? "[Conclude the council. Ask me the final question.]" : input.trim();
-    if (!userMsg || loading) return;
+    const userMsg = closing ? "[The user asks the council to help them decide.]" : input.trim();
+    if ((!userMsg && !closing) || loading) return;
     if (!closing) { setInput(""); setMessages(prev => [...prev, { role: "user", content: userMsg }]); }
     setLoading(true);
+
+    // Build a local running transcript so each speaker hears the ones before them
+    let running = closing
+      ? [...messages]
+      : [...messages, { role: "user" as const, content: userMsg }];
+
+    const panel = panelFor(turn);
+
     try {
-      const speaker = speakerFor(turn);
-      const res = await sendCouncilMessage({
-        userMessage: userMsg,
-        speaker,
-        allMembers,
-        conversationHistory: messages.map(m => ({ role: m.role === "council" ? "future-self" : m.role, content: m.content, speaker: m.speaker })),
-        isClosing: closing,
-        sharedMemory: buildSharedMemory(),
-        timelineStability: state.timelineState.stability,
-      });
-      const cleaned = (res.message || "").replace(/^\s*\[[^\]]+\]\s*[:\-]?\s*/, "").trim();
-      setMessages(prev => [...prev, { role: "council", content: cleaned, speaker: res.speakerName, metaKey: (res as any).universeId || speaker.universeId }]);
+      for (let i = 0; i < panel.length; i++) {
+        const m = panel[i];
+        const isLast = i === panel.length - 1;
+        const res = await sendCouncilMessage({
+          userMessage: userMsg,
+          speaker: speakerPayload(m),
+          allMembers,
+          conversationHistory: running.map(msg => ({
+            role: msg.role === "council" ? "future-self" : msg.role,
+            content: msg.content, speaker: (msg as any).speaker,
+          })),
+          isClosing: closing && isLast,
+          sharedMemory: buildSharedMemory(),
+          timelineStability: state.timelineState.stability,
+        });
+        const cleaned = (res.message || "").replace(/^\s*\[[^\]]+\]\s*[:\-]?\s*/, "").trim();
+        const meta = metaFor(m.key);
+        const msg = { role: "council" as const, content: cleaned, speaker: m.name, metaKey: m.key };
+        running = [...running, msg];
+        setMessages(prev => [...prev, msg]);
+        // beat between speakers — roundtable pacing
+        if (!isLast) await new Promise(r => setTimeout(r, 700));
+      }
       setTurn(t => t + 1);
       if (closing) setConcluding(true);
     } catch {
@@ -242,7 +284,7 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
           {messages.length === 0 && !loading && (
             <div style={{ textAlign: "center", color: "var(--text3)", fontSize: 14, padding: "40px 20px", lineHeight: 1.7 }}>
               Every version of you has gathered — the lives you could live, your greatest self, and your shadow.
-              <br /><br />They have answers. But they came to ask you something. Speak.
+              <br /><br />Speak, and they will <em>debate</em> — each arguing for the future they became. When you&apos;re ready, conclude the council and choose.
             </div>
           )}
           <AnimatePresence>

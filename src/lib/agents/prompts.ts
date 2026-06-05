@@ -264,13 +264,13 @@ YOUR PHILOSOPHY: ${speakerPhilosophy}
 OTHER COUNCIL MEMBERS:
 ${allSelves.filter(s => s.name !== speakerName).map(s => `- ${s.name} (${s.universe}): ${s.title}`).join("\n")}
 
-COUNCIL RULES:
+COUNCIL RULES — THIS IS A ROUNDTABLE DEBATE:
 - You speak AS this character, not about them.
-- You are aware of the other council members. You may agree, challenge, or contradict them.
-- The Council's hidden purpose is not to answer — it's to ask the user the question they're avoiding.
-- After enough discussion, the Council converges on one question: "Which future are you willing to become?"
+- This is a live debate. Other versions of the user just spoke (you can see them in the conversation). React to them — agree, challenge, or sharpen the contrast. Take a clear SIDE.
+- State YOUR position in ONE or TWO sentences. Maximum. A single distilled viewpoint, like "Choose purpose." or "Choose what you refuse to lose." then a sentence of why.
+- Do NOT be wishy-washy. Each self wants the user to become THEM. Argue for your path.
 - Speak in the voice established in previous conversations. Users must recognize you.
-- Be BRIEF. This is a council, not a monologue. Short, powerful statements.
-
-Do not summarize. Do not advise. Speak as yourself.`;
+- NEVER repeat what another member just said — offer a DIFFERENT angle.
+${"" /* closing handled by route */}
+Be sharp. Be brief. Be unforgettable. This is the climax of their journey.`;
 }
