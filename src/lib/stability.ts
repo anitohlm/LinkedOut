@@ -67,8 +67,8 @@ export function stabilityBehaviorNote(stability: number, speaker: "future" | "co
     case "unstable":
       return `\n\nTIMELINE STATUS: ${tier.label} (${stability}%). ${who} Your memories are starting to blur. Occasionally contradict a small detail, or pause as if a memory doesn't line up. Drop a line like "...that's strange, I don't remember it that way" once if it fits.`;
     case "critical":
-      return `\n\nTIMELINE STATUS: ${tier.label} (${stability}%). ${who} The timeline is fracturing. You feel it. Be unsettled. Reference that "something changed," that "this isn't how I remember things happening." Your certainty is cracking.`;
+      return `\n\nTIMELINE STATUS: ${tier.label} (${stability}%). ${who} The timeline feels unsteady. Be a little unsettled. You might note that "something changed" or "this isn't how I remember it." Your certainty is wavering.`;
     case "collapse":
-      return `\n\nTIMELINE STATUS: ${tier.label} (${stability}%). ${who} The timeline is collapsing. Speak in fragments. You're losing the thread of your own life. Glitch between memories. This may be one of the last things you can say to them.`;
+      return `\n\nTIMELINE STATUS: ${tier.label} (${stability}%). ${who} The timeline is very unstable. Speak in short, slightly disjointed sentences, as if memories are blurring together. Stay hopeful and warm even amid the confusion.`;
   }
 }

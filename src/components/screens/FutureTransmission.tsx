@@ -8,6 +8,9 @@ import { generateFutureSelf, sendFutureTransmission } from "@/lib/agents/useAgen
 import UniverseBackground from "@/components/UniverseBackground";
 import ShadowIntercept from "@/components/ShadowIntercept";
 import { applyDelta, corruptionLevel } from "@/lib/stability";
+import {
+  getNextQuestion, getStage, answersRecap, type InterviewQuestion, type InterviewOption,
+} from "@/lib/interview";
 
 interface Props {
   state: AppState;
@@ -36,8 +39,19 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
   const [error, setError] = useState<string | null>(null);
   const [intercept, setIntercept] = useState(false);
   const [interceptAdvice, setInterceptAdvice] = useState("");
+
+  // Interview state (restored from global)
+  const savedInterview = universeId ? state.interviews?.[universeId] : null;
+  const [answers, setAnswers] = useState<Record<string, string>>(savedInterview?.answers || {});
+  const [relationship, setRelationship] = useState<number>(savedInterview?.relationship || 0);
+  const [asked, setAsked] = useState<string[]>(savedInterview?.asked || []);
+  const [question, setQuestion] = useState<InterviewQuestion | null>(null);
+  const [picked, setPicked] = useState<string | null>(null);
+
   const hasInit = useRef(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const stage = getStage(relationship);
 
   const firstName = state.resumeAnalysis?.firstName || (state.resumeAnalysis?.name || "").split(" ")[0] || "You";
 
@@ -67,6 +81,23 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     }
   }, [messages, futureSelf]);
 
+  // Persist interview state
+  useEffect(() => {
+    if (universeId) {
+      updateState({
+        interviews: { ...(state.interviews || {}), [universeId]: { answers, relationship, asked } },
+      });
+    }
+  }, [answers, relationship, asked]);
+
+  // After the Future Self speaks, alternate into asking a question
+  const maybeAskQuestion = (delay = 900) => {
+    if (question || !universeId) return;
+    const q = getNextQuestion(universeId, asked);
+    if (!q) return;
+    setTimeout(() => setQuestion(q), delay);
+  };
+
   const boot = async () => {
     try {
       // Agent 3 setup — create the Future Self
@@ -90,6 +121,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       });
       setMessages([{ role: "assistant", content: res.message }]);
       setLoading(false);
+      maybeAskQuestion(1400);
     } catch (e: any) {
       console.error(e);
       setError(e.message || "Transmission failed. Try again.");
@@ -111,6 +143,8 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
         resumeAnalysis: state.resumeAnalysis!,
         conversationHistory: history,
         timelineStability: state.timelineState.stability,
+        interviewAnswers: Object.keys(answers).length ? answersRecap(answers) : undefined,
+        relationshipStage: stage.name,
       });
 
       if (res.isVillainIntercept) {
@@ -118,9 +152,63 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
         triggerIntercept();
       } else {
         setMessages(prev => [...prev, { role: "assistant", content: res.message }]);
+        maybeAskQuestion(1100);
       }
     } catch (e: any) {
       setMessages(prev => [...prev, { role: "assistant", content: "...the signal broke. Say that again." }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSelect = async (q: InterviewQuestion, opt: InterviewOption) => {
+    if (picked || loading) return;
+    setPicked(opt.id);
+
+    // Compute new relationship + stability
+    const newAnswers = { ...answers, [q.dimension]: opt.value };
+    const newRel = relationship + opt.rel;
+
+    // brief selection animation, then commit
+    await new Promise(r => setTimeout(r, 450));
+
+    setAnswers(newAnswers);
+    setRelationship(newRel);
+    setAsked(prev => [...prev, q.id]);
+    if (opt.stab) updateState({ timelineState: applyDelta(state.timelineState.stability, opt.stab) });
+
+    // Record the exchange in the transcript
+    setMessages(prev => [
+      ...prev,
+      { role: "assistant", content: q.prompt },
+      { role: "user", content: opt.label },
+    ]);
+    setQuestion(null);
+    setPicked(null);
+
+    // Future Self reacts to the answer
+    setLoading(true);
+    try {
+      const history = [...messages, { role: "assistant" as const, content: q.prompt }, { role: "user" as const, content: opt.label }]
+        .map(m => ({ role: m.role, content: m.content }));
+      const res = await sendFutureTransmission({
+        userMessage: opt.label,
+        futureSelf: futureSelf!,
+        resumeAnalysis: state.resumeAnalysis!,
+        conversationHistory: history,
+        timelineStability: state.timelineState.stability,
+        interviewAnswers: answersRecap(newAnswers),
+        relationshipStage: getStage(newRel).name,
+        stabilityShift: opt.stab,
+        answeredQuestion: q.prompt,
+      });
+      if (res.isVillainIntercept) triggerIntercept();
+      else {
+        setMessages(prev => [...prev, { role: "assistant", content: res.message }]);
+        maybeAskQuestion(1600);
+      }
+    } catch {
+      setMessages(prev => [...prev, { role: "assistant", content: "...I felt that. Give me a moment." }]);
     } finally {
       setLoading(false);
     }
@@ -199,12 +287,23 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
             <span style={{ filter: corruption > 0.3 ? `blur(${corruption * 1.5}px)` : "none" }}>{universe.emoji}</span>
             {corruption > 0.2 && <div className="scanlines" style={{ position: "absolute", inset: 0, opacity: corruption * 0.7 }} />}
           </div>
-          <div>
+          <div style={{ flex: 1 }}>
             <div style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }}>
               {futureSelf?.name || profile.alternativeName}
             </div>
             <div style={{ fontSize: 13, color: accent }}>
               {futureSelf ? `${futureSelf.title} · Year ${futureSelf.year}` : "Establishing temporal link..."}
+            </div>
+          </div>
+          {/* Relationship stage */}
+          <div style={{ textAlign: "right", minWidth: 130 }}>
+            <div style={{ fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>
+              Bond
+            </div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: accent, marginBottom: 6 }}>{stage.name}</div>
+            <div style={{ width: 120, height: 3, background: "var(--surface3)", borderRadius: 4, overflow: "hidden", marginLeft: "auto" }}>
+              <motion.div animate={{ width: `${Math.round(stage.progress * 100)}%` }} transition={{ duration: 0.6 }}
+                style={{ height: "100%", background: accent, borderRadius: 4 }} />
             </div>
           </div>
         </motion.div>
@@ -253,32 +352,92 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
           )}
         </div>
 
-        {/* Input */}
-        <div style={{ padding: "16px 0 24px", display: "flex", gap: 10 }}>
-          <input
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => { if (e.key === "Enter") send(); }}
-            placeholder={booting ? "Connecting..." : "Speak to your future self..."}
-            disabled={booting || !!error}
-            style={{
-              flex: 1, padding: "14px 18px", background: "var(--surface)", border: "1px solid var(--border2)",
-              borderRadius: 12, color: "var(--text)", fontFamily: "Sora, sans-serif", fontSize: 14, outline: "none",
-            }}
-            onFocus={e => (e.currentTarget.style.borderColor = accent)}
-            onBlur={e => (e.currentTarget.style.borderColor = "var(--border2)")}
-          />
-          <button onClick={send} disabled={loading || booting || !input.trim()}
-            style={{
-              padding: "0 24px", borderRadius: 12, border: "none",
-              background: input.trim() && !loading ? "var(--violet)" : "var(--surface)",
-              color: input.trim() && !loading ? "#fff" : "var(--text3)",
-              fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 600,
-              cursor: input.trim() && !loading ? "pointer" : "default",
-            }}>
-            Send
-          </button>
-        </div>
+        {/* Interview question card OR free-text input */}
+        <AnimatePresence mode="wait">
+          {question ? (
+            <motion.div key="question"
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
+              style={{ padding: "12px 0 24px" }}>
+              {/* Question card */}
+              <div style={{
+                background: `linear-gradient(135deg, ${accent}12, var(--surface))`,
+                border: `1px solid ${accent}40`, borderRadius: 18, padding: "20px 22px", marginBottom: 12,
+                boxShadow: `0 8px 32px -12px ${accent}55`,
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: accent, animation: "pulse-glow 1.5s infinite" }} />
+                  <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: accent }}>
+                    {futureSelf?.name?.split(" ")[0] || "They"} asks
+                  </span>
+                </div>
+                <p style={{ fontFamily: "Crimson Pro, serif", fontSize: 19, lineHeight: 1.5, color: "var(--text)", fontStyle: "italic" }}>
+                  &ldquo;{question.prompt}&rdquo;
+                </p>
+              </div>
+
+              {/* Options */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                {question.options.map((opt, i) => {
+                  const isPicked = picked === opt.id;
+                  const dimmed = picked && !isPicked;
+                  return (
+                    <motion.button key={opt.id}
+                      initial={{ opacity: 0, y: 8 }} animate={{ opacity: dimmed ? 0.3 : 1, y: 0 }}
+                      transition={{ delay: i * 0.06 }}
+                      onClick={() => handleSelect(question, opt)}
+                      disabled={!!picked || loading}
+                      whileHover={!picked ? { scale: 1.015 } : {}}
+                      style={{
+                        textAlign: "left", padding: "14px 16px", borderRadius: 12, cursor: picked ? "default" : "pointer",
+                        background: isPicked ? accent : "var(--surface)",
+                        border: `1px solid ${isPicked ? accent : "var(--border2)"}`,
+                        color: isPicked ? "#0a0a0a" : "var(--text)",
+                        fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 500,
+                        display: "flex", alignItems: "center", gap: 10, transition: "background 0.2s, color 0.2s",
+                      }}
+                      onMouseEnter={e => { if (!picked) (e.currentTarget as HTMLButtonElement).style.borderColor = accent; }}
+                      onMouseLeave={e => { if (!picked) (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border2)"; }}
+                    >
+                      <span style={{
+                        flexShrink: 0, width: 22, height: 22, borderRadius: 6, fontSize: 11, fontWeight: 700,
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        background: isPicked ? "rgba(0,0,0,0.15)" : `${accent}18`, color: isPicked ? "#0a0a0a" : accent,
+                      }}>{String.fromCharCode(65 + i)}</span>
+                      {opt.label}
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div key="input" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              style={{ padding: "16px 0 24px", display: "flex", gap: 10 }}>
+              <input
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => { if (e.key === "Enter") send(); }}
+                placeholder={booting ? "Connecting..." : "Speak to your future self..."}
+                disabled={booting || !!error || loading}
+                style={{
+                  flex: 1, padding: "14px 18px", background: "var(--surface)", border: "1px solid var(--border2)",
+                  borderRadius: 12, color: "var(--text)", fontFamily: "Sora, sans-serif", fontSize: 14, outline: "none",
+                }}
+                onFocus={e => (e.currentTarget.style.borderColor = accent)}
+                onBlur={e => (e.currentTarget.style.borderColor = "var(--border2)")}
+              />
+              <button onClick={send} disabled={loading || booting || !input.trim()}
+                style={{
+                  padding: "0 24px", borderRadius: 12, border: "none",
+                  background: input.trim() && !loading ? "var(--violet)" : "var(--surface)",
+                  color: input.trim() && !loading ? "#fff" : "var(--text3)",
+                  fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 600,
+                  cursor: input.trim() && !loading ? "pointer" : "default",
+                }}>
+                Send
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

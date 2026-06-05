@@ -42,6 +42,10 @@ export const sendFutureTransmission = (payload: {
   resumeAnalysis: ResumeAnalysis;
   conversationHistory: Array<{ role: "user" | "assistant"; content: string }>;
   timelineStability?: number;
+  interviewAnswers?: string;
+  relationshipStage?: string;
+  stabilityShift?: number;
+  answeredQuestion?: string;
 }) => post<{ message: string; isVillainIntercept: boolean; stabilityDelta: number }>(
   "/api/future-transmission",
   payload

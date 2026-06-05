@@ -197,4 +197,6 @@ export interface AppState {
   invitationDecisions?: Record<string, "accept" | "negotiate" | "decline">;
   // Future Transmission conversations, persisted per universe
   transmissions?: Record<string, { futureSelf: any; messages: any[] }>;
+  // Future Self Interview answers + relationship, persisted per universe
+  interviews?: Record<string, { answers: Record<string, string>; relationship: number; asked: string[] }>;
 }

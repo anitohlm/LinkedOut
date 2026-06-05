@@ -40,6 +40,7 @@ const initialState: AppState = {
   cachedInvitations: {},
   invitationDecisions: {},
   transmissions: {},
+  interviews: {},
 };
 
 export function AppOrchestrator() {
