@@ -8,6 +8,8 @@ import TimelineScan from "./screens/TimelineScan";
 import MultiverseCalibration from "./screens/MultiverseCalibration";
 import UniverseDiscovery from "./screens/UniverseDiscovery";
 import IdentityReconstruction from "./screens/IdentityReconstruction";
+import FutureTransmission from "./screens/FutureTransmission";
+import MultiverseInvitations from "./screens/MultiverseInvitations";
 
 const initialState: AppState = {
   currentScreen: "landing",
@@ -65,6 +67,10 @@ export function AppOrchestrator() {
         return <UniverseDiscovery {...screenProps} />;
       case "identity-reconstruction":
         return <IdentityReconstruction {...screenProps} />;
+      case "future-transmission":
+        return <FutureTransmission {...screenProps} />;
+      case "multiverse-invitations":
+        return <MultiverseInvitations {...screenProps} />;
       default:
         return <Landing {...screenProps} />;
     }

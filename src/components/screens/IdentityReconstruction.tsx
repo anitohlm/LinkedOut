@@ -24,6 +24,17 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
 
   const accentColor = universe.color;
 
+  // Universe-themed label for the recruiter mailbox
+  const INVITATION_LABELS: Record<string, string> = {
+    medieval: "📜 Royal Summons",
+    cyberpunk: "🛰️ Corp Offers",
+    pirate: "🗺️ Crew Calls",
+    dragon: "🔥 Ancient Covenants",
+    galactic: "🛸 Commissions",
+    vampire: "🩸 Blood Pacts",
+  };
+  const invitationLabel = INVITATION_LABELS[universe.id] || "📬 Invitations";
+
   // Normalize escaped newlines the model sometimes returns as literal "\n"
   const clean = (t: string) => (t || "").replace(/\\n/g, "\n").trim();
 
@@ -69,9 +80,23 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
         <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
         </span>
-        <span style={{ fontSize: 13, color: "var(--text3)" }}>
-          {universe.emoji} {universe.title}
-        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <button
+            onClick={() => transitionTo("multiverse-invitations")}
+            style={{
+              background: "none", border: "1px solid var(--border2)", borderRadius: 8,
+              padding: "6px 14px", color: "var(--text2)", cursor: "pointer",
+              fontSize: 13, fontFamily: "Sora, sans-serif", transition: "all 0.2s",
+            }}
+            onMouseEnter={e => { const b = e.currentTarget as HTMLButtonElement; b.style.borderColor = "var(--border3)"; b.style.color = "var(--text)"; }}
+            onMouseLeave={e => { const b = e.currentTarget as HTMLButtonElement; b.style.borderColor = "var(--border2)"; b.style.color = "var(--text2)"; }}
+          >
+            {invitationLabel}
+          </button>
+          <span style={{ fontSize: 13, color: "var(--text3)" }}>
+            {universe.emoji} {universe.title}
+          </span>
+        </div>
       </nav>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 40px", position: "relative", zIndex: 1 }}>

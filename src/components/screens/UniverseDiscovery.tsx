@@ -70,9 +70,10 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
             Loading universes...
           </div>
         )}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, perspective: "1200px" }}>
           {allReady && universes.map((universe, i) => {
             const profile = state.allProfiles?.[universe.id];
+            const c = universe.color;
             return (
               <motion.div
                 key={universe.id}
@@ -80,25 +81,50 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
                 onClick={() => transitionTo("identity-reconstruction", { selectedUniverse: universe.id })}
+                whileHover={{ y: -6, rotateX: 3, rotateY: -3, scale: 1.02 }}
                 style={{
                   background: "var(--bg2)",
                   border: "1px solid var(--border)",
                   borderRadius: 20,
                   padding: 28,
                   cursor: "pointer",
-                  transition: "all 0.3s",
                   position: "relative",
                   overflow: "hidden",
+                  transformStyle: "preserve-3d",
                 }}
-                whileHover={{ y: -4 }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLDivElement;
+                  el.style.borderColor = `${c}55`;
+                  el.style.boxShadow = `0 16px 50px -12px ${c}40`;
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLDivElement;
+                  el.style.borderColor = "var(--border)";
+                  el.style.boxShadow = "none";
+                }}
               >
+                {/* Accent corner glow */}
+                <div style={{
+                  position: "absolute", top: -50, right: -50, width: 160, height: 160, borderRadius: "50%",
+                  background: `radial-gradient(circle, ${c}22, transparent 70%)`, pointerEvents: "none",
+                }} />
+                {/* Top accent line */}
+                <div style={{
+                  position: "absolute", top: 0, left: 24, right: 24, height: 2,
+                  background: `linear-gradient(90deg, transparent, ${c}, transparent)`, opacity: 0.5,
+                }} />
+
                 {/* Universe emoji + name */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
-                  <div style={{ fontSize: 32 }}>{universe.emoji}</div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, position: "relative" }}>
+                  <div style={{
+                    width: 52, height: 52, borderRadius: 14,
+                    background: `linear-gradient(135deg, ${c}30, ${c}12)`, border: `1px solid ${c}30`,
+                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28,
+                  }}>{universe.emoji}</div>
                   <span style={{
-                    fontSize: 11, padding: "4px 10px", borderRadius: 100, fontWeight: 500,
-                    background: `${universe.color}18`, color: universe.color,
-                    border: `1px solid ${universe.color}30`,
+                    fontSize: 11, padding: "5px 12px", borderRadius: 100, fontWeight: 600,
+                    background: `${c}18`, color: c, border: `1px solid ${c}30`,
+                    letterSpacing: "0.02em",
                   }}>
                     {universe.title}
                   </span>
@@ -106,21 +132,21 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
 
                 {profile ? (
                   <>
-                    <h3 style={{ fontSize: 18, fontWeight: 700, letterSpacing: "-0.3px", marginBottom: 4, color: "var(--text)" }}>
+                    <h3 style={{ fontSize: 19, fontWeight: 700, letterSpacing: "-0.3px", marginBottom: 4, color: "var(--text)" }}>
                       {profile.alternativeName}
                     </h3>
-                    <p style={{ fontSize: 13, color: universe.color, fontWeight: 500, marginBottom: 12 }}>
+                    <p style={{ fontSize: 13, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.4 }}>
                       {profile.profession}
                     </p>
-                    <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6, marginBottom: 16 }}>
-                      {profile.biography?.split("\n")[0]?.slice(0, 120)}...
+                    <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6, marginBottom: 20 }}>
+                      {(profile.biography || "").replace(/\\n/g, " ").slice(0, 120)}...
                     </p>
                     {/* Radar scores */}
-                    <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                    <div style={{ display: "flex", gap: 20, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
                       {Object.entries(profile.radarScores || {}).slice(0, 3).map(([key, val]) => (
                         <div key={key} style={{ textAlign: "center" }}>
-                          <div style={{ fontSize: 16, fontWeight: 700, color: universe.color }}>{val}</div>
-                          <div style={{ fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.06em" }}>{key}</div>
+                          <div style={{ fontSize: 18, fontWeight: 700, color: c, letterSpacing: "-0.5px" }}>{val}</div>
+                          <div style={{ fontSize: 9, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 2 }}>{key}</div>
                         </div>
                       ))}
                     </div>
