@@ -26,7 +26,14 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
         borderBottom: "1px solid var(--border)",
       }}>
         <button
-          onClick={() => transitionTo("upload-resume")}
+          onClick={() => {
+            if (!confirm("Start over with a new resume? This clears your current multiverse.")) return;
+            transitionTo("upload-resume", {
+              resumeText: null, resumeAnalysis: null, selectedUniverse: null,
+              allProfiles: {} as any, allFutureSelves: {} as any, conversations: {} as any,
+              timelineState: { stability: 100, status: "stable" },
+            });
+          }}
           style={{
             display: "flex", alignItems: "center", gap: 6,
             fontSize: 14, fontWeight: 500,
@@ -36,7 +43,7 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text)"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text2)"; }}
         >
-          ← Back
+          ↻ New Resume
         </button>
         <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
@@ -63,6 +70,29 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
             {state.resumeAnalysis?.timelineSignature}
           </p>
         </motion.div>
+
+        {/* Journey actions */}
+        {allReady && (
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+            style={{ display: "flex", gap: 12, marginBottom: 32, flexWrap: "wrap" }}>
+            <button onClick={() => transitionTo("butterfly-effect")}
+              style={{ padding: "12px 20px", borderRadius: 12, cursor: "pointer",
+                background: "var(--surface)", border: "1px solid var(--border2)", color: "var(--text)",
+                fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600 }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--violet)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border2)"; }}>
+              🦋 What If? <span style={{ color: "var(--text3)", fontWeight: 400 }}>· Butterfly Effect</span>
+            </button>
+            <button onClick={() => transitionTo("council-of-selves")}
+              style={{ padding: "12px 20px", borderRadius: 12, cursor: "pointer",
+                background: "var(--surface)", border: "1px solid var(--border2)", color: "var(--text)",
+                fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600 }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--violet)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border2)"; }}>
+              ⚖️ Council of Selves <span style={{ color: "var(--text3)", fontWeight: 400 }}>· The Finale</span>
+            </button>
+          </motion.div>
+        )}
 
         {/* Universe cards */}
         {!allReady && (

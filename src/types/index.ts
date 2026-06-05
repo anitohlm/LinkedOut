@@ -169,6 +169,7 @@ export type AppScreenState =
   | "legendary-self"
   | "villain-self"
   | "council-of-selves"
+  | "chronicle"
   | "share-card";
 
 // Global App State

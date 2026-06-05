@@ -10,6 +10,11 @@ import UniverseDiscovery from "./screens/UniverseDiscovery";
 import IdentityReconstruction from "./screens/IdentityReconstruction";
 import FutureTransmission from "./screens/FutureTransmission";
 import MultiverseInvitations from "./screens/MultiverseInvitations";
+import LegendarySelf from "./screens/LegendarySelf";
+import VillainSelf from "./screens/VillainSelf";
+import ButterflyEffect from "./screens/ButterflyEffect";
+import CouncilOfSelves from "./screens/CouncilOfSelves";
+import Chronicle from "./screens/Chronicle";
 
 const initialState: AppState = {
   currentScreen: "landing",
@@ -71,6 +76,16 @@ export function AppOrchestrator() {
         return <FutureTransmission {...screenProps} />;
       case "multiverse-invitations":
         return <MultiverseInvitations {...screenProps} />;
+      case "legendary-self":
+        return <LegendarySelf {...screenProps} />;
+      case "villain-self":
+        return <VillainSelf {...screenProps} />;
+      case "butterfly-effect":
+        return <ButterflyEffect {...screenProps} />;
+      case "council-of-selves":
+        return <CouncilOfSelves {...screenProps} />;
+      case "chronicle":
+        return <Chronicle {...screenProps} />;
       default:
         return <Landing {...screenProps} />;
     }

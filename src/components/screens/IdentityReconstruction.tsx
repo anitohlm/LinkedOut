@@ -199,6 +199,67 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
 
           {/* Right column */}
           <div>
+            {/* Actions — sticky so always visible */}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+              style={{ position: "sticky", top: 80, zIndex: 10, display: "flex", flexDirection: "column", gap: 10,
+                marginBottom: 16, padding: 16, borderRadius: 20,
+                background: "rgba(14,16,24,0.85)", backdropFilter: "blur(12px)", border: "1px solid var(--border)" }}>
+              <button
+                onClick={() => transitionTo("future-transmission", { selectedUniverse: state.selectedUniverse })}
+                style={{
+                  width: "100%", padding: 16, borderRadius: 12,
+                  background: "var(--violet)", border: "none",
+                  color: "#fff", fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 600,
+                  cursor: "pointer", transition: "all 0.2s", boxShadow: "0 0 30px rgba(124,110,247,0.25)",
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "var(--violet2)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "var(--violet)"; }}
+              >
+                Begin Future Transmission →
+              </button>
+
+              <div style={{ display: "flex", gap: 10 }}>
+                <button
+                  onClick={() => transitionTo("legendary-self")}
+                  style={{
+                    flex: 1, padding: 12, borderRadius: 12,
+                    background: "rgba(232,201,126,0.1)", border: "1px solid rgba(232,201,126,0.3)",
+                    color: "#e8c97e", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600,
+                    cursor: "pointer", transition: "all 0.2s",
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(232,201,126,0.18)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(232,201,126,0.1)"; }}
+                >
+                  👑 Legendary
+                </button>
+                <button
+                  onClick={() => transitionTo("villain-self")}
+                  style={{
+                    flex: 1, padding: 12, borderRadius: 12,
+                    background: "rgba(240,112,112,0.08)", border: "1px solid rgba(240,112,112,0.3)",
+                    color: "#f07070", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600,
+                    cursor: "pointer", transition: "all 0.2s",
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(240,112,112,0.15)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(240,112,112,0.08)"; }}
+                >
+                  🌑 Shadow
+                </button>
+              </div>
+
+              <button
+                onClick={() => transitionTo("universe-discovery")}
+                style={{
+                  width: "100%", padding: 10, borderRadius: 12,
+                  background: "transparent", border: "1px solid var(--border2)",
+                  color: "var(--text2)", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 500,
+                  cursor: "pointer",
+                }}
+              >
+                ← Choose Another Universe
+              </button>
+            </motion.div>
+
             {/* Personality */}
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
               style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 24, marginBottom: 16 }}>
@@ -244,34 +305,6 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
               </div>
             </motion.div>
 
-            {/* CTA */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
-              style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <button
-                onClick={() => transitionTo("future-transmission", { selectedUniverse: state.selectedUniverse })}
-                style={{
-                  width: "100%", padding: 16, borderRadius: 12,
-                  background: "var(--violet)", border: "none",
-                  color: "#fff", fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 600,
-                  cursor: "pointer", transition: "all 0.2s",
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "var(--violet2)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "var(--violet)"; }}
-              >
-                Begin Future Transmission →
-              </button>
-              <button
-                onClick={() => transitionTo("universe-discovery")}
-                style={{
-                  width: "100%", padding: 12, borderRadius: 12,
-                  background: "transparent", border: "1px solid var(--border2)",
-                  color: "var(--text2)", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 500,
-                  cursor: "pointer",
-                }}
-              >
-                ← Choose Another Universe
-              </button>
-            </motion.div>
           </div>
         </div>
       </div>
