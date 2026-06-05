@@ -2,6 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import {
+  Dna, Globe2, Radio, ScrollText, Crown, Sparkles, Scale, BookOpen,
+  FileText, Boxes, BookMarked, type LucideIcon,
+} from "lucide-react";
 import { AppState, AppScreenState } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
 
@@ -241,7 +245,14 @@ export default function Landing({ transitionTo }: LandingProps) {
                   background: "var(--surface)", border: "1px solid var(--border)" }}>
                 <div style={{ position: "absolute", top: 16, right: 18, fontSize: 40, fontWeight: 800, letterSpacing: "-2px",
                   color: "var(--surface3)", lineHeight: 1 }}>{i + 1}</div>
-                <div style={{ fontSize: 30, marginBottom: 14 }}>{s.icon}</div>
+                <div style={{
+                  width: 52, height: 52, borderRadius: 14, margin: "0 auto 16px",
+                  background: "linear-gradient(135deg, rgba(124,110,247,0.25), rgba(124,110,247,0.08))",
+                  border: "1px solid rgba(124,110,247,0.3)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <s.icon size={24} color="var(--violet2)" strokeWidth={1.75} />
+                </div>
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text)", marginBottom: 8 }}>{s.title}</h3>
                 <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6 }}>{s.desc}</p>
               </motion.div>
@@ -290,9 +301,11 @@ export default function Landing({ transitionTo }: LandingProps) {
                 <div style={{
                   width: 48, height: 48, borderRadius: 13, marginBottom: 18, position: "relative",
                   background: `linear-gradient(135deg, ${f.color}40, ${f.color}15)`, border: `1px solid ${f.color}40`,
-                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24,
+                  display: "flex", alignItems: "center", justifyContent: "center",
                   boxShadow: `0 4px 16px -4px ${f.color}40`,
-                }}>{f.icon}</div>
+                }}>
+                  <f.icon size={22} color={f.color} strokeWidth={1.75} />
+                </div>
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text)", marginBottom: 8, letterSpacing: "-0.3px" }}>{f.title}</h3>
                 <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6 }}>{f.desc}</p>
               </motion.div>
@@ -356,19 +369,19 @@ export default function Landing({ transitionTo }: LandingProps) {
   );
 }
 
-const STEPS = [
-  { icon: "📄", title: "Paste your résumé", desc: "Drop in your career history. An AI agent reads between the lines to find who you really are." },
-  { icon: "🌌", title: "Explore your selves", desc: "Six alternate-universe versions of you come to life — each with their own story, voice, and fate." },
-  { icon: "📖", title: "Choose your story", desc: "Talk to them, weigh their lives, and decide which future you're willing to become." },
+const STEPS: { icon: LucideIcon; title: string; desc: string }[] = [
+  { icon: FileText, title: "Paste your résumé", desc: "Drop in your career history. An AI agent reads between the lines to find who you really are." },
+  { icon: Boxes, title: "Explore your selves", desc: "Six alternate-universe versions of you come to life — each with their own story, voice, and fate." },
+  { icon: BookMarked, title: "Choose your story", desc: "Talk to them, weigh their lives, and decide which future you're willing to become." },
 ];
 
-const FEATURES = [
-  { icon: "🧬", color: "#7c6ef7", title: "Career DNA Analysis", desc: "An AI agent decodes the identity hidden in your résumé — your skills, drives, and the thread running through every role." },
-  { icon: "🌌", color: "#4ecdc4", title: "Six Alternate Universes", desc: "Become a knight, a netrunner, a corsair, a dragon-keeper, a starfarer, or an immortal. Same you — a different world." },
-  { icon: "📡", color: "#9d91ff", title: "Talk to Your Future Self", desc: "Hold a real conversation with the person you became — who remembers your life and speaks from decades ahead." },
-  { icon: "📜", color: "#e8c97e", title: "Multiverse Recruiters", desc: "Receive offers from royal courts, megacorps, and ancient orders. Accept, negotiate, or walk away." },
-  { icon: "👑", color: "#f5dfa0", title: "Legendary & Shadow Selves", desc: "Meet your greatest possible self — and the cautionary one who let ambition outrun their values." },
-  { icon: "🦋", color: "#7ee8e1", title: "Butterfly Effect", desc: "Change one decision and watch your life fracture across four wildly different timelines." },
-  { icon: "⚖️", color: "#ff9595", title: "Council of Selves", desc: "Every version of you gathers to debate — then asks the question you've been avoiding." },
-  { icon: "📖", color: "#ffc278", title: "Your Chronicle", desc: "Your entire journey becomes a personalized novella about the life you chose to become." },
+const FEATURES: { icon: LucideIcon; color: string; title: string; desc: string }[] = [
+  { icon: Dna, color: "#7c6ef7", title: "Career DNA Analysis", desc: "An AI agent decodes the identity hidden in your résumé — your skills, drives, and the thread running through every role." },
+  { icon: Globe2, color: "#4ecdc4", title: "Six Alternate Universes", desc: "Become a knight, a netrunner, a corsair, a dragon-keeper, a starfarer, or an immortal. Same you — a different world." },
+  { icon: Radio, color: "#9d91ff", title: "Talk to Your Future Self", desc: "Hold a real conversation with the person you became — who remembers your life and speaks from decades ahead." },
+  { icon: ScrollText, color: "#e8c97e", title: "Multiverse Recruiters", desc: "Receive offers from royal courts, megacorps, and ancient orders. Accept, negotiate, or walk away." },
+  { icon: Crown, color: "#f5dfa0", title: "Legendary & Shadow Selves", desc: "Meet your greatest possible self — and the cautionary one who let ambition outrun their values." },
+  { icon: Sparkles, color: "#7ee8e1", title: "Butterfly Effect", desc: "Change one decision and watch your life fracture across four wildly different timelines." },
+  { icon: Scale, color: "#ff9595", title: "Council of Selves", desc: "Every version of you gathers to debate — then asks the question you've been avoiding." },
+  { icon: BookOpen, color: "#ffc278", title: "Your Chronicle", desc: "Your entire journey becomes a personalized novella about the life you chose to become." },
 ];
