@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, ResumeAnalysis, AlternateProfile, UniverseType } from "@/types";
 import { analyzeResume, generateProfile } from "@/lib/agents/useAgents";
@@ -30,8 +30,11 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
   const [progress, setProgress] = useState(0);
 
   const universes = getAllUniverses();
+  const hasRun = useRef(false);
 
   useEffect(() => {
+    if (hasRun.current) return; // guard against React Strict Mode double-invoke
+    hasRun.current = true;
     if (!state.resumeText) { transitionTo("upload-resume"); return; }
     run();
   }, []);
