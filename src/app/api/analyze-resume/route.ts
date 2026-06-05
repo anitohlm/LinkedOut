@@ -15,6 +15,8 @@ ${resumeText}
 
 Return this exact JSON structure:
 {
+  "name": "full name of the person from the resume header",
+  "firstName": "just their first name",
   "skills": ["array of technical and soft skills"],
   "competencies": ["core competencies that define how they work"],
   "strengths": ["recurring strengths across all roles"],

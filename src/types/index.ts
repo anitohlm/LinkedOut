@@ -5,6 +5,8 @@
 
 // Resume Analysis
 export interface ResumeAnalysis {
+  name: string;
+  firstName: string;
   skills: string[];
   competencies: string[];
   achievements: string[];

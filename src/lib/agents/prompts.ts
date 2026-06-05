@@ -70,6 +70,7 @@ Terminology: ${JSON.stringify(u.terminology)}
 Your task: Create an inspiring alternate career profile for this person reimagined in the ${u.title} setting.
 
 Rules:
+- CRITICAL: You MUST keep the person's real FIRST NAME exactly as given. Only invent a NEW surname/epithet that fits the ${u.title} setting. Example: real name "Cassian Blackwood" in a pirate world → "Cassian Stormrider" (first name kept, new themed surname).
 - Keep the person's core strengths and personality recognizable across the alternate setting.
 - Adapt their real career achievements into setting-appropriate equivalents creatively.
 - The biography should read like an inspiring memoir excerpt, not a job description.

@@ -1,338 +1,214 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { AppState, AppScreenState, AlternateProfile } from "@/types";
+import { AppState, AppScreenState } from "@/types";
+import { getUniverse } from "@/lib/universes";
 
-interface IdentityReconstructionProps {
+interface Props {
   state: AppState;
   transitionTo: (screen: AppScreenState, updates?: any) => void;
   updateState: (updates: any) => void;
 }
 
-export default function IdentityReconstruction({
-  state,
-  transitionTo,
-  updateState,
-}: IdentityReconstructionProps) {
+export default function IdentityReconstruction({ state, transitionTo, updateState }: Props) {
   const profile = state.selectedUniverse ? state.allProfiles?.[state.selectedUniverse] ?? null : null;
-  const isLoading = false;
-  const error = !profile ? "Profile not found" : null;
+  const universe = state.selectedUniverse ? getUniverse(state.selectedUniverse) : null;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (!state.selectedUniverse || !profile) transitionTo("universe-discovery");
+  }, []);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-dark-950 overflow-hidden flex items-center justify-center">
-        <div className="fixed inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-dark-950 to-blue-900/20" />
-        </div>
+  if (!profile || !universe) return null;
 
-        <motion.div
-          className="relative z-10 text-center"
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <div className="text-6xl mb-4">🌀</div>
-          <p className="text-gray-300 text-lg">Reconstructing identity...</p>
-        </motion.div>
-      </div>
-    );
-  }
-
-  if (error || !profile) {
-    return (
-      <div className="min-h-screen bg-dark-950 overflow-hidden flex items-center justify-center">
-        <div className="fixed inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-dark-950 to-blue-900/20" />
-        </div>
-
-        <motion.div
-          className="relative z-10 text-center max-w-2xl px-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <p className="text-red-400 mb-6">{error || "Failed to load profile"}</p>
-          <motion.button
-            onClick={() => transitionTo("universe-discovery")}
-            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg text-white hover:from-purple-500 hover:to-blue-500 transition-all"
-            whileHover={{ scale: 1.05 }}
-          >
-            Back to Universe Selection
-          </motion.button>
-        </motion.div>
-      </div>
-    );
-  }
-
-  const universe = state.selectedUniverse;
-  const universe_config = require("@/lib/universes").getUniverse(universe);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
+  const accentColor = universe.color;
 
   return (
-    <div className="min-h-screen bg-dark-950 overflow-auto">
-      {/* Background */}
-      <div className="fixed inset-0 z-0">
-        <div
-          className={`absolute inset-0 bg-gradient-to-br ${universe_config.gradientFrom} ${universe_config.gradientTo} opacity-20`}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-dark-950 via-transparent to-dark-950" />
-      </div>
-
-      {/* Content */}
-      <motion.div
-        className="relative z-10 px-4 py-20"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Back button */}
-        <motion.button
-          variants={itemVariants}
+    <div style={{ minHeight: "100vh", background: "var(--bg)", paddingTop: 64 }}>
+      {/* Nav */}
+      <nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+        height: 64, display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "0 40px",
+        background: "rgba(8,9,13,0.8)", backdropFilter: "blur(20px)",
+        borderBottom: "1px solid var(--border)",
+      }}>
+        <button
           onClick={() => transitionTo("universe-discovery")}
-          className="mb-8 px-4 py-2 text-gray-400 hover:text-white transition-colors flex items-center gap-2"
+          style={{ background: "none", border: "none", color: "var(--text2)", cursor: "pointer", fontSize: 14, fontFamily: "Sora, sans-serif" }}
         >
           ← Back
-        </motion.button>
+        </button>
+        <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px" }}>
+          Linked<span style={{ color: "var(--violet2)" }}>Out</span>
+        </span>
+        <span style={{ fontSize: 13, color: "var(--text3)" }}>
+          {universe.emoji} {universe.title}
+        </span>
+      </nav>
 
-        <div className="max-w-6xl mx-auto">
-          {/* Header Section */}
-          <motion.div variants={itemVariants} className="mb-12">
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-6xl">{universe_config.emoji}</span>
-              <div>
-                <h1 className="text-5xl md:text-6xl font-bold">
-                  <span className="text-gradient">{profile.alternativeName}</span>
-                </h1>
-                <p className="text-gray-400 text-lg mt-2">
-                  {universe_config.title}
-                </p>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 40px" }}>
+        {/* Hero header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{ display: "flex", alignItems: "flex-start", gap: 24, marginBottom: 40, paddingBottom: 40, borderBottom: "1px solid var(--border)" }}
+        >
+          {/* Avatar */}
+          <div style={{
+            width: 80, height: 80, borderRadius: 20, flexShrink: 0,
+            background: `linear-gradient(135deg, ${accentColor}40, ${accentColor}20)`,
+            border: `1px solid ${accentColor}40`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 32,
+          }}>
+            {universe.emoji}
+          </div>
+
+          <div style={{ flex: 1 }}>
+            <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: "-1px", marginBottom: 4, color: "var(--text)" }}>
+              {profile.alternativeName}
+            </h1>
+            <p style={{ fontSize: 16, color: accentColor, fontWeight: 500, marginBottom: 4 }}>
+              {profile.profession}
+            </p>
+            <p style={{ fontSize: 13, color: "var(--text3)" }}>{universe.title} · {universe.recruiterFaction}</p>
+          </div>
+
+          {/* Destiny scores */}
+          <div style={{ display: "flex", gap: 16 }}>
+            {Object.entries(profile.radarScores || {}).slice(0, 3).map(([key, val]) => (
+              <div key={key} style={{
+                background: "var(--surface)", border: "1px solid var(--border)",
+                borderRadius: 14, padding: "16px 12px", textAlign: "center", minWidth: 72,
+              }}>
+                <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-1px", color: accentColor }}>{val}</div>
+                <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text3)", marginTop: 4 }}>{key}</div>
               </div>
-            </div>
-          </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
-          {/* Main Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-            {/* Left Column - Profile Card */}
-            <motion.div variants={itemVariants} className="lg:col-span-1">
-              <div className="glass rounded-lg p-8 backdrop-blur-xl sticky top-20">
-                {/* Profession Badge */}
-                <div className="mb-6 pb-6 border-b border-gray-700">
-                  <p className="text-gray-400 text-sm uppercase tracking-wide mb-2">
-                    Profession
-                  </p>
-                  <h2 className="text-2xl font-bold text-white">
-                    {profile.profession}
-                  </h2>
-                </div>
-
-                {/* Quick Stats */}
-                <div className="space-y-4 mb-8">
-                  <div>
-                    <p className="text-gray-400 text-xs uppercase tracking-wide mb-2">
-                      Seniority
-                    </p>
-                    <p className="text-white capitalize">
-                      {state.resumeAnalysis?.seniority}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-xs uppercase tracking-wide mb-2">
-                      Timeline Signature
-                    </p>
-                    <p className="text-gray-300 text-sm font-mono truncate">
-                      {state.resumeAnalysis?.timelineSignature.substring(0, 16)}...
-                    </p>
-                  </div>
-                </div>
-
-                {/* CTA Button */}
-                <motion.button
-                  onClick={() => {
-                    updateState({ selectedUniverse: universe });
-                    transitionTo("future-transmission", {
-                      selectedUniverse: universe,
-                    });
-                  }}
-                  className="w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg text-white font-semibold hover:from-purple-500 hover:to-blue-500 transition-all"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Open Future Transmission
-                </motion.button>
-              </div>
+        {/* Main grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 32 }}>
+          {/* Left column */}
+          <div>
+            {/* Summary */}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+              style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 28, marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 16 }}>Biography</p>
+              <p style={{ fontFamily: "Crimson Pro, serif", fontSize: 17, lineHeight: 1.8, color: "var(--text2)", fontWeight: 300, whiteSpace: "pre-wrap" }}>
+                {profile.biography}
+              </p>
             </motion.div>
 
-            {/* Right Column - Details */}
-            <motion.div
-              variants={itemVariants}
-              className="lg:col-span-2 space-y-8"
-            >
-              {/* Biography */}
-              <div className="glass rounded-lg p-8 backdrop-blur-xl">
-                <h3 className="text-xl font-bold text-white mb-4">Biography</h3>
-                <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
-                  {profile.biography}
-                </p>
-              </div>
+            {/* Timeline Story */}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+              style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 28, marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 16 }}>Timeline Story</p>
+              <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--text2)", whiteSpace: "pre-wrap" }}>{profile.timelineStory}</p>
+            </motion.div>
 
-              {/* Personality Profile */}
-              <div className="glass rounded-lg p-8 backdrop-blur-xl">
-                <h3 className="text-xl font-bold text-white mb-4">
-                  Personality Profile
-                </h3>
-                <p className="text-gray-300 leading-relaxed">
-                  {profile.personalityProfile}
-                </p>
-              </div>
+            {/* Career Trajectory */}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+              style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 28, marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 16 }}>Career Trajectory</p>
+              <p style={{ fontSize: 14, lineHeight: 1.8, color: "var(--text2)" }}>{profile.careerTrajectory}</p>
+            </motion.div>
 
-              {/* Timeline Story */}
-              <div className="glass rounded-lg p-8 backdrop-blur-xl">
-                <h3 className="text-xl font-bold text-white mb-4">
-                  Timeline Story
-                </h3>
-                <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
-                  {profile.timelineStory}
-                </p>
-              </div>
-
-              {/* Career Trajectory */}
-              <div className="glass rounded-lg p-8 backdrop-blur-xl">
-                <h3 className="text-xl font-bold text-white mb-4">
-                  Career Trajectory
-                </h3>
-                <p className="text-gray-300 leading-relaxed">
-                  {profile.careerTrajectory}
-                </p>
+            {/* Achievements */}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
+              style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 28 }}>
+              <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 16 }}>Achievements</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {profile.achievements.map((a, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                    <span style={{ color: accentColor, fontSize: 10, marginTop: 5, flexShrink: 0 }}>▸</span>
+                    <span style={{ fontSize: 14, color: "var(--text2)", lineHeight: 1.6 }}>{a}</span>
+                  </div>
+                ))}
               </div>
             </motion.div>
           </div>
 
-          {/* Radar Scores Section */}
-          <motion.div variants={itemVariants} className="mb-12">
-            <div className="glass rounded-lg p-8 backdrop-blur-xl">
-              <h3 className="text-2xl font-bold text-white mb-8">
-                Competency Matrix
-              </h3>
+          {/* Right column */}
+          <div>
+            {/* Personality */}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+              style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 24, marginBottom: 16 }}>
+              <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 12 }}>Personality</p>
+              <p style={{ fontSize: 13, color: "var(--text2)", lineHeight: 1.7 }}>{profile.personalityProfile}</p>
+            </motion.div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                {Object.entries(profile.radarScores).map(([skill, score]) => (
+            {/* Competency bars */}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+              style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 24, marginBottom: 16 }}>
+              <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 16 }}>Competency Matrix</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {Object.entries(profile.radarScores || {}).map(([skill, score]) => (
                   <div key={skill}>
-                    <div className="flex justify-between items-center mb-2">
-                      <p className="text-gray-300 capitalize text-sm">
-                        {skill}
-                      </p>
-                      <p className="text-white font-bold text-sm">{score}%</p>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                      <span style={{ fontSize: 13, color: "var(--text2)", textTransform: "capitalize" }}>{skill}</span>
+                      <span style={{ fontSize: 13, color: accentColor, fontWeight: 600 }}>{score}</span>
                     </div>
-                    <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                    <div style={{ height: 3, background: "var(--surface3)", borderRadius: 4, overflow: "hidden" }}>
                       <motion.div
-                        className={`h-full bg-gradient-to-r ${universe_config.gradientFrom.replace("from-", "from-")} ${universe_config.gradientTo.replace("to-", "to-")}`}
                         initial={{ width: 0 }}
                         animate={{ width: `${score}%` }}
                         transition={{ duration: 1, delay: 0.3 }}
+                        style={{ height: "100%", background: accentColor, borderRadius: 4 }}
                       />
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* Achievements & Competencies */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            {/* Achievements */}
-            <motion.div variants={itemVariants}>
-              <div className="glass rounded-lg p-8 backdrop-blur-xl">
-                <h3 className="text-xl font-bold text-white mb-6">
-                  Achievements
-                </h3>
-                <ul className="space-y-3">
-                  {profile.achievements.map((achievement, idx) => (
-                    <motion.li
-                      key={idx}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.5 + idx * 0.1 }}
-                      className="flex items-start gap-3"
-                    >
-                      <span className="text-purple-400 mt-1">✦</span>
-                      <span className="text-gray-300">{achievement}</span>
-                    </motion.li>
-                  ))}
-                </ul>
+            {/* Competency tags */}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+              style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 24, marginBottom: 16 }}>
+              <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 12 }}>Skills</p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {profile.competencies.map((c, i) => (
+                  <span key={i} style={{
+                    padding: "6px 14px", borderRadius: 100, fontSize: 12, fontWeight: 500,
+                    background: `${accentColor}12`, border: `1px solid ${accentColor}25`, color: accentColor,
+                  }}>{c}</span>
+                ))}
               </div>
             </motion.div>
 
-            {/* Competencies */}
-            <motion.div variants={itemVariants}>
-              <div className="glass rounded-lg p-8 backdrop-blur-xl">
-                <h3 className="text-xl font-bold text-white mb-6">
-                  Competencies
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {profile.competencies.map((comp, idx) => (
-                    <motion.span
-                      key={idx}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.5 + idx * 0.05 }}
-                      className="px-3 py-1 bg-white/10 text-gray-300 rounded-full text-sm border border-white/20 hover:border-purple-400/50 transition-colors"
-                    >
-                      {comp}
-                    </motion.span>
-                  ))}
-                </div>
-              </div>
+            {/* CTA */}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
+              style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <button
+                onClick={() => transitionTo("future-transmission", { selectedUniverse: state.selectedUniverse })}
+                style={{
+                  width: "100%", padding: 16, borderRadius: 12,
+                  background: "var(--violet)", border: "none",
+                  color: "#fff", fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 600,
+                  cursor: "pointer", transition: "all 0.2s",
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "var(--violet2)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "var(--violet)"; }}
+              >
+                Begin Future Transmission →
+              </button>
+              <button
+                onClick={() => transitionTo("universe-discovery")}
+                style={{
+                  width: "100%", padding: 12, borderRadius: 12,
+                  background: "transparent", border: "1px solid var(--border2)",
+                  color: "var(--text2)", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 500,
+                  cursor: "pointer",
+                }}
+              >
+                ← Choose Another Universe
+              </button>
             </motion.div>
           </div>
-
-          {/* Navigation Footer */}
-          <motion.div
-            variants={itemVariants}
-            className="flex justify-center gap-4"
-          >
-            <motion.button
-              onClick={() => transitionTo("universe-discovery")}
-              className="px-6 py-3 glass rounded-lg text-white hover:bg-white/20 transition-all"
-              whileHover={{ scale: 1.05 }}
-            >
-              ← Choose Another Universe
-            </motion.button>
-
-            <motion.button
-              onClick={() => {
-                updateState({ selectedUniverse: universe });
-                transitionTo("future-transmission", {
-                  selectedUniverse: universe,
-                });
-              }}
-              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg text-white hover:from-purple-500 hover:to-blue-500 transition-all"
-              whileHover={{ scale: 1.05 }}
-            >
-              Begin Transmission →
-            </motion.button>
-          </motion.div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

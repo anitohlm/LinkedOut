@@ -12,6 +12,8 @@ interface Props {
 
 export default function UniverseDiscovery({ state, transitionTo }: Props) {
   const universes = getAllUniverses();
+  const profileCount = Object.keys(state.allProfiles || {}).length;
+  const allReady = profileCount === universes.length;
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", paddingTop: 64 }}>
@@ -50,8 +52,13 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
         </motion.div>
 
         {/* Universe cards */}
+        {!allReady && (
+          <div style={{ textAlign: "center", padding: "60px 0", color: "var(--text3)", fontSize: 14 }}>
+            Loading universes...
+          </div>
+        )}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
-          {universes.map((universe, i) => {
+          {allReady && universes.map((universe, i) => {
             const profile = state.allProfiles?.[universe.id];
             return (
               <motion.div
@@ -70,7 +77,7 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
                   position: "relative",
                   overflow: "hidden",
                 }}
-                whileHover={{ borderColor: universe.color, y: -4 }}
+                whileHover={{ y: -4 }}
               >
                 {/* Universe emoji + name */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>

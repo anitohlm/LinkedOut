@@ -11,8 +11,11 @@ export async function POST(req: NextRequest) {
     if (!resumeAnalysis || !universeId) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
     const universe = getUniverse(universeId);
+    const firstName = resumeAnalysis.firstName || (resumeAnalysis.name || "").split(" ")[0] || "";
+
     const response = await callAI(buildCharacterPrompt(universeId), `Create an alternate universe career profile for this person in the ${universe.title} setting.
 
+REAL FIRST NAME (MUST be kept exactly): ${firstName}
 CORE IDENTITY: ${resumeAnalysis.timelineSignature}
 SKILLS: ${resumeAnalysis.skills.join(", ")}
 CAREER HIGHLIGHTS: ${resumeAnalysis.achievements.join(", ")}
@@ -23,7 +26,7 @@ CAREER STORY: ${resumeAnalysis.summary}
 
 Return this exact JSON:
 {
-  "alternativeName": "their name in this universe",
+  "alternativeName": "MUST start with the real first name '${firstName}', followed by a NEW themed surname/epithet for this universe",
   "profession": "their title/role",
   "biography": "2-3 paragraph memoir-style biography",
   "achievements": ["5-7 achievements echoing their real ones in universe terms"],
@@ -36,9 +39,18 @@ Return this exact JSON:
 }`);
 
     const d = extractJSON<Record<string, unknown>>(response);
+
+    // Safety net: force the real first name if the AI dropped it
+    let altName = (d.alternativeName as string) || "";
+    if (firstName && !altName.toLowerCase().includes(firstName.toLowerCase())) {
+      // Replace the first token of the generated name with the real first name
+      const parts = altName.split(" ");
+      altName = parts.length > 1 ? `${firstName} ${parts.slice(1).join(" ")}` : `${firstName} ${altName}`.trim();
+    }
+
     const profile: AlternateProfile = {
       universeId,
-      alternativeName: d.alternativeName as string,
+      alternativeName: altName,
       profession: d.profession as string,
       biography: d.biography as string,
       achievements: d.achievements as string[],
