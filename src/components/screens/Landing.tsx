@@ -13,9 +13,23 @@ interface LandingProps {
   state: AppState;
   transitionTo: (screen: AppScreenState, updates?: any) => void;
   updateState: (updates: any) => void;
+  savedExists?: boolean;
+  onResume?: () => void;
+  onNewGame?: () => void;
+  savedScreen?: AppScreenState;
 }
 
-export default function Landing({ transitionTo }: LandingProps) {
+const SCREEN_LABELS: Partial<Record<AppScreenState, string>> = {
+  "universe-discovery": "exploring your multiverse",
+  "identity-reconstruction": "viewing a universe self",
+  "future-transmission": "mid-conversation with a future self",
+  "multiverse-invitations": "reviewing recruiter offers",
+  "butterfly-effect": "fracturing your timeline",
+  "council-of-selves": "at the Council of Selves",
+  "chronicle": "reading your chronicle",
+};
+
+export default function Landing({ transitionTo, savedExists, onResume, onNewGame, savedScreen }: LandingProps) {
   const universes = getAllUniverses();
   const starsRef = useRef<HTMLDivElement>(null);
 
@@ -153,10 +167,34 @@ export default function Landing({ transitionTo }: LandingProps) {
             Powered by AI. Inspired by you.
           </motion.p>
 
+          {/* Resume saved journey */}
+          {savedExists && (
+            <motion.div variants={item} style={{ marginBottom: 20, display: "flex", justifyContent: "center" }}>
+              <div style={{
+                display: "flex", alignItems: "center", gap: 16, padding: "14px 20px", borderRadius: 14,
+                background: "rgba(78,205,196,0.08)", border: "1px solid rgba(78,205,196,0.3)", maxWidth: 520,
+              }}>
+                <div style={{ fontSize: 24 }}>💾</div>
+                <div style={{ textAlign: "left", flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "var(--cyan2)" }}>Continue your journey</div>
+                  <div style={{ fontSize: 12, color: "var(--text3)" }}>
+                    You left off {savedScreen && SCREEN_LABELS[savedScreen] ? SCREEN_LABELS[savedScreen] : "in your multiverse"}.
+                  </div>
+                </div>
+                <button
+                  onClick={() => onResume?.()}
+                  style={{ padding: "10px 20px", borderRadius: 10, border: "none", cursor: "pointer",
+                    background: "var(--cyan)", color: "#0a0a0a", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 700, whiteSpace: "nowrap" }}>
+                  Resume →
+                </button>
+              </div>
+            </motion.div>
+          )}
+
           {/* CTA group */}
           <motion.div variants={item} style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 80 }}>
             <button
-              onClick={() => transitionTo("upload-resume")}
+              onClick={() => { onNewGame?.(); transitionTo("upload-resume"); }}
               style={{
                 padding: "14px 32px", borderRadius: 12, fontSize: 15, fontWeight: 600,
                 cursor: "pointer", fontFamily: "Sora, sans-serif", letterSpacing: "-0.2px",

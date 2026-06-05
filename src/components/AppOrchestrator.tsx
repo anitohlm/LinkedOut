@@ -43,11 +43,55 @@ const initialState: AppState = {
   invitationDecisions: {},
   transmissions: {},
   interviews: {},
+  explored: [],
+  usedButterfly: false,
 };
+
+const SAVE_KEY = "linkedout_save_v1";
 
 export function AppOrchestrator() {
   const [state, setState] = useState<AppState>(initialState);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // ── Save / Resume ──────────────────────────────────────────────────
+  const savedRef = useRef<AppState | null>(null);
+  const [savedExists, setSavedExists] = useState(false);
+  const hydrated = useRef(false);
+
+  // Load any saved game on first mount
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as AppState;
+        if (parsed?.resumeAnalysis) { savedRef.current = parsed; setSavedExists(true); }
+      }
+    } catch {}
+    hydrated.current = true;
+  }, []);
+
+  // Auto-save active games (only once a resume has been analyzed — avoids
+  // clobbering an existing save with the empty initial state on mount).
+  useEffect(() => {
+    if (!hydrated.current || !state.resumeAnalysis) return;
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify({ ...state, resumeFile: null }));
+    } catch {}
+  }, [state]);
+
+  const resumeGame = useCallback(() => {
+    if (savedRef.current) {
+      const s = savedRef.current;
+      setIsTransitioning(true);
+      setTimeout(() => { setState(s); setIsTransitioning(false); }, 400);
+    }
+  }, []);
+
+  const clearSave = useCallback(() => {
+    try { localStorage.removeItem(SAVE_KEY); } catch {}
+    savedRef.current = null;
+    setSavedExists(false);
+  }, []);
 
   // Timeline stability change feedback
   const stability = state.timelineState.stability;
@@ -136,7 +180,7 @@ export function AppOrchestrator() {
 
     switch (state.currentScreen) {
       case "landing":
-        return <Landing {...screenProps} />;
+        return <Landing {...screenProps} savedExists={savedExists} onResume={resumeGame} onNewGame={clearSave} savedScreen={savedRef.current?.currentScreen} />;
       case "upload-resume":
         return <ResumeUpload {...screenProps} />;
       case "timeline-scan":

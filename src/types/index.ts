@@ -199,4 +199,7 @@ export interface AppState {
   transmissions?: Record<string, { futureSelf: any; messages: any[] }>;
   // Future Self Interview answers + relationship, persisted per universe
   interviews?: Record<string, { answers: Record<string, string>; relationship: number; asked: string[] }>;
+  // Game progression
+  explored?: string[];        // universe ids the user has visited
+  usedButterfly?: boolean;    // has run the Butterfly Effect
 }

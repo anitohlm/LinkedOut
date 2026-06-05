@@ -16,37 +16,47 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
   const profileCount = Object.keys(state.allProfiles || {}).length;
   const allReady = profileCount === universes.length;
 
+  const explored = state.explored || [];
+  const exploredCount = explored.length;
+  const phase1Done = exploredCount >= universes.length;
+  const phase2Unlocked = phase1Done;
+  const phase2Done = !!state.usedButterfly;
+  const phase3Unlocked = phase2Done;
+
+  const currentPhase = !phase1Done ? 1 : !phase2Done ? 2 : 3;
+
+  const explore = (id: UniverseType) => {
+    const next = Array.from(new Set([...explored, id]));
+    transitionTo("identity-reconstruction", { selectedUniverse: id, explored: next });
+  };
+
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", paddingTop: 64 }}>
       {/* Nav */}
       <nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-        height: 64, display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "0 40px",
-        background: "rgba(8,9,13,0.8)", backdropFilter: "blur(20px)",
-        borderBottom: "1px solid var(--border)",
+        height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 40px",
+        background: "rgba(8,9,13,0.8)", backdropFilter: "blur(20px)", borderBottom: "1px solid var(--border)",
       }}>
         <button
           onClick={() => {
             if (!confirm("Start over with a new resume? This clears your current multiverse.")) return;
+            try { localStorage.removeItem("linkedout_save_v1"); } catch {}
             transitionTo("upload-resume", {
               resumeText: null, resumeAnalysis: null, selectedUniverse: null,
               allProfiles: {} as any, allFutureSelves: {} as any, conversations: {} as any,
-              timelineState: { stability: 100, status: "stable" },
+              timelineState: { stability: 100, status: "stable" }, explored: [], usedButterfly: false,
             });
           }}
-          style={{
-            display: "flex", alignItems: "center", gap: 6,
-            fontSize: 14, fontWeight: 500,
-            cursor: "pointer", background: "none", border: "none", color: "var(--text2)",
-            fontFamily: "Sora, sans-serif", transition: "color 0.2s",
-          }}
+          style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 500,
+            cursor: "pointer", background: "none", border: "none", color: "var(--text2)", fontFamily: "Sora, sans-serif" }}
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text)"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text2)"; }}
         >
           ↻ New Resume
         </button>
-        <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
+        <button onClick={() => transitionTo("landing")} style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px",
+          background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
         </button>
         <StabilityHUD stability={state.timelineState.stability} />
@@ -54,140 +64,262 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 40px" }}>
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          style={{ marginBottom: 48 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ marginBottom: 36 }}>
           <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 12 }}>
-            Your Multiverse
+            Your Multiverse Journey
           </p>
           <h1 style={{ fontSize: 36, fontWeight: 700, letterSpacing: "-1px", marginBottom: 8, color: "var(--text)" }}>
             Meet the people you could have become.
           </h1>
-          <p style={{ color: "var(--text2)", fontSize: 16 }}>
+          <p style={{ color: "var(--text2)", fontSize: 15, lineHeight: 1.6, maxWidth: 720 }}>
             {state.resumeAnalysis?.timelineSignature}
           </p>
         </motion.div>
 
-        {/* Journey actions */}
+        {/* Phase tracker */}
         {allReady && (
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-            style={{ display: "flex", gap: 12, marginBottom: 32, flexWrap: "wrap" }}>
-            <button onClick={() => transitionTo("butterfly-effect")}
-              style={{ padding: "12px 20px", borderRadius: 12, cursor: "pointer",
-                background: "var(--surface)", border: "1px solid var(--border2)", color: "var(--text)",
-                fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600 }}
-              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--violet)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border2)"; }}>
-              🦋 What If? <span style={{ color: "var(--text3)", fontWeight: 400 }}>· Butterfly Effect</span>
-            </button>
-            <button onClick={() => transitionTo("council-of-selves")}
-              style={{ padding: "12px 20px", borderRadius: 12, cursor: "pointer",
-                background: "var(--surface)", border: "1px solid var(--border2)", color: "var(--text)",
-                fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600 }}
-              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--violet)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border2)"; }}>
-              ⚖️ Council of Selves <span style={{ color: "var(--text3)", fontWeight: 400 }}>· The Finale</span>
-            </button>
-          </motion.div>
+          <PhaseTracker current={currentPhase} steps={[
+            { n: 1, label: "Explore Your Selves", sub: `${exploredCount}/6 explored`,
+              desc: "Meet all six alternate-universe versions of yourself and see who you could have become." },
+            { n: 2, label: "The Butterfly Effect", sub: phase2Done ? "Done" : phase2Unlocked ? "Unlocked" : "Locked",
+              desc: "Change one decision and watch your life fracture across four alternate timelines." },
+            { n: 3, label: "The Council of Selves", sub: phase3Unlocked ? "Unlocked" : "Locked",
+              desc: "Gather every version of you to debate — then choose the future you're willing to become." },
+          ]} />
         )}
 
-        {/* Universe cards */}
         {!allReady && (
           <div style={{ textAlign: "center", padding: "60px 0", color: "var(--text3)", fontSize: 14 }}>
             Loading universes...
           </div>
         )}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, perspective: "1200px" }}>
-          {allReady && universes.map((universe, i) => {
-            const profile = state.allProfiles?.[universe.id];
-            const c = universe.color;
-            return (
-              <motion.div
-                key={universe.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
-                onClick={() => transitionTo("identity-reconstruction", { selectedUniverse: universe.id })}
-                whileHover={{ y: -6, rotateX: 3, rotateY: -3, scale: 1.02 }}
-                style={{
-                  background: "var(--bg2)",
-                  border: "1px solid var(--border)",
-                  borderRadius: 20,
-                  padding: 28,
-                  cursor: "pointer",
-                  position: "relative",
-                  overflow: "hidden",
-                  transformStyle: "preserve-3d",
-                }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget as HTMLDivElement;
-                  el.style.borderColor = `${c}55`;
-                  el.style.boxShadow = `0 16px 50px -12px ${c}40`;
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget as HTMLDivElement;
-                  el.style.borderColor = "var(--border)";
-                  el.style.boxShadow = "none";
-                }}
-              >
-                {/* Accent corner glow */}
-                <div style={{
-                  position: "absolute", top: -50, right: -50, width: 160, height: 160, borderRadius: "50%",
-                  background: `radial-gradient(circle, ${c}22, transparent 70%)`, pointerEvents: "none",
-                }} />
-                {/* Top accent line */}
-                <div style={{
-                  position: "absolute", top: 0, left: 24, right: 24, height: 2,
-                  background: `linear-gradient(90deg, transparent, ${c}, transparent)`, opacity: 0.5,
-                }} />
 
-                {/* Universe emoji + name */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, position: "relative" }}>
-                  <div style={{
-                    width: 52, height: 52, borderRadius: 14,
-                    background: `linear-gradient(135deg, ${c}30, ${c}12)`, border: `1px solid ${c}30`,
-                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28,
-                  }}>{universe.emoji}</div>
-                  <span style={{
-                    fontSize: 11, padding: "5px 12px", borderRadius: 100, fontWeight: 600,
-                    background: `${c}18`, color: c, border: `1px solid ${c}30`,
-                    letterSpacing: "0.02em",
-                  }}>
-                    {universe.title}
-                  </span>
-                </div>
+        {/* ── PHASE 1: EXPLORE ── */}
+        {allReady && (
+          <>
+            <PhaseHeading n={1} active={currentPhase === 1} done={phase1Done}
+              title="Explore Your Selves"
+              sub={phase1Done ? "Every reality witnessed. Your timeline is ready to fracture." : `Open all six to understand who you could become. ${exploredCount} of 6 explored.`}
+            />
 
-                {profile ? (
-                  <>
-                    <h3 style={{ fontSize: 19, fontWeight: 700, letterSpacing: "-0.3px", marginBottom: 4, color: "var(--text)" }}>
-                      {profile.alternativeName}
-                    </h3>
-                    <p style={{ fontSize: 13, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.4 }}>
-                      {profile.profession}
-                    </p>
-                    <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6, marginBottom: 20 }}>
-                      {(profile.biography || "").replace(/\\n/g, " ").slice(0, 120)}...
-                    </p>
-                    {/* Radar scores */}
-                    <div style={{ display: "flex", gap: 20, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
-                      {Object.entries(profile.radarScores || {}).slice(0, 3).map(([key, val]) => (
-                        <div key={key} style={{ textAlign: "center" }}>
-                          <div style={{ fontSize: 18, fontWeight: 700, color: c, letterSpacing: "-0.5px" }}>{val}</div>
-                          <div style={{ fontSize: 9, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 2 }}>{key}</div>
-                        </div>
-                      ))}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, perspective: "1200px", marginBottom: 56 }}>
+              {universes.map((universe, i) => {
+                const profile = state.allProfiles?.[universe.id];
+                const c = universe.color;
+                const visited = explored.includes(universe.id);
+                return (
+                  <motion.div
+                    key={universe.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.06 }}
+                    onClick={() => explore(universe.id)}
+                    whileHover={{ y: -6, rotateX: 3, rotateY: -3, scale: 1.02 }}
+                    style={{
+                      background: "var(--bg2)", border: `1px solid ${visited ? c + "44" : "var(--border)"}`,
+                      borderRadius: 20, padding: 28, cursor: "pointer", position: "relative", overflow: "hidden",
+                      transformStyle: "preserve-3d",
+                    }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = `${c}66`; el.style.boxShadow = `0 16px 50px -12px ${c}40`; }}
+                    onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = visited ? `${c}44` : "var(--border)"; el.style.boxShadow = "none"; }}
+                  >
+                    <div style={{ position: "absolute", top: -50, right: -50, width: 160, height: 160, borderRadius: "50%",
+                      background: `radial-gradient(circle, ${c}22, transparent 70%)`, pointerEvents: "none" }} />
+                    <div style={{ position: "absolute", top: 0, left: 24, right: 24, height: 2,
+                      background: `linear-gradient(90deg, transparent, ${c}, transparent)`, opacity: 0.5 }} />
+
+                    {/* Visited badge */}
+                    {visited && (
+                      <div style={{ position: "absolute", top: 16, left: 16, zIndex: 2,
+                        display: "flex", alignItems: "center", gap: 5, padding: "3px 9px", borderRadius: 100,
+                        background: `${c}22`, border: `1px solid ${c}44`, color: c, fontSize: 10, fontWeight: 700 }}>
+                        ✓ EXPLORED
+                      </div>
+                    )}
+
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, position: "relative" }}>
+                      <div style={{ width: 52, height: 52, borderRadius: 14, marginLeft: visited ? 0 : 0,
+                        background: `linear-gradient(135deg, ${c}30, ${c}12)`, border: `1px solid ${c}30`,
+                        display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28,
+                        marginTop: visited ? 24 : 0, transition: "margin 0.2s" }}>{universe.emoji}</div>
+                      <span style={{ fontSize: 11, padding: "5px 12px", borderRadius: 100, fontWeight: 600,
+                        background: `${c}18`, color: c, border: `1px solid ${c}30` }}>{universe.title}</span>
                     </div>
-                  </>
-                ) : (
-                  <div style={{ color: "var(--text3)", fontSize: 13 }}>Loading profile...</div>
-                )}
-              </motion.div>
-            );
-          })}
-        </div>
+
+                    {profile ? (
+                      <>
+                        <h3 style={{ fontSize: 19, fontWeight: 700, letterSpacing: "-0.3px", marginBottom: 4, color: "var(--text)" }}>{profile.alternativeName}</h3>
+                        <p style={{ fontSize: 13, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.4 }}>{profile.profession}</p>
+                        <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6, marginBottom: 20 }}>
+                          {(profile.biography || "").replace(/\\n/g, " ").slice(0, 120)}...
+                        </p>
+                        <div style={{ display: "flex", gap: 20, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
+                          {Object.entries(profile.radarScores || {}).slice(0, 3).map(([key, val]) => (
+                            <div key={key} style={{ textAlign: "center" }}>
+                              <div style={{ fontSize: 18, fontWeight: 700, color: c, letterSpacing: "-0.5px" }}>{val}</div>
+                              <div style={{ fontSize: 9, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 2 }}>{key}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    ) : <div style={{ color: "var(--text3)", fontSize: 13 }}>Loading profile...</div>}
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* ── PHASE 2: WHAT IF ── */}
+            <PhaseGate
+              n={2}
+              unlocked={phase2Unlocked}
+              done={phase2Done}
+              icon="🦋"
+              color="#7ee8e1"
+              title="The Butterfly Effect"
+              sub="Change one decision. Watch your life fracture across four alternate timelines."
+              lockedHint="Explore all six universes to unlock"
+              cta={phase2Done ? "Revisit →" : "Begin →"}
+              onClick={() => transitionTo("butterfly-effect")}
+            />
+
+            {/* ── PHASE 3: COUNCIL ── */}
+            <PhaseGate
+              n={3}
+              unlocked={phase3Unlocked}
+              done={false}
+              icon="⚖️"
+              color="#9d91ff"
+              title="The Council of Selves"
+              sub="Every version of you gathers to debate — then asks the question you've been avoiding."
+              lockedHint="Complete the Butterfly Effect to unlock"
+              cta="Enter the Finale →"
+              onClick={() => transitionTo("council-of-selves")}
+            />
+          </>
+        )}
       </div>
     </div>
+  );
+}
+
+/* ── Phase tracker (vertical) ── */
+function PhaseTracker({ current, steps }: { current: number; steps: { n: number; label: string; sub: string; desc: string }[] }) {
+  return (
+    <div style={{ marginBottom: 48 }}>
+      {steps.map((s, i) => {
+        const done = current > s.n;
+        const active = current === s.n;
+        const locked = current < s.n;
+        const color = done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--text3)";
+        const last = i === steps.length - 1;
+        return (
+          <div key={s.n} style={{ display: "flex", gap: 16 }}>
+            {/* Rail: number + connector */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{
+                width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700,
+                background: done ? "#4ecdc422" : active ? "var(--violet)" : "var(--surface)",
+                border: `1px solid ${done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--border2)"}`,
+                color: done ? "#4ecdc4" : active ? "#fff" : "var(--text3)",
+                boxShadow: active ? "0 0 20px rgba(124,110,247,0.4)" : "none",
+              }}>{done ? "✓" : locked ? "🔒" : s.n}</div>
+              {!last && (
+                <div style={{ width: 2, flex: 1, minHeight: 28, marginTop: 4,
+                  background: done ? "#4ecdc4" : "var(--border)" }} />
+              )}
+            </div>
+
+            {/* Content */}
+            <div style={{ paddingBottom: last ? 0 : 24, opacity: locked ? 0.6 : 1 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 3 }}>
+                <span style={{ fontSize: 15, fontWeight: 700, color: active ? "var(--text)" : color, letterSpacing: "-0.2px" }}>{s.label}</span>
+                <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
+                  padding: "2px 8px", borderRadius: 100,
+                  background: done ? "#4ecdc418" : active ? "rgba(124,110,247,0.15)" : "var(--surface)",
+                  color: done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--text3)",
+                  border: `1px solid ${done ? "#4ecdc433" : active ? "rgba(124,110,247,0.3)" : "var(--border)"}` }}>
+                  {s.sub}
+                </span>
+              </div>
+              <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.55, maxWidth: 560 }}>{s.desc}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ── Phase heading ── */
+function PhaseHeading({ n, title, sub, active, done }: { n: number; title: string; sub: string; active?: boolean; done?: boolean }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+      <div style={{
+        width: 34, height: 34, borderRadius: 10, flexShrink: 0,
+        display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700,
+        background: done ? "#4ecdc422" : "var(--violet)", border: `1px solid ${done ? "#4ecdc4" : "var(--violet2)"}`,
+        color: done ? "#4ecdc4" : "#fff",
+      }}>{done ? "✓" : n}</div>
+      <div>
+        <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)" }}>Phase {n}</div>
+        <div style={{ fontSize: 20, fontWeight: 700, color: "var(--text)", letterSpacing: "-0.3px" }}>{title}</div>
+      </div>
+      <div style={{ fontSize: 13, color: "var(--text3)", marginLeft: 4, flex: 1 }}>{sub}</div>
+    </div>
+  );
+}
+
+/* ── Locked / unlocked phase gate panel ── */
+function PhaseGate({ n, unlocked, done, icon, color, title, sub, lockedHint, cta, onClick }: {
+  n: number; unlocked: boolean; done: boolean; icon: string; color: string;
+  title: string; sub: string; lockedHint: string; cta: string; onClick: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+      onClick={() => unlocked && onClick()}
+      style={{
+        position: "relative", overflow: "hidden", marginBottom: 20,
+        display: "flex", alignItems: "center", gap: 20, padding: 28, borderRadius: 20,
+        cursor: unlocked ? "pointer" : "default",
+        background: unlocked ? `linear-gradient(135deg, ${color}12, var(--surface))` : "var(--bg2)",
+        border: `1px solid ${unlocked ? color + "40" : "var(--border)"}`,
+        opacity: unlocked ? 1 : 0.55, transition: "all 0.3s",
+      }}
+      onMouseEnter={e => { if (unlocked) { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = `${color}77`; el.style.boxShadow = `0 14px 44px -16px ${color}66`; } }}
+      onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = `${unlocked ? color + "40" : "var(--border)"}`; el.style.boxShadow = "none"; }}
+    >
+      {unlocked && <div style={{ position: "absolute", top: -40, right: -40, width: 160, height: 160, borderRadius: "50%",
+        background: `radial-gradient(circle, ${color}22, transparent 70%)`, pointerEvents: "none" }} />}
+
+      <div style={{
+        width: 56, height: 56, borderRadius: 16, flexShrink: 0, position: "relative",
+        background: unlocked ? `linear-gradient(135deg, ${color}40, ${color}15)` : "var(--surface)",
+        border: `1px solid ${unlocked ? color + "44" : "var(--border2)"}`,
+        display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26,
+        filter: unlocked ? "none" : "grayscale(1)",
+      }}>
+        {unlocked ? icon : "🔒"}
+      </div>
+
+      <div style={{ flex: 1 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+          <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: unlocked ? color : "var(--text3)" }}>Phase {n}</span>
+          {done && <span style={{ fontSize: 10, fontWeight: 600, color: "#4ecdc4" }}>✓ Done</span>}
+        </div>
+        <h3 style={{ fontSize: 19, fontWeight: 700, color: "var(--text)", letterSpacing: "-0.3px", marginBottom: 4 }}>{title}</h3>
+        <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.5 }}>
+          {unlocked ? sub : `🔒 ${lockedHint}`}
+        </p>
+      </div>
+
+      {unlocked && (
+        <div style={{ flexShrink: 0, padding: "12px 22px", borderRadius: 12, background: color, color: "#0a0a0a",
+          fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 700, whiteSpace: "nowrap" }}>
+          {cta}
+        </div>
+      )}
+    </motion.div>
   );
 }

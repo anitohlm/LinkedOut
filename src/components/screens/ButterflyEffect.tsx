@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { generateButterflyEffect } from "@/lib/agents/useAgents";
@@ -20,6 +20,11 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
   const [timelines, setTimelines] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Mark this phase as reached — unlocks the Council
+  useEffect(() => {
+    if (!state.usedButterfly) updateState({ usedButterfly: true });
+  }, []);
 
   const generate = async () => {
     if (!decision.trim() || loading || !state.resumeAnalysis) return;
