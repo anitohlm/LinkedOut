@@ -77,7 +77,8 @@ Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
       response = await callAI(
         systemPrompt + depthNote + stabilityBehaviorNote(stability, "future") + memoryNote + relationshipNote + answerNote + shiftNote,
         userMessage,
-        conversationHistory
+        conversationHistory,
+        500 // concise — texting a mentor, not a speech
       );
     } catch (e: any) {
       // Content filter or transient model error — retry once with a stripped-down, safe prompt
@@ -92,7 +93,8 @@ Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
             resumeAnalysis.skills, universe.lore, universe.terminology, futureSelf.universeId
           ) + memoryNote + relationshipNote,
           userMessage,
-          conversationHistory
+          conversationHistory,
+          500
         );
       } catch {
         // Final graceful fallback — stay in character, never break the conversation
