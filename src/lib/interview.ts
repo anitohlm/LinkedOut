@@ -1,7 +1,7 @@
 /**
  * Future Self Interview System
- * Future Selves occasionally ask cinematic multiple-choice questions.
- * Answers build a profile, grow the relationship, and shift timeline stability.
+ * Each of the six Future Selves interrogates a DIFFERENT dimension of the user.
+ * No shared/universal questions — six futures, six lenses on the same person.
  */
 
 import { UniverseType } from "@/types";
@@ -16,7 +16,7 @@ export interface InterviewOption {
 
 export interface InterviewQuestion {
   id: string;
-  dimension: string;          // fear / dream / value / riskStyle / leadership ...
+  dimension: string;
   prompt: string;
   options: InterviewOption[];
 }
@@ -41,158 +41,190 @@ export function getStage(score: number) {
   return { ...stage, index: idx, next, progress };
 }
 
-// ── Universal questions (asked in every universe) ────────────────────
-const UNIVERSAL: InterviewQuestion[] = [
-  {
-    id: "u-fear", dimension: "fear",
-    prompt: "When you imagine your future, what scares you most?",
-    options: [
-      { id: "a", label: "Failure", value: "failure", rel: 1, stab: 3 },
-      { id: "b", label: "Wasting my potential", value: "wasting_potential", rel: 2, stab: 5 },
-      { id: "c", label: "Being stuck", value: "stuck", rel: 1, stab: 0 },
-      { id: "d", label: "I don't know", value: "unsure", rel: 1, stab: -5 },
-    ],
-  },
-  {
-    id: "u-dream", dimension: "dream",
-    prompt: "If nothing could stop you — no money, no fear — what would you build?",
-    options: [
-      { id: "a", label: "Something the world remembers", value: "legacy", rel: 2, stab: 5 },
-      { id: "b", label: "A life that's entirely my own", value: "creative_freedom", rel: 2, stab: 3 },
-      { id: "c", label: "A safe place for the people I love", value: "security", rel: 1, stab: 3 },
-      { id: "d", label: "Honestly? I'd just want peace", value: "peace", rel: 1, stab: 0 },
-    ],
-  },
-  {
-    id: "u-value", dimension: "value",
-    prompt: "When a choice is hard and no one's watching — what do you trust?",
-    options: [
-      { id: "a", label: "My independence", value: "independence", rel: 2, stab: 3 },
-      { id: "b", label: "What's right, even when it costs me", value: "integrity", rel: 2, stab: 5 },
-      { id: "c", label: "The people I answer to", value: "loyalty", rel: 1, stab: 3 },
-      { id: "d", label: "Whatever gets me ahead", value: "ambition", rel: 1, stab: -5 },
-    ],
-  },
-  {
-    id: "u-risk", dimension: "riskStyle",
-    prompt: "There's a leap in front of you. No guarantees. What do you do?",
-    options: [
-      { id: "a", label: "Jump. Figure it out mid-air", value: "leap", rel: 2, stab: -5 },
-      { id: "b", label: "Study it. Then jump", value: "calculated", rel: 2, stab: 5 },
-      { id: "c", label: "Overthink it until the moment passes", value: "overthink", rel: 1, stab: -3 },
-      { id: "d", label: "Wait for someone to go first", value: "follow", rel: 1, stab: 0 },
-    ],
-  },
-];
-
-// ── Universe-specific questions ──────────────────────────────────────
+/**
+ * Per-universe question banks. Each set explores that universe's unique
+ * focus areas and deliberately avoids the others' themes.
+ */
 const BY_UNIVERSE: Record<UniverseType, InterviewQuestion[]> = {
+  // Galactic — creation, innovation, leadership, responsibility, legacy
   galactic: [
-    { id: "g-lead", dimension: "leadership", prompt: "I command fleets now. But tell me — do you want to lead, or to be free of it?",
+    { id: "g-build", dimension: "creation", prompt: "Forget achieving for a second. What do you actually want to build?",
       options: [
-        { id: "a", label: "I want the weight. Give me the helm", value: "born_leader", rel: 2, stab: 5 },
-        { id: "b", label: "I lead only when no one else will", value: "reluctant_leader", rel: 2, stab: 3 },
-        { id: "c", label: "I'd rather build than command", value: "builder", rel: 1, stab: 0 },
+        { id: "a", label: "Something people rely on after I'm gone", value: "lasting_systems", rel: 2, stab: 5 },
+        { id: "b", label: "A team that outgrows me", value: "builder_of_people", rel: 2, stab: 3 },
+        { id: "c", label: "Honestly? I just want it to work", value: "pragmatist", rel: 1, stab: 0 },
       ] },
-    { id: "g-legacy", dimension: "legacy", prompt: "When the stars forget my name, what should remain?",
+    { id: "g-resp", dimension: "responsibility", prompt: "When something you made fails — whose fault do you make it?",
       options: [
-        { id: "a", label: "The systems I protected", value: "protector", rel: 2, stab: 5 },
-        { id: "b", label: "The people I lifted up", value: "mentor", rel: 2, stab: 3 },
-        { id: "c", label: "Nothing. I did it for the doing", value: "selfless", rel: 1, stab: -3 },
+        { id: "a", label: "Mine. I built it, I own it", value: "owns_it", rel: 2, stab: 5 },
+        { id: "b", label: "The circumstances, usually", value: "deflects", rel: 1, stab: -5 },
+        { id: "c", label: "I dissect it before I blame anyone", value: "analyst", rel: 2, stab: 3 },
+      ] },
+    { id: "g-lead", dimension: "leadership", prompt: "If you led — would people follow you, or just obey you?",
+      options: [
+        { id: "a", label: "Follow. I'd earn it", value: "earns_loyalty", rel: 2, stab: 5 },
+        { id: "b", label: "I'd rather build than command", value: "maker_not_leader", rel: 1, stab: 0 },
+        { id: "c", label: "I don't know if I want either", value: "uncertain_command", rel: 1, stab: -3 },
+      ] },
+    { id: "g-legacy", dimension: "legacy", prompt: "What do you want still standing long after you've stopped?",
+      options: [
+        { id: "a", label: "Something that mattered to people", value: "human_legacy", rel: 2, stab: 5 },
+        { id: "b", label: "Proof that I was here", value: "monument", rel: 1, stab: 3 },
+        { id: "c", label: "I've never let myself think that far", value: "unconsidered", rel: 1, stab: -3 },
       ] },
   ],
+
+  // Pirate — freedom, risk, adventure, independence, courage
   pirate: [
-    { id: "p-free", dimension: "freedom", prompt: "Out here, freedom costs everything. Would you still pay?",
+    { id: "p-cage", dimension: "freedom", prompt: "What cage have you decorated so nicely you forgot it's a cage?",
       options: [
-        { id: "a", label: "Every coin. Every time", value: "freedom_absolute", rel: 2, stab: -5 },
-        { id: "b", label: "Freedom with a crew to share it", value: "freedom_shared", rel: 2, stab: 3 },
-        { id: "c", label: "I'd trade some of it for safe harbor", value: "freedom_traded", rel: 1, stab: 5 },
+        { id: "a", label: "My routine. It's comfortable and it's killing me", value: "gilded_routine", rel: 2, stab: -5 },
+        { id: "b", label: "Other people's expectations", value: "expectation_cage", rel: 2, stab: 3 },
+        { id: "c", label: "Nothing — I'm freer than I look", value: "already_free", rel: 1, stab: 5 },
       ] },
-    { id: "p-risk", dimension: "adventure", prompt: "The map ends and the sea keeps going. Do we sail on?",
+    { id: "p-bet", dimension: "risk", prompt: "What's the bet you keep refusing to place?",
       options: [
-        { id: "a", label: "Always. The edge is where it's real", value: "thrill_seeker", rel: 2, stab: -5 },
-        { id: "b", label: "If the crew's ready, we go", value: "measured_bold", rel: 2, stab: 3 },
-        { id: "c", label: "We chart it first. No blind waters", value: "cautious", rel: 1, stab: 5 },
+        { id: "a", label: "Betting everything on myself", value: "all_in_self", rel: 2, stab: -5 },
+        { id: "b", label: "Walking away from something safe", value: "leave_safety", rel: 2, stab: -3 },
+        { id: "c", label: "I place my bets — carefully", value: "calculated_risk", rel: 1, stab: 5 },
+      ] },
+    { id: "p-scare", dimension: "courage", prompt: "When did you last do something that scared you on purpose?",
+      options: [
+        { id: "a", label: "Recently. I chase that feeling", value: "thrill_chaser", rel: 2, stab: -3 },
+        { id: "b", label: "Too long ago. I noticed", value: "gone_soft", rel: 2, stab: 3 },
+        { id: "c", label: "I avoid the things that scare me", value: "fear_avoidant", rel: 1, stab: 0 },
+      ] },
+    { id: "p-permission", dimension: "independence", prompt: "Whose permission are you still, quietly, waiting on?",
+      options: [
+        { id: "a", label: "Nobody's. I move when I decide", value: "self_directed", rel: 2, stab: 5 },
+        { id: "b", label: "Someone whose approval I can't shake", value: "approval_bound", rel: 2, stab: -3 },
+        { id: "c", label: "My own, honestly", value: "self_doubt", rel: 1, stab: 0 },
       ] },
   ],
+
+  // Vampire — identity, connection, loneliness, belonging, memory, emotional truth
   vampire: [
-    { id: "v-id", dimension: "identity", prompt: "After centuries, I barely remember who I was. Do you know who you are?",
+    { id: "v-noone", dimension: "identity", prompt: "Who are you when no one needs anything from you?",
       options: [
-        { id: "a", label: "I'm still becoming them", value: "evolving", rel: 2, stab: 3 },
-        { id: "b", label: "I know exactly who I am", value: "certain", rel: 2, stab: 5 },
-        { id: "c", label: "I'm whoever the moment needs", value: "fluid", rel: 1, stab: -5 },
+        { id: "a", label: "Still myself. I know who that is", value: "self_known", rel: 2, stab: 5 },
+        { id: "b", label: "I'm honestly not sure anymore", value: "self_lost", rel: 2, stab: -5 },
+        { id: "c", label: "Quieter. Smaller. More real", value: "private_self", rel: 2, stab: 3 },
       ] },
-    { id: "v-lonely", dimension: "loneliness", prompt: "Immortality is a long way to walk alone. Does solitude frighten you?",
+    { id: "v-unsaid", dimension: "memory", prompt: "What did you never say to someone who isn't here to hear it now?",
       options: [
-        { id: "a", label: "Yes. I need people near me", value: "needs_others", rel: 2, stab: 3 },
-        { id: "b", label: "No. I've made peace with my own company", value: "self_sufficient", rel: 2, stab: 5 },
-        { id: "c", label: "I've never let anyone close enough to know", value: "guarded", rel: 1, stab: -5 },
+        { id: "a", label: "That I'm sorry", value: "unspoken_apology", rel: 2, stab: 3 },
+        { id: "b", label: "That I loved them", value: "unspoken_love", rel: 2, stab: 3 },
+        { id: "c", label: "I'd rather not open that", value: "guarded_grief", rel: 1, stab: -3 },
+      ] },
+    { id: "v-belong", dimension: "belonging", prompt: "Where — or with whom — do you actually feel like you belong?",
+      options: [
+        { id: "a", label: "A few people who really know me", value: "chosen_few", rel: 2, stab: 5 },
+        { id: "b", label: "Nowhere, fully. I drift", value: "rootless", rel: 2, stab: -5 },
+        { id: "c", label: "I'm still looking", value: "searching", rel: 1, stab: 0 },
+      ] },
+    { id: "v-mask", dimension: "truth", prompt: "What truth about yourself do you keep beautifully dressed up?",
+      options: [
+        { id: "a", label: "That I'm lonelier than I let on", value: "hidden_loneliness", rel: 2, stab: 3 },
+        { id: "b", label: "That I'm afraid of being truly seen", value: "fear_of_seen", rel: 2, stab: 3 },
+        { id: "c", label: "I don't hide. What you see is real", value: "unmasked", rel: 1, stab: 5 },
       ] },
   ],
+
+  // Dragon — wisdom, patience, meaning, growth, perspective, long-term thinking
   dragon: [
-    { id: "d-wisdom", dimension: "wisdom", prompt: "I've hoarded centuries of knowing. Tell me — does patience come easy to you?",
+    { id: "d-rush", dimension: "patience", prompt: "What are you rushing that deserves to be slow?",
       options: [
-        { id: "a", label: "I can wait as long as it takes", value: "patient", rel: 2, stab: 5 },
-        { id: "b", label: "I'm learning to. Slowly", value: "learning_patience", rel: 2, stab: 3 },
-        { id: "c", label: "No. I want it now", value: "impatient", rel: 1, stab: -5 },
+        { id: "a", label: "Everything. I can't sit still", value: "restless", rel: 2, stab: -5 },
+        { id: "b", label: "My own growth — I want it now", value: "impatient_growth", rel: 2, stab: -3 },
+        { id: "c", label: "I've learned to let things ripen", value: "patient", rel: 2, stab: 5 },
       ] },
-    { id: "d-sacrifice", dimension: "sacrifice", prompt: "Power always asks for something. What would you never give up?",
+    { id: "d-small", dimension: "perspective", prompt: "In ten years, what about today will look small?",
       options: [
-        { id: "a", label: "The people who made me", value: "roots", rel: 2, stab: 5 },
-        { id: "b", label: "My principles", value: "principles", rel: 2, stab: 3 },
-        { id: "c", label: "Honestly? I'd give up almost anything to win", value: "ruthless", rel: 1, stab: -10 },
+        { id: "a", label: "Almost everything I'm panicking over", value: "wide_view", rel: 2, stab: 5 },
+        { id: "b", label: "The opinions I'm bending myself around", value: "approval_fade", rel: 2, stab: 3 },
+        { id: "c", label: "I can't see past this week", value: "narrow_view", rel: 1, stab: -3 },
+      ] },
+    { id: "d-becoming", dimension: "growth", prompt: "Never mind what you've achieved. What are you still becoming?",
+      options: [
+        { id: "a", label: "Someone steadier than I was", value: "becoming_steady", rel: 2, stab: 5 },
+        { id: "b", label: "I'm not sure I'm growing at all", value: "stalled", rel: 2, stab: -3 },
+        { id: "c", label: "More myself, slowly", value: "becoming_self", rel: 2, stab: 3 },
+      ] },
+    { id: "d-meaning", dimension: "meaning", prompt: "What gives your effort meaning when no one is clapping?",
+      options: [
+        { id: "a", label: "Knowing it's the right thing to make", value: "intrinsic", rel: 2, stab: 5 },
+        { id: "b", label: "Honestly, the clapping matters to me", value: "external_meaning", rel: 1, stab: -3 },
+        { id: "c", label: "I'm still searching for that answer", value: "seeking_meaning", rel: 1, stab: 0 },
       ] },
   ],
+
+  // Medieval — honor, integrity, responsibility, service, sacrifice, character
   medieval: [
-    { id: "m-honor", dimension: "honor", prompt: "In the court, honor is currency. Would you keep yours when it's expensive?",
+    { id: "m-cost", dimension: "integrity", prompt: "What would you do right even if it cost you everything?",
       options: [
-        { id: "a", label: "Always. It's all I truly own", value: "honorable", rel: 2, stab: 5 },
-        { id: "b", label: "I'd bend, but never break it", value: "pragmatic_honor", rel: 2, stab: 3 },
-        { id: "c", label: "Honor doesn't feed anyone", value: "survivalist", rel: 1, stab: -5 },
+        { id: "a", label: "Tell the truth. Always", value: "truthful", rel: 2, stab: 5 },
+        { id: "b", label: "Protect the people who trust me", value: "protector", rel: 2, stab: 5 },
+        { id: "c", label: "I'd like to think I would — I'm not certain", value: "untested", rel: 1, stab: -3 },
       ] },
-    { id: "m-duty", dimension: "duty", prompt: "Duty and desire pull opposite ways. Which hand do you follow?",
+    { id: "m-rely", dimension: "service", prompt: "Who relies on you — and do they know they truly can?",
       options: [
-        { id: "a", label: "Duty. Always duty", value: "dutiful", rel: 2, stab: 5 },
-        { id: "b", label: "My desire — life is too short", value: "self_directed", rel: 2, stab: -5 },
-        { id: "c", label: "I try to serve both", value: "balanced", rel: 1, stab: 3 },
+        { id: "a", label: "Many, and yes — I show up", value: "dependable", rel: 2, stab: 5 },
+        { id: "b", label: "People do, and it's heavy", value: "burdened", rel: 2, stab: 3 },
+        { id: "c", label: "I keep people at arm's length", value: "distant", rel: 1, stab: -3 },
+      ] },
+    { id: "m-sacrifice", dimension: "sacrifice", prompt: "What have you given up quietly, without telling anyone?",
+      options: [
+        { id: "a", label: "A dream, so others could have theirs", value: "self_sacrifice", rel: 2, stab: 3 },
+        { id: "b", label: "My own peace, to keep the peace", value: "peacekeeper", rel: 2, stab: 3 },
+        { id: "c", label: "I haven't — and I feel guilty about that", value: "withheld", rel: 1, stab: 0 },
+      ] },
+    { id: "m-watching", dimension: "character", prompt: "When absolutely no one is watching — who are you?",
+      options: [
+        { id: "a", label: "The same person I am in the light", value: "consistent", rel: 2, stab: 5 },
+        { id: "b", label: "Softer. More tired than I admit", value: "weary", rel: 2, stab: 3 },
+        { id: "c", label: "Someone I'm not proud of, sometimes", value: "conflicted", rel: 2, stab: -3 },
       ] },
   ],
+
+  // Cyberpunk — ambition, achievement, innovation, ownership, control, future potential
   cyberpunk: [
-    { id: "c-amb", dimension: "ambition", prompt: "In the sprawl, you climb or you're crushed. How high do you want to go?",
+    { id: "c-want", dimension: "ambition", prompt: "What do you want that you're a little embarrassed to admit?",
       options: [
-        { id: "a", label: "To the top. No ceiling", value: "limitless", rel: 2, stab: -5 },
-        { id: "b", label: "High enough to be free", value: "freedom_driven", rel: 2, stab: 3 },
-        { id: "c", label: "Just high enough to be safe", value: "modest", rel: 1, stab: 5 },
+        { id: "a", label: "To be the best. Openly", value: "wants_the_top", rel: 2, stab: 3 },
+        { id: "b", label: "To never need anyone's approval again", value: "wants_autonomy", rel: 2, stab: 3 },
+        { id: "c", label: "More than I currently let myself chase", value: "suppressed_want", rel: 2, stab: -3 },
       ] },
-    { id: "c-rebel", dimension: "rebellion", prompt: "The system wants you obedient. Do you break it, or work it?",
+    { id: "c-owns", dimension: "ownership", prompt: "Who owns your time right now — and is it you?",
       options: [
-        { id: "a", label: "Burn it down", value: "rebel", rel: 2, stab: -10 },
-        { id: "b", label: "Hack it from the inside", value: "infiltrator", rel: 2, stab: 3 },
-        { id: "c", label: "Play by its rules to win", value: "conformist", rel: 1, stab: 5 },
+        { id: "a", label: "Me. I call the shots", value: "owns_time", rel: 2, stab: 5 },
+        { id: "b", label: "My job. Completely", value: "owned_by_work", rel: 2, stab: -5 },
+        { id: "c", label: "I'm renting it back from other people", value: "renting_time", rel: 1, stab: -3 },
+      ] },
+    { id: "c-no", dimension: "innovation", prompt: "What would you build if no one could tell you no?",
+      options: [
+        { id: "a", label: "Something nobody's tried yet", value: "frontier_builder", rel: 2, stab: 3 },
+        { id: "b", label: "My own thing, from scratch", value: "founder", rel: 2, stab: 3 },
+        { id: "c", label: "I'd freeze. I'm not used to no limits", value: "limit_dependent", rel: 1, stab: -3 },
+      ] },
+    { id: "c-fast", dimension: "potential", prompt: "Are you moving fast enough for the person you intend to become?",
+      options: [
+        { id: "a", label: "No. And it eats at me", value: "behind_pace", rel: 2, stab: -5 },
+        { id: "b", label: "Yes — I'm exactly on schedule", value: "on_pace", rel: 2, stab: 5 },
+        { id: "c", label: "I don't even know who that person is yet", value: "undefined_future", rel: 1, stab: 0 },
       ] },
   ],
 };
 
-/** Pick the next unasked question for a universe (mixes universal + universe-specific). */
+/** Pick the next unasked question for a universe (each universe has its own topic memory). */
 export function getNextQuestion(universeId: UniverseType, askedIds: string[]): InterviewQuestion | null {
-  const pool = [...UNIVERSAL, ...(BY_UNIVERSE[universeId] || [])].filter(q => !askedIds.includes(q.id));
+  const pool = (BY_UNIVERSE[universeId] || []).filter(q => !askedIds.includes(q.id));
   if (!pool.length) return null;
-  // Alternate: prefer a universe-specific question if available, else universal
-  const universeSpecific = pool.filter(q => (BY_UNIVERSE[universeId] || []).some(u => u.id === q.id));
-  const source = universeSpecific.length && askedIds.length % 2 === 1 ? universeSpecific : pool;
-  return source[Math.floor(Math.random() * source.length)];
+  return pool[Math.floor(Math.random() * pool.length)];
 }
 
 /** Human-readable recap of stored answers, for prompting the Future Self. */
 export function answersRecap(answers: Record<string, string>): string {
-  const map: Record<string, string> = {
-    fear: "fears", dream: "dreams of", value: "values", riskStyle: "approaches risk by",
-    leadership: "on leadership", legacy: "wants their legacy to be", freedom: "sees freedom as",
-    adventure: "on adventure", identity: "on their identity", loneliness: "on solitude",
-    wisdom: "on patience", sacrifice: "won't sacrifice", honor: "on honor", duty: "on duty",
-    ambition: "on ambition", rebellion: "on the system",
-  };
   return Object.entries(answers)
-    .map(([dim, val]) => `- ${map[dim] || dim}: ${val.replace(/_/g, " ")}`)
+    .map(([dim, val]) => `- ${dim}: ${val.replace(/_/g, " ")}`)
     .join("\n");
 }
