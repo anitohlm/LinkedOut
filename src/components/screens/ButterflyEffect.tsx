@@ -34,8 +34,9 @@ function whatIfSuggestions(state: AppState): string[] {
 }
 
 export default function ButterflyEffect({ state, transitionTo, updateState }: Props) {
-  const [decision, setDecision] = useState("");
-  const [timelines, setTimelines] = useState<any[]>([]);
+  const cached = state.butterflyCache;
+  const [decision, setDecision] = useState(cached?.decision ?? "");
+  const [timelines, setTimelines] = useState<any[]>(cached?.timelines ?? []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -51,10 +52,14 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
     setTimelines([]);
     try {
       const res = await generateButterflyEffect(decision.trim(), state.resumeAnalysis);
-      setTimelines(res.timelines || []);
+      const newTimelines = res.timelines || [];
+      setTimelines(newTimelines);
       // Rewriting a decision always destabilizes the timeline
       const delta = res.stabilityDelta || -10;
-      updateState({ timelineState: applyDelta(state.timelineState.stability, delta) });
+      updateState({
+        timelineState: applyDelta(state.timelineState.stability, delta),
+        butterflyCache: { decision: decision.trim(), timelines: newTimelines },
+      });
     } catch (e: any) {
       setError(e.message || "The timelines refused to fracture. Try again.");
     } finally {

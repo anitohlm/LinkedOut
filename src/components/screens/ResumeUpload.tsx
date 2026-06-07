@@ -26,7 +26,26 @@ export default function ResumeUpload({ state, transitionTo, updateState }: Resum
   const handleAnalyze = () => {
     if (!resumeText.trim()) return;
     setIsAnalyzing(true);
-    updateState({ resumeText });
+    // New resume = new user — clear all previously generated AI content
+    updateState({
+      resumeText,
+      resumeAnalysis: null,
+      allProfiles: {},
+      allFutureSelves: {},
+      legendarySelves: {},
+      villainSelves: {},
+      butterflyCache: undefined,
+      cachedInvitations: {},
+      invitationDecisions: {},
+      transmissions: {},
+      interviews: {},
+      councilMessages: [],
+      councilSpecials: [],
+      councilConcluded: false,
+      usedButterfly: false,
+      butterFlyDecisions: [],
+      historianLog: [],
+    });
 
     let i = 0;
     const iv = setInterval(() => {

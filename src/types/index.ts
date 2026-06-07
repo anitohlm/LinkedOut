@@ -206,4 +206,5 @@ export interface AppState {
   shadowCuriosity?: number;   // hidden — how interested the Shadow is in this user
   lastInterceptTurn?: number; // hidden — cooldown bookkeeping for interceptions
   historianLog?: { text: string; ts: number }[]; // the Historian's recorded observations
+  butterflyCache?: { decision: string; timelines: any[] }; // last butterfly result, restored on revisit
 }

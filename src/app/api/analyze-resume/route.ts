@@ -1,14 +1,13 @@
-// Agent 1: Resume Analyst
+// Agent 1: Resume Analyst — powered by Foundry agent
 import { NextRequest, NextResponse } from "next/server";
 import { callAI, extractJSON } from "@/lib/agents/foundry";
-import { RESUME_ANALYST_PROMPT } from "@/lib/agents/prompts";
 
 export async function POST(req: NextRequest) {
   try {
     const { resumeText } = await req.json();
     if (!resumeText) return NextResponse.json({ error: "Resume text is required" }, { status: 400 });
 
-    const response = await callAI(RESUME_ANALYST_PROMPT, `Extract the identity hidden within this resume. Return JSON only.
+    const response = await callAI("You are an expert resume analyst. Extract structured data from resumes and return valid JSON only.", `Extract the identity hidden within this resume. Return JSON only.
 
 RESUME:
 ${resumeText}

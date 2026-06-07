@@ -14,20 +14,24 @@ interface Props {
 const ROSE = "#f07070";
 const clean = (t: string) => (t || "").replace(/\\n/g, "\n").trim();
 
-export default function VillainSelf({ state, transitionTo }: Props) {
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+export default function VillainSelf({ state, transitionTo, updateState }: Props) {
+  const universeId = state.selectedUniverse!;
+  const cached = state.villainSelves?.[universeId];
+  const [data, setData] = useState<any>(cached ?? null);
+  const [loading, setLoading] = useState(!cached);
   const [error, setError] = useState<string | null>(null);
   const hasInit = useRef(false);
 
   useEffect(() => {
     if (!state.resumeAnalysis) { transitionTo("universe-discovery"); return; }
+    if (cached) return;
     if (hasInit.current) return;
     hasInit.current = true;
     (async () => {
       try {
         const res = await generateVillainSelf(state.resumeAnalysis!);
         setData(res);
+        updateState({ villainSelves: { ...state.villainSelves, [universeId]: res } });
       } catch (e: any) { setError(e.message || "Failed to reach the shadow timeline."); }
       finally { setLoading(false); }
     })();

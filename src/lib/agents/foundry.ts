@@ -1,7 +1,23 @@
 /**
- * Azure AI Foundry — Chat Completions via inference endpoint
- * Same pattern as GratitudeChain agents
+ * Azure AI Foundry — Chat Completions + Named Agents
+ *
+ * Foundry agents are called via the OpenAI Responses API with an
+ * agent_reference (name + version), NOT via threads/runs/assistant_id.
+ *
+ * Correct pattern (from Foundry "Call agent" tab):
+ *   openai_client = project_client.get_openai_client()
+ *   openai_client.responses.create(
+ *     input=[...],
+ *     extra_body={ "agent_reference": { "name": "the-historian", "version": "4", "type": "agent_reference" } }
+ *   )
+ *
+ * The client endpoint is the PROJECT endpoint (includes /api/projects/{name}).
  */
+import { AzureOpenAI } from "openai";
+
+function getProjectEndpoint() {
+  return process.env.AZURE_FOUNDRY_ENDPOINT!;
+}
 
 function getInferenceEndpoint() {
   const base = process.env.AZURE_FOUNDRY_ENDPOINT!;
@@ -9,8 +25,34 @@ function getInferenceEndpoint() {
   return `${resource}/models`;
 }
 
+function getOpenAIClient() {
+  return new AzureOpenAI({
+    endpoint: getProjectEndpoint(),
+    apiKey: process.env.AZURE_FOUNDRY_API_KEY!,
+    apiVersion: "2025-04-01-preview",
+  });
+}
+
 const MODEL = () => process.env.AZURE_OPENAI_DEPLOYMENT_NAME!;
 const KEY = () => process.env.AZURE_FOUNDRY_API_KEY!;
+
+/**
+ * Call a named Azure AI Foundry Agent via the Responses API.
+ * agentName: the agent's name in Foundry (e.g. "the-historian")
+ * agentVersion: the published version number as a string (e.g. "4")
+ */
+export async function callAgent(agentName: string, userMessage: string, agentVersion = "4"): Promise<string> {
+  const client = getOpenAIClient();
+
+  const response = await (client.responses as any).create({
+    input: [{ role: "user", content: userMessage }],
+    agent_reference: { name: agentName, version: agentVersion, type: "agent_reference" },
+  });
+
+  const text: string = response.output_text ?? response.output?.[0]?.content?.[0]?.text ?? "";
+  if (!text) throw new Error("Agent returned no text content");
+  return text;
+}
 
 export async function callAI(
   systemPrompt: string,
@@ -69,6 +111,9 @@ export function extractJSON<T>(text: string): T {
   let raw = full ? full[0] : open >= 0 ? text.slice(open) : "";
   if (!raw) throw new Error(`No JSON in response: ${text.slice(0, 200)}`);
 
+  // Escaped single quotes are not valid JSON — strip them upfront
+  raw = raw.replace(/\\'/g, "'");
+
   try {
     return JSON.parse(raw) as T;
   } catch {
@@ -88,6 +133,11 @@ export function extractJSON<T>(text: string): T {
     try {
       return JSON.parse(fixed) as T;
     } catch {
+      // Model sometimes wraps values with \" as delimiters — try unescaping them
+      try {
+        return JSON.parse(fixed.replace(/\\"/g, '"')) as T;
+      } catch {}
+
       // Last resort: the JSON was truncated mid-value. Close any open string,
       // strip the dangling tail, and balance braces/brackets.
       let repaired = fixed;

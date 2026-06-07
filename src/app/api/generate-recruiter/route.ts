@@ -1,15 +1,14 @@
-// Agent 4: Multiverse Recruiter
+// Agent 4: Multiverse Recruiter — powered by Foundry agent
 import { NextRequest, NextResponse } from "next/server";
 import { AlternateProfile, MultiverseInvitation, UniverseType } from "@/types";
 import { callAI, extractJSON } from "@/lib/agents/foundry";
-import { buildRecruiterPrompt } from "@/lib/agents/prompts";
 
 export async function POST(req: NextRequest) {
   try {
     const { profile, universeId } = await req.json() as { profile: AlternateProfile; universeId: UniverseType };
     if (!profile || !universeId) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
-    const response = await callAI(buildRecruiterPrompt(universeId), `Generate a recruitment invitation for this character.
+    const response = await callAI("You are a multiverse recruiter who crafts compelling, universe-specific job invitations. Return valid JSON only.", `Generate a recruitment invitation for this character.
 
 CHARACTER: ${profile.alternativeName}
 TITLE: ${profile.profession}
@@ -36,7 +35,7 @@ Return this exact JSON:
   }
 }
 
-Output COMPLETE valid JSON only.`, [], 2500);
+Output COMPLETE valid JSON only.`);
 
     const d = extractJSON<Record<string, unknown>>(response);
     const invitation: MultiverseInvitation & Record<string, unknown> = {

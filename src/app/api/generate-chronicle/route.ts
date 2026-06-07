@@ -1,8 +1,7 @@
-// Agent 9: Chronicle Generator
+// Agent 9: Chronicle Generator — powered by the-historian Foundry agent
 import { NextRequest, NextResponse } from "next/server";
 import { ResumeAnalysis, UniverseType } from "@/types";
 import { callAI, extractJSON } from "@/lib/agents/foundry";
-import { CHRONICLE_PROMPT } from "@/lib/agents/prompts";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,14 +13,14 @@ export async function POST(req: NextRequest) {
     const logSummary = historianLog.slice(0, 20).map((e: any) => `[${e.type}]: ${e.summary}`).join("\n");
     const characters = Object.entries(allCharacterNames).map(([u, n]) => `${u}: ${n}`).join(", ");
 
-    const response = await callAI(CHRONICLE_PROMPT, `Generate the personalized novella.
+    const response = await callAI("You are the Multiversal Historian, a literary narrator who writes personalized novellas about people's alternate universe journeys. Return valid JSON only.", `Generate the personalized novella.
 
 IDENTITY: ${resumeAnalysis.timelineSignature}
 ALTERNATE SELVES: ${characters}
 FINAL CHOICE: ${finalChoice}
 JOURNEY: ${logSummary || "A journey through the multiverse."}
 
-Return JSON: { "title", "prologue", "chapters": [{ "number", "title", "content" }], "epilogue" }. Keep each chapter to 2-3 short paragraphs so the whole novella fits. Output COMPLETE valid JSON only.`, [], 4000);
+Return JSON: { "title", "prologue", "chapters": [{ "number", "title", "content" }], "epilogue" }. Keep each chapter to 2-3 short paragraphs so the whole novella fits. Output COMPLETE valid JSON only.`);
 
     return NextResponse.json(extractJSON(response));
   } catch (error: any) {

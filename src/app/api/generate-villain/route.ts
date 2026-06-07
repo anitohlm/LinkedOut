@@ -1,15 +1,14 @@
-// Agent 6: Villain Self
+// Agent 6: Villain Self — powered by Foundry agent
 import { NextRequest, NextResponse } from "next/server";
 import { ResumeAnalysis } from "@/types";
 import { callAI, extractJSON } from "@/lib/agents/foundry";
-import { VILLAIN_SELF_PROMPT } from "@/lib/agents/prompts";
 
 export async function POST(req: NextRequest) {
   try {
     const { resumeAnalysis } = await req.json() as { resumeAnalysis: ResumeAnalysis };
     if (!resumeAnalysis) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
-    const response = await callAI(VILLAIN_SELF_PROMPT, `Generate the Villain Self.
+    const response = await callAI("You are a dark mirror narrator who reveals the shadow-self hidden in every career. Return valid JSON only.", `Generate the Villain Self.
 
 TIMELINE SIGNATURE: ${resumeAnalysis.timelineSignature}
 SKILLS: ${resumeAnalysis.skills.join(", ")}
@@ -33,7 +32,7 @@ Return this exact JSON. notoriety, wealth, and threatLevel MUST be plain integer
   "portrait": "image generation prompt"
 }
 
-notoriety/wealth/threatLevel are integers 0-100 (digits). Output COMPLETE valid JSON.`, [], 3000);
+notoriety/wealth/threatLevel are integers 0-100 (digits). Output COMPLETE valid JSON.`);
 
     return NextResponse.json(extractJSON(response));
   } catch (error: any) {

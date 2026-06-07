@@ -1,4 +1,4 @@
-// Agent 3: Future Me — setup
+// Agent 3: Future Me — powered by Foundry agent
 import { NextRequest, NextResponse } from "next/server";
 import { FutureSelf, ResumeAnalysis, UniverseType } from "@/types";
 import { callAI, extractJSON } from "@/lib/agents/foundry";
@@ -12,9 +12,8 @@ export async function POST(req: NextRequest) {
     if (!resumeAnalysis || !universeId || !alternativeName) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
     const universe = getUniverse(universeId);
-    const systemPrompt = `You are the Future Timeline Messenger for LinkedOut. Create a Future Self character who has lived an entire life in the ${universe.title} universe and speaks to their past self. They are NOT a coach — they ARE the user, older and wiser. Universe lore: ${universe.lore}`;
 
-    const response = await callAI(systemPrompt, `Create the Future Self for this person.
+    const response = await callAI("You are a visionary future-self narrator. Create vivid, emotionally resonant future-self profiles and return valid JSON only.", `Create the Future Self for this person in the ${universe.title} universe (lore: ${universe.lore}).
 
 CHARACTER: ${alternativeName}${alternativeTitle ? ` — ${alternativeTitle}` : ""}
 TIMELINE SIGNATURE: ${resumeAnalysis.timelineSignature}
@@ -35,7 +34,7 @@ Return this exact JSON:
   "lessons": ["5 lessons earned through experience"]
 }
 
-Output COMPLETE, valid JSON only — do not get cut off.`, [], 3000);
+Output COMPLETE, valid JSON only — do not get cut off.`);
 
     const d = extractJSON<Record<string, unknown>>(response);
     const futureSelf: FutureSelf = {

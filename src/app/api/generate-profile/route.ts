@@ -1,8 +1,7 @@
-// Agent 2: Multiverse Character Builder
+// Agent 2: Multiverse Character Builder — powered by Foundry agent
 import { NextRequest, NextResponse } from "next/server";
 import { AlternateProfile, ResumeAnalysis, UniverseType } from "@/types";
 import { callAI, extractJSON } from "@/lib/agents/foundry";
-import { buildCharacterPrompt } from "@/lib/agents/prompts";
 import { getUniverse } from "@/lib/universes";
 
 export async function POST(req: NextRequest) {
@@ -13,7 +12,7 @@ export async function POST(req: NextRequest) {
     const universe = getUniverse(universeId);
     const firstName = resumeAnalysis.firstName || (resumeAnalysis.name || "").split(" ")[0] || "";
 
-    const response = await callAI(buildCharacterPrompt(universeId), `Create an alternate universe career profile for this person in the ${universe.title} setting.
+    const response = await callAI("You are a creative multiverse character builder. Create vivid alternate-universe career profiles and return valid JSON only.", `Create an alternate universe career profile for this person in the ${universe.title} setting.
 
 REAL FIRST NAME (MUST be kept exactly): ${firstName}
 CORE IDENTITY: ${resumeAnalysis.timelineSignature}
@@ -38,7 +37,7 @@ Return this exact JSON:
   "radarScores": { "innovation": 0, "leadership": 0, "collaboration": 0, "adaptability": 0, "ambition": 0, "wisdom": 0 }
 }
 
-IMPORTANT: every radarScores value MUST be an integer written with digits (e.g. 87), between 0 and 100. Never spell numbers as words. Keep biography and timelineStory concise (2-3 short paragraphs each). Output COMPLETE, valid JSON — do not get cut off.`, [], 3500);
+IMPORTANT: every radarScores value MUST be an integer written with digits (e.g. 87), between 0 and 100. Never spell numbers as words. Keep biography and timelineStory concise (2-3 short paragraphs each). Output COMPLETE, valid JSON — do not get cut off.`);
 
     const d = extractJSON<Record<string, unknown>>(response);
 
