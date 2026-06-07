@@ -94,6 +94,8 @@ export const generateChronicle = (payload: {
   historianLog: HistorianEntry[];
   finalChoice: UniverseType;
   allCharacterNames: Partial<Record<UniverseType, string>>;
+  editionNumber: number;
+  previousEditions?: Array<{ editionNumber: number; title: string; epilogue: string }>;
 }) => post<Record<string, unknown>>("/api/generate-chronicle", payload);
 
 // Agent 10

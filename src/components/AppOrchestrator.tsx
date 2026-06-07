@@ -49,6 +49,7 @@ const initialState: AppState = {
   shadowCuriosity: 0,
   lastInterceptTurn: -99,
   historianLog: [],
+  chronicleEditions: [],
 };
 
 const SAVE_KEY = "linkedout_save_v1";

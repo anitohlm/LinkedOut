@@ -143,6 +143,27 @@ export interface MultiverseInvitation {
   };
 }
 
+// Chronicle Edition
+export interface MemorySnapshot {
+  transmissionMessages: number;
+  councilMessages: number;
+  universesExplored: number;
+  historianEvents: number;
+  stability: number;
+}
+
+export interface ChronicleEdition {
+  id: string;
+  editionNumber: number;
+  generatedAt: number;
+  title: string;
+  prologue: string;
+  chapters: { number: number; title: string; content: string }[];
+  epilogue: string;
+  universeId: string;
+  memorySnapshot: MemorySnapshot;
+}
+
 // Share Card
 export interface ShareCard {
   universeId: UniverseType;
@@ -207,4 +228,5 @@ export interface AppState {
   lastInterceptTurn?: number; // hidden — cooldown bookkeeping for interceptions
   historianLog?: { text: string; ts: number }[]; // the Historian's recorded observations
   butterflyCache?: { decision: string; timelines: any[] }; // last butterfly result, restored on revisit
+  chronicleEditions?: ChronicleEdition[]; // all recorded editions, oldest first
 }
