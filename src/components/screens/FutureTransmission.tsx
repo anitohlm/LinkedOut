@@ -7,7 +7,7 @@ import { getUniverse } from "@/lib/universes";
 import { generateFutureSelf, sendFutureTransmission } from "@/lib/agents/useAgents";
 import UniverseBackground from "@/components/UniverseBackground";
 import ShadowIntercept from "@/components/ShadowIntercept";
-import { applyDelta, corruptionLevel } from "@/lib/stability";
+import { applyDelta, corruptionLevel, interceptionRisk, curiosityGain } from "@/lib/stability";
 import {
   getNextQuestion, getStage, answersRecap, type InterviewQuestion, type InterviewOption,
 } from "@/lib/interview";
@@ -149,13 +149,11 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
         relationshipStage: stage.name,
       });
 
-      if (res.isVillainIntercept) {
-        // The Shadow Self hijacks the channel — full-screen cinematic takeover
-        triggerIntercept();
-      } else {
-        setMessages(prev => [...prev, { role: "assistant", content: res.message }]);
-        maybeAskQuestion(1100);
-      }
+      setMessages(prev => [...prev, { role: "assistant", content: res.message }]);
+      // The Shadow is drawn to people who push back and reveal themselves.
+      const challenged = /\b(but|no|why|disagree|wrong|don'?t|never|actually)\b/i.test(userMsg);
+      const intercepted = considerIntercept({ challenged, surprising: userMsg.length > 90 });
+      if (!intercepted) maybeAskQuestion(1100);
     } catch (e: any) {
       setMessages(prev => [...prev, { role: "assistant", content: "...the signal broke. Say that again." }]);
     } finally {
@@ -207,16 +205,43 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
         stabilityShift: opt.stab,
         answeredQuestion: q.prompt,
       });
-      if (res.isVillainIntercept) triggerIntercept();
-      else {
-        setMessages(prev => [...prev, { role: "assistant", content: res.message }]);
-        maybeAskQuestion(1600);
-      }
+      setMessages(prev => [...prev, { role: "assistant", content: res.message }]);
+      // Interview answers reveal the self — prime Shadow bait. Risky = divergent choice.
+      const intercepted = considerIntercept({ revealedSelf: true, risky: opt.stab < 0 });
+      if (!intercepted) maybeAskQuestion(1600);
     } catch {
       setMessages(prev => [...prev, { role: "assistant", content: "...I felt that. Give me a moment." }]);
     } finally {
       setLoading(false);
     }
+  };
+
+  /**
+   * Feed the Shadow's curiosity, then roll the hidden interception risk.
+   * Returns true if the Shadow breaks in. Has a cooldown so it never fires twice in a row.
+   */
+  const considerIntercept = (signals: { revealedSelf?: boolean; risky?: boolean; challenged?: boolean; surprising?: boolean }) => {
+    if (intercept) return false;
+    const gain = curiosityGain(signals);
+    const curiosity = (state.shadowCuriosity || 0) + gain;
+    updateState({ shadowCuriosity: curiosity });
+
+    const turn = messages.length;
+    const sinceLast = turn - (state.lastInterceptTurn ?? -99);
+    if (sinceLast < 5) return false; // cooldown — don't crowd the player
+
+    const risk = interceptionRisk({
+      stability: state.timelineState.stability,
+      curiosity,
+      risky: signals.risky,
+      vulnerable: signals.revealedSelf,
+    });
+    if (Math.random() < risk) {
+      updateState({ lastInterceptTurn: turn });
+      triggerIntercept();
+      return true;
+    }
+    return false;
   };
 
   const triggerIntercept = () => {

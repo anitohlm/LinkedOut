@@ -7,13 +7,13 @@ export async function POST(req: NextRequest) {
     const { futureMeAdvice, firstName } = await req.json();
     const name = firstName || "you";
 
-    // Scripted opening — the guaranteed cinematic core (always shown)
-    const intro = [
-      "Don't listen to her.",
-      "She keeps telling you patience matters.",
-      "I chose differently.",
-      "Look how far I got.",
+    // Scripted opening — the Shadow arrives mysteriously, as if it's been watching all along.
+    const INTROS = [
+      ["She's still telling that story?", "Interesting.", "I've been listening to all of it.", "Every word you gave her."],
+      ["You really believe that's what happened?", "No wonder her timeline ended the way it did.", "Mine didn't.", "I made sure of it."],
+      ["There you are.", "I wondered when you'd get interesting enough.", "She plays it so safe, doesn't she?", "I never had the patience."],
     ];
+    const intro = INTROS[Math.floor(Math.random() * INTROS.length)];
 
     let challenges: string[] = [];
     try {

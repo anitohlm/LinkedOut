@@ -4,7 +4,7 @@ import { FutureSelf, ResumeAnalysis } from "@/types";
 import { callAI } from "@/lib/agents/foundry";
 import { buildFutureMeSystemPrompt } from "@/lib/agents/prompts";
 import { getUniverse } from "@/lib/universes";
-import { stabilityBehaviorNote, interceptChance } from "@/lib/stability";
+import { stabilityBehaviorNote } from "@/lib/stability";
 
 export async function POST(req: NextRequest) {
   try {
@@ -100,12 +100,11 @@ Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
       }
     }
 
-    // Shadow Self may hijack the channel when the timeline grows unstable
-    const isVillainIntercept = Math.random() < interceptChance(stability);
+    // Interception is decided client-side via the hidden risk/curiosity model.
     return NextResponse.json({
       message: response,
-      isVillainIntercept,
-      stabilityDelta: isVillainIntercept ? -8 : 0,
+      isVillainIntercept: false,
+      stabilityDelta: 0,
     });
   } catch (error: any) {
     console.error("Agent 3 transmission error:", error);

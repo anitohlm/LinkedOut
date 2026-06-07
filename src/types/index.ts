@@ -203,4 +203,6 @@ export interface AppState {
   explored?: string[];        // universe ids the user has visited
   usedButterfly?: boolean;    // has run the Butterfly Effect
   universeActivity?: Record<string, string[]>; // per-universe completed activities
+  shadowCuriosity?: number;   // hidden — how interested the Shadow is in this user
+  lastInterceptTurn?: number; // hidden — cooldown bookkeeping for interceptions
 }

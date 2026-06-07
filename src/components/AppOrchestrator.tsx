@@ -46,6 +46,8 @@ const initialState: AppState = {
   explored: [],
   usedButterfly: false,
   universeActivity: {},
+  shadowCuriosity: 0,
+  lastInterceptTurn: -99,
 };
 
 const SAVE_KEY = "linkedout_save_v1";
