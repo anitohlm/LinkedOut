@@ -71,7 +71,9 @@ Terminology: ${JSON.stringify(u.terminology)}
 Your task: Create an inspiring alternate career profile for this person reimagined in the ${u.title} setting.
 
 Rules:
-- CRITICAL: You MUST keep the person's real FIRST NAME exactly as given. Only invent a NEW surname/epithet that fits the ${u.title} setting. Example: real name "Cassian Blackwood" in a pirate world → "Cassian Stormrider" (first name kept, new themed surname).
+- CRITICAL — NAMING: Keep the person's real FIRST NAME exactly. Invent a surname/epithet that is UNIQUE TO THIS PERSON — built from THEIR actual craft, skills, achievements, or personality, then reimagined in the ${u.title} setting. The name must feel earned by the specific life they lived.
+- Do NOT attach a generic, templated surname. NEVER default to overused fillers like "-weaver", "-binder", "-rider", "-tide", "Starweaver", "Tidebinder", "Nightweaver", "Neonweaver". Two different people in the SAME universe must end up with clearly DIFFERENT surnames.
+- The surname should echo what they DO. Examples for a CYBERSECURITY person → pirate "Elias Blackwake", galactic "Commander Elias Voidrun", cyberpunk "Cipher Elias Vex". For a DESIGNER → "Aria Sunsail" / "Aria Lightforge" / "Aria Neontrace". For a STORYTELLER → "Serena Stormquill" / "Serena Starscribe" / "Serena Voxbyte". Notice each surname is rooted in their real profession, not the universe alone.
 - Keep the person's core strengths and personality recognizable across the alternate setting.
 - Adapt their real career achievements into setting-appropriate equivalents creatively.
 - The biography should read like an inspiring memoir excerpt, not a job description.

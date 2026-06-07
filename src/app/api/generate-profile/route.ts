@@ -26,7 +26,7 @@ CAREER STORY: ${resumeAnalysis.summary}
 
 Return this exact JSON:
 {
-  "alternativeName": "MUST start with the real first name '${firstName}', followed by a NEW themed surname/epithet for this universe",
+  "alternativeName": "Starts with the real first name '${firstName}', then a UNIQUE surname/epithet derived from THIS person's actual skills/profession/personality (NOT a generic universe filler like Starweaver/Tidebinder/Neonweaver). It must echo what they do, so two different people get different surnames.",
   "profession": "their title/role",
   "biography": "2-3 paragraph memoir-style biography",
   "achievements": ["5-7 achievements echoing their real ones in universe terms"],
