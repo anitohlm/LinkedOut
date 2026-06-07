@@ -5,7 +5,7 @@ import { callAI, extractJSON } from "@/lib/agents/foundry";
 
 export async function POST(req: NextRequest) {
   try {
-    const { resumeAnalysis, historianLog, finalChoice, allCharacterNames, editionNumber, previousEditions } =
+    const { resumeAnalysis, historianLog, finalChoice, allCharacterNames, editionNumber, previousEditions, acceptedPositions, activeTitle, timelineStability } =
       await req.json() as {
         resumeAnalysis: ResumeAnalysis;
         historianLog: any[];
@@ -13,13 +13,29 @@ export async function POST(req: NextRequest) {
         allCharacterNames: Record<string, string>;
         editionNumber: number;
         previousEditions?: Array<{ editionNumber: number; title: string; epilogue: string }>;
+        acceptedPositions?: Array<{ universeId: string; title: string; faction: string; ts: number }>;
+        activeTitle?: string;
+        timelineStability?: number;
       };
 
     if (!resumeAnalysis || !finalChoice) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
     const editionLabel = `Edition ${toRoman(editionNumber)}`;
     const characters = Object.entries(allCharacterNames).map(([u, n]) => `${u}: ${n}`).join(", ");
-    const logSummary = (historianLog || []).slice(-30).map((e: any) => e.text || e.summary || "").filter((s: string) => s).join("\n");
+    const logSummary = (historianLog || []).slice(-40).map((e: any) => e.text || e.summary || "").filter((s: string) => s).join("\n");
+
+    const stabilityLabel = timelineStability == null ? null
+      : timelineStability >= 80 ? "Stable"
+      : timelineStability >= 55 ? "Drifting"
+      : timelineStability >= 30 ? "Fractured"
+      : "Near Collapse";
+    const stabilityContext = stabilityLabel
+      ? `TIMELINE STABILITY AT RECORDING: ${timelineStability}% — ${stabilityLabel}. Let the stability of the timeline color the tone of this edition — a stable timeline reads with clarity and confidence; a fractured one should carry tension, fragmentation, uncertainty.`
+      : "";
+
+    const positionsContext = acceptedPositions?.length
+      ? `POSITIONS ACCEPTED ACROSS TIMELINES:\n${acceptedPositions.map(p => `- "${p.title}" with ${p.faction} (${p.universeId} timeline)`).join("\n")}${activeTitle ? `\nCURRENT ACTIVE TITLE: "${activeTitle}"` : ""}\nThese accepted positions represent commitments made, alliances forged, and roles taken on. Reference them as part of the subject's unfolding story.`
+      : "";
 
     const previousContext = previousEditions?.length
       ? `PREVIOUS CHRONICLE EDITIONS:\n${previousEditions.map(e => `Edition ${toRoman(e.editionNumber)}: "${e.title}" — ${e.epilogue?.slice(0, 200)}...`).join("\n")}\n\nThis new edition should reference, contrast, or build upon what has changed since the previous edition.`
@@ -34,6 +50,8 @@ ALTERNATE SELVES ENCOUNTERED: ${characters}
 PRIMARY TIMELINE CHOSEN: ${finalChoice}
 RECENT MEMORIES & EVENTS:
 ${logSummary || "A journey through the multiverse continues."}
+${stabilityContext}
+${positionsContext}
 ${previousContext}
 
 Return JSON: { "title", "prologue", "chapters": [{ "number", "title", "content" }], "epilogue" }

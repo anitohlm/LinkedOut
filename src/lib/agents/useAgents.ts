@@ -96,6 +96,9 @@ export const generateChronicle = (payload: {
   allCharacterNames: Partial<Record<UniverseType, string>>;
   editionNumber: number;
   previousEditions?: Array<{ editionNumber: number; title: string; epilogue: string }>;
+  acceptedPositions?: Array<{ universeId: string; title: string; faction: string; ts: number }>;
+  activeTitle?: string;
+  timelineStability?: number;
 }) => post<Record<string, unknown>>("/api/generate-chronicle", payload);
 
 // Agent 10

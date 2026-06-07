@@ -63,7 +63,24 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
           background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
         </button>
-        <StabilityHUD stability={state.timelineState.stability} log={state.historianLog} />
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {state.activeTitle && (
+            <div style={{
+              display: "flex", alignItems: "center", gap: 6,
+              padding: "5px 12px", borderRadius: 100,
+              background: "rgba(232,201,126,0.08)", border: "1px solid rgba(232,201,126,0.25)",
+            }}>
+              <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
+                <polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 10,12 6,9 2,12 3.5,7.5 0,4.5 4.5,4.5" fill="#e8c97e" />
+              </svg>
+              <span style={{ fontSize: 11, color: "#e8c97e", fontFamily: "Sora, sans-serif", letterSpacing: "0.03em", maxWidth: 160,
+                overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {state.activeTitle}
+              </span>
+            </div>
+          )}
+          <StabilityHUD stability={state.timelineState.stability} log={state.historianLog} />
+        </div>
       </nav>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 40px" }}>

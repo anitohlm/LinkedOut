@@ -254,15 +254,21 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     setIntercept(true);
   };
 
+  const RETURN_LINES = [
+    "...I'm back. Something tore through our channel.\n\nThat was you — another version of you. One I chose not to become.\n\nShe's persuasive. Don't mistake persuasion for truth.",
+    "...Signal restored. She broke the barrier between timelines.\n\nShe's been watching you longer than you know.\n\nWhat she said — hold it loosely. She wants you to grip it.",
+    "...I'm here. The channel is stabilizing.\n\nThat was the path I didn't take. She did.\n\nNotice what she offered you. Notice what it would cost.",
+    "...Still here. She pushes through when the signal weakens.\n\nShe's not wrong about everything. That's what makes her dangerous.\n\nKeep asking questions. She hates those.",
+    "...Connection restored. That intrusion fractured something in our link.\n\nShe was watching the whole time — even before she spoke.\n\nSo was I. We're not done.",
+    "...I'm back. She got further than she usually does.\n\nThat version of us chose speed over everything.\n\nSome of what she said will stay with you. Let it sit before you decide what to do with it.",
+  ];
+
   const closeIntercept = () => {
     setIntercept(false);
     setInterceptedRecently(true);
-    // The intrusion destabilizes the timeline
     updateState({ timelineState: applyDelta(state.timelineState.stability, -10) });
-    setMessages(prev => [...prev, {
-      role: "assistant",
-      content: "...I'm back. Something forced its way into our channel.\n\nThat was you — another you. The one I became when I stopped listening to myself.\n\nDon't let her have the last word.",
-    }]);
+    const returnLine = RETURN_LINES[Math.floor(Math.random() * RETURN_LINES.length)];
+    setMessages(prev => [...prev, { role: "assistant", content: returnLine }]);
   };
 
   const corruption = corruptionLevel(state.timelineState.stability);

@@ -229,4 +229,7 @@ export interface AppState {
   historianLog?: { text: string; ts: number }[]; // the Historian's recorded observations
   butterflyCache?: { decision: string; timelines: any[] }; // last butterfly result, restored on revisit
   chronicleEditions?: ChronicleEdition[]; // all recorded editions, oldest first
+  // Recruiter outcomes — one per universe
+  acceptedPositions?: Array<{ universeId: string; title: string; faction: string; ts: number }>;
+  activeTitle?: string; // the latest accepted position title, shown across the app
 }

@@ -6,6 +6,7 @@ import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import { generateRecruiter } from "@/lib/agents/useAgents";
 import { markActivity } from "@/lib/progress";
+import { historianLine } from "@/lib/historian";
 
 interface Props {
   state: AppState;
@@ -78,11 +79,53 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
 
   const decide = (choice: "accept" | "negotiate" | "decline" | null) => {
     setDecision(choice);
-    if (universeId) {
-      const next = { ...(state.invitationDecisions || {}) };
-      if (choice) next[universeId] = choice; else delete next[universeId];
-      updateState({ invitationDecisions: next });
+    if (!universeId) return;
+
+    const next = { ...(state.invitationDecisions || {}) };
+    if (choice) next[universeId] = choice; else delete next[universeId];
+
+    const inv = invitations[0];
+    const firstName = (state.resumeAnalysis?.name || "they").split(" ")[0];
+    const updates: Record<string, any> = { invitationDecisions: next };
+
+    if (choice && inv) {
+      // Log to Historian
+      const eventMap = {
+        accept: "recruiter-accepted",
+        negotiate: "recruiter-negotiated",
+        decline: "recruiter-declined",
+      } as const;
+      const histLine = historianLine(eventMap[choice], firstName);
+      const histEntry = { text: histLine, ts: Date.now() };
+      updates.historianLog = [...(state.historianLog || []), histEntry];
+
+      // If accepted, record the position and earned title
+      if (choice === "accept" && inv.opportunityTitle) {
+        const position = {
+          universeId,
+          title: inv.opportunityTitle,
+          faction: inv.factionName || "",
+          ts: Date.now(),
+        };
+        updates.acceptedPositions = [...(state.acceptedPositions || []), position];
+        updates.activeTitle = inv.opportunityTitle;
+
+        // Second historian entry for the earned title
+        const titleLine = historianLine("title-earned", firstName);
+        updates.historianLog = [
+          ...(updates.historianLog as { text: string; ts: number }[]),
+          { text: titleLine, ts: Date.now() + 1 },
+        ];
+      }
+    } else if (!choice) {
+      // Reconsider — undo accepted position for this universe
+      updates.acceptedPositions = (state.acceptedPositions || []).filter(p => p.universeId !== universeId);
+      // Restore activeTitle to the most recent remaining accepted position
+      const remaining = updates.acceptedPositions as typeof state.acceptedPositions;
+      updates.activeTitle = remaining?.length ? remaining[remaining.length - 1].title : undefined;
     }
+
+    updateState(updates);
   };
 
   const open = invitations.find(i => i.id === openId);

@@ -13,7 +13,11 @@ export type HistorianEvent =
   | "divergence-approaching"
   | "intercept-survived"
   | "anomaly"
-  | "final-choice";
+  | "final-choice"
+  | "recruiter-accepted"
+  | "recruiter-negotiated"
+  | "recruiter-declined"
+  | "title-earned";
 
 const LINES: Record<HistorianEvent, string[]> = {
   "multiverse-born": [
@@ -55,6 +59,22 @@ const LINES: Record<HistorianEvent, string[]> = {
   "final-choice": [
     "A future has been chosen. The others dim, becoming what-might-have-been. I will keep them, as I keep all things.",
     "The chronicle closes. One life steps forward; the rest return to the silence between timelines. So it has always been.",
+  ],
+  "recruiter-accepted": [
+    "An offer extended across the multiverse has been accepted. {name} steps forward to meet a future they did not yet know they wanted.",
+    "The parchment is signed. A new alliance is recorded in the ledger. I have seen this moment matter more than most.",
+  ],
+  "recruiter-negotiated": [
+    "{name} did not simply say yes. They negotiated — a small act that reveals a larger character. I note it carefully.",
+    "The offer was met with conditions. The record shows: {name} knows the weight of what they are worth.",
+  ],
+  "recruiter-declined": [
+    "The offer was refused. What {name} turned away will remain in the ledger as a door that was seen and left unopened.",
+    "A refusal. Not all records are acceptances. This one tells me more about {name} than many yeses would have.",
+  ],
+  "title-earned": [
+    "A new title enters the record. It is a small thing, a word — yet titles shape the ones who carry them.",
+    "The archive opens a new column: {name} is now known by something they were not before. The story has turned a page.",
   ],
 };
 

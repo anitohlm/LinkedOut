@@ -46,6 +46,8 @@ export default function ResumeUpload({ state, transitionTo, updateState }: Resum
       butterFlyDecisions: [],
       historianLog: [],
       chronicleEditions: [],
+      acceptedPositions: [],
+      activeTitle: undefined,
     });
 
     let i = 0;

@@ -18,6 +18,8 @@ export default function ShadowIntercept({ firstName, futureMeAdvice, onClose }: 
   const [shown, setShown] = useState<string[]>([]);
   const [revealAfter, setRevealAfter] = useState(4);
   const [identity, setIdentity] = useState<{ name: string; timeline: string; classification: string } | null>(null);
+  const [interceptedLine, setInterceptedLine] = useState<string | null>(null);
+  const [showIntercepted, setShowIntercepted] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const [done, setDone] = useState(false);
   const hasInit = useRef(false);
@@ -32,6 +34,7 @@ export default function ShadowIntercept({ firstName, futureMeAdvice, onClose }: 
         setLines(data.lines);
         setRevealAfter(data.revealAfter ?? 4);
         setIdentity(data.identity);
+        setInterceptedLine((data as any).interceptedLine || null);
       } catch {
         setLines([
           "Don't listen to her.",
@@ -44,10 +47,11 @@ export default function ShadowIntercept({ firstName, futureMeAdvice, onClose }: 
     })();
   }, []);
 
-  // Alarm → transmission after a beat
+  // Alarm → show intercepted line → transmission
   useEffect(() => {
-    const t = setTimeout(() => setPhase("transmission"), 2600);
-    return () => clearTimeout(t);
+    const t1 = setTimeout(() => setShowIntercepted(true), 1400);
+    const t2 = setTimeout(() => setPhase("transmission"), 3200);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
   // Reveal lines one at a time
@@ -95,20 +99,47 @@ export default function ShadowIntercept({ firstName, futureMeAdvice, onClose }: 
           /* ── ALARM PHASE ── */
           <motion.div key="alarm"
             initial={{ opacity: 0, scale: 1.1 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
-            style={{ textAlign: "center", position: "relative", zIndex: 2, padding: "0 24px" }}>
+            style={{ textAlign: "center", position: "relative", zIndex: 2, padding: "0 32px", maxWidth: 580, width: "100%" }}>
             <motion.div
               animate={{ scale: [1, 1.08, 1] }} transition={{ duration: 0.8, repeat: Infinity }}
-              style={{ fontSize: 64, marginBottom: 24 }}>⚠</motion.div>
+              style={{ fontSize: 56, marginBottom: 20 }}>⚠</motion.div>
             <h1 className="glitch-text" style={{
-              fontSize: "clamp(28px, 5vw, 52px)", fontWeight: 800, letterSpacing: "0.05em",
-              color: "#fff", marginBottom: 16, textTransform: "uppercase",
+              fontSize: "clamp(24px, 5vw, 48px)", fontWeight: 800, letterSpacing: "0.05em",
+              color: "#fff", marginBottom: 12, textTransform: "uppercase",
             }}>
               Transmission Interrupted
             </h1>
-            <p style={{ fontSize: 15, color: RED, letterSpacing: "0.15em", textTransform: "uppercase",
-              animation: "glitch-flicker 1.5s infinite" }}>
+            <p style={{ fontSize: 13, color: RED, letterSpacing: "0.15em", textTransform: "uppercase",
+              animation: "glitch-flicker 1.5s infinite", marginBottom: 28 }}>
               Unknown Temporal Signature Detected
             </p>
+
+            {/* Intercepted line — replayed by the watcher */}
+            <AnimatePresence>
+              {showIntercepted && interceptedLine && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  style={{
+                    background: "rgba(240,112,112,0.06)", border: `1px solid ${RED}33`,
+                    borderLeft: `3px solid ${RED}88`,
+                    borderRadius: 8, padding: "14px 18px", textAlign: "left",
+                  }}
+                >
+                  <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase",
+                    color: `${RED}88`, marginBottom: 8, fontFamily: "Sora, sans-serif" }}>
+                    ◉ Intercepted Signal · Replaying
+                  </p>
+                  <p style={{
+                    fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontSize: 16,
+                    color: "rgba(255,255,255,0.55)", lineHeight: 1.6,
+                    animation: "glitch-flicker 3s infinite",
+                  }}>
+                    &ldquo;{interceptedLine}&rdquo;
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         ) : (
           /* ── TRANSMISSION PHASE ── */
