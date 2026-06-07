@@ -751,7 +751,7 @@ const JOURNEY: JourneyStep[] = [
   { icon: Scale, color: "#9d91ff", title: "Council of Selves", visual: "council",
     body: "The futures gather. They debate your choices, challenge your beliefs, reveal uncomfortable truths — and force you to decide who you want to become." },
   { icon: BookOpen, color: "#ffc278", title: "Your Chronicle", visual: "chronicle",
-    body: "Every decision becomes part of a living story.\n\nNot a personality report. Not a career assessment.\n\nA chronicle of every life you could have lived." },
+    body: "Every decision becomes part of a living historical record.\n\nAs you explore, the Historian records new editions — each one a snapshot of who you were becoming.\n\nA growing archive. Never a final chapter." },
 ];
 
 /* ── Animated per-step visuals ── */

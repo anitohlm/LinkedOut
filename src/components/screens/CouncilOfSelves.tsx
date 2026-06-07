@@ -326,7 +326,7 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
         </div>
 
         {/* Final choice OR input */}
-        {concluding ? (
+        {concluding && !state.selectedUniverse ? (
           <div style={{ padding: "16px 0 24px" }}>
             <p style={{ textAlign: "center", fontSize: 14, color: "var(--text2)", marginBottom: 16 }}>
               Which future are you willing to become?
@@ -378,7 +378,14 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
                 fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 600, cursor: input.trim() && !loading && !gathering ? "pointer" : "default" }}>
               Send
             </button>
-            {messages.length >= 2 && (
+            {state.selectedUniverse ? (
+              <button onClick={() => transitionTo("chronicle")}
+                style={{ padding: "0 18px", borderRadius: 12, border: "1px solid var(--gold)",
+                  background: "transparent", color: "var(--gold)",
+                  fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>
+                Chronicle →
+              </button>
+            ) : messages.length >= 2 && (
               <button onClick={() => ask(true)} disabled={loading}
                 style={{ padding: "0 18px", borderRadius: 12, border: "1px solid var(--violet2)",
                   background: "transparent", color: "var(--violet2)",

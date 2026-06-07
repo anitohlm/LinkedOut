@@ -90,7 +90,7 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [viewingEdition, setViewingEdition] = useState<ChronicleEdition | null>(latestEdition);
-  const [showShelf, setShowShelf] = useState(false);
+  const [showShelf, setShowShelf] = useState(editions.length > 0);
   const [pageIndex, setPageIndex] = useState(0);
   const [flipDir, setFlipDir] = useState(1);
   const hasInit = useRef(false);
@@ -181,7 +181,7 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
               background: "none", border: "1px solid #3a3020", borderRadius: 8,
               color: "#8a7a6a", cursor: "pointer", fontSize: 12, padding: "5px 14px", fontFamily: "Sora, sans-serif",
             }}>
-              {showShelf ? "Reading" : `Editions (${editions.length})`}
+              {showShelf ? "← Reading" : `Archive (${editions.length})`}
             </button>
           )}
         </div>
@@ -208,37 +208,92 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
 
       {/* ── Edition Shelf ── */}
       {!generating && !error && showShelf && (
-        <motion.div key="shelf" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          style={{ width: "100%", maxWidth: 580 }}>
-          <p style={{ fontFamily: "Crimson Pro, serif", fontSize: 28, fontStyle: "italic", color: CREAM, textAlign: "center", marginBottom: 32 }}>
-            The Historian's Archive
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {editions.map((ed) => (
-              <motion.div key={ed.id} whileHover={{ x: 6 }}
+        <motion.div key="shelf" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          style={{ width: "100%", maxWidth: 620, display: "flex", flexDirection: "column", alignItems: "center" }}>
+
+          {/* Archive header */}
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 16 }}>
+              <div style={{ height: 1, width: 48, background: `linear-gradient(to right, transparent, ${accent}66)` }} />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ opacity: 0.7 }}>
+                <path d="M4 19V6a2 2 0 012-2h12a2 2 0 012 2v13" stroke={accent} strokeWidth="1.5" strokeLinecap="round"/>
+                <path d="M4 19a2 2 0 002 2h12a2 2 0 002-2" stroke={accent} strokeWidth="1.5" strokeLinecap="round"/>
+                <path d="M9 8h6M9 12h6" stroke={accent} strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              <div style={{ height: 1, width: 48, background: `linear-gradient(to left, transparent, ${accent}66)` }} />
+            </div>
+            <h2 style={{ fontFamily: "Crimson Pro, serif", fontSize: 32, fontStyle: "italic", fontWeight: 400, color: CREAM, marginBottom: 6 }}>
+              The Historian&apos;s Archive
+            </h2>
+            <p style={{ fontSize: 12, color: "#6a5a4a", letterSpacing: "0.08em", fontFamily: "Sora, sans-serif" }}>
+              {editions.length} {editions.length === 1 ? "edition" : "editions"} preserved
+            </p>
+          </div>
+
+          {/* Edition list */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%" }}>
+            {editions.map((ed, idx) => (
+              <motion.div key={ed.id}
+                initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.07, duration: 0.35, ease: "easeOut" }}
+                whileHover={{ x: 5 }}
                 onClick={() => { setViewingEdition(ed); setPageIndex(0); setShowShelf(false); }}
-                style={{ padding: "18px 24px", border: `1px solid #3a3020`, borderRadius: 8,
-                  background: "#1a1510", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = accent)}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = "#3a3020")}>
-                <div>
-                  <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: accent, marginBottom: 4 }}>
-                    Edition {toRoman(ed.editionNumber)}
-                  </p>
-                  <p style={{ fontFamily: "Crimson Pro, serif", fontSize: 18, fontStyle: "italic", color: CREAM }}>{ed.title}</p>
+                style={{ padding: "20px 26px", border: "1px solid #3a3020", borderRadius: 10,
+                  background: "linear-gradient(135deg, #1a1510 0%, #130f09 100%)",
+                  cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center",
+                  transition: "border-color 0.2s, box-shadow 0.2s" }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = `${accent}66`; e.currentTarget.style.boxShadow = `0 4px 24px -8px ${accent}33`; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = "#3a3020"; e.currentTarget.style.boxShadow = "none"; }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 8, background: `${accent}15`, border: `1px solid ${accent}33`,
+                    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: accent, fontFamily: "Sora, sans-serif" }}>
+                      {toRoman(ed.editionNumber)}
+                    </span>
+                  </div>
+                  <div>
+                    <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: `${accent}aa`, marginBottom: 4, fontFamily: "Sora, sans-serif" }}>
+                      Edition {toRoman(ed.editionNumber)}
+                    </p>
+                    <p style={{ fontFamily: "Crimson Pro, serif", fontSize: 18, fontStyle: "italic", color: CREAM, lineHeight: 1.3 }}>{ed.title}</p>
+                  </div>
                 </div>
-                <span style={{ fontSize: 11, color: "#6a5a4a" }}>{new Date(ed.generatedAt).toLocaleDateString()}</span>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4, flexShrink: 0 }}>
+                  <span style={{ fontSize: 11, color: "#6a5a4a", fontFamily: "Sora, sans-serif" }}>
+                    {new Date(ed.generatedAt).toLocaleDateString()}
+                  </span>
+                  <span style={{ fontSize: 10, color: `${accent}77`, fontFamily: "Sora, sans-serif" }}>Read →</span>
+                </div>
               </motion.div>
             ))}
           </div>
-          {canGenerateNew && (
-            <div style={{ textAlign: "center", marginTop: 28 }}>
-              <BookButton onClick={() => { setShowShelf(false); runGenerate(); }} accent={accent}>
-                Record Edition {toRoman(editionNumber)} →
-              </BookButton>
-              <p style={{ fontSize: 11, color: "#6a5a4a", marginTop: 8 }}>{newMemoryCount} new memories since last edition</p>
-            </div>
-          )}
+
+          {/* Record new edition CTA */}
+          <div style={{ marginTop: 36, textAlign: "center", width: "100%" }}>
+            {canGenerateNew ? (
+              <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                <ArchiveRecordButton
+                  onClick={() => { setShowShelf(false); runGenerate(); }}
+                  accent={accent}
+                  editionLabel={`Record Edition ${toRoman(editionNumber)}`}
+                  memoryCount={newMemoryCount}
+                />
+              </motion.div>
+            ) : (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
+                style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "12px 22px",
+                  border: "1px solid #3a3020", borderRadius: 10, background: "#130f09" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="9" stroke="#6a5a4a" strokeWidth="1.5"/>
+                  <path d="M12 8v5l3 3" stroke="#6a5a4a" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+                <p style={{ fontSize: 12, color: "#6a5a4a", fontFamily: "Sora, sans-serif" }}>
+                  Next edition in {NEW_EDITION_THRESHOLD - newMemoryCount} more memories
+                </p>
+              </motion.div>
+            )}
+          </div>
         </motion.div>
       )}
 
@@ -414,29 +469,43 @@ function PageContent({ page, onAction }: { page: BookPage; onAction: (action: st
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", maxWidth: 300 }}>
-          <button onClick={() => onAction("continue")} style={{
-            padding: "11px 20px", background: page.accent, border: "none", borderRadius: 8,
-            color: "#fff", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600, cursor: "pointer",
-          }}>Continue Exploring →</button>
+          <BackPageButton
+            onClick={() => onAction("continue")}
+            variant="primary"
+            accent={page.accent}
+            label="Continue Exploring"
+            icon={<svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+          />
 
           {page.canGenerateNew ? (
-            <button onClick={() => onAction("generate")} style={{
-              padding: "11px 20px", background: "transparent", border: `1px solid ${page.accent}66`,
-              borderRadius: 8, color: page.accent, fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600, cursor: "pointer",
-            }}>
-              Record Edition {toRoman(page.editionNumber)}
-              <span style={{ fontSize: 10, opacity: 0.7, marginLeft: 6 }}>({page.newMemoryCount} new memories)</span>
-            </button>
+            <BackPageButton
+              onClick={() => onAction("generate")}
+              variant="quill"
+              accent={page.accent}
+              label={`Record Edition ${toRoman(page.editionNumber)}`}
+              sub={`${page.newMemoryCount} new memories`}
+              icon={<svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M20 3C20 3 14 5 12 12L9 15l-1 4 4-1 3-3c7-2 9-8 9-8z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M4 20l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>}
+            />
           ) : (
-            <p style={{ fontSize: 11, color: "#8a7060", fontFamily: "Sora, sans-serif" }}>
-              Next edition unlocks in {NEW_EDITION_THRESHOLD - page.newMemoryCount} more memories
-            </p>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+              padding: "10px 16px", border: `1px solid ${INK}20`, borderRadius: 8, background: `${INK}06` }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="#8a7060" strokeWidth="1.5"/>
+                <path d="M12 8v5l3 3" stroke="#8a7060" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              <p style={{ fontSize: 11, color: "#8a7060", fontFamily: "Sora, sans-serif", margin: 0 }}>
+                Next edition in {NEW_EDITION_THRESHOLD - page.newMemoryCount} more memories
+              </p>
+            </div>
           )}
 
-          <button onClick={() => onAction("shelf")} style={{
-            padding: "10px 20px", background: "transparent", border: "1px solid #c8b89a",
-            borderRadius: 8, color: INK2, fontFamily: "Sora, sans-serif", fontSize: 12, cursor: "pointer",
-          }}>View All Editions</button>
+          <BackPageButton
+            onClick={() => onAction("shelf")}
+            variant="ghost"
+            accent={page.accent}
+            label="View All Editions"
+            icon={<svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 19V6a2 2 0 012-2h12a2 2 0 012 2v13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M4 19a2 2 0 002 2h12a2 2 0 002-2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>}
+          />
         </div>
 
         <p style={{ position: "absolute", bottom: 24, fontSize: 10, color: "#b0a090", letterSpacing: "0.1em",
@@ -501,5 +570,102 @@ function BookButton({ onClick, accent, children }: { onClick: () => void; accent
       background: accent, color: "#fff",
       fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600, cursor: "pointer",
     }}>{children}</button>
+  );
+}
+
+function BackPageButton({ onClick, variant, accent, label, sub, icon }: {
+  onClick: () => void;
+  variant: "primary" | "quill" | "ghost";
+  accent: string;
+  label: string;
+  sub?: string;
+  icon?: React.ReactNode;
+}) {
+  const [hovered, setHovered] = useState(false);
+
+  const styles: React.CSSProperties = variant === "primary" ? {
+    padding: "12px 20px",
+    background: hovered ? INK : `${INK}ee`,
+    border: `1px solid ${INK}`,
+    borderRadius: 9,
+    color: CREAM,
+    boxShadow: hovered ? `0 4px 16px -4px rgba(0,0,0,0.35)` : `0 2px 8px -2px rgba(0,0,0,0.2)`,
+  } : variant === "quill" ? {
+    padding: "12px 20px",
+    background: hovered ? `${accent}18` : "transparent",
+    border: `1px solid ${hovered ? accent : `${accent}55`}`,
+    borderRadius: 9,
+    color: hovered ? accent : INK2,
+    boxShadow: hovered ? `0 0 20px -6px ${accent}44` : "none",
+  } : {
+    padding: "11px 20px",
+    background: hovered ? `${INK}08` : "transparent",
+    border: `1px solid ${hovered ? `${INK}40` : `${INK}20`}`,
+    borderRadius: 9,
+    color: hovered ? INK : "#8a7060",
+    boxShadow: "none",
+  };
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        ...styles,
+        width: "100%", cursor: "pointer",
+        fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600,
+        display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+        transition: "all 0.22s ease",
+      }}
+    >
+      {icon && <span style={{ display: "flex", opacity: hovered ? 1 : 0.7, transition: "opacity 0.2s" }}>{icon}</span>}
+      <span>{label}</span>
+      {sub && (
+        <span style={{ fontSize: 10, fontWeight: 400, opacity: 0.6, marginLeft: 2 }}>({sub})</span>
+      )}
+    </button>
+  );
+}
+
+function ArchiveRecordButton({ onClick, accent, editionLabel, memoryCount }: {
+  onClick: () => void; accent: string; editionLabel: string; memoryCount: number;
+}) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+      <button
+        onClick={onClick}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          position: "relative", padding: "14px 32px", borderRadius: 10, cursor: "pointer", overflow: "hidden",
+          background: hovered ? `${accent}18` : "linear-gradient(135deg, #1e180e 0%, #150f07 100%)",
+          border: `1px solid ${hovered ? accent : `${accent}55`}`,
+          boxShadow: hovered ? `0 0 28px -6px ${accent}55, inset 0 1px 0 ${accent}22` : `0 2px 12px -4px rgba(0,0,0,0.6), inset 0 1px 0 ${accent}11`,
+          transition: "all 0.3s ease",
+          display: "flex", alignItems: "center", gap: 12,
+        }}
+      >
+        {/* Quill icon */}
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, opacity: hovered ? 1 : 0.7, transition: "opacity 0.2s" }}>
+          <path d="M20 3C20 3 14 5 12 12L9 15l-1 4 4-1 3-3c7-2 9-8 9-8z" stroke={accent} strokeWidth="1.5" strokeLinejoin="round"/>
+          <path d="M4 20l4-4" stroke={accent} strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+        <span style={{
+          fontFamily: "Crimson Pro, serif", fontSize: 18, fontStyle: "italic", fontWeight: 400,
+          color: hovered ? accent : CREAM2, letterSpacing: "0.02em", transition: "color 0.25s",
+        }}>
+          {editionLabel}
+        </span>
+        <span style={{
+          fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+          color: hovered ? `${accent}cc` : "#6a5a4a", fontFamily: "Sora, sans-serif", transition: "color 0.25s",
+        }}>→</span>
+      </button>
+      <p style={{ fontSize: 11, color: "#5a4a3a", fontFamily: "Sora, sans-serif", letterSpacing: "0.04em" }}>
+        {memoryCount} new memories since last edition
+      </p>
+    </div>
   );
 }

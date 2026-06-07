@@ -25,6 +25,8 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
   const phase2Done = !!state.usedButterfly;
   const phase3Unlocked = phase2Done;
 
+  const hasChronicle = (state.chronicleEditions?.length ?? 0) > 0;
+  const latestEdition = state.chronicleEditions?.[state.chronicleEditions.length - 1];
   const currentPhase = !phase1Done ? 1 : !phase2Done ? 2 : 3;
 
   const explore = (id: UniverseType) => {
@@ -218,6 +220,36 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
               cta="Enter the Council Chamber →"
               onClick={() => transitionTo("council-of-selves")}
             />
+
+            {/* ── PHASE 4: CHRONICLE — emerges only after first edition ── */}
+            <AnimatePresence>
+              {hasChronicle && (
+                <motion.div
+                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+                >
+                  {/* Emergence divider */}
+                  <motion.div
+                    initial={{ scaleX: 0, opacity: 0 }}
+                    animate={{ scaleX: 1, opacity: 1 }}
+                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.05 }}
+                    style={{
+                      height: 1, margin: "8px 0 28px",
+                      background: "linear-gradient(90deg, transparent, #e8c97e66, transparent)",
+                      transformOrigin: "center",
+                    }}
+                  />
+
+                  <ChroniclePhaseCard
+                    editions={state.chronicleEditions ?? []}
+                    latestTitle={latestEdition?.title ?? ""}
+                    latestEditionNumber={latestEdition?.editionNumber ?? 1}
+                    onClick={() => transitionTo("chronicle")}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </>
         )}
       </div>
@@ -335,6 +367,98 @@ function PhaseHeading({ n, title, sub, active, done }: { n: number; title: strin
 }
 
 /* ── Locked / unlocked phase gate panel ── */
+/* ── Chronicle Phase 4 Card ── */
+function ChroniclePhaseCard({ editions, latestTitle, latestEditionNumber, onClick }: {
+  editions: any[]; latestTitle: string; latestEditionNumber: number; onClick: () => void;
+}) {
+  const GOLD = "#e8c97e";
+  const toRoman = (n: number) => (["","I","II","III","IV","V","VI","VII","VIII","IX","X"][n] ?? String(n));
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <motion.div
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      style={{
+        position: "relative", overflow: "hidden", marginBottom: 20,
+        borderRadius: 20, cursor: "pointer",
+        border: `1px solid ${hovered ? GOLD + "66" : GOLD + "28"}`,
+        background: hovered
+          ? `linear-gradient(135deg, ${GOLD}0e 0%, rgba(8,9,13,0.98) 60%)`
+          : `linear-gradient(135deg, ${GOLD}08 0%, rgba(8,9,13,0.95) 70%)`,
+        boxShadow: hovered ? `0 20px 60px -16px ${GOLD}44, 0 0 0 1px ${GOLD}18` : `0 8px 32px -8px ${GOLD}22`,
+        transition: "border-color 0.3s, background 0.3s, box-shadow 0.3s",
+        padding: "28px 32px",
+      }}
+    >
+      {/* Ambient glow top-left */}
+      <div style={{ position: "absolute", top: -60, left: -40, width: 220, height: 180, borderRadius: "50%",
+        background: `radial-gradient(circle, ${GOLD}18, transparent 65%)`, pointerEvents: "none" }} />
+
+      {/* Top gold line */}
+      <motion.div
+        animate={{ opacity: hovered ? 0.9 : 0.4 }}
+        style={{ position: "absolute", top: 0, left: 32, right: 32, height: 1,
+          background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)`, pointerEvents: "none" }} />
+
+      <div style={{ display: "flex", alignItems: "center", gap: 20, position: "relative", zIndex: 1 }}>
+        {/* Book icon */}
+        <motion.div
+          animate={{ boxShadow: hovered ? `0 0 28px ${GOLD}55` : `0 0 12px ${GOLD}22` }}
+          style={{
+            width: 56, height: 56, borderRadius: 14, flexShrink: 0,
+            background: `linear-gradient(135deg, ${GOLD}30, ${GOLD}10)`,
+            border: `1px solid ${GOLD}44`,
+            display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26,
+          }}
+        >📖</motion.div>
+
+        {/* Content */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+              color: GOLD, fontFamily: "Sora, sans-serif" }}>Phase 4</span>
+            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
+              padding: "2px 8px", borderRadius: 100,
+              background: `${GOLD}18`, color: GOLD, border: `1px solid ${GOLD}33` }}>
+              {editions.length} {editions.length === 1 ? "Edition" : "Editions"} Recorded
+            </span>
+          </div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: "var(--text)", letterSpacing: "-0.3px", marginBottom: 4 }}>
+            The Chronicle
+          </div>
+          <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.55, margin: 0,
+            whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: 480 }}>
+            {latestTitle
+              ? `Latest: Edition ${toRoman(latestEditionNumber)} — "${latestTitle}"`
+              : "The Historian has begun recording your saga across timelines."}
+          </p>
+        </div>
+
+        {/* CTA */}
+        <motion.button
+          animate={{
+            background: hovered ? GOLD : "transparent",
+            color: hovered ? "#0e0c09" : GOLD,
+          }}
+          transition={{ duration: 0.2 }}
+          style={{
+            flexShrink: 0, padding: "10px 22px", borderRadius: 10,
+            border: `1px solid ${GOLD}66`,
+            fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 700,
+            cursor: "pointer", letterSpacing: "0.02em",
+          }}
+        >
+          Open Archive →
+        </motion.button>
+      </div>
+    </motion.div>
+  );
+}
+
 function PhaseGate({ n, unlocked, done, icon, color, title, sub, lockedHint, cta, onClick }: {
   n: number; unlocked: boolean; done: boolean; icon: string; color: string;
   title: string; sub: string; lockedHint: string; cta: string; onClick: () => void;
