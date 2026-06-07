@@ -6,6 +6,34 @@ import { getTier } from "@/lib/stability";
 
 const GOLD = "#e8c97e";
 
+function downloadArchive(log: { text: string; ts: number }[]) {
+  const lines = [...log].map((e, i) => {
+    const ts = new Date(e.ts).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+    return `[${String(i + 1).padStart(3, "0")}] ${ts}\n      ${e.text}`;
+  });
+  const content = [
+    "╔══════════════════════════════════════════╗",
+    "║       THE MULTIVERSAL HISTORIAN'S LOG    ║",
+    "╚══════════════════════════════════════════╝",
+    `Exported: ${new Date().toLocaleString()}`,
+    `Entries:  ${log.length}`,
+    "",
+    "─".repeat(50),
+    "",
+    ...lines.flatMap(l => [l, ""]),
+    "─".repeat(50),
+    "End of Archive",
+  ].join("\n");
+
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `historian-archive-${Date.now()}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export function StabilityHUD({ stability, log }: { stability: number; log?: { text: string; ts: number }[] }) {
   const tier = getTier(stability);
   const critical = tier.status === "critical" || tier.status === "collapse";
@@ -158,22 +186,47 @@ export function StabilityHUD({ stability, log }: { stability: number; log?: { te
                     </span>
                   )}
                 </div>
-                <button
-                  onClick={() => setShowLog(false)}
-                  aria-label="Close log"
-                  style={{
-                    background: "none", border: "none", cursor: "pointer",
-                    color: `${GOLD}66`, padding: 4, borderRadius: 6,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    transition: "color 0.15s",
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                  onMouseLeave={e => (e.currentTarget.style.color = `${GOLD}66`)}
-                >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                  </svg>
-                </button>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  {!!log?.length && (
+                    <button
+                      onClick={() => downloadArchive(log)}
+                      aria-label="Download archive"
+                      title="Download archive"
+                      style={{
+                        background: `${GOLD}12`, border: `1px solid ${GOLD}33`, cursor: "pointer",
+                        color: `${GOLD}99`, padding: "4px 10px", borderRadius: 6,
+                        display: "flex", alignItems: "center", gap: 5,
+                        fontFamily: "Sora, sans-serif", fontSize: 10, fontWeight: 600,
+                        letterSpacing: "0.06em", textTransform: "uppercase",
+                        transition: "all 0.15s",
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.color = GOLD; e.currentTarget.style.background = `${GOLD}22`; e.currentTarget.style.borderColor = `${GOLD}66`; }}
+                      onMouseLeave={e => { e.currentTarget.style.color = `${GOLD}99`; e.currentTarget.style.background = `${GOLD}12`; e.currentTarget.style.borderColor = `${GOLD}33`; }}
+                    >
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3v13M7 12l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M4 20h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                      </svg>
+                      Download
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setShowLog(false)}
+                    aria-label="Close log"
+                    style={{
+                      background: "none", border: "none", cursor: "pointer",
+                      color: `${GOLD}66`, padding: 4, borderRadius: 6,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      transition: "color 0.15s",
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
+                    onMouseLeave={e => (e.currentTarget.style.color = `${GOLD}66`)}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
 
               {/* Log entries */}

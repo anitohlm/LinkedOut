@@ -187,11 +187,14 @@ export function AppOrchestrator() {
     (screen: AppScreenState, updates?: Partial<AppState>) => {
       setIsTransitioning(true);
       setTimeout(() => {
-        setState((prev) => ({
-          ...prev,
-          currentScreen: screen,
-          ...updates,
-        }));
+        setState((prev) => {
+          const next = { ...prev, currentScreen: screen, ...updates };
+          // Save immediately with the fully merged state so navigation never loses progress
+          if (next.resumeAnalysis) {
+            try { localStorage.setItem(SAVE_KEY, JSON.stringify({ ...next, resumeFile: null })); } catch {}
+          }
+          return next;
+        });
         setIsTransitioning(false);
       }, 600);
     },

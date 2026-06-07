@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
@@ -31,6 +31,15 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
   const hasChronicle = (state.chronicleEditions?.length ?? 0) > 0;
   const latestEdition = state.chronicleEditions?.[state.chronicleEditions.length - 1];
   const currentPhase = !phase1Done ? 1 : !phase2Done ? 2 : 3;
+
+  const [saved, setSaved] = useState(false);
+  const saveProgress = useCallback(() => {
+    try {
+      localStorage.setItem("linkedout_save_v1", JSON.stringify({ ...state, resumeFile: null }));
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch {}
+  }, [state]);
 
   const explore = (id: UniverseType) => {
     const next = Array.from(new Set([...explored, id]));
@@ -77,6 +86,32 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text2)"; }}
         >
           ↻ New Resume
+        </button>
+        <button
+          onClick={saveProgress}
+          style={{
+            display: "flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600,
+            cursor: "pointer", fontFamily: "Sora, sans-serif",
+            padding: "6px 14px", borderRadius: 8,
+            background: saved ? "rgba(78,205,196,0.12)" : "rgba(78,205,196,0.06)",
+            border: `1px solid ${saved ? "rgba(78,205,196,0.6)" : "rgba(78,205,196,0.25)"}`,
+            color: saved ? "#4ecdc4" : "rgba(78,205,196,0.7)",
+            transition: "all 0.2s",
+          }}
+          onMouseEnter={e => { if (!saved) { const b = e.currentTarget as HTMLButtonElement; b.style.background = "rgba(78,205,196,0.12)"; b.style.borderColor = "rgba(78,205,196,0.5)"; b.style.color = "#4ecdc4"; } }}
+          onMouseLeave={e => { if (!saved) { const b = e.currentTarget as HTMLButtonElement; b.style.background = "rgba(78,205,196,0.06)"; b.style.borderColor = "rgba(78,205,196,0.25)"; b.style.color = "rgba(78,205,196,0.7)"; } }}
+        >
+          {saved ? (
+            <>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#4ecdc4" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              Saved
+            </>
+          ) : (
+            <>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><path d="M17 21v-8H7v8M7 3v5h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              Save
+            </>
+          )}
         </button>
         <button onClick={() => transitionTo("landing")} style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px",
           background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
