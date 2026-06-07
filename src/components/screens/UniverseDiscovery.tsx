@@ -41,11 +41,13 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
       const { stability, status, event } = applyEvent(prevStab, "universe-completion");
       const gain = stability - prevStab;
       const universeName = universes.find(u => u.id === id)?.title ?? id;
-      logEntry(H.universeEntered(universeName, gain), state, updateState, { toast: true });
-      updateState({
-        timelineState: { stability, status },
-        stabilityMessage: event.message,
-        completionBonusGiven: [...bonusGiven, id],
+      logEntry(H.universeEntered(universeName, gain), state, updateState, {
+        toast: true,
+        extra: {
+          timelineState: { stability, status },
+          stabilityMessage: event.message,
+          completionBonusGiven: [...bonusGiven, id],
+        },
       });
     }
     transitionTo("identity-reconstruction", { selectedUniverse: id, explored: next });
@@ -80,24 +82,7 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
           background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
         </button>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {state.activeTitle && (
-            <div style={{
-              display: "flex", alignItems: "center", gap: 6,
-              padding: "5px 12px", borderRadius: 100,
-              background: "rgba(232,201,126,0.08)", border: "1px solid rgba(232,201,126,0.25)",
-            }}>
-              <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
-                <polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 10,12 6,9 2,12 3.5,7.5 0,4.5 4.5,4.5" fill="#e8c97e" />
-              </svg>
-              <span style={{ fontSize: 11, color: "#e8c97e", fontFamily: "Sora, sans-serif", letterSpacing: "0.03em", maxWidth: 160,
-                overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                {state.activeTitle}
-              </span>
-            </div>
-          )}
-          <StabilityHUD stability={state.timelineState.stability} log={state.historianLog} />
-        </div>
+        <StabilityHUD stability={state.timelineState.stability} log={state.historianLog} />
       </nav>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 40px" }}>
@@ -145,6 +130,8 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                 const profile = state.allProfiles?.[universe.id];
                 const c = universe.color;
                 const visited = explored.includes(universe.id);
+                const acceptedPos = (state.acceptedPositions || []).find(p => p.universeId === universe.id);
+                const cardTitle = acceptedPos?.title ?? profile?.profession;
                 const activities = state.universeActivity?.[universe.id] || [];
                 const pct = universePercent(activities);
                 return (
@@ -191,7 +178,7 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                     {profile ? (
                       <>
                         <h3 style={{ fontSize: 19, fontWeight: 700, letterSpacing: "-0.3px", marginBottom: 4, color: "var(--text)" }}>{profile.alternativeName}</h3>
-                        <p style={{ fontSize: 13, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.4 }}>{profile.profession}</p>
+                        <p style={{ fontSize: 13, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.4 }}>{cardTitle}</p>
                         <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6, marginBottom: 20 }}>
                           {(profile.biography || "").replace(/\\n/g, " ").slice(0, 120)}...
                         </p>

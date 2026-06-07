@@ -47,7 +47,6 @@ export default function ResumeUpload({ transitionTo, updateState }: ResumeUpload
       historianLog: [],
       chronicleEditions: [],
       acceptedPositions: [],
-      activeTitle: undefined,
       completionBonusGiven: [],
       stabilityMessage: null,
     });

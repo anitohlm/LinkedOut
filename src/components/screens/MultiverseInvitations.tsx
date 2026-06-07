@@ -111,7 +111,6 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
 
         const position = { universeId, title, faction, ts: Date.now() };
         updates.acceptedPositions = [...(state.acceptedPositions || []), position];
-        updates.activeTitle = title;
       } else {
         // Negotiate or decline — log specific entry, no stability penalty
         const entryText = H.recruiterDecision(faction, title, choiceLabel as "negotiated" | "declined");
@@ -124,9 +123,6 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
     } else if (!choice) {
       // Reconsider — undo accepted position for this universe
       updates.acceptedPositions = (state.acceptedPositions || []).filter(p => p.universeId !== universeId);
-      // Restore activeTitle to the most recent remaining accepted position
-      const remaining = updates.acceptedPositions as typeof state.acceptedPositions;
-      updates.activeTitle = remaining?.length ? remaining[remaining.length - 1].title : undefined;
     }
 
     updateState(updates);

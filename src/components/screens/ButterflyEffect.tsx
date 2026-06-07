@@ -59,11 +59,13 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
       const prevStab = state.timelineState.stability;
       const { stability, status, event } = applyEvent(prevStab, "timeline-drift");
       const loss = prevStab - stability;
-      logEntry(H.butterflyAsked(decision.trim(), loss), state, updateState, { toast: true });
-      updateState({
-        timelineState: { stability, status },
-        stabilityMessage: event.message,
-        butterflyCache: { decision: decision.trim(), timelines: newTimelines },
+      logEntry(H.butterflyAsked(decision.trim(), loss), state, updateState, {
+        toast: true,
+        extra: {
+          timelineState: { stability, status },
+          stabilityMessage: event.message,
+          butterflyCache: { decision: decision.trim(), timelines: newTimelines },
+        },
       });
     } catch (e: any) {
       setError(e.message || "The timelines refused to fracture. Try again.");

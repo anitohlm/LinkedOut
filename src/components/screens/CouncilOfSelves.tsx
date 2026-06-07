@@ -220,8 +220,10 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
     const { stability, status, event } = applyEvent(prevStab, "council-resolution");
     const gain = stability - prevStab;
     const universeName = getUniverseConfig(universeId)?.title ?? universeId;
-    logEntry(H.councilResolved(universeName, gain, stability), state, updateState, { toast: true });
-    updateState({ selectedUniverse: universeId, timelineState: { stability, status }, stabilityMessage: event.message });
+    logEntry(H.councilResolved(universeName, gain, stability), state, updateState, {
+      toast: true,
+      extra: { selectedUniverse: universeId, timelineState: { stability, status }, stabilityMessage: event.message },
+    });
     transitionTo("chronicle", { selectedUniverse: universeId });
   };
 

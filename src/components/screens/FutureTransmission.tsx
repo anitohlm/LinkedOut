@@ -168,8 +168,9 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
         const prevStab = state.timelineState.stability;
         const { stability, status, event } = applyEvent(prevStab, "future-self-alignment");
         const gain = stability - prevStab;
-        logEntry(H.transmissionAligned(futureSelf.name, gain), state, updateState);
-        updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
+        logEntry(H.transmissionAligned(futureSelf.name, gain), state, updateState, {
+          extra: { timelineState: { stability, status }, stabilityMessage: event.message },
+        });
       }
       // The Shadow is drawn to people who push back and reveal themselves.
       const challenged = /\b(but|no|why|disagree|wrong|don'?t|never|actually)\b/i.test(userMsg);
@@ -208,8 +209,10 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     }
     if (stageAdvanced && futureSelf) {
       const { stability: newStab, status, event } = applyEvent(state.timelineState.stability, "relationship-growth");
-      logEntry(H.bondAdvanced(futureSelf.name, prevStageName, nextStageName), state, updateState, { toast: true });
-      updateState({ timelineState: { stability: newStab, status }, stabilityMessage: event.message });
+      logEntry(H.bondAdvanced(futureSelf.name, prevStageName, nextStageName), state, updateState, {
+        toast: true,
+        extra: { timelineState: { stability: newStab, status }, stabilityMessage: event.message },
+      });
     }
 
     // Record the exchange + the reward feedback in the transcript
@@ -284,9 +287,12 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     const { stability, status, event } = applyEvent(state.timelineState.stability, "shadow-interception");
     const delta = stability - state.timelineState.stability;
     if (futureSelf) {
-      logEntry(H.shadowAppeared(futureSelf.name, Math.abs(delta)), state, updateState);
+      logEntry(H.shadowAppeared(futureSelf.name, Math.abs(delta)), state, updateState, {
+        extra: { timelineState: { stability, status }, stabilityMessage: event.message },
+      });
+    } else {
+      updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
     }
-    updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
     // The advice the villain will challenge = the last thing the Future Self said
     const lastAdvice = [...messages].reverse().find(m => m.role === "assistant")?.content || futureSelf?.philosophy || "patience and staying true to your values";
     setInterceptAdvice(lastAdvice);
@@ -309,9 +315,13 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     const { stability, status, event } = applyEvent(state.timelineState.stability, "shadow-resistance");
     const delta = stability - state.timelineState.stability;
     if (futureSelf) {
-      logEntry(H.shadowResisted(futureSelf.name, Math.abs(delta)), state, updateState, { toast: true });
+      logEntry(H.shadowResisted(futureSelf.name, Math.abs(delta)), state, updateState, {
+        toast: true,
+        extra: { timelineState: { stability, status }, stabilityMessage: event.message },
+      });
+    } else {
+      updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
     }
-    updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
     const returnLine = RETURN_LINES[Math.floor(Math.random() * RETURN_LINES.length)];
     setMessages(prev => [...prev, { role: "assistant", content: returnLine }]);
   };

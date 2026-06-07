@@ -150,7 +150,7 @@ export function logEntry(
   text: string,
   state: AppState,
   updateState: (u: Partial<AppState & { pendingObservation?: string | null }>) => void,
-  opts?: { toast?: boolean }
+  opts?: { toast?: boolean; extra?: Record<string, unknown> }
 ): void {
   const existing = state.historianLog || [];
   const entry: HistorianLogEntry = { text, ts: Date.now() };
@@ -165,9 +165,11 @@ export function logEntry(
     const reflection = fn(newLog, state);
     newLog = [...newLog, { text: reflection, ts: Date.now() + 1 }];
     updates.historianLog = newLog;
-    // Reflections always show as toast
     updates.pendingObservation = reflection;
   }
+
+  // Merge any extra state updates (e.g. timelineState, stabilityMessage) in one call
+  if (opts?.extra) Object.assign(updates, opts.extra);
 
   updateState(updates as any);
 }

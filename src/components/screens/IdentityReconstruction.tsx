@@ -25,6 +25,8 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
   if (!profile || !universe) return null;
 
   const accentColor = universe.color;
+  const acceptedPosition = (state.acceptedPositions || []).find(p => p.universeId === state.selectedUniverse);
+  const displayTitle = acceptedPosition?.title ?? profile.profession;
 
   // Universe-themed label for the recruiter mailbox
   const INVITATION_LABELS: Record<string, string> = {
@@ -124,7 +126,7 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
               {profile.alternativeName}
             </h1>
             <p style={{ fontSize: 16, color: accentColor, fontWeight: 500, marginBottom: 4 }}>
-              {profile.profession}
+              {displayTitle}
             </p>
             <p style={{ fontSize: 13, color: "var(--text3)" }}>{universe.title} · {universe.recruiterFaction}</p>
           </div>
