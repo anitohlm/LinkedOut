@@ -8,6 +8,7 @@ import { StabilityHUD } from "@/components/StabilityHUD";
 import UniverseIcon from "@/components/UniverseIcon";
 import { UNIVERSE_ACTIVITIES, universePercent } from "@/lib/progress";
 import { applyEvent } from "@/lib/stability";
+import { H, logEntry } from "@/lib/historian";
 
 interface Props {
   state: AppState;
@@ -36,7 +37,11 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
     const bonusGiven = state.completionBonusGiven || [];
     const isFirstVisit = !explored.includes(id);
     if (isFirstVisit && !bonusGiven.includes(id)) {
-      const { stability, status, event } = applyEvent(state.timelineState.stability, "universe-completion");
+      const prevStab = state.timelineState.stability;
+      const { stability, status, event } = applyEvent(prevStab, "universe-completion");
+      const gain = stability - prevStab;
+      const universeName = universes.find(u => u.id === id)?.title ?? id;
+      logEntry(H.universeEntered(universeName, gain), state, updateState, { toast: true });
       updateState({
         timelineState: { stability, status },
         stabilityMessage: event.message,

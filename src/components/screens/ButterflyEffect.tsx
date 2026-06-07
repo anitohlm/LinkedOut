@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { generateButterflyEffect } from "@/lib/agents/useAgents";
 import { applyEvent } from "@/lib/stability";
+import { H, logEntry } from "@/lib/historian";
 
 interface Props {
   state: AppState;
@@ -55,7 +56,10 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
       const newTimelines = res.timelines || [];
       setTimelines(newTimelines);
       // Rewriting a decision always destabilizes the timeline
-      const { stability, status, event } = applyEvent(state.timelineState.stability, "timeline-drift");
+      const prevStab = state.timelineState.stability;
+      const { stability, status, event } = applyEvent(prevStab, "timeline-drift");
+      const loss = prevStab - stability;
+      logEntry(H.butterflyAsked(decision.trim(), loss), state, updateState, { toast: true });
       updateState({
         timelineState: { stability, status },
         stabilityMessage: event.message,

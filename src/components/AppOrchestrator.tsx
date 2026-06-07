@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { getTier } from "@/lib/stability";
-import { historianLine, type HistorianEvent } from "@/lib/historian";
+import { H } from "@/lib/historian";
 import { TimelineWarningBanner } from "./StabilityHUD";
 import HistorianObservation from "./HistorianObservation";
 import Landing from "./screens/Landing";
@@ -121,14 +121,22 @@ export function AppOrchestrator() {
   const showChrome = !["landing", "upload-resume", "timeline-scan"].includes(state.currentScreen);
 
   // ── The Multiversal Historian ──────────────────────────────────────
-  const firstName = state.resumeAnalysis?.firstName || (state.resumeAnalysis?.name || "").split(" ")[0] || "they";
   const [obsQueue, setObsQueue] = useState<string[]>([]);
   const [currentObs, setCurrentObs] = useState<string | null>(null);
-  const observe = useCallback((event: HistorianEvent) => {
-    const line = historianLine(event, firstName);
-    setObsQueue(q => [...q, line]);
-    setState(prev => ({ ...prev, historianLog: [...(prev.historianLog || []), { text: line, ts: Date.now() }] }));
-  }, [firstName]);
+
+  // Enqueue a text string for the floating observation toast (does NOT log — logging is done at call site)
+  const showObservation = useCallback((text: string) => {
+    setObsQueue(q => [...q, text]);
+  }, []);
+
+  // Log a specific entry to the historian record + show as floating toast
+  const logAndObserve = useCallback((text: string) => {
+    setObsQueue(q => [...q, text]);
+    setState(prev => ({
+      ...prev,
+      historianLog: [...(prev.historianLog || []), { text, ts: Date.now() }],
+    }));
+  }, []);
 
   // Pull next observation from the queue when idle
   useEffect(() => {
@@ -138,43 +146,42 @@ export function AppOrchestrator() {
     }
   }, [obsQueue, currentObs]);
 
-  // Watch stability tier crossings (own ref so it isn't clobbered by the toast effect)
+  // Watch for pendingObservation set by screen components
+  useEffect(() => {
+    if (state.pendingObservation) {
+      showObservation(state.pendingObservation);
+      setState(prev => ({ ...prev, pendingObservation: null }));
+    }
+  }, [state.pendingObservation, showObservation]);
+
+  // Watch stability tier crossings — log specific text with actual values
   const prevTierLabel = useRef(getTier(stability).label);
   const prevTierStability = useRef(stability);
   useEffect(() => {
     const tier = getTier(stability);
     if (tier.label !== prevTierLabel.current) {
       const rose = stability > prevTierStability.current;
-      if (tier.status === "critical" || tier.status === "collapse") observe("timeline-critical");
-      else if (rose) observe("stability-rose");
-      else observe("stability-fell");
+      let text: string;
+      if (tier.status === "collapse") text = H.stabilityCollapsed(stability);
+      else if (tier.status === "harmonized") text = H.stabilityHarmonized(stability);
+      else text = H.stabilityTierCrossed(tier.label, stability, rose ? "rose" : "fell");
+      logAndObserve(text);
       prevTierLabel.current = tier.label;
     }
     prevTierStability.current = stability;
-  }, [stability, observe]);
+  }, [stability, logAndObserve]);
 
   // Watch story milestones (screen-based, fire once each)
   const seen = useRef<Set<string>>(new Set());
   useEffect(() => {
     const s = state.currentScreen;
-    const fireOnce = (key: string, event: HistorianEvent) => {
-      if (!seen.current.has(key)) { seen.current.add(key); observe(event); }
-    };
-    if (s === "universe-discovery" && Object.keys(state.allProfiles || {}).length >= 6) fireOnce("multiverse", "multiverse-born");
-    if (s === "future-transmission") fireOnce("transmission", "first-transmission");
-    if (s === "council-of-selves") fireOnce("council", "divergence-approaching");
-    if (s === "chronicle") fireOnce("final", "final-choice");
-  }, [state.currentScreen, state.allProfiles, observe]);
-
-  // The Historian appears MORE often as the timeline fractures (felt, not numeric).
-  const lastAnomaly = useRef(0);
-  useEffect(() => {
-    if (!showChrome || stability >= 70) return;
-    const now = Date.now();
-    if (now - lastAnomaly.current < 18000) return; // cooldown so it stays eerie, not spammy
-    const chance = Math.min(0.85, (70 - stability) / 70 + 0.1); // lower stability → more anomalies
-    if (Math.random() < chance) { lastAnomaly.current = now; observe("anomaly"); }
-  }, [state.currentScreen, stability, showChrome, observe]);
+    if (s === "universe-discovery" && Object.keys(state.allProfiles || {}).length >= 6) {
+      if (!seen.current.has("multiverse")) {
+        seen.current.add("multiverse");
+        logAndObserve("All six timelines have been mapped. The multiverse is now fully charted.");
+      }
+    }
+  }, [state.currentScreen, state.allProfiles, logAndObserve]);
 
   const transitionTo = useCallback(
     (screen: AppScreenState, updates?: Partial<AppState>) => {

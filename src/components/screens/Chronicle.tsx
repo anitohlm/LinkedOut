@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, ChronicleEdition, MemorySnapshot, UniverseType } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import { generateChronicle } from "@/lib/agents/useAgents";
+import { H, logEntry } from "@/lib/historian";
 
 interface Props {
   state: AppState;
@@ -151,6 +152,7 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
 
       const updatedEditions = [...editions, newEdition];
       updateState({ chronicleEditions: updatedEditions });
+      logEntry(H.chronicleGenerated(editionNumber, newEdition.title), state, updateState, { toast: true });
       setViewingEdition(newEdition);
     } catch (e: any) {
       setError(e.message || "The Historian could not record this edition.");

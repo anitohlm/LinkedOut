@@ -6,6 +6,8 @@ import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import { sendCouncilMessage, generateLegendarySelf, generateVillainSelf } from "@/lib/agents/useAgents";
 import { applyEvent } from "@/lib/stability";
+import { H, logEntry } from "@/lib/historian";
+import { getUniverse as getUniverseConfig } from "@/lib/universes";
 import InspirationBar from "@/components/InspirationBar";
 import UniverseIcon from "@/components/UniverseIcon";
 
@@ -99,6 +101,12 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
         });
         setSpecials(seats);
         updateState({ councilSpecials: seats });
+        // Log council convened with actual member names
+        const memberNames = [
+          ...seats.map(s => s.name),
+          ...universeMembers.map(m => m.name),
+        ];
+        logEntry(H.councilConvened(memberNames), state, updateState, { toast: true });
       } finally {
         setGathering(false);
       }
@@ -208,7 +216,11 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
 
   const chooseFinal = (universeId: UniverseType) => {
     // Council Resolution: synthesizing wisdom from the council strengthens the timeline
-    const { stability, status, event } = applyEvent(state.timelineState.stability, "council-resolution");
+    const prevStab = state.timelineState.stability;
+    const { stability, status, event } = applyEvent(prevStab, "council-resolution");
+    const gain = stability - prevStab;
+    const universeName = getUniverseConfig(universeId)?.title ?? universeId;
+    logEntry(H.councilResolved(universeName, gain, stability), state, updateState, { toast: true });
     updateState({ selectedUniverse: universeId, timelineState: { stability, status }, stabilityMessage: event.message });
     transitionTo("chronicle", { selectedUniverse: universeId });
   };

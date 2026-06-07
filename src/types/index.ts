@@ -234,6 +234,8 @@ export interface AppState {
   activeTitle?: string; // the latest accepted position title, shown across the app
   // Stability event toast — set alongside timelineState updates, cleared by AppOrchestrator after display
   stabilityMessage?: string | null;
+  // Historian floating observation — set by screens, consumed + cleared by AppOrchestrator
+  pendingObservation?: string | null;
   // Track which universes have already granted a completion bonus (one-time)
   completionBonusGiven?: string[];
 }

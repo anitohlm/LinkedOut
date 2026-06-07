@@ -6,7 +6,7 @@ import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import { generateRecruiter } from "@/lib/agents/useAgents";
 import { markActivity } from "@/lib/progress";
-import { historianLine } from "@/lib/historian";
+import { H } from "@/lib/historian";
 import { applyEvent } from "@/lib/stability";
 import UniverseIcon from "@/components/UniverseIcon";
 
@@ -87,42 +87,39 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
     if (choice) next[universeId] = choice; else delete next[universeId];
 
     const inv = invitations[0];
-    const firstName = (state.resumeAnalysis?.name || "they").split(" ")[0];
     const updates: Record<string, any> = { invitationDecisions: next };
 
     if (choice && inv) {
-      // Log to Historian
-      const eventMap = {
-        accept: "recruiter-accepted",
-        negotiate: "recruiter-negotiated",
-        decline: "recruiter-declined",
-      } as const;
-      const histLine = historianLine(eventMap[choice], firstName);
-      const histEntry = { text: histLine, ts: Date.now() };
-      updates.historianLog = [...(state.historianLog || []), histEntry];
+      const choiceLabel = choice === "accept" ? "accepted" : choice === "negotiate" ? "negotiated" : "declined";
+      const faction = inv.factionName || "Unknown Faction";
+      const title = inv.opportunityTitle || "Unknown Position";
 
-      // If accepted, record the position and earned title, apply shadow temptation penalty
-      if (choice === "accept" && inv.opportunityTitle) {
-        const position = {
-          universeId,
-          title: inv.opportunityTitle,
-          faction: inv.factionName || "",
-          ts: Date.now(),
-        };
-        updates.acceptedPositions = [...(state.acceptedPositions || []), position];
-        updates.activeTitle = inv.opportunityTitle;
-
-        // Second historian entry for the earned title
-        const titleLine = historianLine("title-earned", firstName);
+      if (choice === "accept") {
+        // Shadow temptation penalty on accept
+        const prevStab = state.timelineState.stability;
+        const { stability, status, event } = applyEvent(prevStab, "shadow-temptation");
+        const loss = prevStab - stability;
+        const entryText = H.recruiterDecision(faction, title, "accepted", loss);
         updates.historianLog = [
-          ...(updates.historianLog as { text: string; ts: number }[]),
-          { text: titleLine, ts: Date.now() + 1 },
+          ...(state.historianLog || []),
+          { text: entryText, ts: Date.now() },
+          { text: H.titleEarned(title), ts: Date.now() + 1 },
         ];
-
-        // Accepting a recruiter offer in a foreign timeline = shadow temptation
-        const { stability, status, event } = applyEvent(state.timelineState.stability, "shadow-temptation");
+        updates.pendingObservation = entryText;
         updates.timelineState = { stability, status };
         updates.stabilityMessage = event.message;
+
+        const position = { universeId, title, faction, ts: Date.now() };
+        updates.acceptedPositions = [...(state.acceptedPositions || []), position];
+        updates.activeTitle = title;
+      } else {
+        // Negotiate or decline — log specific entry, no stability penalty
+        const entryText = H.recruiterDecision(faction, title, choiceLabel as "negotiated" | "declined");
+        updates.historianLog = [
+          ...(state.historianLog || []),
+          { text: entryText, ts: Date.now() },
+        ];
+        updates.pendingObservation = entryText;
       }
     } else if (!choice) {
       // Reconsider — undo accepted position for this universe
