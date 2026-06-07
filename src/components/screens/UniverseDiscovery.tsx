@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
 import { StabilityHUD } from "@/components/StabilityHUD";
@@ -177,19 +178,10 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
                             <motion.div animate={{ width: `${pct}%` }} transition={{ duration: 0.6 }}
                               style={{ height: "100%", background: c, borderRadius: 4 }} />
                           </div>
-                          <div style={{ display: "flex", gap: 6 }}>
-                            {UNIVERSE_ACTIVITIES.map(a => {
-                              const done = activities.includes(a.key);
-                              return (
-                                <span key={a.key} title={a.label} style={{
-                                  fontSize: 11, width: 22, height: 22, borderRadius: 6,
-                                  display: "flex", alignItems: "center", justifyContent: "center",
-                                  background: done ? `${c}22` : "var(--surface)",
-                                  border: `1px solid ${done ? c + "55" : "var(--border)"}`,
-                                  opacity: done ? 1 : 0.4, filter: done ? "none" : "grayscale(1)",
-                                }}>{a.icon}</span>
-                              );
-                            })}
+                          <div style={{ display: "flex", gap: 6 }} onClick={e => e.stopPropagation()}>
+                            {UNIVERSE_ACTIVITIES.map(a => (
+                              <ActivityChip key={a.key} activity={a} done={activities.includes(a.key)} color={c} />
+                            ))}
                           </div>
                         </div>
                       </>
@@ -229,6 +221,47 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
           </>
         )}
       </div>
+    </div>
+  );
+}
+
+/* ── Activity chip with hover tooltip ── */
+function ActivityChip({ activity, done, color }: {
+  activity: { key: string; label: string; icon: string; desc: string };
+  done: boolean; color: string;
+}) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div style={{ position: "relative" }}
+      onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+      <span style={{
+        fontSize: 11, width: 22, height: 22, borderRadius: 6, cursor: "default",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        background: done ? `${color}22` : "var(--surface)",
+        border: `1px solid ${done ? color + "55" : "var(--border)"}`,
+        opacity: done ? 1 : 0.4, filter: done ? "none" : "grayscale(1)",
+      }}>{activity.icon}</span>
+
+      <AnimatePresence>
+        {hover && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.15 }}
+            style={{
+              position: "absolute", bottom: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)",
+              zIndex: 30, width: 180, padding: "10px 12px", borderRadius: 10, textAlign: "left",
+              background: "rgba(10,11,16,0.98)", border: `1px solid ${color}44`,
+              boxShadow: `0 10px 30px -10px ${color}55`, pointerEvents: "none",
+            }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+              <span style={{ fontSize: 13 }}>{activity.icon}</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: done ? color : "var(--text)" }}>{activity.label}</span>
+              {done && <span style={{ marginLeft: "auto", fontSize: 10, color: color }}>✓</span>}
+            </div>
+            <p style={{ fontSize: 11, color: "var(--text3)", lineHeight: 1.5 }}>{activity.desc}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
