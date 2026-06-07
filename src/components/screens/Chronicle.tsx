@@ -127,7 +127,7 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
       const previousEditions = editions.map(e => ({ editionNumber: e.editionNumber, title: e.title, epilogue: e.epilogue }));
       const res = await generateChronicle({
         resumeAnalysis: state.resumeAnalysis!,
-        historianLog: state.historianLog || [],
+        historianLog: (state.historianLog || []) as any,
         finalChoice: finalChoice!,
         allCharacterNames: names,
         editionNumber,

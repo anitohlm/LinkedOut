@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import { sendCouncilMessage, generateLegendarySelf, generateVillainSelf } from "@/lib/agents/useAgents";
+import { applyEvent } from "@/lib/stability";
 import InspirationBar from "@/components/InspirationBar";
 import UniverseIcon from "@/components/UniverseIcon";
 
@@ -190,7 +191,6 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
           timelineStability: state.timelineState.stability,
         });
         const cleaned = (res.message || "").replace(/^\s*\[[^\]]+\]\s*[:\-]?\s*/, "").trim();
-        const meta = metaFor(m.key);
         const msg = { role: "council" as const, content: cleaned, speaker: m.name, metaKey: m.key };
         running = [...running, msg];
         setMessages(prev => [...prev, msg]);
@@ -207,7 +207,9 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
   };
 
   const chooseFinal = (universeId: UniverseType) => {
-    updateState({ selectedUniverse: universeId });
+    // Council Resolution: synthesizing wisdom from the council strengthens the timeline
+    const { stability, status, event } = applyEvent(state.timelineState.stability, "council-resolution");
+    updateState({ selectedUniverse: universeId, timelineState: { stability, status }, stabilityMessage: event.message });
     transitionTo("chronicle", { selectedUniverse: universeId });
   };
 

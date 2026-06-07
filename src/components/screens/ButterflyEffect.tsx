@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { generateButterflyEffect } from "@/lib/agents/useAgents";
-import { applyDelta } from "@/lib/stability";
+import { applyEvent } from "@/lib/stability";
 
 interface Props {
   state: AppState;
@@ -55,9 +55,10 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
       const newTimelines = res.timelines || [];
       setTimelines(newTimelines);
       // Rewriting a decision always destabilizes the timeline
-      const delta = res.stabilityDelta || -10;
+      const { stability, status, event } = applyEvent(state.timelineState.stability, "timeline-drift");
       updateState({
-        timelineState: applyDelta(state.timelineState.stability, delta),
+        timelineState: { stability, status },
+        stabilityMessage: event.message,
         butterflyCache: { decision: decision.trim(), timelines: newTimelines },
       });
     } catch (e: any) {

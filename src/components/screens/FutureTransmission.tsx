@@ -7,7 +7,7 @@ import { getUniverse } from "@/lib/universes";
 import { generateFutureSelf, sendFutureTransmission } from "@/lib/agents/useAgents";
 import UniverseBackground from "@/components/UniverseBackground";
 import ShadowIntercept from "@/components/ShadowIntercept";
-import { applyDelta, corruptionLevel, interceptionRisk, curiosityGain } from "@/lib/stability";
+import { applyDelta, applyEvent, corruptionLevel, interceptionRisk, curiosityGain } from "@/lib/stability";
 import {
   getNextQuestion, getStage, answersRecap, type InterviewQuestion, type InterviewOption,
 } from "@/lib/interview";
@@ -153,6 +153,12 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       });
 
       setMessages(prev => [...prev, { role: "assistant", content: res.message }]);
+      // Meaningful exchanges (both sides substantive) can align the futures
+      const substantive = userMsg.length > 60 && res.message.length > 120;
+      if (substantive && Math.random() < 0.35) {
+        const { stability, status, event } = applyEvent(state.timelineState.stability, "future-self-alignment");
+        updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
+      }
       // The Shadow is drawn to people who push back and reveal themselves.
       const challenged = /\b(but|no|why|disagree|wrong|don'?t|never|actually)\b/i.test(userMsg);
       const intercepted = considerIntercept({ challenged, surprising: userMsg.length > 90 });
@@ -178,7 +184,20 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     setAnswers(newAnswers);
     setRelationship(newRel);
     setAsked(prev => [...prev, q.id]);
-    if (opt.stab) updateState({ timelineState: applyDelta(state.timelineState.stability, opt.stab) });
+
+    // Stability shifts: interview option delta + relationship growth bonus on stage advance
+    const prevStageName = getStage(relationship).name;
+    const nextStageName = getStage(newRel).name;
+    const stageAdvanced = nextStageName !== prevStageName;
+
+    if (opt.stab) {
+      const { stability, status } = applyDelta(state.timelineState.stability, opt.stab);
+      updateState({ timelineState: { stability, status } });
+    }
+    if (stageAdvanced) {
+      const { stability, status, event } = applyEvent(state.timelineState.stability, "relationship-growth");
+      updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
+    }
 
     // Record the exchange + the reward feedback in the transcript
     const fb = `Relationship +${opt.rel}` + (opt.stab ? `  ·  Timeline Stability ${opt.stab > 0 ? "+" : ""}${opt.stab}` : "");
@@ -248,6 +267,9 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
   };
 
   const triggerIntercept = () => {
+    // Shadow appearance destabilizes the timeline
+    const { stability, status, event } = applyEvent(state.timelineState.stability, "shadow-interception");
+    updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
     // The advice the villain will challenge = the last thing the Future Self said
     const lastAdvice = [...messages].reverse().find(m => m.role === "assistant")?.content || futureSelf?.philosophy || "patience and staying true to your values";
     setInterceptAdvice(lastAdvice);
@@ -266,7 +288,9 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
   const closeIntercept = () => {
     setIntercept(false);
     setInterceptedRecently(true);
-    updateState({ timelineState: applyDelta(state.timelineState.stability, -10) });
+    // Shadow resistance: staying and returning to the future self strengthens the timeline
+    const { stability, status, event } = applyEvent(state.timelineState.stability, "shadow-resistance");
+    updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
     const returnLine = RETURN_LINES[Math.floor(Math.random() * RETURN_LINES.length)];
     setMessages(prev => [...prev, { role: "assistant", content: returnLine }]);
   };

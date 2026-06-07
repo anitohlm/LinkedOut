@@ -7,6 +7,7 @@ import { getUniverse } from "@/lib/universes";
 import { generateRecruiter } from "@/lib/agents/useAgents";
 import { markActivity } from "@/lib/progress";
 import { historianLine } from "@/lib/historian";
+import { applyEvent } from "@/lib/stability";
 import UniverseIcon from "@/components/UniverseIcon";
 
 interface Props {
@@ -100,7 +101,7 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
       const histEntry = { text: histLine, ts: Date.now() };
       updates.historianLog = [...(state.historianLog || []), histEntry];
 
-      // If accepted, record the position and earned title
+      // If accepted, record the position and earned title, apply shadow temptation penalty
       if (choice === "accept" && inv.opportunityTitle) {
         const position = {
           universeId,
@@ -117,6 +118,11 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
           ...(updates.historianLog as { text: string; ts: number }[]),
           { text: titleLine, ts: Date.now() + 1 },
         ];
+
+        // Accepting a recruiter offer in a foreign timeline = shadow temptation
+        const { stability, status, event } = applyEvent(state.timelineState.stability, "shadow-temptation");
+        updates.timelineState = { stability, status };
+        updates.stabilityMessage = event.message;
       }
     } else if (!choice) {
       // Reconsider — undo accepted position for this universe
@@ -128,8 +134,6 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
 
     updateState(updates);
   };
-
-  const open = invitations.find(i => i.id === openId);
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", paddingTop: 64 }}>

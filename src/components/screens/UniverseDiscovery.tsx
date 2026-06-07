@@ -7,6 +7,7 @@ import { getAllUniverses } from "@/lib/universes";
 import { StabilityHUD } from "@/components/StabilityHUD";
 import UniverseIcon from "@/components/UniverseIcon";
 import { UNIVERSE_ACTIVITIES, universePercent } from "@/lib/progress";
+import { applyEvent } from "@/lib/stability";
 
 interface Props {
   state: AppState;
@@ -14,7 +15,7 @@ interface Props {
   updateState: (updates: any) => void;
 }
 
-export default function UniverseDiscovery({ state, transitionTo }: Props) {
+export default function UniverseDiscovery({ state, transitionTo, updateState }: Props) {
   const universes = getAllUniverses();
   const profileCount = Object.keys(state.allProfiles || {}).length;
   const allReady = profileCount === universes.length;
@@ -32,6 +33,16 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
 
   const explore = (id: UniverseType) => {
     const next = Array.from(new Set([...explored, id]));
+    const bonusGiven = state.completionBonusGiven || [];
+    const isFirstVisit = !explored.includes(id);
+    if (isFirstVisit && !bonusGiven.includes(id)) {
+      const { stability, status, event } = applyEvent(state.timelineState.stability, "universe-completion");
+      updateState({
+        timelineState: { stability, status },
+        stabilityMessage: event.message,
+        completionBonusGiven: [...bonusGiven, id],
+      });
+    }
     transitionTo("identity-reconstruction", { selectedUniverse: id, explored: next });
   };
 
@@ -368,7 +379,7 @@ function PhaseTracker({ current, steps }: { current: number; steps: { n: number;
 }
 
 /* ── Phase heading ── */
-function PhaseHeading({ n, title, sub, active, done }: { n: number; title: string; sub: string; active?: boolean; done?: boolean }) {
+function PhaseHeading({ n, title, sub, done }: { n: number; title: string; sub: string; active?: boolean; done?: boolean }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
       <div style={{

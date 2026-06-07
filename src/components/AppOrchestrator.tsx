@@ -101,15 +101,18 @@ export function AppOrchestrator() {
   // Timeline stability change feedback
   const stability = state.timelineState.stability;
   const prevStability = useRef(stability);
-  const [toast, setToast] = useState<{ value: number; delta: number; key: number } | null>(null);
+  const [toast, setToast] = useState<{ value: number; delta: number; message: string; key: number } | null>(null);
 
   useEffect(() => {
     const prev = prevStability.current;
     if (stability !== prev) {
       const delta = stability - prev;
-      setToast({ value: stability, delta, key: Date.now() });
+      const message = state.stabilityMessage || (delta > 0 ? "The futures briefly align." : "The timeline shifts.");
+      setToast({ value: stability, delta, message, key: Date.now() });
       prevStability.current = stability;
-      const t = setTimeout(() => setToast(null), 3500);
+      // Clear the message from state so it doesn't persist
+      if (state.stabilityMessage) setState(s => ({ ...s, stabilityMessage: null }));
+      const t = setTimeout(() => setToast(null), 4000);
       return () => clearTimeout(t);
     }
   }, [stability]);
@@ -166,10 +169,10 @@ export function AppOrchestrator() {
   // The Historian appears MORE often as the timeline fractures (felt, not numeric).
   const lastAnomaly = useRef(0);
   useEffect(() => {
-    if (!showChrome || stability >= 60) return;
+    if (!showChrome || stability >= 70) return;
     const now = Date.now();
     if (now - lastAnomaly.current < 18000) return; // cooldown so it stays eerie, not spammy
-    const chance = Math.min(0.85, (60 - stability) / 60 + 0.1); // lower stability → more anomalies
+    const chance = Math.min(0.85, (70 - stability) / 70 + 0.1); // lower stability → more anomalies
     if (Math.random() < chance) { lastAnomaly.current = now; observe("anomaly"); }
   }, [state.currentScreen, stability, showChrome, observe]);
 
@@ -227,8 +230,6 @@ export function AppOrchestrator() {
     }
   };
 
-  const tier = getTier(stability);
-
   return (
     <>
       {/* Persistent low-stability warning banner */}
@@ -246,21 +247,39 @@ export function AppOrchestrator() {
         {toast && (
           <motion.div
             key={toast.key}
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, x: -16, scale: 0.96 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: -16, scale: 0.96 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             style={{
               position: "fixed", bottom: 24, left: 24, zIndex: 1100,
-              display: "flex", alignItems: "center", gap: 12, padding: "12px 20px", borderRadius: 12,
-              background: "rgba(14,16,24,0.95)", border: `1px solid ${tier.color}55`,
-              backdropFilter: "blur(12px)", boxShadow: `0 8px 32px -8px ${tier.color}55`,
+              padding: "14px 20px", borderRadius: 14, minWidth: 220, maxWidth: 300,
+              background: "rgba(8,9,13,0.97)", border: `1px solid ${toast.delta > 0 ? "rgba(78,205,196,0.35)" : "rgba(240,112,112,0.3)"}`,
+              backdropFilter: "blur(16px)",
+              boxShadow: toast.delta > 0 ? "0 8px 32px -8px rgba(78,205,196,0.3)" : "0 8px 32px -8px rgba(240,112,112,0.25)",
             }}
           >
-            <span style={{ fontSize: 13, color: "var(--text2)" }}>Timeline Stability</span>
-            <span style={{ fontSize: 18, fontWeight: 700, color: tier.color }}>{toast.value}%</span>
-            <span style={{ fontSize: 13, fontWeight: 600, color: toast.delta < 0 ? "var(--rose2)" : "var(--cyan2)" }}>
-              {toast.delta < 0 ? "▼" : "▲"} {Math.abs(toast.delta)}
-            </span>
+            {/* Delta badge */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: 4,
+                padding: "3px 10px", borderRadius: 100, fontSize: 12, fontWeight: 700,
+                background: toast.delta > 0 ? "rgba(78,205,196,0.15)" : "rgba(240,112,112,0.12)",
+                color: toast.delta > 0 ? "var(--cyan2)" : "var(--rose2)",
+              }}>
+                {toast.delta > 0 ? "▲" : "▼"} {toast.delta > 0 ? "+" : ""}{toast.delta}
+              </div>
+              <span style={{ fontSize: 11, color: "var(--text3)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                Timeline Stability · {toast.value}%
+              </span>
+            </div>
+            {/* Narrative message */}
+            <p style={{
+              fontFamily: "Crimson Pro, serif", fontStyle: "italic",
+              fontSize: 14, lineHeight: 1.55, color: "var(--text2)", margin: 0,
+            }}>
+              {toast.message}
+            </p>
           </motion.div>
         )}
       </AnimatePresence>

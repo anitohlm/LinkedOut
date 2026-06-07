@@ -117,7 +117,7 @@ export interface VillainSelf {
 // Timeline State
 export interface TimelineState {
   stability: number; // 0-100
-  status: "stable" | "unstable" | "critical" | "collapse";
+  status: "harmonized" | "stable" | "unstable" | "critical" | "collapse";
 }
 
 // Butterfly Effect Decision
@@ -232,4 +232,8 @@ export interface AppState {
   // Recruiter outcomes — one per universe
   acceptedPositions?: Array<{ universeId: string; title: string; faction: string; ts: number }>;
   activeTitle?: string; // the latest accepted position title, shown across the app
+  // Stability event toast — set alongside timelineState updates, cleared by AppOrchestrator after display
+  stabilityMessage?: string | null;
+  // Track which universes have already granted a completion bonus (one-time)
+  completionBonusGiven?: string[];
 }

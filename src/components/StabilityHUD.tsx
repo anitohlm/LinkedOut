@@ -9,6 +9,7 @@ const GOLD = "#e8c97e";
 export function StabilityHUD({ stability, log }: { stability: number; log?: { text: string; ts: number }[] }) {
   const tier = getTier(stability);
   const critical = tier.status === "critical" || tier.status === "collapse";
+  const harmonized = tier.status === "harmonized";
   const [hover, setHover] = useState(false);
   const [showLog, setShowLog] = useState(false);
   const logRef = useRef<HTMLDivElement>(null);
@@ -49,7 +50,7 @@ export function StabilityHUD({ stability, log }: { stability: number; log?: { te
           <span style={{
             width: 7, height: 7, borderRadius: "50%", background: tier.color, flexShrink: 0,
             boxShadow: `0 0 8px ${tier.color}`,
-            animation: critical ? "pulse-glow 1.2s infinite" : "none",
+            animation: (critical || harmonized) ? "pulse-glow 1.2s infinite" : "none",
           }} />
           <span style={{ fontSize: 11, color: "var(--text3)", letterSpacing: "0.04em" }}>Timeline</span>
           <div style={{ width: 64, height: 4, borderRadius: 4, background: "var(--surface3)", overflow: "hidden" }}>
@@ -240,27 +241,62 @@ export function StabilityHUD({ stability, log }: { stability: number; log?: { te
   );
 }
 
-/** Full-width warning banner shown at low stability. */
+/** Full-width banner shown at unstable, critical, and collapse stability — or harmonized (special positive). */
 export function TimelineWarningBanner({ stability }: { stability: number }) {
   const tier = getTier(stability);
   if (tier.status === "stable") return null;
+
+  const isCollapse = tier.status === "collapse";
+  const isHarmonized = tier.status === "harmonized";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
       style={{
         position: "fixed", top: 64, left: 0, right: 0, zIndex: 45,
-        background: `${tier.color}14`, borderBottom: `1px solid ${tier.color}40`,
+        background: isCollapse
+          ? "rgba(240,112,112,0.08)"
+          : isHarmonized
+          ? "rgba(126,232,225,0.08)"
+          : `${tier.color}0d`,
+        borderBottom: `1px solid ${tier.color}${isCollapse ? "55" : "35"}`,
         backdropFilter: "blur(10px)", padding: "8px 40px",
         display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
       }}
     >
-      <span style={{
-        color: tier.color, fontSize: 13, fontWeight: 600,
-        animation: tier.status === "collapse" ? "glitch-flicker 1.5s infinite" : "none",
-      }}>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ display: "inline", marginRight: 5, verticalAlign: "middle" }}><path d="M12 3L2 20h20L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M12 10v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/><circle cx="12" cy="17" r="0.8" fill="currentColor"/></svg>{tier.label}
-      </span>
-      <span style={{ color: "var(--text3)", fontSize: 12 }}>{tier.effect}</span>
+      {isCollapse ? (
+        <>
+          <span style={{
+            color: tier.color, fontSize: 13, fontWeight: 600,
+            animation: "glitch-flicker 1.5s infinite",
+            display: "flex", alignItems: "center", gap: 5,
+          }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 3L2 20h20L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M12 10v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/><circle cx="12" cy="17" r="0.8" fill="currentColor"/></svg>
+            {tier.label}
+          </span>
+          <span style={{ color: "var(--text3)", fontSize: 12 }}>New paths emerge from the wreckage — keep exploring.</span>
+        </>
+      ) : isHarmonized ? (
+        <>
+          <span style={{
+            color: tier.color, fontSize: 13, fontWeight: 600,
+            animation: "pulse-glow 2s infinite",
+            display: "flex", alignItems: "center", gap: 5,
+          }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+            {tier.label}
+          </span>
+          <span style={{ color: "var(--text3)", fontSize: 12 }}>{tier.effect}</span>
+        </>
+      ) : (
+        <>
+          <span style={{ color: tier.color, fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 5 }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 3L2 20h20L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M12 10v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/><circle cx="12" cy="17" r="0.8" fill="currentColor"/></svg>
+            {tier.label}
+          </span>
+          <span style={{ color: "var(--text3)", fontSize: 12 }}>{tier.effect}</span>
+        </>
+      )}
     </motion.div>
   );
 }

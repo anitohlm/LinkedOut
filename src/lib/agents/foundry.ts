@@ -122,7 +122,7 @@ export function extractJSON<T>(text: string): T {
       // remove trailing commas before } or ]
       .replace(/,\s*([}\]])/g, "$1")
       // spelled-out number words used as values → digits
-      .replace(/:\s*([A-Za-z][A-Za-z ]*?)\s*([,}])/g, (m, word: string, end: string) => {
+      .replace(/:\s*([A-Za-z][A-Za-z ]*?)\s*([,}])/g, (_m, word: string, end: string) => {
         const key = word.trim().toLowerCase();
         if (key === "true" || key === "false" || key === "null") return `: ${key}${end}`;
         if (key in NUMBER_WORDS) return `: ${NUMBER_WORDS[key]}${end}`;

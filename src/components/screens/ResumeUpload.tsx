@@ -18,7 +18,7 @@ const analyzeMessages = [
   "Calibrating destiny scores...",
 ];
 
-export default function ResumeUpload({ state, transitionTo, updateState }: ResumeUploadProps) {
+export default function ResumeUpload({ transitionTo, updateState }: ResumeUploadProps) {
   const [resumeText, setResumeText] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analyzeMsg, setAnalyzeMsg] = useState(analyzeMessages[0]);
@@ -48,6 +48,8 @@ export default function ResumeUpload({ state, transitionTo, updateState }: Resum
       chronicleEditions: [],
       acceptedPositions: [],
       activeTitle: undefined,
+      completionBonusGiven: [],
+      stabilityMessage: null,
     });
 
     let i = 0;
