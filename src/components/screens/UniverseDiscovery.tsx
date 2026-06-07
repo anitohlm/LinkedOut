@@ -215,7 +215,7 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
               title="The Council of Selves"
               sub="Every version of you gathers to debate — then asks the question you've been avoiding."
               lockedHint="Complete the Butterfly Effect to unlock"
-              cta="Enter the Finale →"
+              cta="Enter the Council Chamber →"
               onClick={() => transitionTo("council-of-selves")}
             />
           </>
