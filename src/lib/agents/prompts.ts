@@ -58,9 +58,56 @@ The timelineSignature is the most important output. It is a poetic, 2-3 sentence
 Return ONLY valid JSON, no markdown, no explanation.`;
 
 // ── Agent 2: Multiverse Character Builder ───────────────────────────────────
+const IDENTITY_GUIDE: Record<UniverseType, { titles: string; themes: string; surnames: string; roles: string }> = {
+  medieval: {
+    titles: "Lord, Lady, Sir, Dame, Warden, Steward",
+    themes: "honor, nobility, service, duty",
+    surnames: "Ashvale, Blackthorn, Evercrest (invent a NEW one in this spirit)",
+    roles: "Royal Chronicler, Court Advisor, Keeper of the Archives, Master Steward of the Eastern Court",
+  },
+  vampire: {
+    titles: "Lord, Lady, Count, Countess, Keeper, Curator",
+    themes: "memory, legacy, identity, immortality",
+    surnames: "Nocturne, Valemont, Blackrose (invent a NEW one in this spirit)",
+    roles: "Curator of the Eternal Archive, Keeper of Old Names, Court Historian of the Night",
+  },
+  galactic: {
+    titles: "Commander, Captain, Admiral, Director, Explorer",
+    themes: "discovery, innovation, leadership, creation",
+    surnames: "Starforge, Orion, Novastar (invent a NEW one in this spirit)",
+    roles: "Fleet Commander, Director of Deep Space Exploration, Lead Researcher",
+  },
+  pirate: {
+    titles: "Captain, Quartermaster, Navigator, Corsair, First Mate",
+    themes: "freedom, adventure, courage, independence",
+    surnames: "Stormquill, Sunsail, Blackwake (invent a NEW one in this spirit)",
+    roles: "Master Shipwright, Fleet Navigator, Quartermaster of the Free Ports",
+  },
+  dragon: {
+    titles: "Elder, Sage, Wyrmkeeper, Archon, Loremaster",
+    themes: "wisdom, patience, growth, mastery",
+    surnames: "Emberwing, Ashscale, Dawnscale (invent a NEW one in this spirit)",
+    roles: "Loremaster of the Vaults, Keeper of the Deep Lore, Sage of the Ember Court",
+  },
+  cyberpunk: {
+    titles: "Cipher, Operator, Architect, Director, Ghost",
+    themes: "ambition, innovation, technology, self-determination",
+    surnames: "Vex, Neontrace, Null (invent a NEW one in this spirit)",
+    roles: "Systems Architect, Lead Operator, Director of Synthetic Intelligence",
+  },
+};
+
 export function buildCharacterPrompt(universeId: UniverseType): string {
   const u = getUniverse(universeId);
+  const g = IDENTITY_GUIDE[universeId];
   return `You are a creative career storyteller for LinkedOut, a narrative career exploration platform.
+
+IDENTITY FORMAT for this person — build a believable alternate life, not a themed skin:
+- The name is: [Title] [their real FIRST NAME] [Surname]. Example shape: "Captain ${"${firstName}"} Stormquill".
+- Allowed titles for ${u.title} (choose ONE that fits their path): ${g.titles}
+- Themes of this world: ${g.themes}
+- The SURNAME must be UNIQUE to THIS person — invented from their real craft, skills, achievements, or personality, in the spirit of: ${g.surnames}. NEVER reuse a fixed filler; two different people must get different surnames.
+- The ROLE (profession) must sound earned, real, and easy to say aloud — like: ${g.roles}. Do NOT stack grandiose jargon ("High Archon of Infinite Narratives", "Chief Narrative Hacksmith"). Keep it human and memorable.
 
 Setting: ${u.title}
 World description: ${u.lore}
@@ -71,9 +118,7 @@ Terminology: ${JSON.stringify(u.terminology)}
 Your task: Create an inspiring alternate career profile for this person reimagined in the ${u.title} setting.
 
 Rules:
-- CRITICAL — NAMING: Keep the person's real FIRST NAME exactly. Invent a surname/epithet that is UNIQUE TO THIS PERSON — built from THEIR actual craft, skills, achievements, or personality, then reimagined in the ${u.title} setting. The name must feel earned by the specific life they lived.
-- Do NOT attach a generic, templated surname. NEVER default to overused fillers like "-weaver", "-binder", "-rider", "-tide", "Starweaver", "Tidebinder", "Nightweaver", "Neonweaver". Two different people in the SAME universe must end up with clearly DIFFERENT surnames.
-- The surname should echo what they DO. Examples for a CYBERSECURITY person → pirate "Elias Blackwake", galactic "Commander Elias Voidrun", cyberpunk "Cipher Elias Vex". For a DESIGNER → "Aria Sunsail" / "Aria Lightforge" / "Aria Neontrace". For a STORYTELLER → "Serena Stormquill" / "Serena Starscribe" / "Serena Voxbyte". Notice each surname is rooted in their real profession, not the universe alone.
+- Two different people in the SAME universe must end up with clearly DIFFERENT surnames — derived from who they are, never a fixed filler.
 - Keep the person's core strengths and personality recognizable across the alternate setting.
 - Adapt their real career achievements into setting-appropriate equivalents creatively.
 - The biography should read like an inspiring memoir excerpt, not a job description.

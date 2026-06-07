@@ -95,9 +95,10 @@ export default function ResumeUpload({ state, transitionTo, updateState }: Resum
                 value={resumeText}
                 onChange={e => setResumeText(e.target.value)}
                 placeholder={`Paste your resume text here...\n\nInclude your work experience, skills, education, and achievements for the best multiverse results.`}
-                rows={16}
+                rows={22}
                 style={{
                   width: "100%",
+                  minHeight: "60vh",
                   padding: "20px",
                   background: "var(--bg2)",
                   border: `1px solid ${hasEnoughText ? "var(--border2)" : "var(--border)"}`,
