@@ -78,7 +78,7 @@ Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
         systemPrompt + depthNote + stabilityBehaviorNote(stability, "future") + memoryNote + relationshipNote + answerNote + shiftNote,
         userMessage,
         conversationHistory,
-        500 // concise — texting a mentor, not a speech
+        300 // hard cap — texting a mentor, not writing an essay
       );
     } catch (e: any) {
       // Content filter or transient model error — retry once with a stripped-down, safe prompt
@@ -94,7 +94,7 @@ Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
           ) + memoryNote + relationshipNote,
           userMessage,
           conversationHistory,
-          500
+          300
         );
       } catch {
         // Final graceful fallback — stay in character, never break the conversation

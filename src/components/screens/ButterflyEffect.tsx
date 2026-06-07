@@ -15,6 +15,24 @@ interface Props {
 const LETTER_COLORS = ["#7c6ef7", "#4ecdc4", "#e8c97e", "#f07070"];
 const clean = (t: string) => (t || "").replace(/\\n/g, "\n").trim();
 
+// Resume-aware "what if" decision prompts, mixed with evergreen life pivots.
+function whatIfSuggestions(state: AppState): string[] {
+  const a = state.resumeAnalysis;
+  const field = a?.industries?.[0] || "my field";
+  const skill = a?.skills?.[0];
+  const pool = [
+    `What if I never went into ${field}?`,
+    "What if I'd started my own company?",
+    "What if I'd moved to another country?",
+    "What if I'd taken the job I turned down?",
+    "What if I'd followed my creative side instead?",
+    "What if I'd never played it safe?",
+    "What if I'd said yes to the risky opportunity?",
+    skill ? `What if I'd never learned ${skill}?` : "What if I'd chased money instead of meaning?",
+  ];
+  return [...pool].sort(() => Math.random() - 0.5).slice(0, 5);
+}
+
 export default function ButterflyEffect({ state, transitionTo, updateState }: Props) {
   const [decision, setDecision] = useState("");
   const [timelines, setTimelines] = useState<any[]>([]);
@@ -93,6 +111,28 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
             {loading ? "Fracturing..." : "Generate →"}
           </button>
         </div>
+
+        {/* Suggestion chips */}
+        {!timelines.length && !loading && (
+          <div style={{ marginTop: -24, marginBottom: 40 }}>
+            <div style={{ fontSize: 12, color: "var(--text3)", marginBottom: 10 }}>✨ Try one of these:</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {whatIfSuggestions(state).map((s) => (
+                <button key={s} onClick={() => setDecision(s)}
+                  style={{
+                    padding: "8px 14px", borderRadius: 100, cursor: "pointer",
+                    background: "rgba(124,110,247,0.1)", border: "1px solid rgba(124,110,247,0.3)",
+                    color: "var(--text2)", fontFamily: "Sora, sans-serif", fontSize: 13, transition: "all 0.2s",
+                  }}
+                  onMouseEnter={e => { const b = e.currentTarget as HTMLButtonElement; b.style.background = "rgba(124,110,247,0.2)"; b.style.color = "var(--text)"; b.style.borderColor = "var(--violet)"; }}
+                  onMouseLeave={e => { const b = e.currentTarget as HTMLButtonElement; b.style.background = "rgba(124,110,247,0.1)"; b.style.color = "var(--text2)"; b.style.borderColor = "rgba(124,110,247,0.3)"; }}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {error && <div style={{ textAlign: "center", color: "var(--rose2)", padding: "20px 0" }}>{error}</div>}
         {loading && (
