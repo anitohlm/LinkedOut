@@ -159,6 +159,16 @@ export function AppOrchestrator() {
     if (s === "chronicle") fireOnce("final", "final-choice");
   }, [state.currentScreen, state.allProfiles, observe]);
 
+  // The Historian appears MORE often as the timeline fractures (felt, not numeric).
+  const lastAnomaly = useRef(0);
+  useEffect(() => {
+    if (!showChrome || stability >= 60) return;
+    const now = Date.now();
+    if (now - lastAnomaly.current < 18000) return; // cooldown so it stays eerie, not spammy
+    const chance = Math.min(0.85, (60 - stability) / 60 + 0.1); // lower stability → more anomalies
+    if (Math.random() < chance) { lastAnomaly.current = now; observe("anomaly"); }
+  }, [state.currentScreen, stability, showChrome, observe]);
+
   const transitionTo = useCallback(
     (screen: AppScreenState, updates?: Partial<AppState>) => {
       setIsTransitioning(true);

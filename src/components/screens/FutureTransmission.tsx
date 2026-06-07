@@ -343,7 +343,14 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
         </motion.div>
 
         {/* Messages */}
-        <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", paddingBottom: 16, display: "flex", flexDirection: "column", gap: 16 }}>
+        <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", paddingBottom: 16, display: "flex", flexDirection: "column", gap: 16, position: "relative" }}>
+          {/* Timeline-fracture anomaly overlay — scanlines bleed in as reality frays */}
+          {corruption > 0.25 && (
+            <div className="scanlines" aria-hidden style={{
+              position: "absolute", inset: 0, zIndex: 5, pointerEvents: "none",
+              opacity: Math.min(0.5, corruption * 0.6),
+            }} />
+          )}
           {booting && (
             <div style={{ textAlign: "center", color: "var(--text3)", fontSize: 14, padding: "40px 0" }}>
               <div style={{ fontSize: 32, marginBottom: 12, animation: "pulse-glow 1.5s infinite" }}>🌀</div>
@@ -372,7 +379,11 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
                 style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
                 <div style={{
                   maxWidth: "80%", padding: "14px 18px", borderRadius: 16, fontSize: 14, lineHeight: 1.7,
-                  whiteSpace: "pre-wrap",
+                  whiteSpace: "pre-wrap", position: "relative", zIndex: 6,
+                  // Assistant text fractures (chromatic bleed) as the timeline destabilizes
+                  ...(m.role === "assistant" && !m.villain && corruption > 0.3
+                    ? { textShadow: `${1.4 * corruption}px 0 rgba(240,112,112,0.45), ${-1.4 * corruption}px 0 rgba(78,205,196,0.4)` }
+                    : {}),
                   ...(m.role === "user"
                     ? { background: "var(--violet)", color: "#fff", borderBottomRightRadius: 4 }
                     : m.villain

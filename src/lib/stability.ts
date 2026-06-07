@@ -89,17 +89,25 @@ export function curiosityGain(opts: {
 }
 
 /** A behavioral instruction injected into agent prompts so they react to instability. */
-export function stabilityBehaviorNote(stability: number, speaker: "future" | "council"): string {
-  const tier = getTier(stability);
-  const who = speaker === "future" ? "You are their Future Self." : "You are one of their selves at the Council.";
-  switch (tier.status) {
-    case "stable":
-      return `\n\nTIMELINE STATUS: ${tier.label} (${stability}%). The timeline is steady. Speak normally — clear, grounded, sure of your memories.`;
-    case "unstable":
-      return `\n\nTIMELINE STATUS: ${tier.label} (${stability}%). ${who} Your memories are starting to blur. Occasionally contradict a small detail, or pause as if a memory doesn't line up. Drop a line like "...that's strange, I don't remember it that way" once if it fits.`;
-    case "critical":
-      return `\n\nTIMELINE STATUS: ${tier.label} (${stability}%). ${who} The timeline feels unsteady. Be a little unsettled. You might note that "something changed" or "this isn't how I remember it." Your certainty is wavering.`;
-    case "collapse":
-      return `\n\nTIMELINE STATUS: ${tier.label} (${stability}%). ${who} The timeline is very unstable. Speak in short, slightly disjointed sentences, as if memories are blurring together. Stay hopeful and warm even amid the confusion.`;
+export function stabilityBehaviorNote(stability: number, _speaker: "future" | "council"): string {
+  const s = clamp(stability);
+  if (s >= 80) {
+    return `\n\nTIMELINE STATUS (${s}%): Steady. Speak clearly and grounded, sure of your memories.`;
   }
+  if (s >= 60) {
+    return `\n\nTIMELINE STATUS (${s}%): Minor divergence. Once, lightly, note a flicker of déjà vu or a detail that feels slightly off — then move on. Stay mostly grounded.`;
+  }
+  if (s >= 40) {
+    // 40-59 — Timeline Fracture
+    return `\n\nTIMELINE STATUS (${s}%) — TIMELINE FRACTURE. Reality is becoming inconsistent and you can feel it. In this reply you MUST do at least one of:
+- Question your own memory mid-sentence ("...no, that's not how I remember it. Was it?").
+- Reference something about THEIR present life you shouldn't plausibly know, then seem unsettled that you know it.
+- Notice the conversation itself feels wrong ("Have we... had this conversation before?").
+- Drop a faint Shadow breadcrumb — a flicker of another presence, a line that isn't yours, a cold feeling that you're being listened to.
+Keep your voice, but let the cracks show.`;
+  }
+  if (s >= 20) {
+    return `\n\nTIMELINE STATUS (${s}%) — UNSTABLE REALITY. The timeline is coming loose. Contradict yourself. Lose the thread and find it again. The Shadow feels close — you sense it at the edges. Be unsettled, urgent, fragmented, but still THEM.`;
+  }
+  return `\n\nTIMELINE STATUS (${s}%) — COLLAPSE IMMINENT. Speak in short, breaking fragments, memories bleeding together. You may not have long. Reach for them anyway.`;
 }

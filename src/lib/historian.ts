@@ -12,6 +12,7 @@ export type HistorianEvent =
   | "timeline-critical"
   | "divergence-approaching"
   | "intercept-survived"
+  | "anomaly"
   | "final-choice";
 
 const LINES: Record<HistorianEvent, string[]> = {
@@ -42,6 +43,14 @@ const LINES: Record<HistorianEvent, string[]> = {
   "intercept-survived": [
     "The Shadow reached through and was refused. Such crossings always leave a mark upon the record.",
     "A darker self spoke, and {name} did not yield. I note it, as I note all things that almost were.",
+  ],
+  "anomaly": [
+    "The record stutters. A page I have not yet written already bears {name}'s name.",
+    "Two versions of this moment now exist in my ledger. Only one of you remembers both.",
+    "I have observed countless timelines. I have never seen one watch back. This one does.",
+    "Something moves between the lines of the chronicle. It was not invited.",
+    "A memory surfaces that has not happened yet. The order of things is loosening.",
+    "The threads cross where they should run parallel. {name} can feel it, even now.",
   ],
   "final-choice": [
     "A future has been chosen. The others dim, becoming what-might-have-been. I will keep them, as I keep all things.",
