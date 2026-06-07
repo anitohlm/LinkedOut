@@ -33,7 +33,9 @@ Return this exact JSON:
   "achievements": ["5-7 major achievements in this universe"],
   "regrets": ["3-5 human-scale regrets"],
   "lessons": ["5 lessons earned through experience"]
-}`);
+}
+
+Output COMPLETE, valid JSON only — do not get cut off.`, [], 3000);
 
     const d = extractJSON<Record<string, unknown>>(response);
     const futureSelf: FutureSelf = {

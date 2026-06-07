@@ -38,7 +38,7 @@ Return this exact JSON:
   "radarScores": { "innovation": 0, "leadership": 0, "collaboration": 0, "adaptability": 0, "ambition": 0, "wisdom": 0 }
 }
 
-IMPORTANT: every radarScores value MUST be an integer written with digits (e.g. 87), between 0 and 100. Never spell numbers as words. Output valid JSON only.`);
+IMPORTANT: every radarScores value MUST be an integer written with digits (e.g. 87), between 0 and 100. Never spell numbers as words. Keep biography and timelineStory concise (2-3 short paragraphs each). Output COMPLETE, valid JSON — do not get cut off.`, [], 3500);
 
     const d = extractJSON<Record<string, unknown>>(response);
 

@@ -31,7 +31,9 @@ Return this exact JSON. notoriety, wealth, and threatLevel MUST be plain integer
   "headlines": ["4 archive-style headlines about them"],
   "warningMessage": "a reflective warning to the user about this path",
   "portrait": "image generation prompt"
-}`);
+}
+
+notoriety/wealth/threatLevel are integers 0-100 (digits). Output COMPLETE valid JSON.`, [], 3000);
 
     return NextResponse.json(extractJSON(response));
   } catch (error: any) {

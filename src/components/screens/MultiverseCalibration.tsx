@@ -41,8 +41,14 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
 
   const run = async () => {
     try {
-      // Clear any stale data from previous runs
-      updateState({ allProfiles: {}, allFutureSelves: {}, resumeAnalysis: null, selectedUniverse: null });
+      // Clear ALL data from any previous run — a new resume = a fresh multiverse
+      updateState({
+        allProfiles: {} as any, allFutureSelves: {} as any, resumeAnalysis: null, selectedUniverse: null,
+        transmissions: {}, interviews: {}, cachedInvitations: {}, invitationDecisions: {},
+        councilMessages: [], councilSpecials: [], councilConcluded: false,
+        explored: [], usedButterfly: false, universeActivity: {},
+        timelineState: { stability: 100, status: "stable" },
+      });
 
       // Phase 1: Analyze resume
       setPhase("analyzing");

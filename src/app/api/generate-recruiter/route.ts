@@ -34,7 +34,9 @@ Return this exact JSON:
     "negotiate": "what happens if they negotiate",
     "decline": "what happens if they decline"
   }
-}`);
+}
+
+Output COMPLETE valid JSON only.`, [], 2500);
 
     const d = extractJSON<Record<string, unknown>>(response);
     const invitation: MultiverseInvitation & Record<string, unknown> = {

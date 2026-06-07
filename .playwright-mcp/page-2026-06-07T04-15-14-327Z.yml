@@ -1,0 +1,18 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e173]:
+    - navigation [ref=e174]:
+      - button "← Back" [ref=e175] [cursor=pointer]
+      - button "LinkedOut" [ref=e176] [cursor=pointer]
+    - generic [ref=e177]:
+      - paragraph [ref=e178]: Step 1 of 3
+      - heading "Begin Your Journey" [level=2] [ref=e179]
+      - paragraph [ref=e180]: Paste your resume below. We'll figure out who you could've been.
+      - generic [ref=e181]:
+        - textbox "Paste your resume text here... Include your work experience, skills, education, and achievements for the best multiverse results." [ref=e182]:
+          - /placeholder: "Paste your resume text here...\n\nInclude your work experience, skills, education, and achievements for the best multiverse results."
+        - generic [ref=e183]: 0 chars
+      - paragraph [ref=e184]: "Tip: Copy everything — job titles, bullet points, skills, dates. The more detail, the richer your alternate universe profiles."
+      - button "Paste your resume to continue" [disabled] [ref=e185]
+  - button "Open Next.js Dev Tools" [ref=e169] [cursor=pointer]:
+    - img [ref=e170]
+  - alert [ref=e163]

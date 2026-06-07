@@ -16,7 +16,7 @@ SKILLS: ${resumeAnalysis.skills.join(", ")}
 ACHIEVEMENTS: ${resumeAnalysis.achievements.join(", ")}
 PERSONALITY: ${resumeAnalysis.personalityIndicators.join(", ")}
 
-Return JSON: { "title", "organization", "era", "scores": { "legacy", "influence", "heroism" }, "achievements": [], "historicalImpact", "inspirationalNarrative", "definingQuote", "mythicPortrait" }`);
+Return JSON: { "title", "organization", "era", "scores": { "legacy", "influence", "heroism" }, "achievements": [], "historicalImpact", "inspirationalNarrative", "definingQuote", "mythicPortrait" }. Scores are integers 0-100 (digits). Output COMPLETE valid JSON.`, [], 3000);
 
     return NextResponse.json(extractJSON(response));
   } catch (error: any) {

@@ -21,7 +21,7 @@ ALTERNATE SELVES: ${characters}
 FINAL CHOICE: ${finalChoice}
 JOURNEY: ${logSummary || "A journey through the multiverse."}
 
-Return JSON: { "title", "prologue", "chapters": [{ "number", "title", "content" }], "epilogue" }`);
+Return JSON: { "title", "prologue", "chapters": [{ "number", "title", "content" }], "epilogue" }. Keep each chapter to 2-3 short paragraphs so the whole novella fits. Output COMPLETE valid JSON only.`, [], 4000);
 
     return NextResponse.json(extractJSON(response));
   } catch (error: any) {

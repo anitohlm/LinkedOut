@@ -16,7 +16,7 @@ TIMELINE SIGNATURE: ${resumeAnalysis.timelineSignature}
 SKILLS: ${resumeAnalysis.skills.join(", ")}
 PERSONALITY: ${resumeAnalysis.personalityIndicators.join(", ")}
 
-Return JSON: { "timelines": [{ "letter", "title", "universe", "summary", "milestones": [], "tone" }], "stabilityDelta": -10 }`);
+Return JSON: { "timelines": [{ "letter", "title", "universe", "summary", "milestones": [], "tone" }], "stabilityDelta": -10 }. Output COMPLETE valid JSON only — all 4 timelines.`, [], 3000);
 
     return NextResponse.json(extractJSON(response));
   } catch (error: any) {

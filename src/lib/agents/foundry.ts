@@ -15,7 +15,8 @@ const KEY = () => process.env.AZURE_FOUNDRY_API_KEY!;
 export async function callAI(
   systemPrompt: string,
   userMessage: string,
-  conversationHistory: Array<{ role: "user" | "assistant"; content: string }> = []
+  conversationHistory: Array<{ role: "user" | "assistant"; content: string }> = [],
+  maxTokens = 2000,
 ): Promise<string> {
   const endpoint = getInferenceEndpoint();
   const url = `${endpoint}/chat/completions`;
@@ -38,7 +39,7 @@ export async function callAI(
       model: MODEL(),
       messages,
       temperature: 0.8,
-      max_tokens: 2000,
+      max_tokens: maxTokens,
     }),
   });
 
@@ -61,9 +62,12 @@ const NUMBER_WORDS: Record<string, number> = {
 };
 
 export function extractJSON<T>(text: string): T {
-  const match = text.match(/\{[\s\S]*\}/);
-  if (!match) throw new Error(`No JSON in response: ${text.slice(0, 200)}`);
-  let raw = match[0];
+  // Prefer a complete object; otherwise take everything from the first "{"
+  // (the response may have been truncated before its closing brace).
+  const full = text.match(/\{[\s\S]*\}/);
+  const open = text.indexOf("{");
+  let raw = full ? full[0] : open >= 0 ? text.slice(open) : "";
+  if (!raw) throw new Error(`No JSON in response: ${text.slice(0, 200)}`);
 
   try {
     return JSON.parse(raw) as T;
@@ -80,6 +84,25 @@ export function extractJSON<T>(text: string): T {
         // unquoted bare word value that isn't a keyword → wrap in quotes
         return `: "${word.trim()}"${end}`;
       });
-    return JSON.parse(fixed) as T;
+
+    try {
+      return JSON.parse(fixed) as T;
+    } catch {
+      // Last resort: the JSON was truncated mid-value. Close any open string,
+      // strip the dangling tail, and balance braces/brackets.
+      let repaired = fixed;
+      const quotes = (repaired.match(/"/g) || []).length;
+      if (quotes % 2 !== 0) repaired += '"';                 // close an open string
+      repaired = repaired.replace(/,\s*$/, "");              // drop trailing comma
+      // strip an incomplete trailing "key": fragment
+      repaired = repaired.replace(/,\s*"[^"]*"\s*:\s*$/, "");
+      const opens = (repaired.match(/\{/g) || []).length;
+      const closes = (repaired.match(/\}/g) || []).length;
+      const obrk = (repaired.match(/\[/g) || []).length;
+      const cbrk = (repaired.match(/\]/g) || []).length;
+      repaired += "]".repeat(Math.max(0, obrk - cbrk));
+      repaired += "}".repeat(Math.max(0, opens - closes));
+      return JSON.parse(repaired) as T;
+    }
   }
 }

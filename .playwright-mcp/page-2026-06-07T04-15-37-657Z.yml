@@ -1,0 +1,16 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e173]:
+    - navigation [ref=e174]:
+      - button "← Back" [ref=e175] [cursor=pointer]
+      - button "LinkedOut" [ref=e176] [cursor=pointer]
+    - generic [ref=e177]:
+      - paragraph [ref=e178]: Step 1 of 3
+      - heading "Begin Your Journey" [level=2] [ref=e179]
+      - paragraph [ref=e180]: Paste your resume below. We'll figure out who you could've been.
+      - generic [ref=e187]:
+        - generic [ref=e188]: ⚙️
+        - paragraph [ref=e189]: Identifying transferable skills...
+        - paragraph [ref=e190]: This will just take a moment...
+  - button "Open Next.js Dev Tools" [ref=e169] [cursor=pointer]:
+    - img [ref=e170]
+  - alert [ref=e163]
