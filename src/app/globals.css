@@ -69,6 +69,18 @@ body {
 }
 .historian-log-scroll { scrollbar-width: thin; scrollbar-color: #e8c97e44 transparent; }
 
+/* Council of Selves chat scrollbar */
+.council-scroll::-webkit-scrollbar { width: 4px; }
+.council-scroll::-webkit-scrollbar-track { background: transparent; }
+.council-scroll::-webkit-scrollbar-thumb {
+  background: #7c6ef733;
+  border-radius: 4px;
+}
+.council-scroll::-webkit-scrollbar-thumb:hover {
+  background: #7c6ef788;
+}
+.council-scroll { scrollbar-width: thin; scrollbar-color: #7c6ef733 transparent; }
+
 /* Glass card */
 .glass {
   background: var(--surface);

@@ -59,7 +59,9 @@ export default function VillainSelf({ state, transitionTo, updateState }: Props)
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "60px 40px", position: "relative", zIndex: 1 }}>
         {loading && (
           <div style={{ textAlign: "center", padding: "80px 0", color: "var(--text3)" }}>
-            <div style={{ fontSize: 48, marginBottom: 16, animation: "pulse-glow 2s infinite" }}>🌑</div>
+            <div style={{ marginBottom: 16, animation: "pulse-glow 2s infinite", display: "flex", justifyContent: "center" }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" stroke="#f07070" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </div>
             Tracing the path you didn&apos;t take...
           </div>
         )}
@@ -69,7 +71,9 @@ export default function VillainSelf({ state, transitionTo, updateState }: Props)
           <>
             {/* Header */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: "center", marginBottom: 40 }}>
-              <div style={{ fontSize: 56, marginBottom: 16 }}>🌑</div>
+              <div style={{ marginBottom: 16, display: "flex", justifyContent: "center" }}>
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" stroke="#f07070" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </div>
               <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: ROSE, marginBottom: 8 }}>
                 The Shadow Timeline
               </p>

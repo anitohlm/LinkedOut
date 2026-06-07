@@ -309,7 +309,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(240,112,112,0.6)"; (e.currentTarget as HTMLButtonElement).style.color = "#f07070"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(240,112,112,0.25)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(240,112,112,0.7)"; }}
         >
-          ⚠
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3L2 20h20L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M12 10v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/><circle cx="12" cy="17" r="0.8" fill="currentColor"/></svg>
         </button>
       </nav>
 
@@ -396,7 +396,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
                     ? { background: "rgba(240,112,112,0.1)", border: "1px solid rgba(240,112,112,0.3)", color: "var(--rose2)", borderBottomLeftRadius: 4 }
                     : { background: "var(--surface)", border: "1px solid var(--border)", color: "var(--text2)", borderBottomLeftRadius: 4 }),
                 }}>
-                  {m.villain && <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8, opacity: 0.8 }}>⚠ Transmission Intercepted</div>}
+                  {m.villain && <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8, opacity: 0.8, display: "flex", alignItems: "center", gap: 6 }}><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 3L2 20h20L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M12 10v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><circle cx="12" cy="17" r="0.8" fill="currentColor"/></svg> Transmission Intercepted</div>}
                   {m.content.replace(/\\n/g, "\n")}
                 </div>
               </motion.div>

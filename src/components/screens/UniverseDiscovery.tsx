@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
 import { StabilityHUD } from "@/components/StabilityHUD";
+import UniverseIcon from "@/components/UniverseIcon";
 import { UNIVERSE_ACTIVITIES, universePercent } from "@/lib/progress";
 
 interface Props {
@@ -161,10 +162,12 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
                     )}
 
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, position: "relative" }}>
-                      <div style={{ width: 52, height: 52, borderRadius: 14, marginLeft: visited ? 0 : 0,
+                      <div style={{ width: 52, height: 52, borderRadius: 14,
                         background: `linear-gradient(135deg, ${c}30, ${c}12)`, border: `1px solid ${c}30`,
-                        display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28,
-                        marginTop: visited ? 24 : 0, transition: "margin 0.2s" }}>{universe.emoji}</div>
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        marginTop: visited ? 24 : 0, transition: "margin 0.2s" }}>
+                        <UniverseIcon id={universe.id} size={24} color={c} strokeWidth={1.4} />
+                      </div>
                       <span style={{ fontSize: 11, padding: "5px 12px", borderRadius: 100, fontWeight: 600,
                         background: `${c}18`, color: c, border: `1px solid ${c}30` }}>{universe.title}</span>
                     </div>
@@ -215,7 +218,7 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
               n={2}
               unlocked={phase2Unlocked}
               done={phase2Done}
-              icon="🦋"
+              icon={<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 12C10 8 4 6 2 9s2 7 6 6c-2 2-2 5 4 3" stroke="#7ee8e1" strokeWidth="1.3" strokeLinecap="round"/><path d="M12 12C14 8 20 6 22 9s-2 7-6 6c2 2 2 5-4 3" stroke="#7ee8e1" strokeWidth="1.3" strokeLinecap="round"/><circle cx="12" cy="14" r="1.2" fill="#7ee8e1"/></svg>}
               color="#7ee8e1"
               title="The Butterfly Effect"
               sub="Change one decision. Watch your life fracture across four alternate timelines."
@@ -229,7 +232,7 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
               n={3}
               unlocked={phase3Unlocked}
               done={false}
-              icon="⚖️"
+              icon={<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 7l7-4 7 4M5 17l7 4 7-4" stroke="#9d91ff" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/><path d="M3 10l9 5 9-5" stroke="#9d91ff" strokeWidth="1" strokeLinecap="round" opacity="0.5"/></svg>}
               color="#9d91ff"
               title="The Council of Selves"
               sub="Every version of you gathers to debate — then asks the question you've been avoiding."
@@ -336,7 +339,7 @@ function PhaseTracker({ current, steps }: { current: number; steps: { n: number;
                 border: `1px solid ${done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--border2)"}`,
                 color: done ? "#4ecdc4" : active ? "#fff" : "var(--text3)",
                 boxShadow: active ? "0 0 20px rgba(124,110,247,0.4)" : "none",
-              }}>{done ? "✓" : locked ? "🔒" : s.n}</div>
+              }}>{done ? "✓" : locked ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg> : s.n}</div>
               {!last && (
                 <div style={{ width: 2, flex: 1, minHeight: 28, marginTop: 4,
                   background: done ? "#4ecdc4" : "var(--border)" }} />
@@ -431,7 +434,7 @@ function ChroniclePhaseCard({ editions, latestTitle, latestEditionNumber, onClic
             border: `1px solid ${GOLD}44`,
             display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26,
           }}
-        >📖</motion.div>
+        ><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="#e8c97e" strokeWidth="1.3" strokeLinecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="#e8c97e" strokeWidth="1.3"/><path d="M8 7h8M8 11h6" stroke="#e8c97e" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/></svg></motion.div>
 
         {/* Content */}
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -477,7 +480,7 @@ function ChroniclePhaseCard({ editions, latestTitle, latestEditionNumber, onClic
 }
 
 function PhaseGate({ n, unlocked, done, icon, color, title, sub, lockedHint, cta, onClick }: {
-  n: number; unlocked: boolean; done: boolean; icon: string; color: string;
+  n: number; unlocked: boolean; done: boolean; icon: React.ReactNode; color: string;
   title: string; sub: string; lockedHint: string; cta: string; onClick: () => void;
 }) {
   return (
@@ -505,7 +508,7 @@ function PhaseGate({ n, unlocked, done, icon, color, title, sub, lockedHint, cta
         display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26,
         filter: unlocked ? "none" : "grayscale(1)",
       }}>
-        {unlocked ? icon : "🔒"}
+        {unlocked ? icon : <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="var(--text3)" strokeWidth="1.4"/><path d="M8 11V7a4 4 0 018 0v4" stroke="var(--text3)" strokeWidth="1.4" strokeLinecap="round"/></svg>}
       </div>
 
       <div style={{ flex: 1 }}>
@@ -515,7 +518,7 @@ function PhaseGate({ n, unlocked, done, icon, color, title, sub, lockedHint, cta
         </div>
         <h3 style={{ fontSize: 19, fontWeight: 700, color: "var(--text)", letterSpacing: "-0.3px", marginBottom: 4 }}>{title}</h3>
         <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.5 }}>
-          {unlocked ? sub : `🔒 ${lockedHint}`}
+          {unlocked ? sub : <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>{lockedHint}</span>}
         </p>
       </div>
 

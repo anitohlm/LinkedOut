@@ -120,7 +120,7 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
         {/* Suggestion chips */}
         {!timelines.length && !loading && (
           <div style={{ marginTop: -24, marginBottom: 40 }}>
-            <div style={{ fontSize: 12, color: "var(--text3)", marginBottom: 10 }}>✨ Try one of these:</div>
+            <div style={{ fontSize: 12, color: "var(--text3)", marginBottom: 10, display: "flex", alignItems: "center", gap: 5 }}><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round"/></svg> Try one of these:</div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {whatIfSuggestions(state).map((s) => (
                 <button key={s} onClick={() => setDecision(s)}
@@ -142,7 +142,9 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
         {error && <div style={{ textAlign: "center", color: "var(--rose2)", padding: "20px 0" }}>{error}</div>}
         {loading && (
           <div style={{ textAlign: "center", padding: "60px 0", color: "var(--text3)" }}>
-            <div style={{ fontSize: 40, marginBottom: 12, animation: "float 3s ease-in-out infinite" }}>🦋</div>
+            <div style={{ marginBottom: 12, animation: "float 3s ease-in-out infinite", display: "flex", justifyContent: "center" }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M12 12C10 8 4 6 2 9s2 7 6 6c-2 2-2 5 4 3" stroke="#7c6ef7" strokeWidth="1.3" strokeLinecap="round"/><path d="M12 12C14 8 20 6 22 9s-2 7-6 6c2 2 2 5-4 3" stroke="#4ecdc4" strokeWidth="1.3" strokeLinecap="round"/><circle cx="12" cy="14" r="1.2" fill="#e8c97e"/></svg>
+            </div>
             Splitting your timeline four ways...
           </div>
         )}

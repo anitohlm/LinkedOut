@@ -193,7 +193,13 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
       {/* ── Generating ── */}
       {generating && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 56, marginBottom: 24, filter: "sepia(0.8)" }}>📖</div>
+          <div style={{ marginBottom: 24, opacity: 0.75 }}>
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
+              <path d="M4 19V6a2 2 0 012-2h12a2 2 0 012 2v13" stroke={CREAM2} strokeWidth="1.2" strokeLinecap="round"/>
+              <path d="M4 19a2 2 0 002 2h12a2 2 0 002-2" stroke={CREAM2} strokeWidth="1.2" strokeLinecap="round"/>
+              <path d="M9 7h6M9 11h6M9 15h4" stroke={CREAM2} strokeWidth="1.2" strokeLinecap="round"/>
+            </svg>
+          </div>
           <p style={{ fontFamily: "Crimson Pro, serif", fontSize: 22, color: CREAM2, marginBottom: 8 }}>
             The Historian is recording{editionNumber > 1 ? ` Edition ${toRoman(editionNumber)}` : " your chronicle"}...
           </p>
@@ -297,6 +303,29 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
               </motion.div>
             )}
           </div>
+
+          {/* Keep Exploring */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
+            style={{ marginTop: 12, display: "flex", justifyContent: "center" }}>
+            <button
+              onClick={() => transitionTo("universe-discovery")}
+              style={{
+                display: "flex", alignItems: "center", gap: 8,
+                padding: "11px 24px", borderRadius: 10, cursor: "pointer",
+                background: "transparent", border: "1px solid #3a3020",
+                color: "#8a7a6a", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600,
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = `${accent}66`; e.currentTarget.style.color = CREAM2; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "#3a3020"; e.currentTarget.style.color = "#8a7a6a"; }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/>
+                <path d="M9 12h6M13 10l2 2-2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Keep Exploring
+            </button>
+          </motion.div>
         </motion.div>
       )}
 
@@ -462,7 +491,13 @@ function PageContent({ page, onAction }: { page: BookPage; onAction: (action: st
       <div style={{ ...pageStyle, justifyContent: "center", alignItems: "center", textAlign: "center" }}>
         <div style={{ position: "absolute", inset: 20, border: `1px solid ${INK}15`, borderRadius: 4, pointerEvents: "none" }} />
 
-        <p style={{ fontSize: 22, marginBottom: 16, filter: "sepia(0.5)" }}>📖</p>
+        <div style={{ marginBottom: 16, opacity: 0.5 }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M4 19V6a2 2 0 012-2h12a2 2 0 012 2v13" stroke={INK} strokeWidth="1.4" strokeLinecap="round"/>
+            <path d="M4 19a2 2 0 002 2h12a2 2 0 002-2" stroke={INK} strokeWidth="1.4" strokeLinecap="round"/>
+            <path d="M9 7h6M9 11h6M9 15h4" stroke={INK} strokeWidth="1.4" strokeLinecap="round"/>
+          </svg>
+        </div>
         <p style={{ fontFamily: "Crimson Pro, serif", fontSize: 22, fontStyle: "italic", color: INK, marginBottom: 8 }}>
           Chronicle Recorded
         </p>

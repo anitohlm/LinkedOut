@@ -91,7 +91,9 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
       <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           style={{ textAlign: "center", maxWidth: 440, padding: "0 24px" }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
+          <div style={{ marginBottom: 16, display: "flex", justifyContent: "center" }}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M12 3L2 20h20L12 3z" stroke="var(--rose2)" strokeWidth="1.3" strokeLinejoin="round"/><path d="M12 10v4" stroke="var(--rose2)" strokeWidth="1.8" strokeLinecap="round"/><circle cx="12" cy="17" r="0.8" fill="var(--rose2)"/></svg>
+          </div>
           <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 12, color: "var(--rose2)" }}>Calibration Failed</h2>
           <p style={{ fontSize: 14, color: "var(--text2)", marginBottom: 24, lineHeight: 1.6 }}>{error}</p>
           <button onClick={() => transitionTo("upload-resume")} style={{

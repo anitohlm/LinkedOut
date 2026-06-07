@@ -102,7 +102,13 @@ export default function ShadowIntercept({ firstName, futureMeAdvice, onClose }: 
             style={{ textAlign: "center", position: "relative", zIndex: 2, padding: "0 32px", maxWidth: 580, width: "100%" }}>
             <motion.div
               animate={{ scale: [1, 1.08, 1] }} transition={{ duration: 0.8, repeat: Infinity }}
-              style={{ fontSize: 56, marginBottom: 20 }}>⚠</motion.div>
+              style={{ marginBottom: 20 }}>
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3L2 20h20L12 3z" stroke={RED} strokeWidth="1.5" strokeLinejoin="round"/>
+                <path d="M12 10v4" stroke={RED} strokeWidth="1.8" strokeLinecap="round"/>
+                <circle cx="12" cy="17" r="0.8" fill={RED}/>
+              </svg>
+            </motion.div>
             <h1 className="glitch-text" style={{
               fontSize: "clamp(24px, 5vw, 48px)", fontWeight: 800, letterSpacing: "0.05em",
               color: "#fff", marginBottom: 12, textTransform: "uppercase",
@@ -162,8 +168,19 @@ export default function ShadowIntercept({ firstName, futureMeAdvice, onClose }: 
                   display: "flex", alignItems: "center", justifyContent: "center",
                   filter: "contrast(1.2) saturate(0.7)",
                 }}>
-                <span style={{ fontSize: 28, filter: "blur(1px)", opacity: revealed ? 1 : 0.5 }}>
-                  {revealed ? "🌑" : "?"}
+                <span style={{ opacity: revealed ? 1 : 0.4, filter: revealed ? "none" : "blur(2px)", transition: "all 0.4s" }}>
+                  {revealed ? (
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="9" fill={RED} opacity="0.15" stroke={RED} strokeWidth="1.2"/>
+                      <path d="M15.5 8.5A5 5 0 009 14a5 5 0 006.5-5.5z" fill={RED} opacity="0.7"/>
+                      <circle cx="12" cy="12" r="4" fill={RED} opacity="0.3"/>
+                    </svg>
+                  ) : (
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.2)" strokeWidth="1.2"/>
+                      <path d="M10 9l4 6M14 9l-4 6" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" strokeLinecap="round"/>
+                    </svg>
+                  )}
                 </span>
                 <div className="scanlines" style={{ position: "absolute", inset: 0, opacity: 0.6 }} />
               </motion.div>

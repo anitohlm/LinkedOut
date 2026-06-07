@@ -28,14 +28,14 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
 
   // Universe-themed label for the recruiter mailbox
   const INVITATION_LABELS: Record<string, string> = {
-    medieval: "📜 Royal Summons",
-    cyberpunk: "🛰️ Corp Offers",
-    pirate: "🗺️ Crew Calls",
-    dragon: "🔥 Ancient Covenants",
-    galactic: "🛸 Commissions",
-    vampire: "🩸 Blood Pacts",
+    medieval: "Royal Summons",
+    cyberpunk: "Corp Offers",
+    pirate: "Crew Calls",
+    dragon: "Ancient Covenants",
+    galactic: "Commissions",
+    vampire: "Blood Pacts",
   };
-  const invitationLabel = INVITATION_LABELS[universe.id] || "📬 Invitations";
+  const invitationLabel = INVITATION_LABELS[universe.id] || "Invitations";
 
   // Normalize escaped newlines the model sometimes returns as literal "\n"
   const clean = (t: string) => (t || "").replace(/\\n/g, "\n").trim();
@@ -232,7 +232,8 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(232,201,126,0.18)"; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(232,201,126,0.1)"; }}
                 >
-                  👑 Legendary
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ display:"inline",verticalAlign:"middle",marginRight:5 }}><path d="M3 17l2.5-8L9 13l3-7 3 7 3.5-4L21 17H3z" stroke="#e8c97e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/><path d="M3 17h18" stroke="#e8c97e" strokeWidth="1.6" strokeLinecap="round"/></svg>
+                  Legendary
                 </button>
                 <button
                   onClick={() => { markActivity(state, updateState, state.selectedUniverse!, "shadow"); transitionTo("villain-self"); }}
@@ -240,12 +241,13 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
                     flex: 1, padding: 12, borderRadius: 12,
                     background: "rgba(240,112,112,0.08)", border: "1px solid rgba(240,112,112,0.3)",
                     color: "#f07070", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600,
-                    cursor: "pointer", transition: "all 0.2s",
+                    cursor: "pointer", transition: "all 0.2s", display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
                   }}
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(240,112,112,0.15)"; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(240,112,112,0.08)"; }}
                 >
-                  🌑 Shadow
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" stroke="#f07070" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  Shadow
                 </button>
               </div>
             </motion.div>

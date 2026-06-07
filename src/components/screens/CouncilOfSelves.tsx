@@ -6,6 +6,7 @@ import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import { sendCouncilMessage, generateLegendarySelf, generateVillainSelf } from "@/lib/agents/useAgents";
 import InspirationBar from "@/components/InspirationBar";
+import UniverseIcon from "@/components/UniverseIcon";
 
 interface Props {
   state: AppState;
@@ -231,7 +232,8 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
           <div style={{ display: "flex", justifyContent: "center", gap: 40, marginBottom: specials.length ? 20 : 0, minHeight: specials.length ? 0 : 0 }}>
             {gathering ? (
               <div style={{ display: "flex", alignItems: "center", fontSize: 12, color: "var(--text3)", gap: 8 }}>
-                <span style={{ fontSize: 18 }}>👑</span><span style={{ fontSize: 18 }}>🌑</span>
+                <UniverseIcon id="legendary" size={18} color="#e8c97e" />
+                <UniverseIcon id="shadow" size={18} color="#f07070" />
                 summoning your Legendary & Shadow selves…
               </div>
             ) : (
@@ -242,9 +244,11 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
                     <div style={{
                       width: 60, height: 60, borderRadius: 16, margin: "0 auto 8px",
                       background: `linear-gradient(135deg, ${meta.color}55, ${meta.color}22)`, border: `1.5px solid ${meta.color}66`,
-                      display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28,
+                      display: "flex", alignItems: "center", justifyContent: "center",
                       boxShadow: `0 0 24px ${meta.color}40`,
-                    }}>{meta.emoji}</div>
+                    }}>
+                      <UniverseIcon id={m.key} size={26} color={meta.color} strokeWidth={1.4} />
+                    </div>
                     <div style={{ fontSize: 12, fontWeight: 700, color: meta.color, lineHeight: 1.2, maxWidth: 110 }}>
                       {m.displayName}
                     </div>
@@ -266,8 +270,10 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
                   <div style={{
                     width: 44, height: 44, borderRadius: 12, margin: "0 auto 6px",
                     background: `linear-gradient(135deg, ${meta.color}33, ${meta.color}15)`, border: `1px solid ${meta.color}33`,
-                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20,
-                  }}>{meta.emoji}</div>
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <UniverseIcon id={m.key} size={19} color={meta.color} strokeWidth={1.5} />
+                  </div>
                   <div style={{ fontSize: 10, fontWeight: 600, color: "var(--text2)", lineHeight: 1.2 }}>
                     {m.displayName}
                   </div>
@@ -281,7 +287,7 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
         </div>
 
         {/* Messages */}
-        <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", paddingBottom: 16, display: "flex", flexDirection: "column", gap: 16 }}>
+        <div ref={scrollRef} className="council-scroll" style={{ flex: 1, overflowY: "auto", paddingBottom: 16, display: "flex", flexDirection: "column", gap: 16 }}>
           {messages.length === 0 && !loading && (
             <div style={{ textAlign: "center", color: "var(--text3)", fontSize: 14, padding: "40px 20px", lineHeight: 1.7 }}>
               Every version of you has gathered — the lives you could live, your greatest self, and your shadow.
@@ -297,7 +303,10 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
                   <div style={{ maxWidth: "82%" }}>
                     {m.role === "council" && m.speaker && (
                       <div style={{ fontSize: 11, fontWeight: 600, color: meta?.color || "var(--violet2)", marginBottom: 4, marginLeft: 4 }}>
-                        {meta?.emoji} {m.speaker}
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: 5, verticalAlign: "middle" }}>
+                        <UniverseIcon id={m.metaKey || "medieval"} size={12} color={meta?.color || "var(--violet2)"} strokeWidth={1.8} />
+                        {m.speaker}
+                      </span>
                       </div>
                     )}
                     <div style={{
@@ -339,7 +348,9 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
                     style={{ padding: 12, borderRadius: 12, cursor: "pointer", textAlign: "center",
                       background: `${u.color}12`, border: `1px solid ${u.color}30`, color: "var(--text)",
                       fontFamily: "Sora, sans-serif", fontSize: 12, fontWeight: 600 }}>
-                    <div style={{ fontSize: 20, marginBottom: 4 }}>{u.emoji}</div>
+                    <div style={{ display: "flex", justifyContent: "center", marginBottom: 6 }}>
+                      <UniverseIcon id={m.universeId!} size={20} color={u.color} strokeWidth={1.5} />
+                    </div>
                     {u.title.split(" ")[0]}
                   </button>
                 );

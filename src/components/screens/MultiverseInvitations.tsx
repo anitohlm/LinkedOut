@@ -7,6 +7,7 @@ import { getUniverse } from "@/lib/universes";
 import { generateRecruiter } from "@/lib/agents/useAgents";
 import { markActivity } from "@/lib/progress";
 import { historianLine } from "@/lib/historian";
+import UniverseIcon from "@/components/UniverseIcon";
 
 interface Props {
   state: AppState;
@@ -145,8 +146,9 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
         <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
         </button>
-        <span style={{ fontSize: 13, color: "var(--text3)" }}>
-          {universe?.emoji} {universe?.title}
+        <span style={{ fontSize: 13, color: "var(--text3)", display: "flex", alignItems: "center", gap: 6 }}>
+          {universeId && <UniverseIcon id={universeId} size={14} color="var(--text3)" strokeWidth={1.6} />}
+          {universe?.title}
         </span>
       </nav>
 
@@ -165,7 +167,9 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
 
         {loading && (
           <div style={{ textAlign: "center", padding: "60px 0", color: "var(--text3)" }}>
-            <div style={{ fontSize: 32, marginBottom: 12, animation: "pulse-glow 1.5s infinite" }}>{universe?.emoji}</div>
+            <div style={{ marginBottom: 12, animation: "pulse-glow 1.5s infinite", display: "flex", justifyContent: "center" }}>
+              {universeId && <UniverseIcon id={universeId} size={32} color={universe?.color || "var(--text3)"} strokeWidth={1.2} />}
+            </div>
             Summoning your offer from {universe?.title}...
           </div>
         )}
@@ -187,8 +191,10 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
                   <div style={{
                     width: 40, height: 40, borderRadius: 12, flexShrink: 0,
                     background: `${u.color}18`, border: `1px solid ${u.color}30`,
-                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20,
-                  }}>{u.emoji}</div>
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <UniverseIcon id={inv.universeId} size={18} color={u.color} strokeWidth={1.5} />
+                  </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text)" }}>{inv.factionName}</div>
                     <div style={{ fontSize: 12, color: "var(--text3)" }}>{inv.opportunityTitle} · {u.title}</div>

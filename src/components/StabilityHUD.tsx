@@ -258,7 +258,7 @@ export function TimelineWarningBanner({ stability }: { stability: number }) {
         color: tier.color, fontSize: 13, fontWeight: 600,
         animation: tier.status === "collapse" ? "glitch-flicker 1.5s infinite" : "none",
       }}>
-        ⚠ {tier.label}
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ display: "inline", marginRight: 5, verticalAlign: "middle" }}><path d="M12 3L2 20h20L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M12 10v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/><circle cx="12" cy="17" r="0.8" fill="currentColor"/></svg>{tier.label}
       </span>
       <span style={{ color: "var(--text3)", fontSize: 12 }}>{tier.effect}</span>
     </motion.div>

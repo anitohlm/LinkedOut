@@ -59,7 +59,9 @@ export default function LegendarySelf({ state, transitionTo, updateState }: Prop
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "60px 40px", position: "relative", zIndex: 1 }}>
         {loading && (
           <div style={{ textAlign: "center", padding: "80px 0", color: "var(--text3)" }}>
-            <div style={{ fontSize: 48, marginBottom: 16, animation: "float 4s ease-in-out infinite" }}>👑</div>
+            <div style={{ marginBottom: 16, animation: "float 4s ease-in-out infinite", display: "flex", justifyContent: "center" }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M3 17l2.5-8L9 13l3-7 3 7 3.5-4L21 17H3z" stroke="#e8c97e" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/><path d="M3 17h18" stroke="#e8c97e" strokeWidth="1.3" strokeLinecap="round"/></svg>
+            </div>
             Summoning your greatest possible self...
           </div>
         )}
@@ -69,7 +71,9 @@ export default function LegendarySelf({ state, transitionTo, updateState }: Prop
           <>
             {/* Header */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: "center", marginBottom: 40 }}>
-              <div style={{ fontSize: 56, marginBottom: 16, animation: "float 4s ease-in-out infinite" }}>👑</div>
+              <div style={{ marginBottom: 16, animation: "float 4s ease-in-out infinite", display: "flex", justifyContent: "center" }}>
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none"><path d="M3 17l2.5-8L9 13l3-7 3 7 3.5-4L21 17H3z" stroke="#e8c97e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/><path d="M3 17h18" stroke="#e8c97e" strokeWidth="1.2" strokeLinecap="round"/></svg>
+              </div>
               <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: GOLD, marginBottom: 8 }}>
                 The Legendary Timeline
               </p>
