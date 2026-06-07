@@ -47,7 +47,7 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
         transmissions: {}, interviews: {}, cachedInvitations: {}, invitationDecisions: {},
         councilMessages: [], councilSpecials: [], councilConcluded: false,
         explored: [], usedButterfly: false, universeActivity: {},
-        shadowCuriosity: 0, lastInterceptTurn: -99,
+        shadowCuriosity: 0, lastInterceptTurn: -99, historianLog: [],
         timelineState: { stability: 100, status: "stable" },
       });
 

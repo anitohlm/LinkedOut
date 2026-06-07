@@ -4,12 +4,16 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getTier } from "@/lib/stability";
 
-export function StabilityHUD({ stability }: { stability: number }) {
+const GOLD = "#e8c97e";
+
+export function StabilityHUD({ stability, log }: { stability: number; log?: { text: string; ts: number }[] }) {
   const tier = getTier(stability);
   const critical = tier.status === "critical" || tier.status === "collapse";
   const [hover, setHover] = useState(false);
+  const [showLog, setShowLog] = useState(false);
 
   return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
     <div style={{ position: "relative" }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -61,6 +65,66 @@ export function StabilityHUD({ stability }: { stability: number }) {
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
+
+      {/* Historian Logs */}
+      <div style={{ position: "relative" }}>
+        <button
+          onClick={() => setShowLog(v => !v)}
+          title="Historian's Log"
+          style={{
+            display: "flex", alignItems: "center", gap: 6, cursor: "pointer",
+            padding: "6px 12px", borderRadius: 100, fontFamily: "Sora, sans-serif", fontSize: 12,
+            background: showLog ? `${GOLD}18` : "rgba(255,255,255,0.03)",
+            border: `1px solid ${GOLD}${showLog ? "66" : "33"}`, color: GOLD,
+          }}
+        >
+          ✦ <span style={{ letterSpacing: "0.04em" }}>Logs</span>
+          {!!log?.length && (
+            <span style={{ fontSize: 10, fontWeight: 700, background: `${GOLD}22`, borderRadius: 100, padding: "1px 6px" }}>
+              {log.length}
+            </span>
+          )}
+        </button>
+
+        <AnimatePresence>
+          {showLog && (
+            <motion.div
+              initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18 }}
+              style={{
+                position: "absolute", top: "calc(100% + 10px)", right: 0, zIndex: 60, width: 320, maxHeight: 360, overflowY: "auto",
+                padding: "16px", borderRadius: 14, textAlign: "left",
+                background: "rgba(10,11,16,0.98)", border: `1px solid ${GOLD}44`,
+                backdropFilter: "blur(14px)", boxShadow: `0 14px 48px -14px ${GOLD}55`,
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                <span style={{ color: GOLD, fontSize: 12 }}>✦</span>
+                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: GOLD }}>
+                  The Historian&apos;s Log
+                </span>
+              </div>
+              {!log?.length ? (
+                <p style={{ fontSize: 12, color: "var(--text3)", lineHeight: 1.6, fontStyle: "italic" }}>
+                  The record is empty. Your journey has not yet been observed.
+                </p>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  {[...log].reverse().map((entry, i) => (
+                    <div key={entry.ts + "-" + i} style={{ display: "flex", gap: 10 }}>
+                      <span style={{ width: 5, height: 5, borderRadius: "50%", background: `${GOLD}88`, marginTop: 7, flexShrink: 0 }} />
+                      <p style={{ fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontSize: 13.5, lineHeight: 1.55, color: "var(--text2)" }}>
+                        {entry.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

@@ -205,4 +205,5 @@ export interface AppState {
   universeActivity?: Record<string, string[]>; // per-universe completed activities
   shadowCuriosity?: number;   // hidden — how interested the Shadow is in this user
   lastInterceptTurn?: number; // hidden — cooldown bookkeeping for interceptions
+  historianLog?: { text: string; ts: number }[]; // the Historian's recorded observations
 }

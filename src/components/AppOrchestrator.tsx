@@ -48,6 +48,7 @@ const initialState: AppState = {
   universeActivity: {},
   shadowCuriosity: 0,
   lastInterceptTurn: -99,
+  historianLog: [],
 };
 
 const SAVE_KEY = "linkedout_save_v1";
@@ -120,7 +121,9 @@ export function AppOrchestrator() {
   const [obsQueue, setObsQueue] = useState<string[]>([]);
   const [currentObs, setCurrentObs] = useState<string | null>(null);
   const observe = useCallback((event: HistorianEvent) => {
-    setObsQueue(q => [...q, historianLine(event, firstName)]);
+    const line = historianLine(event, firstName);
+    setObsQueue(q => [...q, line]);
+    setState(prev => ({ ...prev, historianLog: [...(prev.historianLog || []), { text: line, ts: Date.now() }] }));
   }, [firstName]);
 
   // Pull next observation from the queue when idle

@@ -212,3 +212,77 @@ Import trace for requested module:
 [ 5173289ms] [LOG] [Fast Refresh] done in 276ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
 [ 5200081ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
 [ 5200368ms] [LOG] [Fast Refresh] done in 288ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 5325469ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 5325926ms] [LOG] [Fast Refresh] done in 456ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 5339792ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 5340042ms] [LOG] [Fast Refresh] done in 251ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 5350777ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 5351174ms] [LOG] [Fast Refresh] done in 396ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 5365491ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 5365618ms] [ERROR] ./src/components/StabilityHUD.tsx
+Error:   x Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+    ,-[C:\Users\hmanito\Documents\linkedout\src\components\StabilityHUD.tsx:70:1]
+ 67 |       </AnimatePresence>
+ 68 |     </div>
+ 69 |   );
+ 70 | }
+    : ^
+ 71 | 
+ 72 | /** Full-width warning banner shown at low stability. */
+ 73 | export function TimelineWarningBanner({ stability }: { stability: number }) {
+    `----
+  x Expected '</', got ':'
+    ,-[C:\Users\hmanito\Documents\linkedout\src\components\StabilityHUD.tsx:73:1]
+ 70 | }
+ 71 | 
+ 72 | /** Full-width warning banner shown at low stability. */
+ 73 | export function TimelineWarningBanner({ stability }: { stability: number }) {
+    :                                                                 ^
+ 74 |   const tier = getTier(stability);
+ 75 |   if (tier.status === "stable") return null;
+ 76 |   return (
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/StabilityHUD.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[ 5365628ms] [LOG] {file: Object} @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/next-devtools/index.js:1630
+[ 5399408ms] [ERROR] ./src/components/StabilityHUD.tsx
+Error:   x Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+    ,-[C:\Users\hmanito\Documents\linkedout\src\components\StabilityHUD.tsx:70:1]
+ 67 |       </AnimatePresence>
+ 68 |     </div>
+ 69 |   );
+ 70 | }
+    : ^
+ 71 | 
+ 72 | /** Full-width warning banner shown at low stability. */
+ 73 | export function TimelineWarningBanner({ stability }: { stability: number }) {
+    `----
+  x Expected '</', got ':'
+    ,-[C:\Users\hmanito\Documents\linkedout\src\components\StabilityHUD.tsx:73:1]
+ 70 | }
+ 71 | 
+ 72 | /** Full-width warning banner shown at low stability. */
+ 73 | export function TimelineWarningBanner({ stability }: { stability: number }) {
+    :                                                                 ^
+ 74 |   const tier = getTier(stability);
+ 75 |   if (tier.status === "stable") return null;
+ 76 |   return (
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/StabilityHUD.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[ 5399409ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 5399853ms] [LOG] [Fast Refresh] done in 444ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 5409886ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 5410366ms] [LOG] [Fast Refresh] done in 480ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13

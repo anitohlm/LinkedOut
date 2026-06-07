@@ -60,7 +60,7 @@ export default function UniverseDiscovery({ state, transitionTo }: Props) {
           background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
         </button>
-        <StabilityHUD stability={state.timelineState.stability} />
+        <StabilityHUD stability={state.timelineState.stability} log={state.historianLog} />
       </nav>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 40px" }}>
