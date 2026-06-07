@@ -1,0 +1,130 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5] [cursor=pointer]: LinkedOut
+    - generic [ref=e6]:
+      - button "View Universes" [ref=e7] [cursor=pointer]
+      - button "Upload Resume" [ref=e8] [cursor=pointer]
+  - generic [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e12]: AI Career Multiverse Platform
+      - heading "Your Career, Reimagined Across Infinite Universes." [level=1] [ref=e14]:
+        - text: Your Career,
+        - generic [ref=e15]:
+          - text: Reimagined Across
+          - text: Infinite Universes.
+      - paragraph [ref=e16]: Paste your resume and discover who you could have become in another reality. Powered by AI. Inspired by you.
+      - button "Generate My Alternate Lives" [ref=e18] [cursor=pointer]
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - paragraph [ref=e21]: The multiverse is already out there
+        - heading "Six worlds waiting to be explored." [level=2] [ref=e22]
+        - paragraph [ref=e23]: Scroll to explore ›
+      - generic [ref=e24]:
+        - 'button "Year 3050 · Deep Space Cosmic Frontier Humanity''s second home lies past the last mapped star. The frontier doesn''t forgive hesitation — or second thoughts. 3 transmissions intercepted · Signal origin: unknown →" [ref=e25] [cursor=pointer]':
+          - generic [ref=e53]: Year 3050 · Deep Space
+          - generic [ref=e54]:
+            - heading "Cosmic Frontier" [level=3] [ref=e55]
+            - paragraph [ref=e56]: Humanity's second home lies past the last mapped star. The frontier doesn't forgive hesitation — or second thoughts.
+            - generic [ref=e59]: "3 transmissions intercepted · Signal origin: unknown"
+            - generic [ref=e60]: →
+        - 'button "Year 2157 · Neon City Neon Synthesis When the city never sleeps and consciousness uploads at midnight, power lives in the grid. Not on the streets. 7 transmissions intercepted · Source: encrypted relay →" [ref=e61] [cursor=pointer]':
+          - generic [ref=e88]: Year 2157 · Neon City
+          - generic [ref=e89]:
+            - heading "Neon Synthesis" [level=3] [ref=e90]
+            - paragraph [ref=e91]: When the city never sleeps and consciousness uploads at midnight, power lives in the grid. Not on the streets.
+            - generic [ref=e94]: "7 transmissions intercepted · Source: encrypted relay"
+            - generic [ref=e95]: →
+        - button "Year 1718 · The Free Waters Endless Seas Three oceans, a hundred warring ports, and no empire bold enough to claim the sea belongs to them. 2 transmissions intercepted · Delivered by storm crow →" [ref=e96] [cursor=pointer]:
+          - generic [ref=e111]: Year 1718 · The Free Waters
+          - generic [ref=e112]:
+            - heading "Endless Seas" [level=3] [ref=e113]
+            - paragraph [ref=e114]: Three oceans, a hundred warring ports, and no empire bold enough to claim the sea belongs to them.
+            - generic [ref=e117]: 2 transmissions intercepted · Delivered by storm crow
+            - generic [ref=e118]: →
+        - button "Age of the Fifth Sun Ancient Draconia The eldest among them remember the time before kingdoms. They do not negotiate. They only remember. 1 transmission intercepted · Spoken in flame →" [ref=e119] [cursor=pointer]:
+          - generic [ref=e137]: Age of the Fifth Sun
+          - generic [ref=e138]:
+            - heading "Ancient Draconia" [level=3] [ref=e139]
+            - paragraph [ref=e140]: The eldest among them remember the time before kingdoms. They do not negotiate. They only remember.
+            - generic [ref=e143]: 1 transmission intercepted · Spoken in flame
+            - generic [ref=e144]: →
+        - button "Year 1471 · The Realm Medieval Kingdom Behind the walls of every great castle is a war no one speaks of. The battles worth winning happen in candlelit rooms. 4 transmissions intercepted · Sealed with wax →" [ref=e145] [cursor=pointer]:
+          - generic [ref=e174]: Year 1471 · The Realm
+          - generic [ref=e175]:
+            - heading "Medieval Kingdom" [level=3] [ref=e176]
+            - paragraph [ref=e177]: Behind the walls of every great castle is a war no one speaks of. The battles worth winning happen in candlelit rooms.
+            - generic [ref=e180]: 4 transmissions intercepted · Sealed with wax
+            - generic [ref=e181]: →
+        - button "Year 1888 · The City Below Eternal Night The city beneath the city has existed since before your history books began. They have been watching since then. 5 transmissions intercepted · Delivered at dusk →" [ref=e182] [cursor=pointer]:
+          - generic [ref=e183]:
+            - generic [ref=e184]:
+              - img [ref=e194]
+              - img [ref=e197]
+              - img [ref=e200]
+            - generic [ref=e203]: Year 1888 · The City Below
+          - generic [ref=e204]:
+            - heading "Eternal Night" [level=3] [ref=e205]
+            - paragraph [ref=e206]: The city beneath the city has existed since before your history books began. They have been watching since then.
+            - generic [ref=e209]: 5 transmissions intercepted · Delivered at dusk
+            - generic [ref=e210]: →
+    - generic [ref=e211]:
+      - generic [ref=e212]:
+        - paragraph [ref=e213]: A message from your future
+        - heading "Your résumé was only the beginning." [level=2] [ref=e214]
+        - paragraph [ref=e215]: Every choice creates a different future. LinkedOut reveals the lives you could have lived — and lets you talk to the person you became.
+      - generic [ref=e216]:
+        - generic [ref=e218]:
+          - generic [ref=e220]:
+            - generic [ref=e232]: Step 1
+            - heading "The Résumé" [level=3] [ref=e233]
+            - paragraph [ref=e234]: You upload a résumé. Not a list of jobs. Not a collection of skills. A map of decisions, ambitions, risks, and unfinished stories.
+          - img [ref=e237]
+        - generic [ref=e240]:
+          - img [ref=e243]
+          - generic [ref=e249]:
+            - generic [ref=e260]: Step 2
+            - heading "Alternate Futures" [level=3] [ref=e261]
+            - paragraph [ref=e262]: The AI uncovers six lives hidden within your story — a starship commander, a pirate captain, a dragon sage, a vampire archivist, a royal advisor, a cyberpunk visionary.
+        - generic [ref=e263]:
+          - generic [ref=e265]:
+            - generic [ref=e272]: Step 3
+            - heading "The First Transmission" [level=3] [ref=e273]
+            - paragraph [ref=e274]: Then something unexpected happens. A message arrives. The sender claims to be you. Thirty years from now.
+            - generic [ref=e275]: “Can you hear me?”
+          - img [ref=e278]
+        - generic [ref=e284]:
+          - img [ref=e287]
+          - generic [ref=e290]:
+            - generic [ref=e297]: Step 4
+            - heading "Timeline Drift" [level=3] [ref=e298]
+            - paragraph [ref=e299]: Every conversation changes the future. Memories begin to diverge. Timelines fracture. The person contacting you starts remembering a different life.
+        - generic [ref=e300]:
+          - generic [ref=e302]:
+            - img [ref=e306]
+            - generic [ref=e310]: Step 5
+            - heading "The Shadow" [level=3] [ref=e311]
+            - paragraph [ref=e312]: Not every future became who you hoped. One version of you chose a darker path — and now they've found a way to reach you.
+          - img [ref=e315]
+        - generic [ref=e318]:
+          - img [ref=e321]
+          - generic [ref=e326]:
+            - generic [ref=e337]: Step 6
+            - heading "Council of Selves" [level=3] [ref=e338]
+            - paragraph [ref=e339]: The futures gather. They debate your choices, challenge your beliefs, reveal uncomfortable truths — and force you to decide who you want to become.
+        - generic [ref=e340]:
+          - generic [ref=e342]:
+            - generic [ref=e348]: Step 7
+            - heading "Your Chronicle" [level=3] [ref=e349]
+            - paragraph [ref=e350]: Every decision becomes part of a living story. Not a personality report. Not a career assessment. A chronicle of every life you could have lived.
+          - img [ref=e353]
+    - generic [ref=e355]:
+      - generic [ref=e356]:
+        - heading "Who could you have become?" [level=2] [ref=e357]
+        - paragraph [ref=e358]: Paste your résumé. Meet six versions of yourself. Choose your story.
+        - button "Generate My Alternate Lives →" [ref=e359] [cursor=pointer]
+      - generic [ref=e360]:
+        - generic [ref=e361]: LinkedOut
+        - paragraph [ref=e362]:
+          - text: You've been linked out of the timeline you know.
+          - text: Meet the people you could have become.
+        - paragraph [ref=e363]: Powered by AI agents · A narrative career multiverse

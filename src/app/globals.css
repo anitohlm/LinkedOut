@@ -54,6 +54,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Hide scrollbar for universe carousel */
+.universe-scroll::-webkit-scrollbar { display: none; }
+
 /* Glass card */
 .glass {
   background: var(--surface);
