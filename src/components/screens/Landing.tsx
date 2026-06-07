@@ -3,8 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
-  Dna, Globe2, Radio, ScrollText, Crown, Sparkles, Scale, BookOpen,
-  FileText, Boxes, BookMarked, type LucideIcon,
+  FileText, Globe2, Radio, AlertTriangle, Eye, Scale, BookOpen, type LucideIcon,
 } from "lucide-react";
 import { AppState, AppScreenState } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
@@ -263,91 +262,68 @@ export default function Landing({ transitionTo, savedExists, onResume, onNewGame
           </motion.div>
         </motion.div>
 
-        {/* ── HOW IT WORKS ── */}
-        <div style={{ maxWidth: 980, margin: "0 auto", padding: "20px 40px 40px" }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.5 }}
-            style={{ textAlign: "center", marginBottom: 40 }}>
-            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--violet2)", marginBottom: 12 }}>
-              How it works
+        {/* ── THE JOURNEY (cinematic vertical timeline) ── */}
+        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "40px 24px 40px" }}>
+          {/* Section heading */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.6 }}
+            style={{ textAlign: "center", marginBottom: 72, maxWidth: 640, marginLeft: "auto", marginRight: "auto" }}>
+            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--violet2)", marginBottom: 16 }}>
+              A message from your future
             </p>
-            <h2 style={{ fontSize: 30, fontWeight: 700, letterSpacing: "-1px", color: "var(--text)" }}>
-              Three steps to your multiverse
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 700, letterSpacing: "-1.5px", lineHeight: 1.15, color: "var(--text)", marginBottom: 18 }}>
+              Your résumé was only the beginning.
             </h2>
+            <p style={{ fontSize: 16, color: "var(--text2)", lineHeight: 1.7, fontWeight: 300 }}>
+              Every choice creates a different future. LinkedOut reveals the lives you could have lived — and lets you talk to the person you became.
+            </p>
           </motion.div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, position: "relative" }}>
-            {STEPS.map((s, i) => (
-              <motion.div key={s.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.45, delay: i * 0.1 }}
-                style={{ position: "relative", padding: "28px 24px", borderRadius: 18, textAlign: "center",
-                  background: "var(--surface)", border: "1px solid var(--border)" }}>
-                <div style={{ position: "absolute", top: 16, right: 18, fontSize: 40, fontWeight: 800, letterSpacing: "-2px",
-                  color: "var(--surface3)", lineHeight: 1 }}>{i + 1}</div>
-                <div style={{
-                  width: 52, height: 52, borderRadius: 14, margin: "0 auto 16px",
-                  background: "linear-gradient(135deg, rgba(124,110,247,0.25), rgba(124,110,247,0.08))",
-                  border: "1px solid rgba(124,110,247,0.3)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                }}>
-                  <s.icon size={24} color="var(--violet2)" strokeWidth={1.75} />
-                </div>
-                <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text)", marginBottom: 8 }}>{s.title}</h3>
-                <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6 }}>{s.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+          {/* Timeline */}
+          <div className="lo-journey" style={{ position: "relative" }}>
+            {/* glowing connecting line */}
+            <div aria-hidden className="lo-journey-line" style={{
+              position: "absolute", top: 0, bottom: 0, left: "50%", width: 2, transform: "translateX(-50%)",
+              background: "linear-gradient(180deg, transparent, var(--violet2) 8%, var(--cyan2) 50%, var(--gold2) 92%, transparent)",
+              boxShadow: "0 0 16px rgba(124,110,247,0.4)", opacity: 0.5,
+            }} />
 
-        {/* ── FEATURES ── */}
-        <div style={{ maxWidth: 1080, margin: "0 auto", padding: "60px 40px 40px" }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5 }}
-            style={{ textAlign: "center", marginBottom: 48 }}
-          >
-            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--violet2)", marginBottom: 12 }}>
-              An entire multiverse, powered by AI agents
-            </p>
-            <h2 style={{ fontSize: 34, fontWeight: 700, letterSpacing: "-1px", color: "var(--text)" }}>
-              More than a résumé. A story of every life you could live.
-            </h2>
-          </motion.div>
+            {JOURNEY.map((step, i) => {
+              const left = i % 2 === 0;
+              return (
+                <motion.div
+                  key={step.title}
+                  className="lo-journey-row"
+                  initial={{ opacity: 0, x: left ? -40 : 40 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.55, ease: "easeOut" }}
+                >
+                  {/* Card (left side) */}
+                  <div className="lo-journey-left" style={{ gridColumn: 1, display: "flex", justifyContent: "flex-end" }}>
+                    {left && <JourneyCard step={step} index={i} align="right" />}
+                  </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
-            {FEATURES.map((f, i) => (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.45, delay: (i % 3) * 0.08 }}
-                whileHover={{ y: -5 }}
-                style={{
-                  position: "relative", overflow: "hidden",
-                  background: "linear-gradient(160deg, var(--surface), var(--bg2))",
-                  border: "1px solid var(--border)",
-                  borderRadius: 18, padding: 26, textAlign: "left", transition: "border-color 0.3s, box-shadow 0.3s",
-                }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = `${f.color}55`; el.style.boxShadow = `0 14px 40px -16px ${f.color}55`; }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = "var(--border)"; el.style.boxShadow = "none"; }}
-              >
-                {/* corner glow */}
-                <div style={{ position: "absolute", top: -40, right: -40, width: 140, height: 140, borderRadius: "50%",
-                  background: `radial-gradient(circle, ${f.color}22, transparent 70%)`, pointerEvents: "none" }} />
-                <div style={{
-                  width: 48, height: 48, borderRadius: 13, marginBottom: 18, position: "relative",
-                  background: `linear-gradient(135deg, ${f.color}40, ${f.color}15)`, border: `1px solid ${f.color}40`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  boxShadow: `0 4px 16px -4px ${f.color}40`,
-                }}>
-                  <f.icon size={22} color={f.color} strokeWidth={1.75} />
-                </div>
-                <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text)", marginBottom: 8, letterSpacing: "-0.3px" }}>{f.title}</h3>
-                <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6 }}>{f.desc}</p>
-              </motion.div>
-            ))}
+                  {/* Node */}
+                  <div className="lo-journey-node" style={{ gridColumn: 2, display: "flex", justifyContent: "center", position: "relative", zIndex: 2 }}>
+                    <motion.div
+                      whileInView={{ scale: [0.6, 1.15, 1] }} viewport={{ once: true }} transition={{ duration: 0.6 }}
+                      style={{
+                        width: 56, height: 56, borderRadius: "50%",
+                        background: `radial-gradient(circle at 35% 35%, ${step.color}, ${step.color}33)`,
+                        border: `1px solid ${step.color}`, display: "flex", alignItems: "center", justifyContent: "center",
+                        boxShadow: `0 0 24px ${step.color}66`,
+                      }}>
+                      <step.icon size={24} color="#0a0a0a" strokeWidth={2} />
+                    </motion.div>
+                  </div>
+
+                  {/* Card (right side) */}
+                  <div className="lo-journey-right" style={{ gridColumn: 3, display: "flex", justifyContent: "flex-start" }}>
+                    {!left && <JourneyCard step={step} index={i} align="left" />}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 
@@ -407,19 +383,144 @@ export default function Landing({ transitionTo, savedExists, onResume, onNewGame
   );
 }
 
-const STEPS: { icon: LucideIcon; title: string; desc: string }[] = [
-  { icon: FileText, title: "Paste your résumé", desc: "Drop in your career history. An AI agent reads between the lines to find who you really are." },
-  { icon: Boxes, title: "Explore your selves", desc: "Six alternate-universe versions of you come to life — each with their own story, voice, and fate." },
-  { icon: BookMarked, title: "Choose your story", desc: "Talk to them, weigh their lives, and decide which future you're willing to become." },
+type VisualKind = "resume" | "orbit" | "signal" | "drift" | "shadow" | "council" | "chronicle";
+interface JourneyStep { icon: LucideIcon; color: string; title: string; body: string; quote?: string; visual: VisualKind; }
+
+const JOURNEY: JourneyStep[] = [
+  { icon: FileText, color: "#7c6ef7", title: "The Résumé", visual: "resume",
+    body: "You upload a résumé.\n\nNot a list of jobs. Not a collection of skills.\n\nA map of decisions, ambitions, risks, and unfinished stories." },
+  { icon: Globe2, color: "#4ecdc4", title: "Alternate Futures", visual: "orbit",
+    body: "The AI uncovers six lives hidden within your story — a starship commander, a pirate captain, a dragon sage, a vampire archivist, a royal advisor, a cyberpunk visionary." },
+  { icon: Radio, color: "#9d91ff", title: "The First Transmission", visual: "signal",
+    body: "Then something unexpected happens. A message arrives.\n\nThe sender claims to be you. Thirty years from now.",
+    quote: "Can you hear me?" },
+  { icon: AlertTriangle, color: "#e8c97e", title: "Timeline Drift", visual: "drift",
+    body: "Every conversation changes the future.\n\nMemories begin to diverge. Timelines fracture. The person contacting you starts remembering a different life." },
+  { icon: Eye, color: "#f07070", title: "The Shadow", visual: "shadow",
+    body: "Not every future became who you hoped.\n\nOne version of you chose a darker path — and now they've found a way to reach you." },
+  { icon: Scale, color: "#9d91ff", title: "Council of Selves", visual: "council",
+    body: "The futures gather. They debate your choices, challenge your beliefs, reveal uncomfortable truths — and force you to decide who you want to become." },
+  { icon: BookOpen, color: "#ffc278", title: "Your Chronicle", visual: "chronicle",
+    body: "Every decision becomes part of a living story.\n\nNot a personality report. Not a career assessment.\n\nA chronicle of every life you could have lived." },
 ];
 
-const FEATURES: { icon: LucideIcon; color: string; title: string; desc: string }[] = [
-  { icon: Dna, color: "#7c6ef7", title: "Career DNA Analysis", desc: "An AI agent decodes the identity hidden in your résumé — your skills, drives, and the thread running through every role." },
-  { icon: Globe2, color: "#4ecdc4", title: "Six Alternate Universes", desc: "Become a knight, a netrunner, a corsair, a dragon-keeper, a starfarer, or an immortal. Same you — a different world." },
-  { icon: Radio, color: "#9d91ff", title: "Talk to Your Future Self", desc: "Hold a real conversation with the person you became — who remembers your life and speaks from decades ahead." },
-  { icon: ScrollText, color: "#e8c97e", title: "Multiverse Recruiters", desc: "Receive offers from royal courts, megacorps, and ancient orders. Accept, negotiate, or walk away." },
-  { icon: Crown, color: "#f5dfa0", title: "Legendary & Shadow Selves", desc: "Meet your greatest possible self — and the cautionary one who let ambition outrun their values." },
-  { icon: Sparkles, color: "#7ee8e1", title: "Butterfly Effect", desc: "Change one decision and watch your life fracture across four wildly different timelines." },
-  { icon: Scale, color: "#ff9595", title: "Council of Selves", desc: "Every version of you gathers to debate — then asks the question you've been avoiding." },
-  { icon: BookOpen, color: "#ffc278", title: "Your Chronicle", desc: "Your entire journey becomes a personalized novella about the life you chose to become." },
-];
+/* ── Animated per-step visuals ── */
+function JourneyVisual({ kind, color }: { kind: VisualKind; color: string }) {
+  const box: React.CSSProperties = {
+    height: 96, marginBottom: 18, borderRadius: 12, position: "relative", overflow: "hidden",
+    background: `radial-gradient(circle at 50% 40%, ${color}14, transparent 70%)`,
+    border: `1px solid ${color}1f`, display: "flex", alignItems: "center", justifyContent: "center",
+  };
+  const dot = (extra: React.CSSProperties): React.CSSProperties => ({ position: "absolute", borderRadius: "50%", background: color, ...extra });
+
+  if (kind === "resume") {
+    return (
+      <div style={box}>
+        {/* document lines */}
+        <div style={{ width: 86, display: "flex", flexDirection: "column", gap: 6 }}>
+          {[100, 80, 92, 60].map((w, i) => (
+            <motion.div key={i} animate={{ opacity: [0.3, 0.9, 0.3] }} transition={{ duration: 2, repeat: Infinity, delay: i * 0.25 }}
+              style={{ height: 4, width: `${w}%`, borderRadius: 3, background: `${color}99` }} />
+          ))}
+        </div>
+        {/* rising data motes */}
+        {[0, 1, 2, 3].map(i => (
+          <motion.span key={i} animate={{ y: [20, -40], opacity: [0, 1, 0] }} transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.5 }}
+            style={dot({ right: 22 + i * 12, bottom: 20, width: 4, height: 4, boxShadow: `0 0 6px ${color}` })} />
+        ))}
+      </div>
+    );
+  }
+  if (kind === "orbit" || kind === "council") {
+    return (
+      <div style={box}>
+        <span style={dot({ width: 12, height: 12, boxShadow: `0 0 12px ${color}` })} />
+        <motion.div animate={{ rotate: 360 }} transition={{ duration: kind === "orbit" ? 10 : 16, repeat: Infinity, ease: "linear" }}
+          style={{ position: "absolute", width: 76, height: 76 }}>
+          {[0, 60, 120, 180, 240, 300].map((deg) => (
+            <span key={deg} style={dot({
+              width: 7, height: 7, top: "50%", left: "50%",
+              transform: `rotate(${deg}deg) translateX(38px) translate(-50%,-50%)`,
+              boxShadow: `0 0 8px ${color}`,
+            })} />
+          ))}
+        </motion.div>
+      </div>
+    );
+  }
+  if (kind === "signal") {
+    return (
+      <div style={box}>
+        {[0, 1, 2].map(i => (
+          <motion.span key={i} animate={{ scale: [0.3, 1.6], opacity: [0.7, 0] }} transition={{ duration: 2, repeat: Infinity, delay: i * 0.6 }}
+            style={{ position: "absolute", width: 40, height: 40, borderRadius: "50%", border: `1.5px solid ${color}` }} />
+        ))}
+        <span style={dot({ width: 10, height: 10, position: "relative", boxShadow: `0 0 12px ${color}` })} />
+      </div>
+    );
+  }
+  if (kind === "drift") {
+    return (
+      <div style={box}>
+        <div style={{ position: "absolute", left: 16, right: 16, top: "50%", height: 2, background: `${color}55` }} />
+        <motion.div animate={{ rotate: [0, -14, -10] }} transition={{ duration: 2.5, repeat: Infinity, repeatType: "mirror" }}
+          style={{ position: "absolute", left: "50%", top: "50%", width: 70, height: 2, background: color, transformOrigin: "left center", boxShadow: `0 0 8px ${color}` }} />
+        <motion.div animate={{ rotate: [0, 14, 9] }} transition={{ duration: 2.5, repeat: Infinity, repeatType: "mirror", delay: 0.3 }}
+          style={{ position: "absolute", left: "50%", top: "50%", width: 70, height: 2, background: `${color}88`, transformOrigin: "left center" }} />
+        <span style={dot({ left: "50%", top: "50%", width: 8, height: 8, transform: "translate(-50%,-50%)", boxShadow: `0 0 10px ${color}` })} />
+      </div>
+    );
+  }
+  if (kind === "shadow") {
+    return (
+      <div style={{ ...box, background: "radial-gradient(circle at 50% 40%, rgba(240,112,112,0.12), transparent 70%)" }}>
+        <div className="scanlines" style={{ position: "absolute", inset: 0, opacity: 0.5 }} />
+        <motion.div animate={{ x: [0, -2, 2, 0], opacity: [0.85, 1, 0.7, 0.85] }} transition={{ duration: 0.5, repeat: Infinity }}
+          style={{ fontSize: 34, color, textShadow: `-2px 0 rgba(78,205,196,0.6), 2px 0 ${color}` }}>
+          <Eye size={34} color={color} strokeWidth={2} />
+        </motion.div>
+      </div>
+    );
+  }
+  // chronicle — opening book
+  return (
+    <div style={box}>
+      <div style={{ display: "flex", perspective: 300 }}>
+        <motion.div animate={{ rotateY: [-50, -20, -50] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          style={{ width: 40, height: 56, background: `linear-gradient(90deg, ${color}55, ${color}22)`, borderRadius: "4px 0 0 4px", transformOrigin: "right center", border: `1px solid ${color}55` }} />
+        <motion.div animate={{ rotateY: [50, 20, 50] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          style={{ width: 40, height: 56, background: `linear-gradient(270deg, ${color}55, ${color}22)`, borderRadius: "0 4px 4px 0", transformOrigin: "left center", border: `1px solid ${color}55` }} />
+      </div>
+    </div>
+  );
+}
+
+function JourneyCard({ step, index, align }: { step: JourneyStep; index: number; align: "left" | "right" }) {
+  return (
+    <div className="lo-journey-card" style={{
+      maxWidth: 380, textAlign: align,
+      background: "linear-gradient(160deg, var(--surface), var(--bg2))",
+      border: `1px solid ${step.color}33`, borderRadius: 18, padding: "24px 26px",
+      boxShadow: `0 16px 48px -20px ${step.color}55`,
+    }}>
+      <JourneyVisual kind={step.visual} color={step.color} />
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10,
+        justifyContent: align === "right" ? "flex-end" : "flex-start" }}>
+        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: step.color }}>
+          Step {index + 1}
+        </span>
+      </div>
+      <h3 style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", marginBottom: 12 }}>{step.title}</h3>
+      <p style={{ fontSize: 14, color: "var(--text2)", lineHeight: 1.7, whiteSpace: "pre-line" }}>{step.body}</p>
+      {step.quote && (
+        <div style={{
+          marginTop: 16, padding: "12px 16px", borderRadius: 12, display: "inline-block",
+          background: `${step.color}14`, border: `1px solid ${step.color}33`,
+          fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontSize: 16, color: "var(--text)",
+        }}>
+          &ldquo;{step.quote}&rdquo;
+        </div>
+      )}
+    </div>
+  );
+}

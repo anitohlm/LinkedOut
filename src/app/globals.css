@@ -142,6 +142,26 @@ body {
     1.5px 0 rgba(78, 205, 196, 0.5);
 }
 
+/* ── Landing story journey: alternating on desktop, single-column on mobile ── */
+.lo-journey-row {
+  display: grid;
+  grid-template-columns: 1fr 64px 1fr;
+  align-items: center;
+  margin-bottom: 28px;
+}
+@media (max-width: 768px) {
+  .lo-journey-line { left: 27px !important; }
+  .lo-journey-row { grid-template-columns: 54px 1fr !important; align-items: start; }
+  .lo-journey-node { grid-column: 1 !important; }
+  /* both side-cards collapse into the right column, left-aligned */
+  .lo-journey-left, .lo-journey-right {
+    grid-column: 2 !important;
+    justify-content: flex-start !important;
+  }
+  .lo-journey-left:empty, .lo-journey-right:empty { display: none !important; }
+  .lo-journey-card { text-align: left !important; max-width: 100% !important; }
+}
+
 .scanlines {
   background-image: repeating-linear-gradient(
     0deg,
