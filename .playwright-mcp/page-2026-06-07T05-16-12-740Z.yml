@@ -1,0 +1,106 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2805]:
+    - navigation [ref=e2806]:
+      - button "← Back" [ref=e2807] [cursor=pointer]
+      - button "LinkedOut" [ref=e2808] [cursor=pointer]
+      - generic [ref=e2809]:
+        - button "🩸 Blood Pacts" [ref=e2810] [cursor=pointer]
+        - generic [ref=e2811]: 🧛 Eternal Night
+    - generic [ref=e2812]:
+      - generic [ref=e2813]:
+        - generic [ref=e2814]: 🧛
+        - generic [ref=e2815]:
+          - heading "Luca Nightbrew" [level=1] [ref=e2816]
+          - paragraph [ref=e2817]: Nocturne Barista & Songsmith
+          - paragraph [ref=e2818]: Eternal Night · Ancient Covenants
+        - generic [ref=e2819]:
+          - generic [ref=e2820]:
+            - generic [ref=e2821]: "78"
+            - generic [ref=e2822]: innovation
+          - generic [ref=e2823]:
+            - generic [ref=e2824]: "65"
+            - generic [ref=e2825]: leadership
+          - generic [ref=e2826]:
+            - generic [ref=e2827]: "70"
+            - generic [ref=e2828]: collaboration
+      - generic [ref=e2829]:
+        - generic [ref=e2830]:
+          - generic [ref=e2831]:
+            - generic: ”
+            - generic [ref=e2834]: Biography
+            - paragraph [ref=e2836]: I first learned the art of ebon brewcraft beneath the vaulted arches of the Eternal Café, where each cup was a conduit to the restless night. While the steam rose like ghostly verses, I whispered melodies into the amber air, letting the rhythm of the grind guide my strings. The clang of the cash register became a percussive heartbeat, reminding me that every note must be paid for, lest the silence of Oblivion claim my dreams. Now, as I stir midnight espresso for the Prince's council, I compose nocturnal songs that echo through the stone walls of the Ancient Covenant. Each melody is a promise, each brew a pact, and together they forge a Compact that sustains both spirit and belly. Though the final chord often drifts beyond my grasp, the pursuit itself lights the path toward Eternity.
+          - generic [ref=e2837]:
+            - generic [ref=e2840]: Timeline Story
+            - paragraph [ref=e2844]: I arrived at the Eternal Café as an eager apprentice, my hands stained with the first drafts of coffee and song. Under the tutelage of an ancient Sire, I learned to coax flavor from dark beans and harmony from restless strings, discovering that the two arts fed one another like twin flames. As my skill grew, I took on the mantle of Nightbrew, balancing the clang of coinage with the hush of a new chord. Now, with a modest Compact of loyal patrons, I venture beyond the café's stone walls, seeking hidden alcoves where I can serve both brew and melody. Each night I set up a modest stage, offering the Prince's finest espresso alongside a fresh composition, hoping to turn fleeting applause into a lasting legacy.
+          - generic [ref=e2845]:
+            - generic [ref=e2848]: Where They're Heading
+            - paragraph [ref=e2850]: Luca envisions ascending to become a Prince of the Midnight Chorus, leading a Clan that unites the art of brewcraft with the power of song. His next Compact aims to travel the shadowed valleys, forging Eternal alliances that meld flavor and sound, ultimately securing his place in the annals of the Ancient Coven.
+          - generic [ref=e2851]:
+            - generic [ref=e2854]: Achievements
+            - generic [ref=e2856]:
+              - generic [ref=e2857]:
+                - generic [ref=e2858]: "1"
+                - generic [ref=e2859]: Compiled a compendium of original nocturnal songs while tending the Eternal Café's steaming brews
+              - generic [ref=e2860]:
+                - generic [ref=e2861]: "2"
+                - generic [ref=e2862]: Delivered flawless midnight espresso to the Prince's council, keeping the Clan's morale at its peak
+              - generic [ref=e2863]:
+                - generic [ref=e2864]: "3"
+                - generic [ref=e2865]: Wove lyrical verses into the café's ambient echo, enchanting patrons and extending their stay
+              - generic [ref=e2866]:
+                - generic [ref=e2867]: "4"
+                - generic [ref=e2868]: Mastered the Obsidian Ledger, turning modest offerings into sustenance for the Compact
+              - generic [ref=e2869]:
+                - generic [ref=e2870]: "5"
+                - generic [ref=e2871]: Earned the Ember Cup for the finest brewed elixir in the Shadow Market
+              - generic [ref=e2872]:
+                - generic [ref=e2873]: "6"
+                - generic [ref=e2874]: Produced a recorded nocturne that resonated across the Coven's halls, earning acclaim from senior Sires
+              - generic [ref=e2875]:
+                - generic [ref=e2876]: "7"
+                - generic [ref=e2877]: Mentored new apprentices in the balance of brew and song, fostering a new generation of Nightbrew Scribes
+        - generic [ref=e2878]:
+          - generic [ref=e2879]:
+            - button "Begin Future Transmission →" [ref=e2880] [cursor=pointer]
+            - generic [ref=e2881]:
+              - button "👑 Legendary" [ref=e2882] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e2883] [cursor=pointer]
+          - generic [ref=e2884]:
+            - generic [ref=e2887]: Personality
+            - paragraph [ref=e2889]: Luca's idealism shines in every cup and chord, while his cautious approach to coin keeps the Clan from slipping into Oblivion. Restlessness drives him to explore new melodies, yet his reflective nature ensures each piece is polished to near perfection. Imagination fuels his verses, and a quiet perfectionist spirit pushes him to refine every brew and lyric.
+          - generic [ref=e2890]:
+            - generic [ref=e2893]: Competency Matrix
+            - generic [ref=e2895]:
+              - generic [ref=e2897]:
+                - generic [ref=e2898]: innovation
+                - generic [ref=e2899]: "78"
+              - generic [ref=e2903]:
+                - generic [ref=e2904]: leadership
+                - generic [ref=e2905]: "65"
+              - generic [ref=e2909]:
+                - generic [ref=e2910]: collaboration
+                - generic [ref=e2911]: "70"
+              - generic [ref=e2915]:
+                - generic [ref=e2916]: adaptability
+                - generic [ref=e2917]: "72"
+              - generic [ref=e2921]:
+                - generic [ref=e2922]: ambition
+                - generic [ref=e2923]: "80"
+              - generic [ref=e2927]:
+                - generic [ref=e2928]: wisdom
+                - generic [ref=e2929]: "68"
+          - generic [ref=e2932]:
+            - generic [ref=e2935]: Skills
+            - generic [ref=e2937]:
+              - generic [ref=e2938]: Ebon Brewcraft
+              - generic [ref=e2939]: Patron Enchantment
+              - generic [ref=e2940]: Obsidian Ledger Management
+              - generic [ref=e2941]: Nocturne Composition
+              - generic [ref=e2942]: Verse Weaving
+              - generic [ref=e2943]: Stringcraft
+              - generic [ref=e2944]: Verse Scribing
+              - generic [ref=e2945]: Echo Refinement
+              - generic [ref=e2946]: Chronicle Weaving
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

@@ -1,0 +1,106 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2024]:
+    - navigation [ref=e2025]:
+      - button "← Back" [ref=e2026] [cursor=pointer]
+      - button "LinkedOut" [ref=e2027] [cursor=pointer]
+      - generic [ref=e2028]:
+        - button "🛰️ Corp Offers" [ref=e2029] [cursor=pointer]
+        - generic [ref=e2030]: 🌃 Neon Synthesis
+    - generic [ref=e2031]:
+      - generic [ref=e2032]:
+        - generic [ref=e2033]: 🌃
+        - generic [ref=e2034]:
+          - heading "Luca Synthbrew" [level=1] [ref=e2035]
+          - paragraph [ref=e2036]: Brewcode Netrunner
+          - paragraph [ref=e2037]: Neon Synthesis · Megacorporations
+        - generic [ref=e2038]:
+          - generic [ref=e2039]:
+            - generic [ref=e2040]: "89"
+            - generic [ref=e2041]: innovation
+          - generic [ref=e2042]:
+            - generic [ref=e2043]: "74"
+            - generic [ref=e2044]: leadership
+          - generic [ref=e2045]:
+            - generic [ref=e2046]: "83"
+            - generic [ref=e2047]: collaboration
+      - generic [ref=e2048]:
+        - generic [ref=e2049]:
+          - generic [ref=e2050]:
+            - generic: ”
+            - generic [ref=e2053]: Biography
+            - paragraph [ref=e2055]: "I still remember the first time the neon-lit steam rose from the SynthEspresso vats at Neon Pulse Café. I was a junior operator, grinding beans of quantum-infused coffee while the city sang its endless synthwave. Between orders, I tapped into the café's ambient lattice, weaving riffs into the background hum. Those hidden chords became my secret Hack, a personal soundtrack that kept the rush of orders from becoming a Crash. Now, as a member of the Resonance Collective, I spend nights calibrating sound‑waves and brew‑algorithms in tandem. Every cup I serve is a micro‑exploit: a perfect balance of flavor and frequency that leaves patrons humming the next track I’m drafting. The rhythm of the city fuels my melodies, and each successful Exploit reminds me that the silence of unpaid credits is only a temporary pause in a larger composition."
+          - generic [ref=e2056]:
+            - generic [ref=e2059]: Timeline Story
+            - paragraph [ref=e2063]: I started as a junior Brewcode Operator at Neon Pulse Café, learning the rhythm of the vats and the pulse of the city. After a year of grinding beans and chords, I discovered a hidden sub‑layer in the café's network and launched my first personal Hack, mixing a song into the background without disrupting service. The success of that Exploit caught the eye of the Resonance Collective, and I was invited to join their fold. Within the Collective, I refined my dual craft—perfecting brew algorithms while composing sonic textures that could be streamed directly into a patron's cortical implants. Now, as a mid‑level Netrunner, I split my cycles between client‑facing brew stations and deep‑core audio Hack projects, always searching for the next perfect sync between taste and tone.
+          - generic [ref=e2064]:
+            - generic [ref=e2067]: Where They're Heading
+            - paragraph [ref=e2069]: Luca is charting a path toward becoming the Admin of the Sensory Experience Division at a leading Megacorp, where he will orchestrate city‑wide Brew‑Wave installations that blend caffeine, music, and immersive neon. His next milestone is to lead a Collective‑wide Hack that integrates real‑time market data into dynamic soundscapes, turning every transaction into a living melody.
+          - generic [ref=e2070]:
+            - generic [ref=e2073]: Achievements
+            - generic [ref=e2075]:
+              - generic [ref=e2076]:
+                - generic [ref=e2077]: "1"
+                - generic [ref=e2078]: Executed the "Midnight Resonance Hack", delivering a full EP of original tracks while maintaining flawless SynthEspresso service during the city's peak flux.
+              - generic [ref=e2079]:
+                - generic [ref=e2080]: "2"
+                - generic [ref=e2081]: Achieved a 99.8% error‑free credit flow rate, handling millions of micro‑transactions without a Crash in a high‑traffic neon market.
+              - generic [ref=e2082]:
+                - generic [ref=e2083]: "3"
+                - generic [ref=e2084]: Engineered a proprietary Brew‑Wave protocol that synchronizes coffee vapor patterns with ambient soundscapes, adopted by three Megacorporations.
+              - generic [ref=e2085]:
+                - generic [ref=e2086]: "4"
+                - generic [ref=e2087]: Mentored a rookie Collective of audio hackers, guiding them to co‑create a live‑streamed sonic‑brew experience that garnered 1.2M views.
+              - generic [ref=e2088]:
+                - generic [ref=e2089]: "5"
+                - generic [ref=e2090]: Authored the "Lyrical Codecraft" manual, blending poetry scripting with audio editing, now a core curriculum in the Neon Academy.
+              - generic [ref=e2091]:
+                - generic [ref=e2092]: "6"
+                - generic [ref=e2093]: Secured an Exploit award for perfect customer interface design, reducing wait times by 27% during the annual Neon Fest.
+              - generic [ref=e2094]:
+                - generic [ref=e2095]: "7"
+                - generic [ref=e2096]: Performed a live guitar‑synth solo atop the Neon Pulse rooftop, integrating real‑time brew data into the performance visuals.
+        - generic [ref=e2097]:
+          - generic [ref=e2098]:
+            - button "Begin Future Transmission →" [ref=e2099] [cursor=pointer]
+            - generic [ref=e2100]:
+              - button "👑 Legendary" [ref=e2101] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e2102] [cursor=pointer]
+          - generic [ref=e2103]:
+            - generic [ref=e2106]: Personality
+            - paragraph [ref=e2108]: Luca's idealism shines as a relentless quest for the perfect synth‑brew harmony, yet his financial risk‑aversion keeps his credit ledgers immaculate. Restlessness drives him to experiment with new waveforms, while his reflective nature records every nuance in lyrical code. Perfectionist tendencies push every cup and chord toward an elusive, flawless Exploit.
+          - generic [ref=e2109]:
+            - generic [ref=e2112]: Competency Matrix
+            - generic [ref=e2114]:
+              - generic [ref=e2116]:
+                - generic [ref=e2117]: innovation
+                - generic [ref=e2118]: "89"
+              - generic [ref=e2122]:
+                - generic [ref=e2123]: leadership
+                - generic [ref=e2124]: "74"
+              - generic [ref=e2128]:
+                - generic [ref=e2129]: collaboration
+                - generic [ref=e2130]: "83"
+              - generic [ref=e2134]:
+                - generic [ref=e2135]: adaptability
+                - generic [ref=e2136]: "88"
+              - generic [ref=e2140]:
+                - generic [ref=e2141]: ambition
+                - generic [ref=e2142]: "91"
+              - generic [ref=e2146]:
+                - generic [ref=e2147]: wisdom
+                - generic [ref=e2148]: "70"
+          - generic [ref=e2151]:
+            - generic [ref=e2154]: Skills
+            - generic [ref=e2156]:
+              - generic [ref=e2157]: Synthbrew Engineering
+              - generic [ref=e2158]: Client Interface Management
+              - generic [ref=e2159]: Credit Flow Optimization
+              - generic [ref=e2160]: Audio Wavecraft
+              - generic [ref=e2161]: Resonance Architecture
+              - generic [ref=e2162]: String Synth Manipulation
+              - generic [ref=e2163]: Lyrical Codecraft
+              - generic [ref=e2164]: Clipsplice Editing
+              - generic [ref=e2165]: Narrative Weaving
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

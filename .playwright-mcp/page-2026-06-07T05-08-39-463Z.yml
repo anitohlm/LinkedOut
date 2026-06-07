@@ -1,0 +1,40 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e586]:
+    - navigation [ref=e587]:
+      - button "← Back" [ref=e588] [cursor=pointer]
+      - generic [ref=e589]: ☠️ Future Transmission
+      - button "⚠" [ref=e590] [cursor=pointer]
+    - generic [ref=e591]:
+      - generic [ref=e592]:
+        - generic [ref=e594]: ☠️
+        - generic [ref=e595]:
+          - generic [ref=e596]: Luca Tidebrew, Captain of the Harmonic Galleon
+          - generic [ref=e597]: Maestro of the Mariner's Brew · Year 2150
+        - generic [ref=e598]:
+          - generic [ref=e599]: Bond
+          - generic [ref=e600]: Stranger
+      - generic [ref=e602]:
+        - generic [ref=e612]: "Ahoy, younger me! The tide's turned strange, and the Galleon's helm has found a crack in the chronicle. I’m the scar‑stained Captain you’ll someday become, still swearing by espresso steam and the roar of a drum‑tight ledger. I remember the night you spilled that whole pot on the piano—how the keys sang back a lullaby you never intended. That was the first spark that lit the Brew‑Beat Engine, even if the world didn’t hear it yet. Now the wind whistles a new verse, and the sea asks: what chord will you strike before the next wave? Grab a mug, tighten your grip, and let’s trade a story for a song. The horizon’s waiting, and it’s not going to wait forever."
+        - generic [ref=e630]: When a choice is hard and no one's watching — what do you trust?
+        - generic [ref=e632]: My independence
+        - generic [ref=e634]: ✦ Relationship +2 · Timeline Stability +3
+        - generic [ref=e636]: Independence, you say—like a lone mast snatching the wind’s whisper. I hoisted that same flag after the mutiny, solo till the crew’s chorus turned profit‑share into a hymn. On the Sargasso Trade Route, the Brew‑Beat Engine sang its first storm‑driven beat while espresso dripped, teaching me even a solo ship needs a rhythm. I see your compass spin, and I trust the sea will hold you—just remember to drop an anchor for the souls you love.
+        - generic [ref=e641]: I'm thinking about throwing it all away and starting over from nothing. Should I do it?
+        - generic [ref=e643]: Yo‑ho, I hear the siren of a clean deck and a brand‑new hull. I once burned the sails of my first love—an acoustic duo that sang me awake at dawn—because unpaid bills shouted louder than their chords. I walked away, thought I’d start fresh on a barren island of caffeine, only to find the sea‑salt still clung to my boots. The Galleon’s hull is a patchwork of broken planks, stolen moments, and the one‑dollar tip that birthed a pirate‑radio hit. Every time I tried to ditch the whole ship, the tide slipped a rope through my fingers and pulled me back to the deck, coffee pot in hand, drum‑skin ledger thumping. If you fling everything into the abyss, you might discover a new current—or you might just be trading one storm for another, with the same old cargo of dreams tucked under your coat. I’m not here to chart your course—your compass is already humming. Grab that espresso, slam the kettle, and see what rhythm the spill makes. If the beat feels right, let the wind take you; if it rattles the plates, maybe the deck you already stand on still has room for a fresh verse.
+      - generic [ref=e644]:
+        - generic [ref=e645]:
+          - generic [ref=e648]: Luca asks
+          - paragraph [ref=e649]: “The map ends and the sea keeps going. Do we sail on?”
+        - generic [ref=e650]:
+          - button "A Always. The edge is where it's real" [ref=e651] [cursor=pointer]:
+            - generic [ref=e652]: A
+            - text: Always. The edge is where it's real
+          - button "B If the crew's ready, we go" [ref=e653] [cursor=pointer]:
+            - generic [ref=e654]: B
+            - text: If the crew's ready, we go
+          - button "C We chart it first. No blind waters" [ref=e655] [cursor=pointer]:
+            - generic [ref=e656]: C
+            - text: We chart it first. No blind waters
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

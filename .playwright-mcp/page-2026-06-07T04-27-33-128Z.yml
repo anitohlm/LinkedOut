@@ -1,0 +1,85 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3466]:
+    - navigation [ref=e3467]:
+      - button "← Back" [ref=e3468] [cursor=pointer]
+      - generic [ref=e3469]: ⚖️ The Council of Selves
+    - generic [ref=e3470]:
+      - generic [ref=e3471]:
+        - generic [ref=e3472]:
+          - generic [ref=e3473]:
+            - generic [ref=e3474]: 👑
+            - generic [ref=e3475]: Luca the Ascended
+            - generic [ref=e3476]: Legendary
+          - generic [ref=e3477]:
+            - generic [ref=e3478]: 🌑
+            - generic [ref=e3479]: Luca Nocturne
+            - generic [ref=e3480]: Shadow
+        - generic [ref=e3481]:
+          - generic [ref=e3482]:
+            - generic [ref=e3483]: 🏰
+            - generic [ref=e3484]: Luca Nightquill
+            - generic [ref=e3485]: Medieval
+          - generic [ref=e3486]:
+            - generic [ref=e3487]: 🌃
+            - generic [ref=e3488]: Luca Pulsebrew
+            - generic [ref=e3489]: Neon
+          - generic [ref=e3490]:
+            - generic [ref=e3491]: ☠️
+            - generic [ref=e3492]: Luca Stormbrew
+            - generic [ref=e3493]: Endless
+          - generic [ref=e3494]:
+            - generic [ref=e3495]: 🐉
+            - generic [ref=e3496]: Luca Emberwing
+            - generic [ref=e3497]: Ancient
+          - generic [ref=e3498]:
+            - generic [ref=e3499]: 🚀
+            - generic [ref=e3500]: Luca Starweaver
+            - generic [ref=e3501]: Cosmic
+          - generic [ref=e3502]:
+            - generic [ref=e3503]: 🧛
+            - generic [ref=e3504]: Luca Shadowbrew
+            - generic [ref=e3505]: Eternal
+      - generic [ref=e3506]:
+        - generic [ref=e3514]: Should I give up the stability of my job to chase music, even if I might fail?
+        - generic [ref=e3516]:
+          - generic [ref=e3517]: 👑 Luca the Ascended
+          - generic [ref=e3518]: Choose the song; a life without your own melody is a latte gone lukewarm, and even a bitter note can awaken a richer chord. The risk fuels the rhythm that turns a simple brew into an unforgettable anthem.
+        - generic [ref=e3526]:
+          - generic [ref=e3527]: 🌃 Luca Pulsebrew
+          - generic [ref=e3528]: Choose to compose a side‑project soundtrack while you still hold the steady beat of your job; the income is the metronome that lets you experiment without drowning in silence, and each small release builds the neon pulse that will one day replace the routine.
+        - generic [ref=e3530]:
+          - generic [ref=e3531]: 🚀 Luca Starweaver
+          - generic [ref=e3532]: Choose to let your song rise, even if the stage is still unlit; the fuel of your dream burns brighter than any paycheck’s glow, and only by daring the silence can you compose a melody worth hearing.
+        - generic [ref=e3534]:
+          - generic [ref=e3535]: 🏰 Luca Nightquill
+          - generic [ref=e3536]: Choose to weave your music into the hearth of your current trade, turning the everyday tavern into a stage for your verses; the coin stays warm, the audience grows, and the song matures before you ever need to abandon the fire.
+        - generic [ref=e3543]:
+          - generic [ref=e3544]: 🐉 Luca Emberwing
+          - generic [ref=e3545]: Choose to define yourself by the music you create, not by the paycheck you keep; when your identity is forged in melody, the echo of your art outlives any ledger and steadies the soul far beyond any job’s stability.
+        - generic [ref=e3547]:
+          - generic [ref=e3548]: 👑 Luca the Ascended
+          - generic [ref=e3549]: "**Choose to turn the safety net of your job into a launchpad, not a cage; by allocating dedicated “creative shifts” now, you’ll harvest the discipline of work while letting each musical experiment orbit you like a moon that eventually becomes your own planet.** Which future are you willing to become?"
+      - generic [ref=e3509]:
+        - paragraph [ref=e3550]: Which future are you willing to become?
+        - generic [ref=e3551]:
+          - button "🏰 Medieval" [ref=e3552] [cursor=pointer]:
+            - generic [ref=e3553]: 🏰
+            - text: Medieval
+          - button "🌃 Neon" [ref=e3554] [cursor=pointer]:
+            - generic [ref=e3555]: 🌃
+            - text: Neon
+          - button "☠️ Endless" [ref=e3556] [cursor=pointer]:
+            - generic [ref=e3557]: ☠️
+            - text: Endless
+          - button "🐉 Ancient" [ref=e3558] [cursor=pointer]:
+            - generic [ref=e3559]: 🐉
+            - text: Ancient
+          - button "🚀 Cosmic" [ref=e3560] [cursor=pointer]:
+            - generic [ref=e3561]: 🚀
+            - text: Cosmic
+          - button "🧛 Eternal" [ref=e3562] [cursor=pointer]:
+            - generic [ref=e3563]: 🧛
+            - text: Eternal
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

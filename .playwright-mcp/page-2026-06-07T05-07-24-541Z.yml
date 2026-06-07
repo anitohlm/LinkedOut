@@ -1,0 +1,103 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e441]:
+    - navigation [ref=e442]:
+      - button "← Back" [ref=e443] [cursor=pointer]
+      - button "LinkedOut" [ref=e444] [cursor=pointer]
+      - generic [ref=e445]:
+        - button "🗺️ Crew Calls" [ref=e446] [cursor=pointer]
+        - generic [ref=e447]: ☠️ Endless Seas
+    - generic [ref=e448]:
+      - generic [ref=e449]:
+        - generic [ref=e450]: ☠️
+        - generic [ref=e451]:
+          - heading "Luca Tidebrew" [level=1] [ref=e452]
+          - paragraph [ref=e453]: Brewsong Buccaneer
+          - paragraph [ref=e454]: Endless Seas · Fleets & Crews
+        - generic [ref=e455]:
+          - generic [ref=e456]:
+            - generic [ref=e457]: "78"
+            - generic [ref=e458]: innovation
+          - generic [ref=e459]:
+            - generic [ref=e460]: "65"
+            - generic [ref=e461]: leadership
+          - generic [ref=e462]:
+            - generic [ref=e463]: "80"
+            - generic [ref=e464]: collaboration
+      - generic [ref=e465]:
+        - generic [ref=e466]:
+          - generic [ref=e467]:
+            - generic: ”
+            - generic [ref=e470]: Biography
+            - paragraph [ref=e472]: I first set foot on the bustling pier of Port Mocha, where the scent of roasted beans mingled with the salty spray. As a junior galley hand, I learned to coax sunrise espresso from the iron cauldrons while the gulls sang overhead. The rhythm of the tides reminded me of beats waiting to be captured, and each cup I served became a verse in a larger sea‑shanty of my own making. When the lanterns dimmed and the tavern’s doors closed, I retreated to the deck’s quiet corners, strumming my weather‑worn guitar and weaving melodies that rode the wind. Those midnight compositions grew into a portfolio of original shanties, each one a promise that the next tide would bring a new chorus, even as the fear of a barren hold—unpaid voyages— lingered behind my eyes.
+          - generic [ref=e473]:
+            - generic [ref=e476]: Timeline Story
+            - paragraph [ref=e480]: At sixteen, I boarded the modest galley of the Port Mocha tavern, learning the art of coffee alchemy under a grizzled master who taught me that a perfect pour is as precise as a charted course. By nineteen, I was entrusted with the treasure ledger, balancing coin and beans while the harbor’s tides grew louder. Simultaneously, I began scribbling verses on the back of menus, turning my nights into rehearsals for the next sunrise. Now, at twenty‑four, I sail between coastal markets, delivering brews that warm weary travelers and sharing my shanties on every dock. Each stop adds a new stanza to my portfolio, and each satisfied patron fuels my dream of one day captaining a crew where coffee and music chart the same Voyage toward endless treasure.
+          - generic [ref=e481]:
+            - generic [ref=e484]: Where They're Heading
+            - paragraph [ref=e486]: Luca aims to helm his own Brewsong Crew, charting voyages that blend aromatic coffee rituals with unforgettable musical performances, turning every port visit into a celebration of creativity and sustainable treasure.
+          - generic [ref=e487]:
+            - generic [ref=e490]: Achievements
+            - generic [ref=e492]:
+              - generic [ref=e493]:
+                - generic [ref=e494]: "1"
+                - generic [ref=e495]: Composed a fleet of original sea shanties while manning the bustling galley of the Harbor Brewhouse, earning the crew’s admiration.
+              - generic [ref=e496]:
+                - generic [ref=e497]: "2"
+                - generic [ref=e498]: Delivered flawless cups of sunrise espresso to storm‑tossed travelers, securing the tavern’s coveted "Golden Mug" treasure for three consecutive moons.
+              - generic [ref=e499]:
+                - generic [ref=e500]: "3"
+                - generic [ref=e501]: Balanced the treasure ledger with precision, ensuring the galley never fell short of provisions during peak trading voyages.
+              - generic [ref=e502]:
+                - generic [ref=e503]: "4"
+                - generic [ref=e504]: Performed live guitar ballads aboard merchant ships, boosting morale and earning a reputation as the "Melody‑Mason" among crews.
+              - generic [ref=e505]:
+                - generic [ref=e506]: "5"
+                - generic [ref=e507]: Initiated a weekly open‑mic tide‑gathering, turning the tavern into a sanctuary for aspiring bards and fostering a vibrant creative community.
+              - generic [ref=e508]:
+                - generic [ref=e509]: "6"
+                - generic [ref=e510]: Edited and amplified the sound of shipboard performances using rudimentary sound‑current shaping tools, enhancing the auditory experience for decks and docks alike.
+        - generic [ref=e511]:
+          - generic [ref=e512]:
+            - button "Begin Future Transmission →" [ref=e513] [cursor=pointer]
+            - generic [ref=e514]:
+              - button "👑 Legendary" [ref=e515] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e516] [cursor=pointer]
+          - generic [ref=e517]:
+            - generic [ref=e520]: Personality
+            - paragraph [ref=e522]: An idealistic dreamer with a poet’s soul, Luca navigates the seas of possibility while keeping a tight grip on his coin chest. Restless yet reflective, he channels his imagination into every brew and ballad, striving for perfection but fearing the shipwreck of unpaid debts.
+          - generic [ref=e523]:
+            - generic [ref=e526]: Competency Matrix
+            - generic [ref=e528]:
+              - generic [ref=e530]:
+                - generic [ref=e531]: innovation
+                - generic [ref=e532]: "78"
+              - generic [ref=e536]:
+                - generic [ref=e537]: leadership
+                - generic [ref=e538]: "65"
+              - generic [ref=e542]:
+                - generic [ref=e543]: collaboration
+                - generic [ref=e544]: "80"
+              - generic [ref=e548]:
+                - generic [ref=e549]: adaptability
+                - generic [ref=e550]: "85"
+              - generic [ref=e554]:
+                - generic [ref=e555]: ambition
+                - generic [ref=e556]: "90"
+              - generic [ref=e560]:
+                - generic [ref=e561]: wisdom
+                - generic [ref=e562]: "70"
+          - generic [ref=e565]:
+            - generic [ref=e568]: Skills
+            - generic [ref=e570]:
+              - generic [ref=e571]: Brew alchemy
+              - generic [ref=e572]: Patron liaison
+              - generic [ref=e573]: Treasure ledger management
+              - generic [ref=e574]: Sea‑song composition
+              - generic [ref=e575]: Shanty scripting
+              - generic [ref=e576]: String‑sail performance
+              - generic [ref=e577]: Verse‑wave carving
+              - generic [ref=e578]: Sound‑current shaping
+              - generic [ref=e579]: Logbook legend weaving
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

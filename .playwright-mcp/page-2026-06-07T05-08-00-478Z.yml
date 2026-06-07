@@ -1,0 +1,27 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e586]:
+    - navigation [ref=e587]:
+      - button "← Back" [ref=e588] [cursor=pointer]
+      - generic [ref=e589]: ☠️ Future Transmission
+      - button "⚠" [ref=e590] [cursor=pointer]
+    - generic [ref=e591]:
+      - generic [ref=e592]:
+        - generic [ref=e594]: ☠️
+        - generic [ref=e595]:
+          - generic [ref=e596]: Luca Tidebrew, Captain of the Harmonic Galleon
+          - generic [ref=e597]: Maestro of the Mariner's Brew · Year 2150
+        - generic [ref=e598]:
+          - generic [ref=e599]: Bond
+          - generic [ref=e600]: Stranger
+      - generic [ref=e602]:
+        - generic [ref=e612]: "Ahoy, younger me! The tide's turned strange, and the Galleon's helm has found a crack in the chronicle. I’m the scar‑stained Captain you’ll someday become, still swearing by espresso steam and the roar of a drum‑tight ledger. I remember the night you spilled that whole pot on the piano—how the keys sang back a lullaby you never intended. That was the first spark that lit the Brew‑Beat Engine, even if the world didn’t hear it yet. Now the wind whistles a new verse, and the sea asks: what chord will you strike before the next wave? Grab a mug, tighten your grip, and let’s trade a story for a song. The horizon’s waiting, and it’s not going to wait forever."
+        - generic [ref=e630]: When a choice is hard and no one's watching — what do you trust?
+        - generic [ref=e632]: My independence
+        - generic [ref=e634]: ✦ Relationship +2 · Timeline Stability +3
+        - generic [ref=e636]: Independence, you say—like a lone mast snatching the wind’s whisper. I hoisted that same flag after the mutiny, solo till the crew’s chorus turned profit‑share into a hymn. On the Sargasso Trade Route, the Brew‑Beat Engine sang its first storm‑driven beat while espresso dripped, teaching me even a solo ship needs a rhythm. I see your compass spin, and I trust the sea will hold you—just remember to drop an anchor for the souls you love.
+      - generic [ref=e637]:
+        - textbox "Speak to your future self..." [ref=e638]
+        - button "Send" [disabled] [ref=e639]
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

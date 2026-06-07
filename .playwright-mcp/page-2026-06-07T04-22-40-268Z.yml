@@ -1,0 +1,21 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e579]:
+    - navigation [ref=e580]:
+      - button "← Back" [ref=e581] [cursor=pointer]
+      - button "LinkedOut" [ref=e582] [cursor=pointer]
+      - generic [ref=e583]: 🌃 Neon Synthesis
+    - generic [ref=e584]:
+      - generic [ref=e585]:
+        - paragraph [ref=e586]: Encrypted Channel
+        - heading "Corp Inbox" [level=1] [ref=e587]
+        - paragraph [ref=e588]: Megacorps are bidding for your clearance.
+      - generic [ref=e590] [cursor=pointer]:
+        - generic [ref=e591]:
+          - generic [ref=e592]: 🌃
+          - generic [ref=e593]:
+            - generic [ref=e594]: Neon Synthesis Collective
+            - generic [ref=e595]: Lead Audio Forge Engineer · Neon Synthesis
+        - paragraph [ref=e597]: The neon veins of the Hub pulse louder when your brew syncs with a riff. We’ve watched you turn coffee steam into a living sound lattice, cutting brew latency b...
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

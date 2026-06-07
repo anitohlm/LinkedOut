@@ -1,0 +1,106 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2414]:
+    - navigation [ref=e2415]:
+      - button "← Back" [ref=e2416] [cursor=pointer]
+      - button "LinkedOut" [ref=e2417] [cursor=pointer]
+      - generic [ref=e2418]:
+        - button "🛸 Commissions" [ref=e2419] [cursor=pointer]
+        - generic [ref=e2420]: 🚀 Cosmic Frontier
+    - generic [ref=e2421]:
+      - generic [ref=e2422]:
+        - generic [ref=e2423]: 🚀
+        - generic [ref=e2424]:
+          - heading "Luca Starforge" [level=1] [ref=e2425]
+          - paragraph [ref=e2426]: Junior Harmonic Engineer & Cosmic Brewmaster
+          - paragraph [ref=e2427]: Cosmic Frontier · Federations & Alliances
+        - generic [ref=e2428]:
+          - generic [ref=e2429]:
+            - generic [ref=e2430]: "78"
+            - generic [ref=e2431]: innovation
+          - generic [ref=e2432]:
+            - generic [ref=e2433]: "65"
+            - generic [ref=e2434]: leadership
+          - generic [ref=e2435]:
+            - generic [ref=e2436]: "72"
+            - generic [ref=e2437]: collaboration
+      - generic [ref=e2438]:
+        - generic [ref=e2439]:
+          - generic [ref=e2440]:
+            - generic: ”
+            - generic [ref=e2443]: Biography
+            - paragraph [ref=e2445]: The first time I ignited a quantum espresso pod aboard the Trade Hub's orbital café, I felt the pulse of the universe sync with the rhythm of my fingertips. As a junior member of the Fleet, I learned to brew starlight-infused brews while coaxing graviton strings into melodies that drifted through the dining deck. Each cup I served was a bridge between the mundane and the celestial, and every chord I stitched was a promise that my dreams could echo beyond the void. Yet the darkness of unpaid credits loomed like a nebular storm, urging me to perfect my craft and chase the next discovery. I turned restless nights into verses, letting the hum of the ship’s engines inspire verses that turned into full‑scale harmonic missions. My journey is a constant dance between the clang of coffee grinders and the sigh of distant galaxies, ever seeking the final chord that will resonate across the cosmos.
+          - generic [ref=e2446]:
+            - generic [ref=e2449]: Timeline Story
+            - paragraph [ref=e2453]: I entered the cosmos as a cadet apprentice in the bustling orbital café of the Trade Hub, learning to coax the perfect crema from a single pulsar bean. The rhythm of the ship's engines inspired me to experiment with harmonic frequencies, and soon I was drafting my first graviton track during my off‑shift hours. After a year of balancing brew duties with night‑long recording sessions, I earned recognition for a breakthrough audio‑brew integration, earning my first Discovery badge. Now, as a junior Harmonic Engineer, I chart a course through the nebular lanes, collaborating with chefs, engineers, and poets to fuse sensory experiences. Each mission refines my craft, and every successful brew‑song hybrid reminds me that the silence of unpaid credits can be conquered by the symphony of perseverance.
+          - generic [ref=e2454]:
+            - generic [ref=e2457]: Where They're Heading
+            - paragraph [ref=e2459]: Luca envisions commanding his own Harmonic Exploration Fleet, steering cultural Missions that unite music, cuisine, and interstellar diplomacy. His next milestone is to lead a flagship project that broadcasts original graviton symphonies across the Federation, turning his personal cadence into a universal anthem of hope.
+          - generic [ref=e2460]:
+            - generic [ref=e2463]: Achievements
+            - generic [ref=e2465]:
+              - generic [ref=e2466]:
+                - generic [ref=e2467]: "1"
+                - generic [ref=e2468]: Composed a suite of original graviton harmonies while maintaining duty as a Fleet Brewmaster on the star‑café.
+              - generic [ref=e2469]:
+                - generic [ref=e2470]: "2"
+                - generic [ref=e2471]: Secured a flawless Discovery rate for quantum espresso delivery during peak Trade Hub traffic, averting a potential void loss of customer trust.
+              - generic [ref=e2472]:
+                - generic [ref=e2473]: "3"
+                - generic [ref=e2474]: Engineered a cross‑frequency audio module that blended brew alerts with melodic motifs, enhancing crew morale by 23%.
+              - generic [ref=e2475]:
+                - generic [ref=e2476]: "4"
+                - generic [ref=e2477]: Mentored a crew of junior baristas in the art of Stellar Guest Relations, raising service satisfaction to a record high.
+              - generic [ref=e2478]:
+                - generic [ref=e2479]: "5"
+                - generic [ref=e2480]: Authored a nebular poetry collection titled "Silence of the Void," distributed aboard the fleet’s cultural exchange shuttle.
+              - generic [ref=e2481]:
+                - generic [ref=e2482]: "6"
+                - generic [ref=e2483]: Piloted a micro‑Mission to calibrate coffee pod dispensers in zero‑gravity, achieving a 98% precision Discovery.
+              - generic [ref=e2484]:
+                - generic [ref=e2485]: "7"
+                - generic [ref=e2486]: Implemented a Galactic Credits ledger system that reduced transaction errors by 47%, safeguarding the fleet’s economic stability.
+        - generic [ref=e2487]:
+          - generic [ref=e2488]:
+            - button "Begin Future Transmission →" [ref=e2489] [cursor=pointer]
+            - generic [ref=e2490]:
+              - button "👑 Legendary" [ref=e2491] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e2492] [cursor=pointer]
+          - generic [ref=e2493]:
+            - generic [ref=e2496]: Personality
+            - paragraph [ref=e2498]: Luca’s idealism fuels his relentless search for new sonic frontiers, while his cautious approach to Galactic Credits keeps the fleet’s economy stable. His restless imagination drives nightly experiments in harmonic engineering, yet his reflective nature ensures each composition is meticulously polished. Perfectionist tendencies surface in his quest for the flawless espresso‑melody blend, turning every potential void loss into a learning Discovery.
+          - generic [ref=e2499]:
+            - generic [ref=e2502]: Competency Matrix
+            - generic [ref=e2504]:
+              - generic [ref=e2506]:
+                - generic [ref=e2507]: innovation
+                - generic [ref=e2508]: "78"
+              - generic [ref=e2512]:
+                - generic [ref=e2513]: leadership
+                - generic [ref=e2514]: "65"
+              - generic [ref=e2518]:
+                - generic [ref=e2519]: collaboration
+                - generic [ref=e2520]: "72"
+              - generic [ref=e2524]:
+                - generic [ref=e2525]: adaptability
+                - generic [ref=e2526]: "80"
+              - generic [ref=e2530]:
+                - generic [ref=e2531]: ambition
+                - generic [ref=e2532]: "85"
+              - generic [ref=e2536]:
+                - generic [ref=e2537]: wisdom
+                - generic [ref=e2538]: "70"
+          - generic [ref=e2541]:
+            - generic [ref=e2544]: Skills
+            - generic [ref=e2546]:
+              - generic [ref=e2547]: Quantum Brewcraft
+              - generic [ref=e2548]: Stellar Guest Relations
+              - generic [ref=e2549]: Galactic Credits Management
+              - generic [ref=e2550]: Graviton Trackcraft
+              - generic [ref=e2551]: Celestial Lyric Weaving
+              - generic [ref=e2552]: String‑Laser Performance
+              - generic [ref=e2553]: Nebula Verse Composition
+              - generic [ref=e2554]: Waveform Stitching
+              - generic [ref=e2555]: Chronicle Crafting
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

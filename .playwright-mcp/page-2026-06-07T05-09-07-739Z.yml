@@ -1,0 +1,103 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e1041]:
+    - navigation [ref=e1042]:
+      - button "← Back" [ref=e1043] [cursor=pointer]
+      - button "LinkedOut" [ref=e1044] [cursor=pointer]
+      - generic [ref=e1045]:
+        - button "🔥 Ancient Covenants" [ref=e1046] [cursor=pointer]
+        - generic [ref=e1047]: 🐉 Ancient Draconia
+    - generic [ref=e1048]:
+      - generic [ref=e1049]:
+        - generic [ref=e1050]: 🐉
+        - generic [ref=e1051]:
+          - heading "Luca Emberchant" [level=1] [ref=e1052]
+          - paragraph [ref=e1053]: Arcane Brewmaster & Melody Guardian of the Ember Hearth
+          - paragraph [ref=e1054]: Ancient Draconia · Ancient Orders
+        - generic [ref=e1055]:
+          - generic [ref=e1056]:
+            - generic [ref=e1057]: "78"
+            - generic [ref=e1058]: innovation
+          - generic [ref=e1059]:
+            - generic [ref=e1060]: "62"
+            - generic [ref=e1061]: leadership
+          - generic [ref=e1062]:
+            - generic [ref=e1063]: "70"
+            - generic [ref=e1064]: collaboration
+      - generic [ref=e1065]:
+        - generic [ref=e1066]:
+          - generic [ref=e1067]:
+            - generic: ”
+            - generic [ref=e1070]: Biography
+            - paragraph [ref=e1072]: I recall the first time I balanced a steaming cauldron of Emberbrew with the trembling strings of my drake lute. The scent of charred beans mingled with the echo of a newly forged verse, and I vowed to serve both the hungry Brood and the restless spirits of song. Each sunrise I awaken to the clang of copper kettles, each night I chase lingering chords that flutter like fireflies across the vaulted hall of the Ancient Order. Yet the silence of an empty coffers haunts me like a dormant volcano. I pour my heart into every brew, every lyric, fearing the day the flames dim. Still, the rhythm of aspiration drives me forward, and I seek the day when my creations rise to true Ascension, not merely fleeting sparks.
+          - generic [ref=e1073]:
+            - generic [ref=e1076]: Timeline Story
+            - paragraph [ref=e1080]: I began my journey as a lowly Guardian at the Ember Hearth, learning to coax perfect crema from scorching coals while listening to the murmurs of the ancient walls. The scent of roasted beans sparked a hidden melody, and I spent stolen moments composing verses on parchment coals. Recognizing my dual passions, the Elder Wyrm of the Ancient Order invited me to join the Covenant of Resonant Scales, where I refined my brew alchemy and honed my lute strings. Within the Order, I forged a union between the art of drink and song, creating rituals that healed weary travelers and inspired distant drakes. Now I stand on the cusp of leading my own Brood, ready to guide others in the dance of flavor and harmony.
+          - generic [ref=e1081]:
+            - generic [ref=e1084]: Where They're Heading
+            - paragraph [ref=e1086]: Luca aspires to ascend as Archon of the Brood of Brew and Melody, forging a legacy where every cup sings and every song fuels the hearth, guiding his fellow drakes toward collective Ascension.
+          - generic [ref=e1087]:
+            - generic [ref=e1090]: Achievements
+            - generic [ref=e1092]:
+              - generic [ref=e1093]:
+                - generic [ref=e1094]: "1"
+                - generic [ref=e1095]: Wove a codex of twenty original verses while tending the Ember Hearth's daily brews, earning the title of Songscribe among the Brood
+              - generic [ref=e1096]:
+                - generic [ref=e1097]: "2"
+                - generic [ref=e1098]: Delivered flawless flame‑infused brews to the Archon's council for six consecutive moons, never allowing a single cup to fall to Dormancy
+              - generic [ref=e1099]:
+                - generic [ref=e1100]: "3"
+                - generic [ref=e1101]: Crafted the first Harmonized Covenant between the Order of Brew and the Guild of Lutes, merging taste and tone into a single Ascendant ritual
+              - generic [ref=e1102]:
+                - generic [ref=e1103]: "4"
+                - generic [ref=e1104]: Mentored three fledgling Guardians in the art of brew alchemy, each achieving their first independent covenant within a season
+              - generic [ref=e1105]:
+                - generic [ref=e1106]: "5"
+                - generic [ref=e1107]: Composed the anthem "Steam & String", performed at the Festival of Rising Scales, rallying the Brood to celebrate creative perseverance
+              - generic [ref=e1108]:
+                - generic [ref=e1109]: "6"
+                - generic [ref=e1110]: Balanced the treasury of the Ember Hearth, maintaining a surplus of gold talons despite volatile market winds
+        - generic [ref=e1111]:
+          - generic [ref=e1112]:
+            - button "Begin Future Transmission →" [ref=e1113] [cursor=pointer]
+            - generic [ref=e1114]:
+              - button "👑 Legendary" [ref=e1115] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e1116] [cursor=pointer]
+          - generic [ref=e1117]:
+            - generic [ref=e1120]: Personality
+            - paragraph [ref=e1122]: Luca Emberchant is an idealistic dream‑weaver, ever‑restless for new verses yet wary of empty coffers. His imagination burns bright, his reflection deep, and his perfectionist fire drives him to polish each brew and chord until they glow with potential.
+          - generic [ref=e1123]:
+            - generic [ref=e1126]: Competency Matrix
+            - generic [ref=e1128]:
+              - generic [ref=e1130]:
+                - generic [ref=e1131]: innovation
+                - generic [ref=e1132]: "78"
+              - generic [ref=e1136]:
+                - generic [ref=e1137]: leadership
+                - generic [ref=e1138]: "62"
+              - generic [ref=e1142]:
+                - generic [ref=e1143]: collaboration
+                - generic [ref=e1144]: "70"
+              - generic [ref=e1148]:
+                - generic [ref=e1149]: adaptability
+                - generic [ref=e1150]: "75"
+              - generic [ref=e1154]:
+                - generic [ref=e1155]: ambition
+                - generic [ref=e1156]: "80"
+              - generic [ref=e1160]:
+                - generic [ref=e1161]: wisdom
+                - generic [ref=e1162]: "68"
+          - generic [ref=e1165]:
+            - generic [ref=e1168]: Skills
+            - generic [ref=e1170]:
+              - generic [ref=e1171]: Flame‑infused brew alchemy
+              - generic [ref=e1172]: Patron liaison for the Brood
+              - generic [ref=e1173]: Gold talon accounting
+              - generic [ref=e1174]: Harmonic rune crafting
+              - generic [ref=e1175]: Verse weaving
+              - generic [ref=e1176]: String‑scale drake lute mastery
+              - generic [ref=e1177]: Scalescript poetry
+              - generic [ref=e1178]: Echo resonance shaping
+              - generic [ref=e1179]: Chronicle weaving
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

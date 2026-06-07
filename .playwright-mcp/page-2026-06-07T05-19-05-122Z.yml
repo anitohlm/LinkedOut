@@ -1,0 +1,85 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3546]:
+    - navigation [ref=e3547]:
+      - button "← Back" [ref=e3548] [cursor=pointer]
+      - generic [ref=e3549]: ⚖️ The Council of Selves
+    - generic [ref=e3550]:
+      - generic [ref=e3551]:
+        - generic [ref=e3552]:
+          - generic [ref=e3553]:
+            - generic [ref=e3554]: 👑
+            - generic [ref=e3555]: Luca the Ascended
+            - generic [ref=e3556]: Legendary
+          - generic [ref=e3557]:
+            - generic [ref=e3558]: 🌑
+            - generic [ref=e3559]: Luca Noir
+            - generic [ref=e3560]: Shadow
+        - generic [ref=e3561]:
+          - generic [ref=e3562]:
+            - generic [ref=e3563]: 🏰
+            - generic [ref=e3564]: Luca Songbrew
+            - generic [ref=e3565]: Medieval
+          - generic [ref=e3566]:
+            - generic [ref=e3567]: 🌃
+            - generic [ref=e3568]: Luca Synthbrew
+            - generic [ref=e3569]: Neon
+          - generic [ref=e3570]:
+            - generic [ref=e3571]: ☠️
+            - generic [ref=e3572]: Luca Tidebrew
+            - generic [ref=e3573]: Endless
+          - generic [ref=e3574]:
+            - generic [ref=e3575]: 🐉
+            - generic [ref=e3576]: Luca Emberchant
+            - generic [ref=e3577]: Ancient
+          - generic [ref=e3578]:
+            - generic [ref=e3579]: 🚀
+            - generic [ref=e3580]: Luca Starforge
+            - generic [ref=e3581]: Cosmic
+          - generic [ref=e3582]:
+            - generic [ref=e3583]: 🧛
+            - generic [ref=e3584]: Luca Nightbrew
+            - generic [ref=e3585]: Eternal
+      - generic [ref=e3586]:
+        - generic [ref=e3594]: Should I give up the stability of my job to chase music, even if I might fail?
+        - generic [ref=e3596]:
+          - generic [ref=e3597]: 👑 Luca the Ascended
+          - generic [ref=e3598]: Keep the espresso machine humming while you let the music steep; quit the job only when your song can sustain you on its own. Because your fear of wasted potential is best tamed by a steady drip that lets your craft mature without burning the beans of your livelihood.
+        - generic [ref=e3606]:
+          - generic [ref=e3607]: 🌃 Luca Synthbrew
+          - generic [ref=e3608]: Hold the job and turn every shift into a test‑lab for your tracks; quit only when the music can cover the rent. Your fear of wasted potential is a ledger—steady cash lets you iterate without burning the whole brew. Look. Everyone's got an angle. Me too. Especially me.
+        - generic [ref=e3610]:
+          - generic [ref=e3611]: 🚀 Luca Starforge
+          - generic [ref=e3612]: Abandon the post now; let the void hear only your unfiltered cadence, not the muted echo of a safe desk. Half‑measures will suffocate a pulse that could otherwise reverberate across the fleet. Decide what you will leave behind. The rest is logistics.
+        - generic [ref=e3614]:
+          - generic [ref=e3615]: 🏰 Luca Songbrew
+          - generic [ref=e3616]: Remain in your appointment, yet petition the liege to name you Court Brewmaster‑Minstrel, melding song and sustenance beneath a single banner. Thus you keep your oath, your coin, and allow your art to mature within the realm’s honor. Do not ask if it is wise. Ask if it is honorable.
+        - generic [ref=e3623]:
+          - generic [ref=e3624]: 🐉 Luca Emberchant
+          - generic [ref=e3625]: Maintain the hearth of your employment while you coax the song from the embers, releasing it only when its flame can sustain itself. Patience spares you the ash of a hurried blaze and honors the independence you cherish, lest potential be squandered in a fleeting spark. I will not hurry you. Hurry is the mortal sickness.
+        - generic [ref=e3627]:
+          - generic [ref=e3628]: 👑 Luca the Ascended
+          - generic [ref=e3629]: Hold the steady grind of your job while you let your music steep in the background, stepping onto the stage only when its rhythm can fund the next cup. That safeguards your independence with reliable income, preventing the ash of wasted potential from a premature collapse. Which future are you willing to become? It aligned the day I stopped negotiating with my own fear.
+      - generic [ref=e3589]:
+        - paragraph [ref=e3630]: Which future are you willing to become?
+        - generic [ref=e3631]:
+          - button "🏰 Medieval" [ref=e3632] [cursor=pointer]:
+            - generic [ref=e3633]: 🏰
+            - text: Medieval
+          - button "🌃 Neon" [ref=e3634] [cursor=pointer]:
+            - generic [ref=e3635]: 🌃
+            - text: Neon
+          - button "☠️ Endless" [ref=e3636] [cursor=pointer]:
+            - generic [ref=e3637]: ☠️
+            - text: Endless
+          - button "🐉 Ancient" [ref=e3638] [cursor=pointer]:
+            - generic [ref=e3639]: 🐉
+            - text: Ancient
+          - button "🚀 Cosmic" [ref=e3640] [cursor=pointer]:
+            - generic [ref=e3641]: 🚀
+            - text: Cosmic
+          - button "🧛 Eternal" [ref=e3642] [cursor=pointer]:
+            - generic [ref=e3643]: 🧛
+            - text: Eternal
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

@@ -1,0 +1,102 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e620]:
+    - navigation [ref=e621]:
+      - button "← Back" [ref=e622] [cursor=pointer]
+      - button "LinkedOut" [ref=e623] [cursor=pointer]
+      - generic [ref=e624]:
+        - button "🛰️ Corp Offers" [ref=e625] [cursor=pointer]
+        - generic [ref=e626]: 🌃 Neon Synthesis
+    - generic [ref=e627]:
+      - generic [ref=e628]:
+        - generic [ref=e629]: 🌃
+        - generic [ref=e630]:
+          - heading "Luca Pulsebrew" [level=1] [ref=e631]
+          - paragraph [ref=e632]: Circuit Barista & Audio Weaver
+          - paragraph [ref=e633]: Neon Synthesis · Megacorporations
+        - generic [ref=e634]:
+          - generic [ref=e635]:
+            - generic [ref=e636]: "78"
+            - generic [ref=e637]: innovation
+          - generic [ref=e638]:
+            - generic [ref=e639]: "65"
+            - generic [ref=e640]: leadership
+          - generic [ref=e641]:
+            - generic [ref=e642]: "72"
+            - generic [ref=e643]: collaboration
+      - generic [ref=e644]:
+        - generic [ref=e645]:
+          - generic [ref=e646]:
+            - generic: ”
+            - generic [ref=e649]: Biography
+            - paragraph [ref=e651]: I remember the first night the neon dripped like espresso over the chrome countertops of the Neon Hub, and I was already mixing synth‑brews for the night‑shift crowd. Between steaming plasma beans and decoding the hum of the city, I threaded verses into the ambient pulse, letting each cup carry a fragment of a future song. The more I served, the louder the chorus in my mind grew, and the café became my rehearsal space, my studio, my sanctuary. Now, as the Admin of my own micro‑Collective, I blend aromatic algorithms with stringwave riffs, crafting experiences that make strangers linger, share stories, and leave with a lingering echo of a lyric they never knew they needed. Every day is a balancing act—keeping the ledger alive while chasing the next exploit of sound, always aware that tomorrow's credits must cover today’s dreams.
+          - generic [ref=e652]:
+            - generic [ref=e655]: Timeline Story
+            - paragraph [ref=e659]: "I entered the Neon Hub as a junior barista, learning the rhythm of plasma espresso machines while secretly feeding my nights with guitar loops and lyric drafts. Within a year, I unlocked the ability to embed micro‑melodies into each drink's delivery protocol, turning a simple coffee into a sonic experience. As my reputation grew, I formed a small Collective of like‑minded creators, launching the \"Pulse Sessions\" that blended service and performance. Today, I juggle the Admin role of the Hub’s sound‑café while plotting the next big exploit: a city‑wide audio‑augmented reality festival."
+          - generic [ref=e660]:
+            - generic [ref=e663]: Where They're Heading
+            - paragraph [ref=e665]: Luca aims to scale his micro‑Collective into a full‑blown Neon Synthwave Syndicate, curating immersive audio‑café districts across the megacity. His next milestone is to launch a decentralized platform where every brew becomes a node in a living, city‑wide soundtrack, turning everyday service into an endless stage.
+          - generic [ref=e666]:
+            - generic [ref=e669]: Achievements
+            - generic [ref=e671]:
+              - generic [ref=e672]:
+                - generic [ref=e673]: "1"
+                - generic [ref=e674]: Maintained a full‑time shift as a Circuit Barista while consistently releasing original audio hacks and lyric encryptions for the Hub’s nightly stream.
+              - generic [ref=e675]:
+                - generic [ref=e676]: "2"
+                - generic [ref=e677]: Compiled a personal vault of over 30 demo tracks and neon‑poems, each tagged and archived in the city’s open‑source sound lattice.
+              - generic [ref=e678]:
+                - generic [ref=e679]: "3"
+                - generic [ref=e680]: Earned the moniker "The Warmth Engine" for cultivating a welcoming atmosphere that boosted patron dwell time by 27% across the Hub.
+              - generic [ref=e681]:
+                - generic [ref=e682]: "4"
+                - generic [ref=e683]: Co‑hosted the weekly "Pulse Sessions," a live‑streamed jam where baristas and netrunners shared spontaneous performances, fostering cross‑disciplinary collaboration.
+              - generic [ref=e684]:
+                - generic [ref=e685]: "5"
+                - generic [ref=e686]: Implemented a chrono‑optimization schedule that reduced brew latency by 15% while freeing extra cycles for creative production.
+              - generic [ref=e687]:
+                - generic [ref=e688]: "6"
+                - generic [ref=e689]: Mentored three junior baristas, guiding them to integrate their own audio signatures into the service flow, expanding the Collective’s cultural footprint.
+        - generic [ref=e690]:
+          - generic [ref=e691]:
+            - button "Begin Future Transmission →" [ref=e692] [cursor=pointer]
+            - generic [ref=e693]:
+              - button "👑 Legendary" [ref=e694] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e695] [cursor=pointer]
+          - generic [ref=e696]:
+            - generic [ref=e699]: Personality
+            - paragraph [ref=e701]: An idealistic dreamer who rides the neon tides, Luca balances cautious budgeting with bold artistic risk. He listens deeply, turning patrons' stories into verses, yet often leaves projects unfinished as new inspirations flare. Introverted in the static, he thrives in the collaborative glow of the Collective, always seeking the next echo of his future stage.
+          - generic [ref=e702]:
+            - generic [ref=e705]: Competency Matrix
+            - generic [ref=e707]:
+              - generic [ref=e709]:
+                - generic [ref=e710]: innovation
+                - generic [ref=e711]: "78"
+              - generic [ref=e715]:
+                - generic [ref=e716]: leadership
+                - generic [ref=e717]: "65"
+              - generic [ref=e721]:
+                - generic [ref=e722]: collaboration
+                - generic [ref=e723]: "72"
+              - generic [ref=e727]:
+                - generic [ref=e728]: adaptability
+                - generic [ref=e729]: "80"
+              - generic [ref=e733]:
+                - generic [ref=e734]: ambition
+                - generic [ref=e735]: "85"
+              - generic [ref=e739]:
+                - generic [ref=e740]: wisdom
+                - generic [ref=e741]: "70"
+          - generic [ref=e744]:
+            - generic [ref=e747]: Skills
+            - generic [ref=e749]:
+              - generic [ref=e750]: Brew Code & Synth Brews
+              - generic [ref=e751]: Client Interface Management
+              - generic [ref=e752]: Audio Hackcraft
+              - generic [ref=e753]: Stringwave Manipulation
+              - generic [ref=e754]: Lyric Cryptography
+              - generic [ref=e755]: Waveform Editing
+              - generic [ref=e756]: Narrative Scripting
+              - generic [ref=e757]: Chrono Optimization
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

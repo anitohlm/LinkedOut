@@ -1,0 +1,26 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e581] [cursor=pointer]:
+    - generic [ref=e582]:
+      - generic [ref=e583]: ✦
+      - generic [ref=e584]: Historian Observation
+    - paragraph [ref=e585]: A voice reaches backward through time. Few ever answer themselves. Fewer still listen.
+  - generic [ref=e586]:
+    - navigation [ref=e587]:
+      - button "← Back" [ref=e588] [cursor=pointer]
+      - generic [ref=e589]: ☠️ Future Transmission
+      - button "⚠" [ref=e590] [cursor=pointer]
+    - generic [ref=e591]:
+      - generic [ref=e592]:
+        - generic [ref=e594]: ☠️
+        - generic [ref=e595]:
+          - generic [ref=e596]: Luca Tidebrew, Captain of the Harmonic Galleon
+          - generic [ref=e597]: Maestro of the Mariner's Brew · Year 2150
+        - generic [ref=e598]:
+          - generic [ref=e599]: Bond
+          - generic [ref=e600]: Stranger
+      - generic [ref=e608]:
+        - textbox "Speak to your future self..." [disabled] [ref=e609]
+        - button "Send" [disabled] [ref=e610]
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

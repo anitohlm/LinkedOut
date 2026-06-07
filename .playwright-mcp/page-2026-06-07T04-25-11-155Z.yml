@@ -1,0 +1,101 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2718]:
+    - navigation [ref=e2719]:
+      - button "← Back" [ref=e2720] [cursor=pointer]
+      - button "LinkedOut" [ref=e2721] [cursor=pointer]
+      - generic [ref=e2722]:
+        - button "🩸 Blood Pacts" [ref=e2723] [cursor=pointer]
+        - generic [ref=e2724]: 🧛 Eternal Night
+    - generic [ref=e2725]:
+      - generic [ref=e2726]:
+        - generic [ref=e2727]: 🧛
+        - generic [ref=e2728]:
+          - heading "Luca Shadowbrew" [level=1] [ref=e2729]
+          - paragraph [ref=e2730]: Nocturne Brewmaster & Lyric Scribe
+          - paragraph [ref=e2731]: Eternal Night · Ancient Covenants
+        - generic [ref=e2732]:
+          - generic [ref=e2733]:
+            - generic [ref=e2734]: "84"
+            - generic [ref=e2735]: innovation
+          - generic [ref=e2736]:
+            - generic [ref=e2737]: "76"
+            - generic [ref=e2738]: leadership
+          - generic [ref=e2739]:
+            - generic [ref=e2740]: "81"
+            - generic [ref=e2741]: collaboration
+      - generic [ref=e2742]:
+        - generic [ref=e2743]:
+          - generic [ref=e2744]:
+            - generic: ”
+            - generic [ref=e2747]: Biography
+            - paragraph [ref=e2749]: In the perpetual dusk of Veilspire's Ember Café, I first learned to coax the midnight ether from roasted beans, turning each cup into a whispered promise of tomorrow. The clink of crystal goblets became the metronome of my verses, and the hiss of the cauldron of steam was the chorus to which my guitar sang. By the waning moon I balanced the art of elixir crafting with the pulse of a song, letting each new brew carry a fragment of my poetry. The café's hearth became my sanctuary, where strangers found warmth and my own restless spirit found a stage, even as the weight of the coming dawn's obligations lingered at the edge of my thoughts.
+          - generic [ref=e2750]:
+            - generic [ref=e2753]: Timeline Story
+            - paragraph [ref=e2757]: I entered the Ember Café as a hopeful apprentice, my hands trembling over the first cauldron of midnight brew. Within a single cycle of the twin moons I rose to master the alchemical grind, all while humming the first chords of a song that would later echo through the city’s stone arches. When the Rift Musicians called for a collaborative rite, I offered my brewed verses, merging scent and sound into a shared Compact that won acclaim across the Clan. Now, as the night deepens, I steward the café’s hearth while drafting a grander project—a network of moonlit taverns where elixirs and melodies unite, guiding wandering souls toward Eternity.
+          - generic [ref=e2758]:
+            - generic [ref=e2761]: Where They're Heading
+            - paragraph [ref=e2763]: My vision is to ascend as the Prince of the Clan of Echoing Brews, leading a Compact that unites all nocturnal artisans under a shared banner of music and elixir. I aim to transform the Ember Café into the first node of a constellation of sanctuaries, each offering Eternity through the harmonious blend of sound and spirit.
+          - generic [ref=e2764]:
+            - generic [ref=e2767]: Achievements
+            - generic [ref=e2769]:
+              - generic [ref=e2770]:
+                - generic [ref=e2771]: "1"
+                - generic [ref=e2772]: Sustained a full‑time tenure as the Aetheric Elixir Artisan of Ember Café while composing and recording original nocturnal ballads each night.
+              - generic [ref=e2773]:
+                - generic [ref=e2774]: "2"
+                - generic [ref=e2775]: Forged a personal Compact of over fifty demo sigils—songs, verses, and sound‑shaped poems—stored within the hidden vaults of the Midnight Library.
+              - generic [ref=e2776]:
+                - generic [ref=e2777]: "3"
+                - generic [ref=e2778]: Wove an enchantment of hospitality that turned the Ember Café into a haven, earning the moniker "The Sanctuary of the Whispering Brew" among the Clan.
+              - generic [ref=e2779]:
+                - generic [ref=e2780]: "4"
+                - generic [ref=e2781]: Collaborated with the Rift Musicians' Guild to blend live string resonance with brewed aromas, creating the first ever "Harmonic Infusion" performance.
+              - generic [ref=e2782]:
+                - generic [ref=e2783]: "5"
+                - generic [ref=e2784]: Mentored fledgling apprentices in the art of chronal balancing, teaching them to manage the flow of coffee rituals and creative bursts without succumbing to Oblivion.
+              - generic [ref=e2785]:
+                - generic [ref=e2786]: "6"
+                - generic [ref=e2787]: Authored the pamphlet "Verses in Vapor", a guide that merged poetic structure with the alchemy of espresso, distributing it across three neighboring districts.
+        - generic [ref=e2788]:
+          - generic [ref=e2789]:
+            - button "Begin Future Transmission →" [ref=e2790] [cursor=pointer]
+            - generic [ref=e2791]:
+              - button "👑 Legendary" [ref=e2792] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e2793] [cursor=pointer]
+          - generic [ref=e2794]:
+            - generic [ref=e2797]: Personality
+            - paragraph [ref=e2799]: An idealistic dreamer with a poet’s heart, I chase the echo of future stages while keeping a cautious ledger of tomorrow’s dues. My empathy fuels a welcoming aura, yet I often leave verses unfinished, forever restless for the next inspiration. Introverted yet courageous, I listen more than I speak, letting the night’s silence shape my creations.
+          - generic [ref=e2800]:
+            - generic [ref=e2803]: Competency Matrix
+            - generic [ref=e2805]:
+              - generic [ref=e2807]:
+                - generic [ref=e2808]: innovation
+                - generic [ref=e2809]: "84"
+              - generic [ref=e2813]:
+                - generic [ref=e2814]: leadership
+                - generic [ref=e2815]: "76"
+              - generic [ref=e2819]:
+                - generic [ref=e2820]: collaboration
+                - generic [ref=e2821]: "81"
+              - generic [ref=e2825]:
+                - generic [ref=e2826]: adaptability
+                - generic [ref=e2827]: "88"
+              - generic [ref=e2831]:
+                - generic [ref=e2832]: ambition
+                - generic [ref=e2833]: "79"
+              - generic [ref=e2837]:
+                - generic [ref=e2838]: wisdom
+                - generic [ref=e2839]: "73"
+          - generic [ref=e2842]:
+            - generic [ref=e2845]: Skills
+            - generic [ref=e2847]:
+              - generic [ref=e2848]: Etheric infusion crafting
+              - generic [ref=e2849]: Council liaison and guest communion
+              - generic [ref=e2850]: Aural tapestry weaving
+              - generic [ref=e2851]: String resonance performance
+              - generic [ref=e2852]: Verse crafting and night‑poetry
+              - generic [ref=e2853]: Sound sigil shaping
+              - generic [ref=e2854]: Chronal balancing
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

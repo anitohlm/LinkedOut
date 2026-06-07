@@ -1,0 +1,105 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e1636]:
+    - navigation [ref=e1637]:
+      - button "← Back" [ref=e1638] [cursor=pointer]
+      - button "LinkedOut" [ref=e1639] [cursor=pointer]
+      - generic [ref=e1640]:
+        - button "📜 Royal Summons" [ref=e1641] [cursor=pointer]
+        - generic [ref=e1642]: 🏰 Medieval Kingdom
+    - generic [ref=e1643]:
+      - generic [ref=e1644]:
+        - generic [ref=e1645]: 🏰
+        - generic [ref=e1646]:
+          - heading "Luca Songbrew" [level=1] [ref=e1647]
+          - paragraph [ref=e1648]: Brewmaster Minstrel of the Royal Court
+          - paragraph [ref=e1649]: Medieval Kingdom · Royal Houses
+        - generic [ref=e1650]:
+          - generic [ref=e1651]:
+            - generic [ref=e1652]: "78"
+            - generic [ref=e1653]: innovation
+          - generic [ref=e1654]:
+            - generic [ref=e1655]: "65"
+            - generic [ref=e1656]: leadership
+          - generic [ref=e1657]:
+            - generic [ref=e1658]: "80"
+            - generic [ref=e1659]: collaboration
+      - generic [ref=e1660]:
+        - generic [ref=e1661]:
+          - generic [ref=e1662]:
+            - generic: ”
+            - generic [ref=e1665]: Biography
+            - paragraph [ref=e1667]: From the bustling hearth of the town tavern, I learned to coax the perfect draught from humble beans and herbs, each cup a whispered promise of warmth. By night, the lute's strings sang the same devotion, weaving verses that fluttered like steam above the kettles. My days were a dance between serving the liege's guests and chasing the elusive chorus that lingered in my mind, fearing the silence that follows an unpaid debt. Yet every sunrise found me polishing my brass kettle and tuning my strings, determined to turn each cup and chord into a fleeting moment of glory. The tavern's courtyard became my studio, and the clink of coins a metronome, urging me toward the next melody, the next brew, and the next chance to prove that a dreamer can serve both palate and soul.
+          - generic [ref=e1668]:
+            - generic [ref=e1671]: Timeline Story
+            - paragraph [ref=e1675]: I began as an apprentice under the tavern's seasoned Brewmaster, mastering the alchemy of beans and spices. When the liege's court sought fresh talent, I was summoned to serve the royal Court, balancing the duties of a Brewmaster with the heart of a minstrel. Each morn I tend the copper kettles, each eve I strum my lute, turning every Quest into a symphony of service and song. As my reputation grew, I ventured beyond the tavern's walls, offering my brews to traveling merchants and my verses to wandering bards. The dual path forged a reputation of reliability and artistry, allowing me to secure a modest stipend while my melodies found echo in the grand halls of the kingdom.
+          - generic [ref=e1676]:
+            - generic [ref=e1679]: Where They're Heading
+            - paragraph [ref=e1681]: My eyes turn toward the throne room, where I aspire to become the Royal Minstrel and Master Brewmaster, guiding the liege's Court with song and sustenance. In time, I hope to establish a guild that trains future Brewmaster Minstrels, ensuring that every hearth and hall in the realm beats to the rhythm of crafted brew and timeless melody.
+          - generic [ref=e1682]:
+            - generic [ref=e1685]: Achievements
+            - generic [ref=e1687]:
+              - generic [ref=e1688]:
+                - generic [ref=e1689]: "1"
+                - generic [ref=e1690]: Composed a collection of original ballads while serving as the tavern's Brewmaster, earning praise from the liege's court
+              - generic [ref=e1691]:
+                - generic [ref=e1692]: "2"
+                - generic [ref=e1693]: Delivered flawless brews to a bustling inn, maintaining a steady stream of satisfied patrons
+              - generic [ref=e1694]:
+                - generic [ref=e1695]: "3"
+                - generic [ref=e1696]: Introduced a rare herbal infusion that boosted tavern traffic and earned the title of "Guardian of the Dawn"
+              - generic [ref=e1697]:
+                - generic [ref=e1698]: "4"
+                - generic [ref=e1699]: Penned verses that were inscribed in the town's chronicles, preserving the spirit of the people
+              - generic [ref=e1700]:
+                - generic [ref=e1701]: "5"
+                - generic [ref=e1702]: Managed the tavern's coin ledger without loss, ensuring financial stability for the household
+              - generic [ref=e1703]:
+                - generic [ref=e1704]: "6"
+                - generic [ref=e1705]: Created a harmonious ambiance that increased patronage by a full quarter during the winter festivals
+              - generic [ref=e1706]:
+                - generic [ref=e1707]: "7"
+                - generic [ref=e1708]: Won the local bardic contest, securing a place among the court's esteemed minstrels
+        - generic [ref=e1709]:
+          - generic [ref=e1710]:
+            - button "Begin Future Transmission →" [ref=e1711] [cursor=pointer]
+            - generic [ref=e1712]:
+              - button "👑 Legendary" [ref=e1713] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e1714] [cursor=pointer]
+          - generic [ref=e1715]:
+            - generic [ref=e1718]: Personality
+            - paragraph [ref=e1720]: Idealistic as a sunrise, I chase the glow of new ideas yet clutch my coin purse tightly. Restless, I wander between the kettle and the lute, ever seeking the next perfect harmony. My imagination paints grand verses, while my reflective nature reviews each note and brew for flawlessness, driving a quiet perfectionism that fuels my quests for glory.
+          - generic [ref=e1721]:
+            - generic [ref=e1724]: Competency Matrix
+            - generic [ref=e1726]:
+              - generic [ref=e1728]:
+                - generic [ref=e1729]: innovation
+                - generic [ref=e1730]: "78"
+              - generic [ref=e1734]:
+                - generic [ref=e1735]: leadership
+                - generic [ref=e1736]: "65"
+              - generic [ref=e1740]:
+                - generic [ref=e1741]: collaboration
+                - generic [ref=e1742]: "80"
+              - generic [ref=e1746]:
+                - generic [ref=e1747]: adaptability
+                - generic [ref=e1748]: "72"
+              - generic [ref=e1752]:
+                - generic [ref=e1753]: ambition
+                - generic [ref=e1754]: "85"
+              - generic [ref=e1758]:
+                - generic [ref=e1759]: wisdom
+                - generic [ref=e1760]: "68"
+          - generic [ref=e1763]:
+            - generic [ref=e1766]: Skills
+            - generic [ref=e1768]:
+              - generic [ref=e1769]: Brewcraft (herbal and bean infusions)
+              - generic [ref=e1770]: Guest hospitality
+              - generic [ref=e1771]: Coin stewardship
+              - generic [ref=e1772]: Ballad composition
+              - generic [ref=e1773]: Lute performance
+              - generic [ref=e1774]: Poetic scribing
+              - generic [ref=e1775]: Chant transcription
+              - generic [ref=e1776]: Narrative weaving
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

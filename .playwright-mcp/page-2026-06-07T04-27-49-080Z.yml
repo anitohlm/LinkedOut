@@ -1,0 +1,44 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3565] [cursor=pointer]:
+    - generic [ref=e3566]:
+      - generic [ref=e3567]: ✦
+      - generic [ref=e3568]: Historian Observation
+    - paragraph [ref=e3569]: A future has been chosen. The others dim, becoming what-might-have-been. I will keep them, as I keep all things.
+  - generic [ref=e3570]:
+    - navigation [ref=e3571]:
+      - button "← Back" [ref=e3572] [cursor=pointer]
+      - button "LinkedOut" [ref=e3573] [cursor=pointer]
+    - generic [ref=e3574]:
+      - generic [ref=e3575]:
+        - paragraph [ref=e3576]: 🌃 A Chronicle of Neon Synthesis
+        - 'heading "Echoes of the Brew: A Multiversal Novella" [level=1] [ref=e3577]'
+      - generic [ref=e3578]:
+        - generic [ref=e3581]: Prologue · The Ordinary Timeline
+        - paragraph [ref=e3582]: Luca stared at the steam curling from the espresso machine like a ghost of a thought he could not quite grasp. The city outside the café window pulsed with neon rain, but inside, the world was reduced to the hiss of the grinder and the rhythm of his own heart. He scribbled verses between sips, each line a promise to a future stage he could see but not yet step upon, each stanza a negotiation with the bills that waited like unpaid debts at the end of the month. The scent of coffee was his compass, and his pen, his map—until the night the air itself seemed to crack, whispering of doors that had never been opened.
+      - generic [ref=e3583]:
+        - generic [ref=e3586]: Chapter 1 · The Inked Mirror
+        - paragraph [ref=e3587]: A flicker of light in the back alley turned into a mirror framed in oak, its surface rippling like ink in water. Luca reached out, and his hand met the cool reflection of a man in a leather jerkin—Luca Nightquill, a minstrel of stone castles and candlelit halls. The medieval world bled into the present, the clatter of hooves echoing against the clatter of subway rails. Nightquill spoke in verses older than the city, his words a tapestry of honor and hunger. Luca felt the weight of a quill in his palm, the yearning for a stage that felt both ancient and immediate. He left the mirror with a song lodged in his throat, a reminder that every rhyme could be a sword and every pause, a shield.
+      - generic [ref=e3588]:
+        - generic [ref=e3591]: Chapter 2 · The Salt‑Swept Cipher
+        - paragraph [ref=e3592]: The next portal sang like a shanty, opening on the deck of a sky‑sailing ship where the horizon was a whirl of clouds and cannon fire. Luca Stormbrew, his beard tangled with sea‑foam, swung a cutlass of brass and sang of treasure buried in the clouds. The wind tasted of brine and ozone, and the poet’s verses turned into maps of uncharted currents. Stormbrew offered Luca a flask of rum that glowed with phosphorescent algae, promising a taste of freedom that could drown the weight of tomorrow’s rent. Luca tasted the liquid, feeling his pulse match the ship’s creak, his heart a drumbeat against the storm. He realized that every adventure was a ledger, each escapade a line item on the balance of his soul.
+      - generic [ref=e3593]:
+        - generic [ref=e3596]: Chapter 3 · The Embered Echo
+        - paragraph [ref=e3597]: A cavern of molten stone erupted beneath his feet, and Luca emerged into a cavern glittering with obsidian and amber. Luca Emberwing unfolded his wings, scales shimmering like shattered glass, and breathed fire that painted the darkness with verses of longing. The dragon’s eyes held centuries of ash, and his voice rumbled like tectonic plates shifting. Luca felt his own verses ignite, each metaphor a spark that could either warm a home or scorch it. He learned that the fire he chased in his coffee could also burn his futures, and that to wield it he must first accept its heat.
+      - generic [ref=e3598]:
+        - generic [ref=e3601]: Chapter 4 · The Loom of Stars
+        - paragraph [ref=e3602]: A portal of woven light spun Luca into a void where constellations sang in binary. Luca Starweaver floated among nebulae, his hands weaving threads of starlight into tapestries that told the story of galaxies collapsing and birthing anew. He watched worlds flicker like candle flames, each one a stanza in an ever‑expanding poem. The void whispered that every ending is a beginning, and that his verses could be encoded in the very fabric of space. Luca felt his own narrative stretch, thin as a photon, yet unbreakable.
+      - generic [ref=e3603]:
+        - generic [ref=e3606]: Chapter 5 · The Nocturnal Ledger
+        - paragraph [ref=e3607]: "The final crack opened onto a rain‑slick alley lit by the pallor of a blood moon. Luca Shadowbrew, eyes like polished onyx, moved with a grace that made shadows bleed. The vampire’s world was one of debts paid in eternity, of promises whispered in the hush before dawn. Shadowbrew offered Luca a contract written in scarlet ink: \"Live forever, but the price is the memory of all you have yet to become.\" Luca tasted the metallic tang of the ink on his tongue, feeling the cold certainty of a life unending, yet haunted by the echo of unpaid bills. He understood that immortality was a poem without a final line."
+      - generic [ref=e3608]:
+        - generic [ref=e3611]: Chapter 6 · Pulsebrew Ascendant
+        - paragraph [ref=e3612]: "The multiverse folded back upon itself like a vinyl record, the needle landing on the same groove where it began. Luca stood in the neon‑lit alleys of his city, but now his eyes reflected circuitry and his skin bore the faint glow of bio‑luminescent tattoos. He was Luca Pulsebrew, cybernetic poet, his heart a hybrid drum of flesh and synth. The verses he once wrote between espresso shots now pulsed through his veins as data streams, each line a hack against the corporate grid that tried to own his future. He lifted a glass of synth‑brew, its surface rippling with holographic verses, and whispered to the city: \"I have walked the castles, the seas, the fire, the stars, and the night. I return not to escape, but to compose the next stanza in the language of neon and rain.\" His future stage was the skyline itself, a stage of light and shadow where every bill could be paid in code, and every poem could be heard in the hum of the city."
+      - generic [ref=e3613]:
+        - generic [ref=e3616]: Epilogue · What Became Of Them
+        - paragraph [ref=e3617]: Years later, a holo‑projector flickers in a cramped loft, casting Luca’s verses across walls that pulse with the rhythm of the city. He walks the streets in a coat of living circuitry, his hand steady on a pen that writes directly onto the sky. The bills are still there, but they are now invoices for stories sold to the megacorp that once tried to silence him. Luca Pulsebrew smiles, knowing that each line he spins is both a payment and a promise—a reminder that the multiverse was never a series of worlds, but a single, endless stanza he continues to write.
+      - generic [ref=e3618]:
+        - paragraph [ref=e3619]: — Fin —
+        - paragraph [ref=e3620]: You've been linked out. Now you know who you could have become.
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

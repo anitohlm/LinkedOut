@@ -1,0 +1,26 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e624] [cursor=pointer]:
+    - generic [ref=e625]:
+      - generic [ref=e626]: ✦
+      - generic [ref=e627]: Historian Observation
+    - paragraph [ref=e628]: "The first transmission opens. Note it: the past has begun speaking to the future — and the future remembers."
+  - generic [ref=e629]:
+    - navigation [ref=e630]:
+      - button "← Back" [ref=e631] [cursor=pointer]
+      - generic [ref=e632]: 🏰 Future Transmission
+      - button "⚠" [ref=e633] [cursor=pointer]
+    - generic [ref=e634]:
+      - generic [ref=e635]:
+        - generic [ref=e637]: 🏰
+        - generic [ref=e638]:
+          - generic [ref=e639]: Sir Luca Hearthsong, Master Brewmaster & Minstrel of the Royal Court
+          - generic [ref=e640]: The Resonant Roaster, Keeper of the King's Canto · Year 2150
+        - generic [ref=e641]:
+          - generic [ref=e642]: Bond
+          - generic [ref=e643]: Stranger
+      - generic [ref=e651]:
+        - textbox "Speak to your future self..." [disabled] [ref=e652]
+        - button "Send" [disabled] [ref=e653]
+  - button "Open Next.js Dev Tools" [ref=e169] [cursor=pointer]:
+    - img [ref=e170]
+  - alert [ref=e163]

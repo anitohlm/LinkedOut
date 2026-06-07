@@ -1,0 +1,101 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e1190]:
+    - navigation [ref=e1191]:
+      - button "← Back" [ref=e1192] [cursor=pointer]
+      - button "LinkedOut" [ref=e1193] [cursor=pointer]
+      - generic [ref=e1194]:
+        - button "📜 Royal Summons" [ref=e1195] [cursor=pointer]
+        - generic [ref=e1196]: 🏰 Medieval Kingdom
+    - generic [ref=e1197]:
+      - generic [ref=e1198]:
+        - generic [ref=e1199]: 🏰
+        - generic [ref=e1200]:
+          - heading "Luca Nightquill" [level=1] [ref=e1201]
+          - paragraph [ref=e1202]: Hearthkeeper and Court Minstrel
+          - paragraph [ref=e1203]: Medieval Kingdom · Royal Houses
+        - generic [ref=e1204]:
+          - generic [ref=e1205]:
+            - generic [ref=e1206]: "78"
+            - generic [ref=e1207]: innovation
+          - generic [ref=e1208]:
+            - generic [ref=e1209]: "65"
+            - generic [ref=e1210]: leadership
+          - generic [ref=e1211]:
+            - generic [ref=e1212]: "82"
+            - generic [ref=e1213]: collaboration
+      - generic [ref=e1214]:
+        - generic [ref=e1215]:
+          - generic [ref=e1216]:
+            - generic: ”
+            - generic [ref=e1219]: Biography
+            - paragraph [ref=e1221]: When the first sunrise painted the kingdom's stone walls, Luca found his calling beside the hearth of the bustling tavern of Willowbrook. By day he tended the cauldron, coaxing fragrant brews that warmed the souls of travelers, and by night he let his lute sing the verses that fluttered through his mind like sparrows. The clink of copper mugs and the rustle of parchment became the rhythm of his life, each moment a stanza in a larger ballad. Even as the tavern's fire crackled, Luca wove melodies and poetry, dreaming of a grand stage beneath the Royal Hall's vaulted arches. Though his coin purse whispered caution, his heart beat bold, ever‑ready to trade a cup of steaming draught for a new refrain. He learned to balance the weight of tomorrow's dues with the lightness of a chorus, forging a path where service and song walked hand in hand.
+          - generic [ref=e1222]:
+            - generic [ref=e1225]: Timeline Story
+            - paragraph [ref=e1229]: Luca began as a humble apprentice in the tavern’s kitchen, mastering the art of the perfect brew. Within a single season he was entrusted with the Hearthkeeper’s Quest, a role that demanded both meticulous service and the charm of a court minstrel. As his reputation grew, he turned the tavern’s cellar into a makeshift studio, laying down verses on parchment and sharing them with patrons. Now, with the Nightquill Codex in hand, he journeys between inns, seeking the day when his name will be called upon the Royal Hall’s grand stage.
+          - generic [ref=e1230]:
+            - generic [ref=e1233]: Where They're Heading
+            - paragraph [ref=e1235]: Luca aspires to earn a place as a laureate minstrel of the Liege’s Court, where his hearth‑crafted brews and ballads will echo through the kingdom’s halls. He envisions opening a bardic inn that serves both inspiration and warm draughts, becoming a nexus of creativity for future dreamers.
+          - generic [ref=e1236]:
+            - generic [ref=e1239]: Achievements
+            - generic [ref=e1241]:
+              - generic [ref=e1242]:
+                - generic [ref=e1243]: "1"
+                - generic [ref=e1244]: Sustained the Hearthkeeper's Quest at Willowbrook Tavern for three harvest cycles while composing a dozen original ballads each season
+              - generic [ref=e1245]:
+                - generic [ref=e1246]: "2"
+                - generic [ref=e1247]: Compiled a scroll‑bound catalog of verses and lute tunes, now whispered among the village bards as the "Nightquill Codex"
+              - generic [ref=e1248]:
+                - generic [ref=e1249]: "3"
+                - generic [ref=e1250]: Earned the reputation of the "Welcoming Hearth" for turning every patron's visit into a memorable feast of warmth and song
+              - generic [ref=e1251]:
+                - generic [ref=e1252]: "4"
+                - generic [ref=e1253]: Collaborated with traveling minstrels to record the first ever tavern‑produced ballad series, blending lute strings with the tavern's own brews
+              - generic [ref=e1254]:
+                - generic [ref=e1255]: "5"
+                - generic [ref=e1256]: Introduced a nightly “Poet’s Pour” ritual, boosting tavern patronage by twenty percent and inspiring spontaneous verses from strangers
+              - generic [ref=e1257]:
+                - generic [ref=e1258]: "6"
+                - generic [ref=e1259]: Mentored a troupe of apprentice scribes, teaching them the art of marrying flavor and lyric in a single breath
+        - generic [ref=e1260]:
+          - generic [ref=e1261]:
+            - button "Begin Future Transmission →" [ref=e1262] [cursor=pointer]
+            - generic [ref=e1263]:
+              - button "👑 Legendary" [ref=e1264] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e1265] [cursor=pointer]
+          - generic [ref=e1266]:
+            - generic [ref=e1269]: Personality
+            - paragraph [ref=e1271]: An idealistic dreamer with a poet’s soul, Luca balances cautious stewardship of his coin purse with bold artistic daring. He listens with empathy, letting the stories of strangers fuel his verses, yet his introverted nature often leaves projects unfinished, awaiting the right moment of inspiration.
+          - generic [ref=e1272]:
+            - generic [ref=e1275]: Competency Matrix
+            - generic [ref=e1277]:
+              - generic [ref=e1279]:
+                - generic [ref=e1280]: innovation
+                - generic [ref=e1281]: "78"
+              - generic [ref=e1285]:
+                - generic [ref=e1286]: leadership
+                - generic [ref=e1287]: "65"
+              - generic [ref=e1291]:
+                - generic [ref=e1292]: collaboration
+                - generic [ref=e1293]: "82"
+              - generic [ref=e1297]:
+                - generic [ref=e1298]: adaptability
+                - generic [ref=e1299]: "74"
+              - generic [ref=e1303]:
+                - generic [ref=e1304]: ambition
+                - generic [ref=e1305]: "70"
+              - generic [ref=e1309]:
+                - generic [ref=e1310]: wisdom
+                - generic [ref=e1311]: "68"
+          - generic [ref=e1314]:
+            - generic [ref=e1317]: Skills
+            - generic [ref=e1319]:
+              - generic [ref=e1320]: Potion (coffee) brewing and aromatic alchemy
+              - generic [ref=e1321]: Patron liaison and courtly hospitality
+              - generic [ref=e1322]: Lute performance and songcraft
+              - generic [ref=e1323]: Ballad composition and poetic scribing
+              - generic [ref=e1324]: Basic lute recording and scroll editing
+              - generic [ref=e1325]: Creative verse weaving
+              - generic [ref=e1326]: Chronicle time‑keeping and quest scheduling
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

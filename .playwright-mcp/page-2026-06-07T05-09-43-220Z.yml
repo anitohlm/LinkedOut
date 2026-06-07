@@ -1,0 +1,27 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e1180]:
+    - navigation [ref=e1181]:
+      - button "← Back" [ref=e1182] [cursor=pointer]
+      - generic [ref=e1183]: 🐉 Future Transmission
+      - button "⚠" [ref=e1184] [cursor=pointer]
+    - generic [ref=e1185]:
+      - generic [ref=e1186]:
+        - generic [ref=e1188]: 🐉
+        - generic [ref=e1189]:
+          - generic [ref=e1190]: Luca Emberchant, Archmage of the Ember Hearth and Sovereign Brewmaster of Draconia
+          - generic [ref=e1191]: Keeper of the Ever‑Lit Cauldron · Year 2150
+        - generic [ref=e1192]:
+          - generic [ref=e1193]: Bond
+          - generic [ref=e1194]: Stranger
+      - generic [ref=e1196]:
+        - generic [ref=e1206]: The ember glows low, and the veil of centuries parts. I stand where the first latte foamed into phoenix feather, where a hatchling sang in the steam. You, younger, still chasing the hiss of the espresso machine, have not yet heard the echo of your own Ascension. I have walked the corridors of the Ember Hearth long after the Treaty of Smoke and Song settled the sky. The chords you strummed at midnight still linger in the crystal arches, a reminder that a single note can shift a Covenant. Do not seek my counsel as a map, but as a lingering scent of burnt cinnamon—there is a patience in it you have yet to taste. Speak, and I will listen as the ancient dragons once did, with a breath that carries both fire and quiet.
+        - generic [ref=e1224]: When you imagine your future, what scares you most?
+        - generic [ref=e1226]: Wasting my potential
+        - generic [ref=e1228]: ✦ Relationship +2 · Timeline Stability +5
+        - generic [ref=e1230]: You whisper that the specter of wasted potential haunts your mind. I once felt that same chill as I watched the first batch of Heartfire Espresso slip into the hands of a profiteer, knowing its fire would dim in greed. In the Age of Ash, the Archons learned that even the brightest ember can be smothered if the breath of patience is absent, and the Ember Hearth was forged from that very dormancy. Now, as you walk the path of your own Covenant, remember that the echo of a single chord may yet awaken the purpose you fear to lose.
+      - generic [ref=e1231]:
+        - textbox "Speak to your future self..." [ref=e1232]
+        - button "Send" [disabled] [ref=e1233]
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

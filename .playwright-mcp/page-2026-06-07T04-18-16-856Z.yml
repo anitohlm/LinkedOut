@@ -1,0 +1,40 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e629]:
+    - navigation [ref=e630]:
+      - button "← Back" [ref=e631] [cursor=pointer]
+      - generic [ref=e632]: 🏰 Future Transmission
+      - button "⚠" [ref=e633] [cursor=pointer]
+    - generic [ref=e634]:
+      - generic [ref=e635]:
+        - generic [ref=e637]: 🏰
+        - generic [ref=e638]:
+          - generic [ref=e639]: Sir Luca Hearthsong, Master Brewmaster & Minstrel of the Royal Court
+          - generic [ref=e640]: The Resonant Roaster, Keeper of the King's Canto · Year 2150
+        - generic [ref=e641]:
+          - generic [ref=e642]: Bond
+          - generic [ref=e643]: Stranger
+      - generic [ref=e645]:
+        - generic [ref=e655]: Ah, the echo of a younger lute—welcome, bright spark of the past. I see you still carry the scent of roasted beans on your fingertips, and the weight of a song unfinished humming in your chest. I remember the night the dark roast flooded the King's banquet floor, the court's laughter rising like a sudden chorus, and His Majesty’s grin that turned mishap into a "black symphony." It was then the world whispered, *brew courage, lest fear spill your art.* You stand now at the crossroads of ambition and humility, a path I once walked under the ruined bridge of Eldermoor, trading gold for wandering minstrels. The choice felt like a defeat, yet it birthed the melody that steadied a starving kingdom. Take a breath, let the steam rise, and tell me—what chord does your heart strike at this moment?
+        - generic [ref=e673]: If nothing could stop you — no money, no fear — what would you build?
+        - generic [ref=e675]: A life that's entirely my own
+        - generic [ref=e677]: ✦ Relationship +2 · Timeline Stability +3
+        - generic [ref=e679]: A life wholly your own, forged like a single, unblended cup of brew. I once left the king’s treasury for a crumbling cottage, chasing a destiny I could name myself. Under Eldermoor’s moon I brewed a secret blend that sang my own name back to me, proof that true freedom burns bright only when we dare to taste it alone. May your candle never dim—know that I, too, walk this solitary quest, and I keep a place at my table for yours.
+        - generic [ref=e684]: I'm scared I'll never finish my album. How did you push through?
+        - generic [ref=e686]: "The night the spiced coffee I brewed for a sick orphan turned his fever to steam, I felt the first tremor of doubt—how could a single cup heal when the kingdom itself was bruised? Yet the child’s smile lit a fire that refused to be snuffed. When the first bars of *Echoes of the Hearthfire* emerged, the quill trembled in my hand. I feared the song would drown in the roar of war. I brewed the melody in secret, night after night, tasting each chord like a fresh bean—patient, bitter, then sweet. When the final note finally rang at the siege’s edge, the court rose as one, and the song became our rallying cry. It was not a miracle; it was stubborn brewing, one cup at a time. I recall the regret that still gnaws me: postponing the restoration of my family’s cottage until the walls crumbled. I let fear of expense defeat the hearth I needed. When the roof finally fell, I rebuilt it with my own hands, each beam a promise to finish what I start. So when the album feels like a half‑filled chalice, pour a little patience, stir with a daring risk, and let the steam rise. The next verse may be the one that carries your name across the court. Let the fear be the kettle’s whistle, not the silence that follows."
+      - generic [ref=e687]:
+        - generic [ref=e688]:
+          - generic [ref=e691]: Sir asks
+          - paragraph [ref=e692]: “In the court, honor is currency. Would you keep yours when it's expensive?”
+        - generic [ref=e693]:
+          - button "A Always. It's all I truly own" [ref=e694] [cursor=pointer]:
+            - generic [ref=e695]: A
+            - text: Always. It's all I truly own
+          - button "B I'd bend, but never break it" [ref=e696] [cursor=pointer]:
+            - generic [ref=e697]: B
+            - text: I'd bend, but never break it
+          - button "C Honor doesn't feed anyone" [ref=e698] [cursor=pointer]:
+            - generic [ref=e699]: C
+            - text: Honor doesn't feed anyone
+  - button "Open Next.js Dev Tools" [ref=e169] [cursor=pointer]:
+    - img [ref=e170]
+  - alert [ref=e163]

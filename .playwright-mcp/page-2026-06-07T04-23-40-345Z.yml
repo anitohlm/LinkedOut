@@ -1,0 +1,53 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e758]:
+    - navigation [ref=e759]:
+      - button "← Back" [ref=e760] [cursor=pointer]
+      - button "LinkedOut" [ref=e761] [cursor=pointer]
+    - generic [ref=e762]:
+      - generic [ref=e763]:
+        - generic [ref=e764]: 🌑
+        - paragraph [ref=e765]: The Shadow Timeline
+        - heading "Caffè Noir" [level=1] [ref=e766]
+        - paragraph [ref=e767]: The Brewmaster of Influence
+      - generic [ref=e768]:
+        - generic [ref=e769]:
+          - generic [ref=e770]: "78"
+          - generic [ref=e771]: Notoriety
+        - generic [ref=e772]:
+          - generic [ref=e773]: "62"
+          - generic [ref=e774]: Wealth
+        - generic [ref=e775]:
+          - generic [ref=e776]: "40"
+          - generic [ref=e777]: Threat
+      - generic [ref=e778]:
+        - paragraph [ref=e779]: How It Began
+        - paragraph [ref=e780]: "When the espresso machine hissed at dawn, the poet behind the counter felt the first tug of a different kind of audience—one that measured verses by clicks, streams, and sponsorships. The first compromise was subtle: swapping a heartfelt lyric for a brand‑aligned jingle to pay off a looming rent bill. That small trade felt like a necessary trade‑off, and the applause of a growing follower count soon drowned out the quiet doubts. Over months, the rhythm of coffee and content shifted; the poet began curating playlists that nudged listeners toward paid playlists, and edited tracks to fit algorithmic trends rather than personal truth. Each decision was justified as a step toward stability, yet the original dream of art for art's sake faded behind a polished, market‑driven persona."
+      - generic [ref=e781]:
+        - paragraph [ref=e782]: The Record
+        - generic [ref=e783]: "\"Local Barista Turns Coffee Shop Into Influencer Hub\""
+        - generic [ref=e784]: "\"Caffè Noir’s Playlist Dominates Streaming Charts, Critics Question Authenticity\""
+        - generic [ref=e785]: "\"From Espresso Shots to Sponsored Spots: The Rise of the Brewmaster\""
+        - generic [ref=e786]: "\"Artists Speak Out: Is Monetization Killing Indie Music?\""
+      - generic [ref=e787]:
+        - paragraph [ref=e788]: The Compromises
+        - generic [ref=e789]:
+          - generic [ref=e790]: ▸
+          - generic [ref=e791]: Accepted paid sponsorships that conflicted with personal values to fund studio upgrades.
+        - generic [ref=e792]:
+          - generic [ref=e793]: ▸
+          - generic [ref=e794]: Edited original songs to fit trending tempos, sacrificing artistic intent for streaming metrics.
+        - generic [ref=e795]:
+          - generic [ref=e796]: ▸
+          - generic [ref=e797]: Prioritized algorithm-friendly content over authentic storytelling, marginalizing deeper works.
+        - generic [ref=e798]:
+          - generic [ref=e799]: ▸
+          - generic [ref=e800]: Leveraged insider connections to secure playlist placements, sidelining emerging peers.
+        - generic [ref=e801]:
+          - generic [ref=e802]: ▸
+          - generic [ref=e803]: Shifted from genuine customer interactions to scripted brand experiences for higher margins.
+      - generic [ref=e804]:
+        - paragraph [ref=e805]: A Warning To You
+        - paragraph [ref=e806]: “When ambition becomes the only compass, the quiet erosion of your own voice can go unnoticed until the echo is all that remains. Remember that success measured solely by external validation may leave you serving a crowd that never truly heard you.”
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

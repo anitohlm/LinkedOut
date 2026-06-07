@@ -1,0 +1,104 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e700]:
+    - navigation [ref=e701]:
+      - button "← Back" [ref=e702] [cursor=pointer]
+      - button "LinkedOut" [ref=e703] [cursor=pointer]
+      - generic [ref=e704]:
+        - button "📜 Royal Summons" [ref=e705] [cursor=pointer]
+        - generic [ref=e706]: 🏰 Medieval Kingdom
+    - generic [ref=e707]:
+      - generic [ref=e708]:
+        - generic [ref=e709]: 🏰
+        - generic [ref=e710]:
+          - heading "Luca Hearthsong" [level=1] [ref=e711]
+          - paragraph [ref=e712]: Brewmaster Minstrel of the King's Court
+          - paragraph [ref=e713]: Medieval Kingdom · Royal Houses
+        - generic [ref=e714]:
+          - generic [ref=e715]:
+            - generic [ref=e716]: "78"
+            - generic [ref=e717]: innovation
+          - generic [ref=e718]:
+            - generic [ref=e719]: "65"
+            - generic [ref=e720]: leadership
+          - generic [ref=e721]:
+            - generic [ref=e722]: "80"
+            - generic [ref=e723]: collaboration
+      - generic [ref=e724]:
+        - generic [ref=e725]:
+          - generic [ref=e726]:
+            - generic: ”
+            - generic [ref=e729]: Biography
+            - paragraph [ref=e731]: From the first clink of copper pans in the castle kitchens to the soft strum of my lute beside the hearth, I have ever chased the echo of a melody that could warm a soul. My days are spent coaxing fragrant brews for weary travelers, while my nights are devoted to weaving verses that linger like the scent of fresh-roasted beans. Each cup I pour is a stanza, each chord I strike a promise of a brighter dawn. In the bustling taverns of the capital, I learned to balance the swift demands of the courtly guests with the patient crafting of ballads for wandering bards. The rhythm of service taught me discretion, and the cadence of song taught me courage. With every sunrise I rise anew, restless and hopeful, seeking the grand stage where my harmonies may finally find their kingdom.
+          - generic [ref=e732]:
+            - generic [ref=e735]: Timeline Story
+            - paragraph [ref=e739]: I began my apprenticeship in the castle's pantry, learning the alchemy of beans and herbs under Master Bartholomew. By the second year, I earned a place among the tavern's Brewmasters, serving nobles and knights with equal grace. Simultaneously, I snuck into the minstrel's guild, polishing my lute and recording my first ballads on parchment scrolls. The turning point came when the royal patron requested a bespoke song for the Harvest Feast; I delivered a melody that resonated through the Great Hall, earning the Liege's praise and a modest stipend for my musical quests. Today, I balance the clang of copper pots with the hum of strings, ever seeking the day I may join the Royal Bardic Court.
+          - generic [ref=e740]:
+            - generic [ref=e743]: Where They're Heading
+            - paragraph [ref=e745]: My gaze is set upon the throne of the Royal Bard, where I may weave my melodies into the very fabric of the kingdom and sustain my art through the Crown's patronage, turning my restless songs into enduring Glory.
+          - generic [ref=e746]:
+            - generic [ref=e749]: Achievements
+            - generic [ref=e751]:
+              - generic [ref=e752]:
+                - generic [ref=e753]: "1"
+                - generic [ref=e754]: Composed and performed original ballads while maintaining a full‑time role as Brewmaster for the royal tavern
+              - generic [ref=e755]:
+                - generic [ref=e756]: "2"
+                - generic [ref=e757]: Crafted enchanting soundscapes for traveling minstrel troupes' theatrical quests across the realm
+              - generic [ref=e758]:
+                - generic [ref=e759]: "3"
+                - generic [ref=e760]: Earned the Liege's commendation for delivering flawless service during the annual Harvest Feast
+              - generic [ref=e761]:
+                - generic [ref=e762]: "4"
+                - generic [ref=e763]: Wrote a collection of verses that were inscribed in the Hall of Chronicles, praised for their lyrical depth
+              - generic [ref=e764]:
+                - generic [ref=e765]: "5"
+                - generic [ref=e766]: Introduced a signature spiced brew that became the favored refreshment of the Court's scholars
+              - generic [ref=e767]:
+                - generic [ref=e768]: "6"
+                - generic [ref=e769]: Mentored apprentices in both potion‑brewing and lute‑tuning, fostering a new generation of creative courtiers
+        - generic [ref=e770]:
+          - generic [ref=e771]:
+            - button "Begin Future Transmission →" [ref=e772] [cursor=pointer]
+            - generic [ref=e773]:
+              - button "👑 Legendary" [ref=e774] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e775] [cursor=pointer]
+          - generic [ref=e776]:
+            - generic [ref=e779]: Personality
+            - paragraph [ref=e781]: Restless and idealistic, I am a dreamer who finds solace in both steam‑filled kettles and resonant chords. My introspective nature fuels deep lyrical insight, while cautiousness about gold keeps my ventures grounded. Curiosity drives me to explore new brews and new verses, even as I sometimes start many quests at once.
+          - generic [ref=e782]:
+            - generic [ref=e785]: Competency Matrix
+            - generic [ref=e787]:
+              - generic [ref=e789]:
+                - generic [ref=e790]: innovation
+                - generic [ref=e791]: "78"
+              - generic [ref=e795]:
+                - generic [ref=e796]: leadership
+                - generic [ref=e797]: "65"
+              - generic [ref=e801]:
+                - generic [ref=e802]: collaboration
+                - generic [ref=e803]: "80"
+              - generic [ref=e807]:
+                - generic [ref=e808]: adaptability
+                - generic [ref=e809]: "85"
+              - generic [ref=e813]:
+                - generic [ref=e814]: ambition
+                - generic [ref=e815]: "90"
+              - generic [ref=e819]:
+                - generic [ref=e820]: wisdom
+                - generic [ref=e821]: "70"
+          - generic [ref=e824]:
+            - generic [ref=e827]: Skills
+            - generic [ref=e829]:
+              - generic [ref=e830]: Potion brewing
+              - generic [ref=e831]: Guest hospitality
+              - generic [ref=e832]: Treasury handling
+              - generic [ref=e833]: Minstrel composition
+              - generic [ref=e834]: Lute tuning and audio refinement
+              - generic [ref=e835]: String‑strumming performance
+              - generic [ref=e836]: Lyric crafting
+              - generic [ref=e837]: Verse weaving
+              - generic [ref=e838]: Creative enchantments
+              - generic [ref=e839]: Heraldic proclamation
+  - button "Open Next.js Dev Tools" [ref=e169] [cursor=pointer]:
+    - img [ref=e170]
+  - alert [ref=e163]

@@ -1,0 +1,42 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e579]:
+    - navigation [ref=e580]:
+      - button "← Back" [ref=e581] [cursor=pointer]
+      - button "LinkedOut" [ref=e582] [cursor=pointer]
+      - generic [ref=e583]: 🌃 Neon Synthesis
+    - generic [ref=e584]:
+      - generic [ref=e585]:
+        - paragraph [ref=e586]: Encrypted Channel
+        - heading "Corp Inbox" [level=1] [ref=e587]
+        - paragraph [ref=e588]: Megacorps are bidding for your clearance.
+      - generic [ref=e590] [cursor=pointer]:
+        - generic [ref=e591]:
+          - generic [ref=e592]: 🌃
+          - generic [ref=e593]:
+            - generic [ref=e594]: Neon Synthesis Collective
+            - generic [ref=e595]: Lead Audio Forge Engineer · Neon Synthesis
+        - generic [ref=e598]:
+          - paragraph [ref=e599]: Hey Luca, the Warmth Engine,
+          - paragraph [ref=e600]: "The neon veins of the Hub pulse louder when your brew syncs with a riff. We’ve watched you turn coffee steam into a living sound lattice, cutting brew latency by 15% while feeding the city’s nightly stream with original hacks and lyric encryptions. Your personal vault of 30+ demo tracks and neon‑poems has already become a reference node for aspiring netrunners, and the 27% dwell‑time surge you engineered proves you can turn a simple espresso into an immersive exploit. The Collective is launching a new Hack: the \"Echo Core\"—a live‑synthesizer arena that blends real‑time audio weaving with adaptive AI brew‑feeds. We need a conductor who can fuse barista precision with audio warfare, someone who can mentor the next wave of sound‑shapers while broadcasting the pulse of the city to every holo‑screen. Your track record of co‑hosting \"Pulse Sessions\" and mentoring junior baristas makes you the perfect catalyst to turn this Hack into a city‑wide Exploit. Join us, and you’ll command a dedicated synth‑core lab perched above the Hub’s chromatic skyline, with unrestricted bandwidth to archive, remix, and unleash your creations. Your chrono‑optimization scripts will be integrated into the Core’s timing engine, freeing even more cycles for pure artistic assault. In return, the Collective will amplify your voice across the Neon Grid, granting you the platform to finally finish the masterpiece you’ve been chasing. This isn’t just a job—it’s a call to embed your signature into the very soundtrack of the city. The Admin and the Collective stand ready; the streets are waiting for the next Warmth Engine to ignite the night."
+          - generic [ref=e601]:
+            - paragraph [ref=e602]: What they offer
+            - generic [ref=e603]:
+              - generic [ref=e604]: ⚡
+              - text: Unlimited access to the city's high‑bandwidth sound lattice
+            - generic [ref=e605]:
+              - generic [ref=e606]: 🎧
+              - text: Personalized synth‑core lab in the Hub's upper tier
+            - generic [ref=e607]:
+              - generic [ref=e608]: 🌐
+              - text: Priority slots for your own Hack streams on the Neon Grid
+            - generic [ref=e609]:
+              - generic [ref=e610]: 🪙
+              - text: 120,000 neural credits per cycle
+          - paragraph [ref=e611]: — Admin Kairo, Chief Resonance Officer
+          - generic [ref=e616]:
+            - paragraph [ref=e617]: ⇄ You negotiated
+            - paragraph [ref=e618]: The Admin will meet in the lower lounge to fine‑tune terms, bandwidth allocations, or credit packages.
+            - button "Reconsider" [ref=e619]
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

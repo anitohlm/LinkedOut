@@ -1,0 +1,100 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e1953]:
+    - navigation [ref=e1954]:
+      - button "← Back" [ref=e1955] [cursor=pointer]
+      - button "LinkedOut" [ref=e1956] [cursor=pointer]
+      - generic [ref=e1957]:
+        - button "🔥 Ancient Covenants" [ref=e1958] [cursor=pointer]
+        - generic [ref=e1959]: 🐉 Ancient Draconia
+    - generic [ref=e1960]:
+      - generic [ref=e1961]:
+        - generic [ref=e1962]: 🐉
+        - generic [ref=e1963]:
+          - heading "Luca Emberwing" [level=1] [ref=e1964]
+          - paragraph [ref=e1965]: Apprentice Brewmaster & Melody Keeper of the Crimson Cauldron
+          - paragraph [ref=e1966]: Ancient Draconia · Ancient Orders
+        - generic [ref=e1967]:
+          - generic [ref=e1968]:
+            - generic [ref=e1969]: "78"
+            - generic [ref=e1970]: innovation
+          - generic [ref=e1971]:
+            - generic [ref=e1972]: "65"
+            - generic [ref=e1973]: leadership
+          - generic [ref=e1974]:
+            - generic [ref=e1975]: "82"
+            - generic [ref=e1976]: collaboration
+      - generic [ref=e1977]:
+        - generic [ref=e1978]:
+          - generic [ref=e1979]:
+            - generic: ”
+            - generic [ref=e1982]: Biography
+            - paragraph [ref=e1984]: I first tasted the ember‑kissed brew beneath the vaulted arches of the Crimson Cauldron, where the scent of roasted bean‑stones mingled with the hum of ancient lyres. Each sunrise I tended the fire‑kissed cauldrons, gifting the wandering Brood a sip of vigor while my heart whispered verses into the steam. Between the clang of copper kettles and the soft strum of my wind‑chord, I charted a path toward an Ascension that balances the weight of tomorrow's coin with the light of tomorrow's stage. The hearth became my sanctuary, a place where strangers found warmth and I found rhythm. In the quiet moments after the last cup was served, I wove songs from the echoes of the cauldron, carving them into rune‑etched scrolls that drifted through the vaulted halls of the Ancient Orders. Though my wings are still young, the fire within burns bright, urging me toward a Covenant where melody and brew become one.
+          - generic [ref=e1985]:
+            - generic [ref=e1988]: Timeline Story
+            - paragraph [ref=e1992]: "I arrived at the Crimson Cauldron as a fledgling apprentice, clutching a battered leather satchel of verses and a rusted copper ladle. Under the watchful eye of the Elder Wyrm Brewmaster, I learned to coax the perfect crema from bean‑stones while my fingertips learned the cadence of the wind‑chord. Within a year, the cauldron’s steam carried my first song‑rune to the council chambers, earning a modest commendation. As seasons turned, I balanced the demands of daily service with nightly scribing sessions, each cup poured a step toward my larger Covenant: a grand festival where my melodies would echo across the vaulted peaks of Draconia. Now, with a growing brood of admirers and a repertoire of ember‑infused hymns, I stand on the brink of Ascension, ready to fuse brewcraft and song into a singular art."
+          - generic [ref=e1993]:
+            - generic [ref=e1996]: Where They're Heading
+            - paragraph [ref=e1998]: Luca seeks to graduate from Apprentice to Guardian of the Ember Brew, eventually leading a Covenant of Brewmasters and Melody Keepers. His ultimate Ascension envisions a grand Draconic Amphitheatre where the cauldron’s steam fuels a symphony that sustains the Brood, turning each cup into a chorus of hope.
+          - generic [ref=e1999]:
+            - generic [ref=e2002]: Achievements
+            - generic [ref=e2004]:
+              - generic [ref=e2005]:
+                - generic [ref=e2006]: "1"
+                - generic [ref=e2007]: Sustained a full‑time covenant as Brewmaster while birthing a growing catalog of original song‑runes.
+              - generic [ref=e2008]:
+                - generic [ref=e2009]: "2"
+                - generic [ref=e2010]: Forged a personal archive of 30+ demo scrolls and poetic verses, each infused with ember‑brew resonance.
+              - generic [ref=e2011]:
+                - generic [ref=e2012]: "3"
+                - generic [ref=e2013]: Earned the title of Welcome Guardian among the Brood for creating a hearth that soothed both weary travelers and restless dreamers.
+              - generic [ref=e2014]:
+                - generic [ref=e2015]: "4"
+                - generic [ref=e2016]: Composed the anthem "Steam & Strings," performed nightly to inspire fellow apprentices toward Ascension.
+              - generic [ref=e2017]:
+                - generic [ref=e2018]: "5"
+                - generic [ref=e2019]: Introduced a novel brewing technique—Moonlit Infusion—that increased the cauldron's vigor by 15%, delighting the Archon’s council.
+              - generic [ref=e2020]:
+                - generic [ref=e2021]: "6"
+                - generic [ref=e2022]: Mentored two junior apprentices, guiding them in both brewcraft and lyrical craft, fostering a new generation of melody keepers.
+        - generic [ref=e2023]:
+          - generic [ref=e2024]:
+            - button "Begin Future Transmission →" [ref=e2025] [cursor=pointer]
+            - generic [ref=e2026]:
+              - button "👑 Legendary" [ref=e2027] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e2028] [cursor=pointer]
+          - generic [ref=e2029]:
+            - generic [ref=e2032]: Personality
+            - paragraph [ref=e2034]: Luca embodies the idealistic dreamer who fuels his visions with the fiery pulse of the cauldron. Though cautious with treasure, his artistic heart roars boldly, ever restless, chasing unfinished verses like fleeting sparks. He listens with the patience of an Oracle, offering warm counsel to every traveler, yet his introverted nature often keeps him cloaked in the quiet corners of the hearth.
+          - generic [ref=e2035]:
+            - generic [ref=e2038]: Competency Matrix
+            - generic [ref=e2040]:
+              - generic [ref=e2042]:
+                - generic [ref=e2043]: innovation
+                - generic [ref=e2044]: "78"
+              - generic [ref=e2048]:
+                - generic [ref=e2049]: leadership
+                - generic [ref=e2050]: "65"
+              - generic [ref=e2054]:
+                - generic [ref=e2055]: collaboration
+                - generic [ref=e2056]: "82"
+              - generic [ref=e2060]:
+                - generic [ref=e2061]: adaptability
+                - generic [ref=e2062]: "74"
+              - generic [ref=e2066]:
+                - generic [ref=e2067]: ambition
+                - generic [ref=e2068]: "88"
+              - generic [ref=e2072]:
+                - generic [ref=e2073]: wisdom
+                - generic [ref=e2074]: "71"
+          - generic [ref=e2077]:
+            - generic [ref=e2080]: Skills
+            - generic [ref=e2082]:
+              - generic [ref=e2083]: Ember‑brew preparation and cauldron stewardship
+              - generic [ref=e2084]: Hearth hospitality and Brood liaison
+              - generic [ref=e2085]: Rune‑song composition and wind‑chord performance
+              - generic [ref=e2086]: Resonance shaping (audio alchemy)
+              - generic [ref=e2087]: Chronicle weaving (time management)
+              - generic [ref=e2088]: Creative rune scribing and poetic inscription
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

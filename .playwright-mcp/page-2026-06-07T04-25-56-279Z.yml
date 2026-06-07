@@ -1,0 +1,61 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3106]:
+    - navigation [ref=e3107]:
+      - button "← Back" [ref=e3108] [cursor=pointer]
+      - button "LinkedOut" [ref=e3109] [cursor=pointer]
+    - generic [ref=e3110]:
+      - generic [ref=e3111]:
+        - paragraph [ref=e3112]: Butterfly Effect Engine
+        - heading "What If?" [level=1] [ref=e3113]
+        - paragraph [ref=e3114]: Change one decision. Watch your life fracture across four alternate timelines.
+      - generic [ref=e3115]:
+        - textbox "What if I never studied my field?" [ref=e3116]: What if I quit my barista job to pursue music full-time?
+        - button "Generate →" [ref=e3117] [cursor=pointer]
+      - generic [ref=e3122]:
+        - generic [ref=e3123]:
+          - generic [ref=e3124]: A
+          - heading "Espresso‑Rock Opera of the Cosmic Café" [level=3] [ref=e3125]
+          - paragraph [ref=e3126]: A surreal world where caffeine fuels musical magic and baristas double as rock stars.
+          - paragraph [ref=e3127]: After swapping the apron for a guitar, the poet‑barista becomes the front‑man of the touring act "Latte Lullabies," performing on stages built from espresso machines while brewing crowds with literal caffeine‑infused sound waves.
+          - generic [ref=e3128]:
+            - generic [ref=e3131]: 2023 – Leaves the downtown coffee shop, records a debut EP titled "Steam & Strings" in the backroom of the former workplace.
+            - generic [ref=e3134]: "2024 – Gains viral fame when a live video of a solo where his guitar strings literally steam goes viral, spawning the hashtag #BeanBeats."
+            - generic [ref=e3137]: 2025 – Signs a quirky record deal with BrewTunes Records, a label run by former barista‑turned‑producer who insists on mixing tracks with actual espresso shots.
+            - generic [ref=e3140]: 2026 – Embarks on the "Caffeine Circuit Tour," a series of pop‑up concerts in coffee roasters across three continents, each venue powered by a giant coffee grinder.
+            - generic [ref=e3143]: 2027 – Releases the concept album "Arabica Anthems," which wins the Golden Mug Award for most innovative use of coffee as an instrument.
+        - generic [ref=e3144]:
+          - generic [ref=e3145]: B
+          - heading "The Brew Rebellion Anthem" [level=3] [ref=e3146]
+          - paragraph [ref=e3147]: A dystopian near‑future where multinational coffee conglomerates control media, and underground musicians fight back with sound.
+          - paragraph [ref=e3148]: Choosing music over the safety of a steady tip jar, the idealistic poet‑dreamer becomes a key voice in the clandestine "Roast Resistance," using guitar riffs and lyrical protest to challenge corporate tyranny, risking both freedom and finances.
+          - generic [ref=e3149]:
+            - generic [ref=e3152]: 2023 – Quits the barista job and releases a gritty protest single "Grounds for Revolt," recorded in a hidden basement studio.
+            - generic [ref=e3155]: 2024 – Joins the underground collective "Beanbandits," writing incendiary lyrics that expose the dark practices of the coffee monopoly.
+            - generic [ref=e3158]: 2025 – Performs at the covert "Midnight Brews" shows, where audience members are screened for loyalty before entering the speakeasy.
+            - generic [ref=e3161]: 2026 – Is arrested during a flash‑mob concert at a corporate flagship café; spends three months in detainment, where he writes the haunting ballad "Steam Prison."
+            - generic [ref=e3164]: 2027 – After a high‑profile trial, the case sparks nationwide protests; a new regulation limits corporate control over local cafés, and his song becomes an anthem for change.
+        - generic [ref=e3165]:
+          - generic [ref=e3166]: C
+          - heading "Quiet Strings in a Small‑Town Café" [level=3] [ref=e3167]
+          - paragraph [ref=e3168]: A tranquil, contemporary slice‑of‑life where the protagonist balances coffee art with personal songwriting in a close‑knit community.
+          - paragraph [ref=e3169]: Choosing to stay local, the empathetic listener keeps a part‑time barista schedule while converting the café’s quiet corner into a modest home studio, crafting intimate songs that echo the rhythm of daily life and the hum of the espresso machine.
+          - generic [ref=e3170]:
+            - generic [ref=e3173]: 2023 – Leaves the high‑traffic downtown shop for a family‑run café in a mountain town, keeps a half‑day schedule to free evenings for music.
+            - generic [ref=e3176]: 2024 – Releases the acoustic EP "Mornings in Mist," recorded entirely on a laptop using the café’s ambient chatter as background texture.
+            - generic [ref=e3179]: 2025 – Publishes a chapbook of poems titled "Foam & Verse," distributed to regular patrons who request a latte and a lyric.
+            - generic [ref=e3182]: 2026 – Wins the regional “Best Local Songwriter” award, celebrated at the town’s annual harvest festival where he performs on a modest stage beside the food trucks.
+            - generic [ref=e3185]: 2027 – Opens a tiny pop‑up record store inside the café, offering his vinyl pressings alongside freshly roasted beans, creating a beloved community hub.
+        - generic [ref=e3186]:
+          - generic [ref=e3187]: D
+          - heading "Soundscapes & Coffee Labs" [level=3] [ref=e3188]
+          - paragraph [ref=e3189]: A tech‑forward world where audio design for interactive media is as revered as culinary art, and coffee expertise becomes a unique consultancy.
+          - paragraph [ref=e3190]: Leveraging his dual mastery of coffee craft and audio production, the restless starter becomes a sought‑after sound designer for a major video‑game studio, while consulting on immersive “coffee‑themed” game environments, merging his passions into a groundbreaking niche.
+          - generic [ref=e3191]:
+            - generic [ref=e3194]: 2023 – Leaves the barista role to enroll in a part‑time audio engineering bootcamp, using tips to fund the tuition.
+            - generic [ref=e3197]: 2024 – Lands an internship at NeonBean Studios, a game developer known for integrating realistic café simulations into RPGs.
+            - generic [ref=e3200]: 2025 – Designs the award‑winning soundtrack for "BrewQuest," a game where players harvest virtual beans and craft music from their aroma profiles.
+            - generic [ref=e3203]: "2026 – Publishes a whitepaper on “Acoustic Espresso: Using Coffee‑Induced Rhythms in Game Audio,” cited by industry leaders."
+            - generic [ref=e3206]: 2027 – Promoted to Lead Audio Architect, oversees a team that creates immersive soundscapes for a blockbuster title that features a fully interactive coffee shop hub, earning a Game Audio Guild award.
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

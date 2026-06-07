@@ -63,7 +63,7 @@ Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
       futureSelf.personality, futureSelf.philosophy,
       futureSelf.achievements, futureSelf.regrets,
       futureSelf.lessons, futureSelf.memories,
-      resumeAnalysis.skills, universe.lore, universe.terminology
+      resumeAnalysis.skills, universe.lore, universe.terminology, futureSelf.universeId
     );
 
     const depthNote = messageCount < 3
@@ -89,7 +89,7 @@ Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
             futureSelf.personality, futureSelf.philosophy,
             futureSelf.achievements, futureSelf.regrets,
             futureSelf.lessons, futureSelf.memories,
-            resumeAnalysis.skills, universe.lore, universe.terminology
+            resumeAnalysis.skills, universe.lore, universe.terminology, futureSelf.universeId
           ) + memoryNote + relationshipNote,
           userMessage,
           conversationHistory

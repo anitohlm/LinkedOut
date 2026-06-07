@@ -1,0 +1,16 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3106]:
+    - navigation [ref=e3107]:
+      - button "← Back" [ref=e3108] [cursor=pointer]
+      - button "LinkedOut" [ref=e3109] [cursor=pointer]
+    - generic [ref=e3110]:
+      - generic [ref=e3111]:
+        - paragraph [ref=e3112]: Butterfly Effect Engine
+        - heading "What If?" [level=1] [ref=e3113]
+        - paragraph [ref=e3114]: Change one decision. Watch your life fracture across four alternate timelines.
+      - generic [ref=e3115]:
+        - textbox "What if I never studied my field?" [ref=e3116]
+        - button "Generate →" [disabled] [ref=e3117]
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

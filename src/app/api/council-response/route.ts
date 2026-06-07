@@ -4,6 +4,7 @@ import { UniverseType } from "@/types";
 import { callAI } from "@/lib/agents/foundry";
 import { buildCouncilPrompt } from "@/lib/agents/prompts";
 import { stabilityBehaviorNote } from "@/lib/stability";
+import { getVoice } from "@/lib/voices";
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,7 +18,7 @@ export async function POST(req: NextRequest) {
     const systemPrompt = buildCouncilPrompt(
       speaker.futureSelf.name, speaker.futureSelf.universeId,
       speaker.futureSelf.personality, speaker.futureSelf.philosophy, allMembers
-    ) + memoryNote + closingNote + stabilityBehaviorNote(timelineStability ?? 100, "council");
+    ) + memoryNote + closingNote + stabilityBehaviorNote(timelineStability ?? 100, "council") + getVoice(speaker.futureSelf?.universeId);
 
     const history = conversationHistory.slice(-8).map((m: any) => ({
       role: m.role === "future-self" ? "assistant" : m.role as "user" | "assistant",

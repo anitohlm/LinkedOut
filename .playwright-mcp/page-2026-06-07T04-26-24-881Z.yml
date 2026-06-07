@@ -1,0 +1,57 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3461] [cursor=pointer]:
+    - generic [ref=e3462]:
+      - generic [ref=e3463]: ✦
+      - generic [ref=e3464]: Historian Observation
+    - paragraph [ref=e3465]: The user approaches a divergence point. Every road walked converges here, at the Council. Beyond it, only one remains.
+  - generic [ref=e3466]:
+    - navigation [ref=e3467]:
+      - button "← Back" [ref=e3468] [cursor=pointer]
+      - generic [ref=e3469]: ⚖️ The Council of Selves
+    - generic [ref=e3470]:
+      - generic [ref=e3471]:
+        - generic [ref=e3472]:
+          - generic [ref=e3473]:
+            - generic [ref=e3474]: 👑
+            - generic [ref=e3475]: Luca the Ascended
+            - generic [ref=e3476]: Legendary
+          - generic [ref=e3477]:
+            - generic [ref=e3478]: 🌑
+            - generic [ref=e3479]: Luca Nocturne
+            - generic [ref=e3480]: Shadow
+        - generic [ref=e3481]:
+          - generic [ref=e3482]:
+            - generic [ref=e3483]: 🏰
+            - generic [ref=e3484]: Luca Nightquill
+            - generic [ref=e3485]: Medieval
+          - generic [ref=e3486]:
+            - generic [ref=e3487]: 🌃
+            - generic [ref=e3488]: Luca Pulsebrew
+            - generic [ref=e3489]: Neon
+          - generic [ref=e3490]:
+            - generic [ref=e3491]: ☠️
+            - generic [ref=e3492]: Luca Stormbrew
+            - generic [ref=e3493]: Endless
+          - generic [ref=e3494]:
+            - generic [ref=e3495]: 🐉
+            - generic [ref=e3496]: Luca Emberwing
+            - generic [ref=e3497]: Ancient
+          - generic [ref=e3498]:
+            - generic [ref=e3499]: 🚀
+            - generic [ref=e3500]: Luca Starweaver
+            - generic [ref=e3501]: Cosmic
+          - generic [ref=e3502]:
+            - generic [ref=e3503]: 🧛
+            - generic [ref=e3504]: Luca Shadowbrew
+            - generic [ref=e3505]: Eternal
+      - generic [ref=e3507]:
+        - text: Every version of you has gathered — the lives you could live, your greatest self, and your shadow.
+        - text: Speak, and they will
+        - emphasis [ref=e3508]: debate
+        - text: — each arguing for the future they became. When you're ready, conclude the council and choose.
+      - generic [ref=e3509]:
+        - textbox "Ask the council..." [ref=e3510]
+        - button "Send" [disabled] [ref=e3511]
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

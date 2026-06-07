@@ -1,0 +1,96 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2337]:
+    - navigation [ref=e2338]:
+      - button "← Back" [ref=e2339] [cursor=pointer]
+      - button "LinkedOut" [ref=e2340] [cursor=pointer]
+      - generic [ref=e2341]:
+        - button "🛸 Commissions" [ref=e2342] [cursor=pointer]
+        - generic [ref=e2343]: 🚀 Cosmic Frontier
+    - generic [ref=e2344]:
+      - generic [ref=e2345]:
+        - generic [ref=e2346]: 🚀
+        - generic [ref=e2347]:
+          - heading "Luca Starweaver" [level=1] [ref=e2348]
+          - paragraph [ref=e2349]: Junior Brew Commander & Harmonic Voyager
+          - paragraph [ref=e2350]: Cosmic Frontier · Federations & Alliances
+        - generic [ref=e2351]:
+          - generic [ref=e2352]:
+            - generic [ref=e2353]: "78"
+            - generic [ref=e2354]: innovation
+          - generic [ref=e2355]:
+            - generic [ref=e2356]: "72"
+            - generic [ref=e2357]: leadership
+          - generic [ref=e2358]:
+            - generic [ref=e2359]: "85"
+            - generic [ref=e2360]: collaboration
+      - generic [ref=e2361]:
+        - generic [ref=e2362]:
+          - generic [ref=e2363]:
+            - generic: ”
+            - generic [ref=e2366]: Biography
+            - paragraph [ref=e2368]: I first learned to coax the perfect plasma‑infused brew aboard the orbital café Nebula Drift, where the hiss of the steam condensers sang like a choir of distant suns. Between each espresso pulse I wove verses on a holo‑tablet, letting the rhythm of the cosmos guide my guitar strings. The café became my launchpad, a place where strangers floated in, shared stories, and left with a taste of starlight and a lingering melody. Now, as I chart my own Mission across the Frontier, I carry a satchel of unfinished verses and half‑crafted tracks, each a beacon toward a future stage that glitters beyond the asteroid belts. The weight of tomorrow’s credits still tugs at my thrusters, but the dream of turning every brew into a Discovery fuels my flight.
+          - generic [ref=e2369]:
+            - generic [ref=e2372]: Timeline Story
+            - paragraph [ref=e2376]: "I arrived on the Nebula Drift as a cadet barista, learning the art of zero‑gravity espresso extraction while humming the first chords of my debut track. After months of double‑shifts, I launched my own Mission of songwriting, recording tracks between orders and sharing them on the station’s holo‑net. The positive reception sparked a new initiative: I blended ambient soundscapes into the café’s environment, turning each service into a shared Discovery. Today, I pilot my own creative Fleet, balancing brew duties with a growing portfolio of interstellar compositions."
+          - generic [ref=e2377]:
+            - generic [ref=e2380]: Where They're Heading
+            - paragraph [ref=e2382]: "Luca aims to graduate from Junior Brew Commander to Fleet Commander of a traveling Harmonic Convoy, where his music will echo across colonies and his coffee will become the standard for interstellar hospitality. The ultimate Discovery: a flagship stage orbiting a moon of Lyra, where his songs launch new cultural Movements."
+          - generic [ref=e2383]:
+            - generic [ref=e2386]: Achievements
+            - generic [ref=e2388]:
+              - generic [ref=e2389]:
+                - generic [ref=e2390]: "1"
+                - generic [ref=e2391]: Sustained full‑time command of the Nebula Drift’s Brew Deck while composing and recording original harmonic tracks during off‑shift cycles
+              - generic [ref=e2392]:
+                - generic [ref=e2393]: "2"
+                - generic [ref=e2394]: Compiled a personal nebular catalog of demo recordings and poetic stanzas, now archived in the Galactic Creative Constellation
+              - generic [ref=e2395]:
+                - generic [ref=e2396]: "3"
+                - generic [ref=e2397]: Engineered a welcoming micro‑gravity lounge atmosphere, boosting customer morale and earning the "Celestial Host" commendation
+              - generic [ref=e2398]:
+                - generic [ref=e2399]: "4"
+                - generic [ref=e2400]: Integrated a custom sound‑wave modulator into the café’s ambience system, turning each coffee ritual into a sonic Discovery
+              - generic [ref=e2401]:
+                - generic [ref=e2402]: "5"
+                - generic [ref=e2403]: Mentored junior baristas in both brew protocols and lyrical improvisation, fostering a collaborative Fleet of creators
+        - generic [ref=e2404]:
+          - generic [ref=e2405]:
+            - button "Begin Future Transmission →" [ref=e2406] [cursor=pointer]
+            - generic [ref=e2407]:
+              - button "👑 Legendary" [ref=e2408] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e2409] [cursor=pointer]
+          - generic [ref=e2410]:
+            - generic [ref=e2413]: Personality
+            - paragraph [ref=e2415]: An idealistic dreamer with a cautious fuel reserve, Luca channels his introverted creativity into empathetic listening, turning every patron’s story into lyrical fuel. Restless yet grounded, he starts many Projects, finishing the ones that resonate most deeply, and always keeps an eye on the credit gauges while reaching for the stars.
+          - generic [ref=e2416]:
+            - generic [ref=e2419]: Competency Matrix
+            - generic [ref=e2421]:
+              - generic [ref=e2423]:
+                - generic [ref=e2424]: innovation
+                - generic [ref=e2425]: "78"
+              - generic [ref=e2429]:
+                - generic [ref=e2430]: leadership
+                - generic [ref=e2431]: "72"
+              - generic [ref=e2435]:
+                - generic [ref=e2436]: collaboration
+                - generic [ref=e2437]: "85"
+              - generic [ref=e2441]:
+                - generic [ref=e2442]: adaptability
+                - generic [ref=e2443]: "80"
+              - generic [ref=e2447]:
+                - generic [ref=e2448]: ambition
+                - generic [ref=e2449]: "74"
+              - generic [ref=e2453]:
+                - generic [ref=e2454]: wisdom
+                - generic [ref=e2455]: "68"
+          - generic [ref=e2458]:
+            - generic [ref=e2461]: Skills
+            - generic [ref=e2463]:
+              - generic [ref=e2464]: Plasma‑brew synthesis
+              - generic [ref=e2465]: Stellar customer liaison
+              - generic [ref=e2466]: Harmonic production and guitar navigation
+              - generic [ref=e2467]: Audio‑field editing and holo‑script composition
+              - generic [ref=e2468]: Chrono‑task orchestration
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

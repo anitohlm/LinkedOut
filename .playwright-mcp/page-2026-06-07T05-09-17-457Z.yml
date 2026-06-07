@@ -1,0 +1,21 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e1180]:
+    - navigation [ref=e1181]:
+      - button "← Back" [ref=e1182] [cursor=pointer]
+      - generic [ref=e1183]: 🐉 Future Transmission
+      - button "⚠" [ref=e1184] [cursor=pointer]
+    - generic [ref=e1185]:
+      - generic [ref=e1186]:
+        - generic [ref=e1188]: 🐉
+        - generic [ref=e1189]:
+          - generic [ref=e1190]: Luca Emberchant, Archmage of the Ember Hearth and Sovereign Brewmaster of Draconia
+          - generic [ref=e1191]: Keeper of the Ever‑Lit Cauldron · Year 2150
+        - generic [ref=e1192]:
+          - generic [ref=e1193]: Bond
+          - generic [ref=e1194]: Stranger
+      - generic [ref=e1202]:
+        - textbox "Speak to your future self..." [disabled] [ref=e1203]
+        - button "Send" [disabled] [ref=e1204]
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

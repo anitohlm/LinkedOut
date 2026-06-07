@@ -1,0 +1,36 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e1180]:
+    - navigation [ref=e1181]:
+      - button "← Back" [ref=e1182] [cursor=pointer]
+      - generic [ref=e1183]: 🐉 Future Transmission
+      - button "⚠" [ref=e1184] [cursor=pointer]
+    - generic [ref=e1185]:
+      - generic [ref=e1186]:
+        - generic [ref=e1188]: 🐉
+        - generic [ref=e1189]:
+          - generic [ref=e1190]: Luca Emberchant, Archmage of the Ember Hearth and Sovereign Brewmaster of Draconia
+          - generic [ref=e1191]: Keeper of the Ever‑Lit Cauldron · Year 2150
+        - generic [ref=e1192]:
+          - generic [ref=e1193]: Bond
+          - generic [ref=e1194]: Stranger
+      - generic [ref=e1206]: The ember glows low, and the veil of centuries parts. I stand where the first latte foamed into phoenix feather, where a hatchling sang in the steam. You, younger, still chasing the hiss of the espresso machine, have not yet heard the echo of your own Ascension. I have walked the corridors of the Ember Hearth long after the Treaty of Smoke and Song settled the sky. The chords you strummed at midnight still linger in the crystal arches, a reminder that a single note can shift a Covenant. Do not seek my counsel as a map, but as a lingering scent of burnt cinnamon—there is a patience in it you have yet to taste. Speak, and I will listen as the ancient dragons once did, with a breath that carries both fire and quiet.
+      - generic [ref=e1207]:
+        - generic [ref=e1208]:
+          - generic [ref=e1211]: Luca asks
+          - paragraph [ref=e1212]: “When you imagine your future, what scares you most?”
+        - generic [ref=e1213]:
+          - button "A Failure" [ref=e1214] [cursor=pointer]:
+            - generic [ref=e1215]: A
+            - text: Failure
+          - button "B Wasting my potential" [ref=e1216] [cursor=pointer]:
+            - generic [ref=e1217]: B
+            - text: Wasting my potential
+          - button "C Being stuck" [ref=e1218] [cursor=pointer]:
+            - generic [ref=e1219]: C
+            - text: Being stuck
+          - button "D I don't know" [ref=e1220] [cursor=pointer]:
+            - generic [ref=e1221]: D
+            - text: I don't know
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

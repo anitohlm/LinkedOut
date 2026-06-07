@@ -1,0 +1,52 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3546]:
+    - navigation [ref=e3547]:
+      - button "← Back" [ref=e3548] [cursor=pointer]
+      - generic [ref=e3549]: ⚖️ The Council of Selves
+    - generic [ref=e3550]:
+      - generic [ref=e3551]:
+        - generic [ref=e3552]:
+          - generic [ref=e3553]:
+            - generic [ref=e3554]: 👑
+            - generic [ref=e3555]: Luca the Ascended
+            - generic [ref=e3556]: Legendary
+          - generic [ref=e3557]:
+            - generic [ref=e3558]: 🌑
+            - generic [ref=e3559]: Luca Noir
+            - generic [ref=e3560]: Shadow
+        - generic [ref=e3561]:
+          - generic [ref=e3562]:
+            - generic [ref=e3563]: 🏰
+            - generic [ref=e3564]: Luca Songbrew
+            - generic [ref=e3565]: Medieval
+          - generic [ref=e3566]:
+            - generic [ref=e3567]: 🌃
+            - generic [ref=e3568]: Luca Synthbrew
+            - generic [ref=e3569]: Neon
+          - generic [ref=e3570]:
+            - generic [ref=e3571]: ☠️
+            - generic [ref=e3572]: Luca Tidebrew
+            - generic [ref=e3573]: Endless
+          - generic [ref=e3574]:
+            - generic [ref=e3575]: 🐉
+            - generic [ref=e3576]: Luca Emberchant
+            - generic [ref=e3577]: Ancient
+          - generic [ref=e3578]:
+            - generic [ref=e3579]: 🚀
+            - generic [ref=e3580]: Luca Starforge
+            - generic [ref=e3581]: Cosmic
+          - generic [ref=e3582]:
+            - generic [ref=e3583]: 🧛
+            - generic [ref=e3584]: Luca Nightbrew
+            - generic [ref=e3585]: Eternal
+      - generic [ref=e3587]:
+        - text: Every version of you has gathered — the lives you could live, your greatest self, and your shadow.
+        - text: Speak, and they will
+        - emphasis [ref=e3588]: debate
+        - text: — each arguing for the future they became. When you're ready, conclude the council and choose.
+      - generic [ref=e3589]:
+        - textbox "Ask the council..." [ref=e3590]
+        - button "Send" [disabled] [ref=e3591]
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]

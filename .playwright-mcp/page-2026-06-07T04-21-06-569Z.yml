@@ -1,0 +1,109 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5] [cursor=pointer]: LinkedOut
+    - generic [ref=e6]:
+      - button "View Universes" [ref=e7] [cursor=pointer]
+      - button "Upload Resume" [ref=e8] [cursor=pointer]
+  - generic [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e12]: AI Career Multiverse Platform
+      - heading "Your Career, Reimagined Across Infinite Universes." [level=1] [ref=e14]:
+        - text: Your Career,
+        - generic [ref=e15]:
+          - text: Reimagined Across
+          - text: Infinite Universes.
+      - paragraph [ref=e16]: Paste your resume and discover who you could have become in another reality. Powered by AI. Inspired by you.
+      - button "Generate My Alternate Lives" [ref=e18] [cursor=pointer]
+      - generic [ref=e19]:
+        - generic [ref=e20] [cursor=pointer]:
+          - generic [ref=e21]: 🏰
+          - generic [ref=e22]: Medieval Kingdom
+          - generic [ref=e23]: In a realm of castles and crowns, you rose to nobility through cunning and valor.
+        - generic [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: 🌃
+          - generic [ref=e26]: Neon Synthesis
+          - generic [ref=e27]: In a city of endless neon, you evolved beyond human constraints into something more.
+        - generic [ref=e28] [cursor=pointer]:
+          - generic [ref=e29]: ☠️
+          - generic [ref=e30]: Endless Seas
+          - generic [ref=e31]: Upon the open ocean, you discovered freedom has no compass.
+        - generic [ref=e32] [cursor=pointer]:
+          - generic [ref=e33]: 🐉
+          - generic [ref=e34]: Ancient Draconia
+          - generic [ref=e35]: Across centuries of existence, you learned that power is wisdom's echo.
+        - generic [ref=e36] [cursor=pointer]:
+          - generic [ref=e37]: 🚀
+          - generic [ref=e38]: Cosmic Frontier
+          - generic [ref=e39]: Among the stars, you learned that the universe expands faster than fear.
+        - generic [ref=e40] [cursor=pointer]:
+          - generic [ref=e41]: 🧛
+          - generic [ref=e42]: Eternal Night
+          - generic [ref=e43]: In the shadow of immortality, you discovered that time changes everything except choice.
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - paragraph [ref=e46]: How it works
+        - heading "Three steps to your multiverse" [level=2] [ref=e47]
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - generic [ref=e50]: "1"
+          - img [ref=e52]
+          - heading "Paste your résumé" [level=3] [ref=e55]
+          - paragraph [ref=e56]: Drop in your career history. An AI agent reads between the lines to find who you really are.
+        - generic [ref=e57]:
+          - generic [ref=e58]: "2"
+          - img [ref=e60]
+          - heading "Explore your selves" [level=3] [ref=e70]
+          - paragraph [ref=e71]: Six alternate-universe versions of you come to life — each with their own story, voice, and fate.
+        - generic [ref=e72]:
+          - generic [ref=e73]: "3"
+          - img [ref=e75]
+          - heading "Choose your story" [level=3] [ref=e78]
+          - paragraph [ref=e79]: Talk to them, weigh their lives, and decide which future you're willing to become.
+    - generic [ref=e80]:
+      - generic [ref=e81]:
+        - paragraph [ref=e82]: An entire multiverse, powered by AI agents
+        - heading "More than a résumé. A story of every life you could live." [level=2] [ref=e83]
+      - generic [ref=e84]:
+        - generic [ref=e85]:
+          - img [ref=e87]
+          - heading "Career DNA Analysis" [level=3] [ref=e99]
+          - paragraph [ref=e100]: An AI agent decodes the identity hidden in your résumé — your skills, drives, and the thread running through every role.
+        - generic [ref=e101]:
+          - img [ref=e103]
+          - heading "Six Alternate Universes" [level=3] [ref=e108]
+          - paragraph [ref=e109]: Become a knight, a netrunner, a corsair, a dragon-keeper, a starfarer, or an immortal. Same you — a different world.
+        - generic [ref=e110]:
+          - img [ref=e112]
+          - heading "Talk to Your Future Self" [level=3] [ref=e118]
+          - paragraph [ref=e119]: Hold a real conversation with the person you became — who remembers your life and speaks from decades ahead.
+        - generic [ref=e120]:
+          - img [ref=e122]
+          - heading "Multiverse Recruiters" [level=3] [ref=e125]
+          - paragraph [ref=e126]: Receive offers from royal courts, megacorps, and ancient orders. Accept, negotiate, or walk away.
+        - generic [ref=e127]:
+          - img [ref=e129]
+          - heading "Legendary & Shadow Selves" [level=3] [ref=e131]
+          - paragraph [ref=e132]: Meet your greatest possible self — and the cautionary one who let ambition outrun their values.
+        - generic [ref=e133]:
+          - img [ref=e135]
+          - heading "Butterfly Effect" [level=3] [ref=e138]
+          - paragraph [ref=e139]: Change one decision and watch your life fracture across four wildly different timelines.
+        - generic [ref=e140]:
+          - img [ref=e142]
+          - heading "Council of Selves" [level=3] [ref=e146]
+          - paragraph [ref=e147]: Every version of you gathers to debate — then asks the question you've been avoiding.
+        - generic [ref=e148]:
+          - img [ref=e150]
+          - heading "Your Chronicle" [level=3] [ref=e152]
+          - paragraph [ref=e153]: Your entire journey becomes a personalized novella about the life you chose to become.
+    - generic [ref=e154]:
+      - generic [ref=e155]:
+        - heading "Who could you have become?" [level=2] [ref=e156]
+        - paragraph [ref=e157]: Paste your résumé. Meet six versions of yourself. Choose your story.
+        - button "Generate My Alternate Lives →" [ref=e158] [cursor=pointer]
+      - generic [ref=e159]:
+        - generic [ref=e160]: LinkedOut
+        - paragraph [ref=e161]:
+          - text: You've been linked out of the timeline you know.
+          - text: Meet the people you could have become.
+        - paragraph [ref=e162]: Powered by AI agents · A narrative career multiverse

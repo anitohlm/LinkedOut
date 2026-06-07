@@ -1,0 +1,97 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e1573]:
+    - navigation [ref=e1574]:
+      - button "← Back" [ref=e1575] [cursor=pointer]
+      - button "LinkedOut" [ref=e1576] [cursor=pointer]
+      - generic [ref=e1577]:
+        - button "🗺️ Crew Calls" [ref=e1578] [cursor=pointer]
+        - generic [ref=e1579]: ☠️ Endless Seas
+    - generic [ref=e1580]:
+      - generic [ref=e1581]:
+        - generic [ref=e1582]: ☠️
+        - generic [ref=e1583]:
+          - heading "Luca Stormbrew" [level=1] [ref=e1584]
+          - paragraph [ref=e1585]: Galley Brewmaster & Songsmith
+          - paragraph [ref=e1586]: Endless Seas · Fleets & Crews
+        - generic [ref=e1587]:
+          - generic [ref=e1588]:
+            - generic [ref=e1589]: "78"
+            - generic [ref=e1590]: innovation
+          - generic [ref=e1591]:
+            - generic [ref=e1592]: "72"
+            - generic [ref=e1593]: leadership
+          - generic [ref=e1594]:
+            - generic [ref=e1595]: "85"
+            - generic [ref=e1596]: collaboration
+      - generic [ref=e1597]:
+        - generic [ref=e1598]:
+          - generic [ref=e1599]:
+            - generic: ”
+            - generic [ref=e1602]: Biography
+            - paragraph [ref=e1604]: I first set my foot on the creaking deck of the merchant vessel *Morning Tide* with a battered kettle and a head full of verses. Between the steam of dark roast and the salt‑kissed wind, I learned to blend the perfect brew while the hull sang with the rhythm of my guitar. The crew soon gathered at the galley, trading stories for a cup of my espresso, and my shanties drifted through the rigging like sunrise over the horizon. Now, as the *Morning Tide* charts new waters, I balance the weight of tomorrow's provisions with the lightness of a chorus, ever chasing the echo of a grand stage that glimmers beyond the horizon. Each day I pour courage into a mug and pour hope into a lyric, hoping the next tide will carry my songs to distant ports.
+          - generic [ref=e1605]:
+            - generic [ref=e1608]: Timeline Story
+            - paragraph [ref=e1612]: I began as a junior deckhand, polishing railings while learning the secret of the perfect grind from the ship’s veteran Brewmaster. Within a season, I was entrusted with the galley’s kettle, serving the crew while penning verses between orders. As the *Morning Tide* ventured farther, my dual role blossomed; I led nightly song circles, turning the galley into a beacon of warmth and inspiration. Today, I chart a course toward a grand voyage where my melodies might echo across the Endless Seas, guiding other dreamers to their own treasure.
+          - generic [ref=e1613]:
+            - generic [ref=e1616]: Where They're Heading
+            - paragraph [ref=e1618]: Luca aims to captain his own floating tavern, a vessel where music and brew intertwine, turning each stop into a treasure of shared stories and songs. He envisions a fleet of such havens, each charting a Voyage of creativity across the Endless Seas.
+          - generic [ref=e1619]:
+            - generic [ref=e1622]: Achievements
+            - generic [ref=e1624]:
+              - generic [ref=e1625]:
+                - generic [ref=e1626]: "1"
+                - generic [ref=e1627]: Kept the galley humming with flawless brews while composing original sea shanties for the crew’s nightly gatherings
+              - generic [ref=e1628]:
+                - generic [ref=e1629]: "2"
+                - generic [ref=e1630]: Compiled a treasured scroll of demo verses and lyrical maps, charting a personal catalog of songs and poems
+              - generic [ref=e1631]:
+                - generic [ref=e1632]: "3"
+                - generic [ref=e1633]: Earned the reputation of the most welcoming galley steward, turning the café‑like nook of the ship into a sanctuary for weary sailors
+              - generic [ref=e1634]:
+                - generic [ref=e1635]: "4"
+                - generic [ref=e1636]: Spearheaded a weekly “Coffee & Chorus” voyage, where crew members shared stories over aromatic blends, boosting morale and camaraderie
+              - generic [ref=e1637]:
+                - generic [ref=e1638]: "5"
+                - generic [ref=e1639]: Mastered the art of brewing storm‑strong espresso using limited galley resources, a skill praised by visiting captains
+        - generic [ref=e1640]:
+          - generic [ref=e1641]:
+            - button "Begin Future Transmission →" [ref=e1642] [cursor=pointer]
+            - generic [ref=e1643]:
+              - button "👑 Legendary" [ref=e1644] [cursor=pointer]
+              - button "🌑 Shadow" [ref=e1645] [cursor=pointer]
+          - generic [ref=e1646]:
+            - generic [ref=e1649]: Personality
+            - paragraph [ref=e1651]: An idealistic dreamer with a cautious eye on the galley's stores, Luca balances bold lyrical voyages with the steady rhythm of espresso pours. He listens with the patience of a tide, offering empathy to every sailor, yet his restless spirit keeps the next chorus forever unfinished, urging him onward.
+          - generic [ref=e1652]:
+            - generic [ref=e1655]: Competency Matrix
+            - generic [ref=e1657]:
+              - generic [ref=e1659]:
+                - generic [ref=e1660]: innovation
+                - generic [ref=e1661]: "78"
+              - generic [ref=e1665]:
+                - generic [ref=e1666]: leadership
+                - generic [ref=e1667]: "72"
+              - generic [ref=e1671]:
+                - generic [ref=e1672]: collaboration
+                - generic [ref=e1673]: "85"
+              - generic [ref=e1677]:
+                - generic [ref=e1678]: adaptability
+                - generic [ref=e1679]: "80"
+              - generic [ref=e1683]:
+                - generic [ref=e1684]: ambition
+                - generic [ref=e1685]: "77"
+              - generic [ref=e1689]:
+                - generic [ref=e1690]: wisdom
+                - generic [ref=e1691]: "69"
+          - generic [ref=e1694]:
+            - generic [ref=e1697]: Skills
+            - generic [ref=e1699]:
+              - generic [ref=e1700]: Coffee alchemy and galley brewcraft
+              - generic [ref=e1701]: Crew hospitality and service excellence
+              - generic [ref=e1702]: Sea shanty composition and guitar serenade
+              - generic [ref=e1703]: Lyrical scroll crafting and creative writing
+              - generic [ref=e1704]: Tide‑time management and schedule navigation
+              - generic [ref=e1705]: Audio echo editing using barrel‑mounted rigs
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]
