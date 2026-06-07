@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import { sendCouncilMessage, generateLegendarySelf, generateVillainSelf } from "@/lib/agents/useAgents";
+import InspirationBar from "@/components/InspirationBar";
 
 interface Props {
   state: AppState;
@@ -346,7 +347,21 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
             </div>
           </div>
         ) : (
-          <div style={{ padding: "16px 0 24px", display: "flex", gap: 10 }}>
+          <div style={{ padding: "16px 0 24px" }}>
+            {messages.some(m => m.role === "council") && (
+              <InspirationBar
+                question={[...messages].reverse().find(m => m.role === "council")?.content || ""}
+                universeKey={[...messages].reverse().find(m => m.role === "council")?.metaKey || "galactic"}
+                speakerName="the Council"
+                mode="council"
+                accent="#9d91ff"
+                resumeSummary={state.resumeAnalysis?.summary || state.resumeAnalysis?.timelineSignature}
+                skills={state.resumeAnalysis?.skills}
+                stability={state.timelineState.stability}
+                onPick={(t) => setInput(t)}
+              />
+            )}
+            <div style={{ display: "flex", gap: 10 }}>
             <input
               value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key === "Enter") ask(); }}
               placeholder={gathering ? "The council is still gathering..." : "Ask the council..."}
@@ -371,6 +386,7 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
                 Conclude →
               </button>
             )}
+            </div>
           </div>
         )}
       </div>

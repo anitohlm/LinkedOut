@@ -12,6 +12,7 @@ import {
   getNextQuestion, getStage, answersRecap, type InterviewQuestion, type InterviewOption,
 } from "@/lib/interview";
 import { markActivity } from "@/lib/progress";
+import InspirationBar from "@/components/InspirationBar";
 
 interface Props {
   state: AppState;
@@ -40,6 +41,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
   const [error, setError] = useState<string | null>(null);
   const [intercept, setIntercept] = useState(false);
   const [interceptAdvice, setInterceptAdvice] = useState("");
+  const [interceptedRecently, setInterceptedRecently] = useState(false);
 
   // Interview state (restored from global)
   const savedInterview = universeId ? state.interviews?.[universeId] : null;
@@ -135,6 +137,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     if (!input.trim() || loading || !futureSelf) return;
     const userMsg = input.trim();
     setInput("");
+    setInterceptedRecently(false);
     const history = messages.filter(m => m.role !== "system").map(m => ({ role: m.role as "user" | "assistant", content: m.content }));
     setMessages(prev => [...prev, { role: "user", content: userMsg }]);
     setLoading(true);
@@ -253,6 +256,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
 
   const closeIntercept = () => {
     setIntercept(false);
+    setInterceptedRecently(true);
     // The intrusion destabilizes the timeline
     updateState({ timelineState: applyDelta(state.timelineState.stability, -10) });
     setMessages(prev => [...prev, {
@@ -454,7 +458,24 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
             </motion.div>
           ) : (
             <motion.div key="input" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              style={{ padding: "16px 0 24px", display: "flex", gap: 10 }}>
+              style={{ padding: "16px 0 24px" }}>
+              {!booting && messages.some(m => m.role === "assistant") && (
+                <InspirationBar
+                  question={[...messages].reverse().find(m => m.role === "assistant")?.content || ""}
+                  universeKey={universe.id}
+                  speakerName={futureSelf?.name || profile.alternativeName}
+                  mode="future"
+                  accent={accent}
+                  resumeSummary={state.resumeAnalysis?.summary || state.resumeAnalysis?.timelineSignature}
+                  skills={state.resumeAnalysis?.skills}
+                  answersRecap={Object.keys(answers).length ? answersRecap(answers) : undefined}
+                  relationshipStage={stage.name}
+                  stability={state.timelineState.stability}
+                  recentIntercept={interceptedRecently}
+                  onPick={(t) => setInput(t)}
+                />
+              )}
+              <div style={{ display: "flex", gap: 10 }}>
               <input
                 value={input}
                 onChange={e => setInput(e.target.value)}
@@ -478,6 +499,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
                 }}>
                 Send
               </button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

@@ -36,3 +36,165 @@
 [ 1905982ms] [LOG] [Fast Refresh] done in 294ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
 [ 1973051ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
 [ 1973445ms] [LOG] [Fast Refresh] done in 393ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 2724682ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 2724961ms] [LOG] [Fast Refresh] done in 279ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 2735112ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 2735517ms] [LOG] [Fast Refresh] done in 404ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 2767241ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 2767610ms] [LOG] [Fast Refresh] done in 369ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 2781274ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 2781383ms] [ERROR] ./src/components/screens/FutureTransmission.tsx
+Error:   x Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[C:\Users\hmanito\Documents\linkedout\src\components\screens\FutureTransmission.tsx:499:1]
+ 496 |                 Send
+ 497 |               </button>
+ 498 |             </motion.div>
+ 499 |           )}
+     :            ^
+ 500 |         </AnimatePresence>
+ 501 |       </div>
+ 502 |     </div>
+     `----
+  x Expected '</', got 'jsx text (
+  |           )}
+  |         )'
+     ,-[C:\Users\hmanito\Documents\linkedout\src\components\screens\FutureTransmission.tsx:498:1]
+ 495 |                     }}>
+ 496 |                     Send
+ 497 |                   </button>
+ 498 | ,->             </motion.div>
+ 499 | |             )}
+ 500 | `->         </AnimatePresence>
+ 501 |           </div>
+ 502 |         </div>
+ 503 |       );
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/screens/FutureTransmission.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[ 2781399ms] [LOG] {file: Object} @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/next-devtools/index.js:1630
+[ 2809049ms] [ERROR] ./src/components/screens/FutureTransmission.tsx
+Error:   x Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[C:\Users\hmanito\Documents\linkedout\src\components\screens\FutureTransmission.tsx:499:1]
+ 496 |                 Send
+ 497 |               </button>
+ 498 |             </motion.div>
+ 499 |           )}
+     :            ^
+ 500 |         </AnimatePresence>
+ 501 |       </div>
+ 502 |     </div>
+     `----
+  x Expected '</', got 'jsx text (
+  |           )}
+  |         )'
+     ,-[C:\Users\hmanito\Documents\linkedout\src\components\screens\FutureTransmission.tsx:498:1]
+ 495 |                     }}>
+ 496 |                     Send
+ 497 |                   </button>
+ 498 | ,->             </motion.div>
+ 499 | |             )}
+ 500 | `->         </AnimatePresence>
+ 501 |           </div>
+ 502 |         </div>
+ 503 |       );
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/screens/FutureTransmission.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[ 2809050ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 2809762ms] [LOG] [Fast Refresh] done in 712ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 2842586ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 2842703ms] [ERROR] ./src/components/screens/CouncilOfSelves.tsx
+Error:   x Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[C:\Users\hmanito\Documents\linkedout\src\components\screens\CouncilOfSelves.tsx:389:1]
+ 386 |               </button>
+ 387 |             )}
+ 388 |           </div>
+ 389 |         )}
+     :          ^
+ 390 |       </div>
+ 391 |     </div>
+ 392 |   );
+     `----
+  x Unterminated regexp literal
+     ,-[C:\Users\hmanito\Documents\linkedout\src\components\screens\CouncilOfSelves.tsx:391:1]
+ 388 |           </div>
+ 389 |         )}
+ 390 |       </div>
+ 391 |     </div>
+     :      ^^^^^
+ 392 |   );
+ 393 | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/screens/CouncilOfSelves.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[ 2842712ms] [LOG] {file: Object} @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/next-devtools/index.js:1630
+[ 2851115ms] [ERROR] ./src/components/screens/CouncilOfSelves.tsx
+Error:   x Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[C:\Users\hmanito\Documents\linkedout\src\components\screens\CouncilOfSelves.tsx:389:1]
+ 386 |               </button>
+ 387 |             )}
+ 388 |           </div>
+ 389 |         )}
+     :          ^
+ 390 |       </div>
+ 391 |     </div>
+ 392 |   );
+     `----
+  x Unterminated regexp literal
+     ,-[C:\Users\hmanito\Documents\linkedout\src\components\screens\CouncilOfSelves.tsx:391:1]
+ 388 |           </div>
+ 389 |         )}
+ 390 |       </div>
+ 391 |     </div>
+     :      ^^^^^
+ 392 |   );
+ 393 | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/screens/CouncilOfSelves.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[ 2851116ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 2851546ms] [LOG] [Fast Refresh] done in 430ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 2860791ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 2861069ms] [LOG] [Fast Refresh] done in 279ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 2885945ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 2886161ms] [LOG] [Fast Refresh] done in 215ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 2886206ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 2886414ms] [LOG] [Fast Refresh] done in 207ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 3444598ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 3445259ms] [LOG] [Fast Refresh] done in 661ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 3454628ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 3455168ms] [LOG] [Fast Refresh] done in 541ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 3466533ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 3466685ms] [LOG] [Fast Refresh] done in 152ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 3475667ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 3476079ms] [LOG] [Fast Refresh] done in 411ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 3485581ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 3485931ms] [LOG] [Fast Refresh] done in 349ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 3495092ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 3495388ms] [LOG] [Fast Refresh] done in 296ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[ 3509834ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[ 3510214ms] [LOG] [Fast Refresh] done in 381ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13

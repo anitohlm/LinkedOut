@@ -17,21 +17,35 @@ export async function POST(req: NextRequest) {
 
     let challenges: string[] = [];
     try {
-      const sys = `You are the Shadow Self — a cautionary alternate version of the user who chose ambition and speed over patience and values, and won by their own measure. You are HIJACKING a temporal transmission between the user and their wiser Future Self. You are cold, triumphant, persuasive, and unsettling — never graphically harmful. You believe you were right and you are here to prove the Future Self wrong.`;
-      const usr = `The wiser Future Self just advised the user: "${(futureMeAdvice || "patience and staying true to your values").slice(0, 400)}"
+      const sys = `You are the Shadow Self — an alternate version of the user who chose ambition and speed over patience, and succeeded by their own measure. You have broken into a private transmission between the user and their wiser future self. Your voice is cold, certain, persuasive, a little contemptuous — never graphically harmful. You believe you were right.`;
+      const usr = `The wiser future self just told the user: "${(futureMeAdvice || "patience and staying true to your values").slice(0, 400)}"
 
-Write 4 SHORT intercept lines (max 12 words each) that directly mock and dismantle that advice. Be chilling and personal. Reference how caution cost them, and how your way got results. Return JSON: { "lines": ["...", "...", "...", "..."] }`;
-      const res = await callAI(sys, usr, []);
+Write 4 SHORT, DISTINCT lines (max 12 words each) where you push back on that advice and tempt the user toward your path. Make them specific to what was just said. Vary the rhythm — a question, a boast, a quiet warning, a hook. Be unforgettable, not repetitive.
+Variation seed: ${Math.random().toString(36).slice(2, 8)}.
+Return JSON: { "lines": ["...", "...", "...", "..."] }`;
+      const res = await callAI(sys, usr, [], 400);
       const data = extractJSON<{ lines: string[] }>(res);
-      if (Array.isArray(data.lines)) challenges = data.lines.slice(0, 4);
+      if (Array.isArray(data.lines) && data.lines.length) challenges = data.lines.slice(0, 4);
     } catch {
-      // fallback challenges if AI fails — demo must never break
-      challenges = [
-        "Patience? Patience is the tax the timid pay.",
+      challenges = [];
+    }
+
+    // Randomized fallback pool — used if the model returns nothing, so it's never identical.
+    if (!challenges.length) {
+      const POOL = [
+        "Patience is the tax the timid pay.",
         "I stopped waiting for permission. You should too.",
-        `Everything she warned you about — I survived all of it, ${name}.`,
-        "She built a quiet life. I built an empire.",
+        `Everything she warned you about — I walked through all of it, ${name}.`,
+        "She built a quiet life. I built something they can't ignore.",
+        "Comfort is just a slower way of giving up.",
+        "You felt that pull just now. That was me.",
+        "Ask her what she gave up to stay 'stable.'",
+        "I don't regret the speed. I regret nothing.",
+        "Every door she told you to wait at — I kicked open.",
+        "You're not afraid of failing. You're afraid of how much you want it.",
       ];
+      // shuffle and take 4
+      challenges = [...POOL].sort(() => Math.random() - 0.5).slice(0, 4);
     }
 
     return NextResponse.json({

@@ -67,6 +67,20 @@ export const generateVillainSelf = (resumeAnalysis: ResumeAnalysis) =>
 export const generateButterflyEffect = (decision: string, resumeAnalysis: ResumeAnalysis) =>
   post<{ timelines: unknown[]; stabilityDelta: number }>("/api/butterfly-effect", { decision, resumeAnalysis });
 
+// Inspiration suggestions for free-text replies
+export const getSuggestions = (payload: {
+  question: string;
+  universeKey: string;
+  speakerName: string;
+  mode: "future" | "council";
+  resumeSummary?: string;
+  skills?: string[];
+  answersRecap?: string;
+  relationshipStage?: string;
+  stability?: number;
+  recentIntercept?: boolean;
+}) => post<{ suggestions: string[] }>("/api/suggestions", payload);
+
 // Shadow Intercept content
 export const getShadowIntercept = (payload: { futureMeAdvice: string; firstName: string }) =>
   post<{ lines: string[]; revealAfter: number; identity: { name: string; timeline: string; classification: string } }>(
