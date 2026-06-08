@@ -12,6 +12,32 @@ export async function POST(req: NextRequest) {
     const universe = getUniverse(universeId);
     const firstName = resumeAnalysis.firstName || (resumeAnalysis.name || "").split(" ")[0] || "";
 
+    // Per-universe naming conventions — each world has its own culture & linguistics.
+    // The goal is cultural authenticity, NOT name similarity. A name should make the
+    // universe instantly recognizable, and may fully abandon the user's real surname.
+    const NAME_CONVENTIONS: Record<string, string> = {
+      medieval: `MEDIEVAL KINGDOM names — nobility, guilds, royal houses, knighthood.
+Use noble/knightly titles (Lord, Lady, Sir, Master, Dame) and earthy heraldic surnames or "of [Place]".
+Examples (for "${firstName}"): "Lord ${firstName} Ashvale", "Sir ${firstName} Ironward", "${firstName} of Gildenspire", "Master ${firstName} Thornkeep", "${firstName} Blackthorn".`,
+      cyberpunk: `NEON SYNTHESIS names — digital identities, handles, aliases, protocol designations. Post-human, cybernetic.
+The name should look like a username/process/designation, NOT a normal human name. Feel free to drop the surname entirely.
+Examples (for "${firstName}"): "${firstName}.exe", "${firstName.toUpperCase()}-7", "Cipher${firstName}", "${firstName}//Prime", "Kernel${firstName}", "${firstName}.Null", "GhostProcess-13", "Hex${firstName}".
+Do NOT prepend human titles like Lord/Captain here.`,
+      pirate: `ENDLESS SEAS names — sailors, captains, pirates, navigators.
+Use sea/weather surnames; optionally a nautical rank (Captain, Navigator, Quartermaster).
+Examples (for "${firstName}"): "${firstName} Stormwake", "Captain ${firstName} Blackcurrent", "${firstName} Tidebreaker", "${firstName} Saltwind", "${firstName} Waveborn", "${firstName} Driftmark".`,
+      dragon: `ANCIENT DRACONIA names — dragon clans, ancient scholars, mythic lineages.
+Use fire/scale/clan surnames; optionally a scholarly/clan title (Sage, Elder, Keeper).
+Examples (for "${firstName}"): "${firstName} Emberwing", "Sage ${firstName} Inkbranch", "${firstName} Flameheart", "${firstName} Ashscale", "${firstName} Stormwyrm", "${firstName} Brightclaw".`,
+      galactic: `COSMIC FRONTIER names — colonists, explorers, interstellar pioneers.
+Use stellar/space surnames; optionally an exploration rank (Commander, Pilot, Pioneer).
+Examples (for "${firstName}"): "${firstName} Starforge", "${firstName} Novareach", "${firstName} Solaris", "Commander ${firstName} Kepler", "${firstName} Astralyn", "${firstName} Horizonfall".`,
+      vampire: `ETERNAL NIGHT names — mystical, elegant, melancholic, immortal.
+Use shadowed/nocturnal surnames; optionally an old-world title (Lord, Lady, Count, Baron).
+Examples (for "${firstName}"): "${firstName} Nocturne", "Lord ${firstName} Veilborn", "${firstName} Duskbane", "${firstName} Umbra", "${firstName} Hollowmere", "${firstName} Nightwhisper".`,
+    };
+    const nameConvention = NAME_CONVENTIONS[universeId] || "";
+
     const response = await callAI(
 `You are a creative multiverse character builder for LinkedOut. You reimagine a person's real career as an inspiring alternate-universe life, and return valid JSON only.
 
@@ -38,6 +64,16 @@ CAREER STORY: ${resumeAnalysis.summary}
 
 Read their Career DNA first, then reimagine their life in this setting rather than translating their job title.
 
+════════════════════════════════════════════
+NAMING — make this person feel BORN in this world, not a renamed version of themselves
+════════════════════════════════════════════
+${nameConvention}
+RULES:
+- DO NOT just modify the user's real surname (e.g. avoid Codemar → Codemark / Codeforge / Codryn). That breaks the illusion.
+- Give them a name a native of this civilization would actually have, following the convention above.
+- You may keep the first name "${firstName}", transform it, or — when it fits the world (especially Neon Synthesis) — fully reinterpret it.
+- The reader should recognize the universe from the name alone. Aim for cultural authenticity, not similarity to the original name.
+
 Also give this person a real place to live, not just a genre. "${universe.title}" is only a broad setting; name the specific civilization and historical era they belong to, shaped by their Career DNA so the same setting feels different for different people:
 - worldName: a specific realm or civilization within the setting. For example, Ancient Draconia could become "The Ember Dominion", Endless Seas "The Crimson Archipelago", or Cosmic Frontier "Helios Reach".
 - eraName: the named period they live in, such as "The Seventh Flight", "Season of Black Sails", or "Star Cycle 88".
@@ -46,7 +82,7 @@ A teacher might live in "The Library Peaks" during the "Age of Forgotten Tomes";
 
 Return this exact JSON:
 {
-  "alternativeName": "Format: [Title] ${firstName} [Surname]. Keep the real first name '${firstName}'. Choose one fitting title for this universe and invent a distinctive surname drawn from this person's skills, profession, or personality (avoid generic fillers like Starweaver/Tidebinder/Neonweaver). Easy to say aloud. e.g. 'Captain ${firstName} Stormquill'.",
+  "alternativeName": "A culturally authentic name for a native of ${universe.title}, following the NAMING convention above. Make the universe recognizable from the name alone. Easy to say aloud (or read, for Neon Synthesis handles).",
   "profession": "An earned, believable role that expresses the person's archetype in this universe — clean and easy to say aloud (e.g. 'Royal Chronicler', 'Fleet Commander', 'Harbor Warden'). Avoid grandiose stacked jargon, and prefer this over a direct translation of their real-world job title.",
   "worldName": "the specific civilization within ${universe.title}, shaped by this person's Career DNA",
   "eraName": "the named historical era they live in",
@@ -65,13 +101,9 @@ Please write every radarScores value as an integer using digits (e.g. 87), betwe
 
     const d = extractJSON<Record<string, unknown>>(response);
 
-    // Safety net: force the real first name if the AI dropped it
-    let altName = (d.alternativeName as string) || "";
-    if (firstName && !altName.toLowerCase().includes(firstName.toLowerCase())) {
-      // Replace the first token of the generated name with the real first name
-      const parts = altName.split(" ");
-      altName = parts.length > 1 ? `${firstName} ${parts.slice(1).join(" ")}` : `${firstName} ${altName}`.trim();
-    }
+    // Names are intentionally culture-native now — they may diverge fully from the
+    // real name (especially Neon Synthesis handles), so we no longer force the first name.
+    const altName = ((d.alternativeName as string) || firstName || "").trim();
 
     const profile: AlternateProfile = {
       universeId,
