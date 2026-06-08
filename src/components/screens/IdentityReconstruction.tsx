@@ -88,27 +88,18 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
         >
           ← Back
         </button>
-        {/* Immersive world title — you are inside this realm */}
+        {/* Immersive world title — compact, fits the bar */}
         <button onClick={() => transitionTo("landing")} title="Return to LinkedOut"
-          style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "Sora, sans-serif", textAlign: "center", lineHeight: 1.2, padding: 0, maxWidth: 520 }}>
+          style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "Sora, sans-serif", textAlign: "center", lineHeight: 1.2, padding: 0 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }}>
             <UniverseIcon id={universe.id} size={15} color={accentColor} strokeWidth={1.6} />
             <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.3px", color: "var(--text)" }}>
               {profile.worldName}
             </span>
           </div>
-          <div style={{ fontSize: 10.5, color: accentColor, letterSpacing: "0.06em", textTransform: "uppercase", marginTop: 2 }}>
+          <div style={{ fontSize: 10, color: accentColor, letterSpacing: "0.08em", textTransform: "uppercase", marginTop: 2 }}>
             {profile.eraName}
           </div>
-          {profile.worldDescription && (
-            <div style={{
-              fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontSize: 13.5, color: "var(--text2)",
-              marginTop: 4, lineHeight: 1.4, maxWidth: 560,
-              overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-            }}>
-              {clean(profile.worldDescription)}
-            </div>
-          )}
         </button>
         <div style={{ width: 60 }} />
       </nav>
@@ -204,6 +195,26 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
             </div>
           </div>
         </motion.div>
+
+        {/* World description — full, with room to breathe */}
+        {profile.worldDescription && (
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
+            style={{
+              display: "flex", gap: 16, alignItems: "flex-start",
+              margin: "0 0 36px", padding: "20px 24px", borderRadius: 16,
+              background: `linear-gradient(135deg, ${accentColor}0d, var(--surface))`,
+              border: `1px solid ${accentColor}22`, borderLeft: `3px solid ${accentColor}`,
+            }}>
+            <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase",
+              color: accentColor, whiteSpace: "nowrap", paddingTop: 4, flexShrink: 0 }}>
+              The Realm
+            </span>
+            <p style={{ fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontSize: 16, lineHeight: 1.7,
+              color: "var(--text2)", margin: 0 }}>
+              {clean(profile.worldDescription)}
+            </p>
+          </motion.div>
+        )}
 
         {/* Main grid */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 32 }}>

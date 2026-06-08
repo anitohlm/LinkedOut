@@ -245,69 +245,74 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                     whileHover={{ y: -6, rotateX: 3, rotateY: -3, scale: 1.02 }}
                     style={{
                       background: "var(--bg2)", border: `1px solid ${visited ? c + "44" : "var(--border)"}`,
-                      borderRadius: 20, padding: 28, cursor: "pointer", position: "relative", overflow: "hidden",
+                      borderRadius: 20, padding: 32, cursor: "pointer", position: "relative", overflow: "hidden",
                       transformStyle: "preserve-3d",
                     }}
                     onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = `${c}66`; el.style.boxShadow = `0 16px 50px -12px ${c}40`; }}
                     onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = visited ? `${c}44` : "var(--border)"; el.style.boxShadow = "none"; }}
                   >
-                    <div style={{ position: "absolute", top: -50, right: -50, width: 160, height: 160, borderRadius: "50%",
-                      background: `radial-gradient(circle, ${c}22, transparent 70%)`, pointerEvents: "none" }} />
-                    <div style={{ position: "absolute", top: 0, left: 24, right: 24, height: 2,
-                      background: `linear-gradient(90deg, transparent, ${c}, transparent)`, opacity: 0.5 }} />
+                    {/* Ambient glow */}
+                    <div style={{ position: "absolute", top: -60, right: -60, width: 200, height: 200, borderRadius: "50%",
+                      background: `radial-gradient(circle, ${c}18, transparent 70%)`, pointerEvents: "none" }} />
+                    {/* Top accent line */}
+                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2,
+                      background: `linear-gradient(90deg, transparent 10%, ${c}${visited ? "99" : "55"}, transparent 90%)`,
+                      borderRadius: "20px 20px 0 0" }} />
 
-                    {/* Visited badge */}
-                    {visited && (
-                      <div style={{ position: "absolute", top: 16, left: 16, zIndex: 2,
-                        display: "flex", alignItems: "center", gap: 5, padding: "3px 9px", borderRadius: 100,
-                        background: `${c}22`, border: `1px solid ${c}44`, color: c, fontSize: 10, fontWeight: 700 }}>
-                        ✓ EXPLORED
-                      </div>
-                    )}
-
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, position: "relative" }}>
+                    {/* Header row: icon + universe title pill */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, position: "relative" }}>
                       <UniverseIconBadge id={universe.id} color={c} visited={visited} />
-                      <span style={{ fontSize: 11, padding: "5px 12px", borderRadius: 100, fontWeight: 600,
-                        background: `${c}18`, color: c, border: `1px solid ${c}30` }}>{universe.title}</span>
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
+                        <span style={{
+                          fontSize: 11, padding: "5px 12px", borderRadius: 100, fontWeight: 600,
+                          background: `${c}18`, color: c, border: `1px solid ${c}${visited ? "55" : "30"}`,
+                          display: "flex", alignItems: "center", gap: 5,
+                        }}>
+                          {visited && (
+                            <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
+                              <path d="M2 6l3 3 5-5" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          )}
+                          {universe.title}
+                        </span>
+                      </div>
                     </div>
 
                     {profile ? (
                       <>
-                        <h3 style={{ fontSize: 19, fontWeight: 700, letterSpacing: "-0.3px", marginBottom: 4, color: "var(--text)" }}>{profile.alternativeName}</h3>
-                        <p style={{ fontSize: 13, color: c, fontWeight: 500, marginBottom: 10, lineHeight: 1.4 }}>{cardTitle}</p>
-                        {/* The specific world + era within this universe */}
-                        <div style={{ marginBottom: 14 }}>
+                        {/* Identity */}
+                        <h3 style={{ fontSize: 21, fontWeight: 700, letterSpacing: "-0.4px", lineHeight: 1.25, marginBottom: 8, color: "var(--text)" }}>
+                          {profile.alternativeName}
+                        </h3>
+                        <p style={{ fontSize: 14, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.4 }}>{cardTitle}</p>
+
+                        {/* World + era */}
+                        <div style={{ marginBottom: 16 }}>
                           <WorldEra
                             universeId={universe.id}
                             worldName={profile.worldName}
                             eraName={profile.eraName}
                             accent={c}
-                            size="sm"
+                            size="md"
                           />
                         </div>
-                        <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6, marginBottom: 20 }}>
-                          {(profile.biography || "").replace(/\\n/g, " ").slice(0, 120)}...
-                        </p>
-                        <div style={{ display: "flex", gap: 20, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
-                          {Object.entries(profile.radarScores || {}).slice(0, 3).map(([key, val]) => (
-                            <div key={key} style={{ textAlign: "center" }}>
-                              <div style={{ fontSize: 18, fontWeight: 700, color: c, letterSpacing: "-0.5px" }}>{val}</div>
-                              <div style={{ fontSize: 9, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 2 }}>{key}</div>
-                            </div>
-                          ))}
-                        </div>
 
-                        {/* Exploration progress */}
-                        <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                            <span style={{ fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Explored</span>
-                            <span style={{ fontSize: 12, fontWeight: 700, color: pct === 100 ? c : "var(--text2)" }}>
+                        {/* Bio */}
+                        <p style={{ fontSize: 14, color: "var(--text3)", lineHeight: 1.65, margin: 0 }}>
+                          {(profile.biography || "").replace(/\\n/g, " ").slice(0, 160)}...
+                        </p>
+
+                        {/* Exploration footer */}
+                        <div style={{ marginTop: 24, paddingTop: 20, borderTop: `1px solid ${c}20` }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                            <span style={{ fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600 }}>Explored</span>
+                            <span style={{ fontSize: 12, fontWeight: 700, color: pct === 100 ? c : "var(--text2)", fontVariantNumeric: "tabular-nums" }}>
                               {pct}%{pct === 100 ? " ✦" : ""}
                             </span>
                           </div>
-                          <div style={{ height: 4, background: "var(--surface3)", borderRadius: 4, overflow: "hidden", marginBottom: 10 }}>
+                          <div style={{ height: 4, background: "var(--surface3)", borderRadius: 4, overflow: "hidden", marginBottom: 12 }}>
                             <motion.div animate={{ width: `${pct}%` }} transition={{ duration: 0.6 }}
-                              style={{ height: "100%", background: c, borderRadius: 4 }} />
+                              style={{ height: "100%", background: c, borderRadius: 4, boxShadow: pct > 0 ? `0 0 8px ${c}80` : "none" }} />
                           </div>
                           <div style={{ display: "flex", gap: 6 }} onClick={e => e.stopPropagation()}>
                             {UNIVERSE_ACTIVITIES.map(a => (
@@ -316,7 +321,7 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                           </div>
                         </div>
                       </>
-                    ) : <div style={{ color: "var(--text3)", fontSize: 13 }}>Loading profile...</div>}
+                    ) : <div style={{ color: "var(--text3)", fontSize: 13, padding: "8px 0" }}>Loading profile...</div>}
                   </motion.div>
                 );
               })}

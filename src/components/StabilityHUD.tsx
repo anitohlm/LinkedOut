@@ -98,9 +98,12 @@ export function StabilityHUD({ stability, log, stabilityLog }: {
             <motion.div
               initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.18 }}
+              onClick={() => { setShowStab(v => !v); setShowLog(false); }}
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
               style={{
                 position: "absolute", top: "calc(100% + 10px)", right: 0, zIndex: 60, width: 264,
-                padding: "18px 18px 14px", borderRadius: 16, pointerEvents: "none",
+                padding: "18px 18px 14px", borderRadius: 16, cursor: "pointer",
                 background: "rgba(14,16,24,0.97)", border: `1px solid ${tier.color}33`,
                 backdropFilter: "blur(12px)", boxShadow: `0 16px 48px -16px ${tier.color}55`,
               }}

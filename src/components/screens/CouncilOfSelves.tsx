@@ -249,6 +249,11 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
       panel = [addressed, ...others];
     }
 
+    // The Council interrogates: after the opening round, and every other round,
+    // the last speaker turns a pointed question back to the user.
+    const isOpeningRound = !!panelOverride || turn === 0;
+    const askUserThisRound = !closing && (isOpeningRound || turn % 2 === 1);
+
     try {
       for (let i = 0; i < panel.length; i++) {
         const m = panel[i];
@@ -265,6 +270,7 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
           sharedMemory: buildSharedMemory(),
           timelineStability: state.timelineState.stability,
           pronouns: state.resumeAnalysis?.pronouns,
+          askUser: isLast && askUserThisRound,
         });
         const cleaned = (res.message || "").replace(/^\s*\[[^\]]+\]\s*[:\-]?\s*/, "").trim();
         const msg = { role: "council" as const, content: cleaned, speaker: m.name, metaKey: m.key };

@@ -172,9 +172,14 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
       });
 
       const previousEditions = editions.map(e => ({ editionNumber: e.editionNumber, title: e.title, epilogue: e.epilogue }));
+
+      // Only narrate events that happened SINCE the last edition — avoids re-telling old chapters.
+      const alreadyChronicled = latestEdition?.memorySnapshot?.historianEvents ?? 0;
+      const newEvents = (state.historianLog || []).slice(alreadyChronicled);
+
       const res = await generateChronicle({
         resumeAnalysis: state.resumeAnalysis!,
-        historianLog: (state.historianLog || []) as any,
+        historianLog: newEvents as any,
         finalChoice: finalChoice!,
         allCharacterNames: names,
         editionNumber,
@@ -182,6 +187,7 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
         acceptedPositions: state.acceptedPositions,
         activeTitle: state.activeTitle,
         timelineStability: state.timelineState.stability,
+        butterfly: state.butterflyCache || null,
       });
 
       const newEdition: ChronicleEdition = {

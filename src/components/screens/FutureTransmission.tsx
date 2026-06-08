@@ -388,51 +388,67 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "32px 24px 0", position: "relative", zIndex: 1, height: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
         {/* Header — who you're talking to */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24, paddingBottom: 24, borderBottom: "1px solid var(--border)" }}>
+          style={{ display: "flex", alignItems: "flex-start", gap: 24, marginBottom: 28, paddingBottom: 28, borderBottom: `1px solid ${accent}22` }}>
+
+          {/* Universe icon */}
           <div style={{
-            width: 56, height: 56, borderRadius: 16, flexShrink: 0, position: "relative", overflow: "hidden",
-            background: `linear-gradient(135deg, ${accent}40, ${accent}20)`, border: `1px solid ${accent}40`,
-            display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26,
+            width: 64, height: 64, borderRadius: 18, flexShrink: 0, position: "relative", overflow: "hidden",
+            background: `linear-gradient(135deg, ${accent}35, ${accent}15)`, border: `1px solid ${accent}44`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: `0 8px 32px -8px ${accent}40`,
             filter: corruption > 0 ? `saturate(${1 - corruption * 0.6}) contrast(${1 + corruption * 0.5})` : "none",
             animation: corruption > 0.5 ? "glitch-shift 0.4s steps(2) infinite" : "none",
           }}>
             <span style={{ filter: corruption > 0.3 ? `blur(${corruption * 1.5}px)` : "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <UniverseIcon id={universe.id} size={28} color={universe.color} strokeWidth={1.4} />
+              <UniverseIcon id={universe.id} size={30} color={universe.color} strokeWidth={1.4} />
             </span>
             {corruption > 0.2 && <div className="scanlines" style={{ position: "absolute", inset: 0, opacity: corruption * 0.7 }} />}
           </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }}>
-              {futureSelf?.name || profile.alternativeName}
+
+          {/* Identity block */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            {/* Name + Bond pill on same row */}
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 6 }}>
+              <div style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.3px", color: "var(--text)", lineHeight: 1.3 }}>
+                {futureSelf?.name || profile.alternativeName}
+              </div>
+              {/* Bond badge */}
+              <div style={{
+                flexShrink: 0, textAlign: "right",
+                display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6,
+              }}>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  padding: "4px 10px 4px 8px", borderRadius: 100,
+                  background: `${accent}14`, border: `1px solid ${accent}33`,
+                }}>
+                  <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text3)" }}>Bond</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: accent }}>{stage.name}</span>
+                </div>
+                <div style={{ width: 96, height: 3, background: "var(--surface3)", borderRadius: 4, overflow: "hidden" }}>
+                  <motion.div animate={{ width: `${Math.round(stage.progress * 100)}%` }} transition={{ duration: 0.6 }}
+                    style={{ height: "100%", background: accent, borderRadius: 4 }} />
+                </div>
+              </div>
             </div>
-            <div style={{ fontSize: 13, color: accent }}>
+
+            {/* Profession + year */}
+            <div style={{ fontSize: 14, color: accent, fontWeight: 500, marginBottom: 14, lineHeight: 1.4 }}>
               {futureSelf ? `${futureSelf.title} · Year ${futureSelf.year}` : "Establishing temporal link..."}
             </div>
-            {/* World + era — the specific civilization this self lives in */}
+
+            {/* World + era + description */}
             {futureSelf && (
-              <div style={{ marginTop: 8 }}>
-                <WorldEra
-                  universeId={universe.id}
-                  worldName={futureSelf.worldName}
-                  eraName={futureSelf.eraName}
-                  worldDescription={futureSelf.worldDescription}
-                  accent={accent}
-                  size="md"
-                  showDescription
-                />
-              </div>
+              <WorldEra
+                universeId={universe.id}
+                worldName={futureSelf.worldName}
+                eraName={futureSelf.eraName}
+                worldDescription={futureSelf.worldDescription}
+                accent={accent}
+                size="md"
+                showDescription
+              />
             )}
-          </div>
-          {/* Relationship stage */}
-          <div style={{ textAlign: "right", minWidth: 130 }}>
-            <div style={{ fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>
-              Bond
-            </div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: accent, marginBottom: 6 }}>{stage.name}</div>
-            <div style={{ width: 120, height: 3, background: "var(--surface3)", borderRadius: 4, overflow: "hidden", marginLeft: "auto" }}>
-              <motion.div animate={{ width: `${Math.round(stage.progress * 100)}%` }} transition={{ duration: 0.6 }}
-                style={{ height: "100%", background: accent, borderRadius: 4 }} />
-            </div>
           </div>
         </motion.div>
 

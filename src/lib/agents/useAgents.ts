@@ -101,6 +101,7 @@ export const generateChronicle = (payload: {
   acceptedPositions?: Array<{ universeId: string; title: string; faction: string; ts: number }>;
   activeTitle?: string;
   timelineStability?: number;
+  butterfly?: { decision: string; timelines: any[] } | null;
 }) => post<Record<string, unknown>>("/api/generate-chronicle", payload);
 
 // Agent 10
@@ -113,6 +114,7 @@ export const sendCouncilMessage = (payload: {
   sharedMemory?: string;
   timelineStability?: number;
   pronouns?: string;
+  askUser?: boolean;
 }) => post<{ message: string; speakerName: string; speakerTitle: string; universeId: UniverseType; isClosing: boolean }>(
   "/api/council-response",
   payload
