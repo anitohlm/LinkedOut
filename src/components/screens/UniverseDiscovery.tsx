@@ -121,7 +121,10 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
 
   const hasChronicle = (state.chronicleEditions?.length ?? 0) > 0;
   const latestEdition = state.chronicleEditions?.[state.chronicleEditions.length - 1];
-  const currentPhase = !phase1Done ? 1 : !phase2Done ? 2 : 3;
+  const phase3Done = !!state.selectedUniverse;
+  const phase4Unlocked = phase3Done || hasChronicle;
+  const phase4Done = hasChronicle;
+  const currentPhase = !phase1Done ? 1 : !phase2Done ? 2 : !phase3Done ? 3 : 4;
 
   const explore = (id: UniverseType) => {
     const next = Array.from(new Set([...explored, id]));
@@ -193,12 +196,14 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
         {/* Phase tracker */}
         {allReady && (
           <PhaseTracker current={currentPhase} steps={[
-            { n: 1, label: "Explore Your Selves", sub: `${exploredCount}/6 explored`,
+            { n: 1, label: "Explore Your Selves", sub: exploredCount >= universes.length ? `${exploredCount}/6 Explored` : `${exploredCount}/6 explored`,
               desc: "Meet all six alternate-universe versions of yourself and see who you could have become." },
             { n: 2, label: "The Butterfly Effect", sub: phase2Done ? "Done" : phase2Unlocked ? "Unlocked" : "Locked",
               desc: "Change one decision and watch your life fracture across four alternate timelines." },
-            { n: 3, label: "The Council of Selves", sub: phase3Unlocked ? "Unlocked" : "Locked",
+            { n: 3, label: "The Council of Selves", sub: phase3Done ? "Done" : phase3Unlocked ? "Unlocked" : "Locked",
               desc: "Gather every version of you to debate — then choose the future you're willing to become." },
+            { n: 4, label: "The Historian's Chronicle", sub: phase4Done ? `${state.chronicleEditions!.length} edition${state.chronicleEditions!.length !== 1 ? "s" : ""}` : phase4Unlocked ? "Unlocked" : "Locked",
+              desc: "The Historian records your journey across the multiverse — preserved forever in ink and memory." },
           ]} />
         )}
 
@@ -407,51 +412,92 @@ function ActivityChip({ activity, done, color }: {
   );
 }
 
-/* ── Phase tracker (vertical) ── */
+/* ── Phase tracker (vertical, collapsible) ── */
 function PhaseTracker({ current, steps }: { current: number; steps: { n: number; label: string; sub: string; desc: string }[] }) {
+  const [open, setOpen] = React.useState(true);
   return (
     <div style={{ marginBottom: 48 }}>
-      {steps.map((s, i) => {
-        const done = current > s.n;
-        const active = current === s.n;
-        const locked = current < s.n;
-        const color = done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--text3)";
-        const last = i === steps.length - 1;
-        return (
-          <div key={s.n} style={{ display: "flex", gap: 16 }}>
-            {/* Rail: number + connector */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <div style={{
-                width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
-                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700,
-                background: done ? "#4ecdc422" : active ? "var(--violet)" : "var(--surface)",
-                border: `1px solid ${done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--border2)"}`,
-                color: done ? "#4ecdc4" : active ? "#fff" : "var(--text3)",
-                boxShadow: active ? "0 0 20px rgba(124,110,247,0.4)" : "none",
-              }}>{done ? "✓" : locked ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg> : s.n}</div>
-              {!last && (
-                <div style={{ width: 2, flex: 1, minHeight: 28, marginTop: 4,
-                  background: done ? "#4ecdc4" : "var(--border)" }} />
-              )}
-            </div>
+      {/* Header row with collapse toggle */}
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          display: "flex", alignItems: "center", gap: 8, marginBottom: open ? 20 : 0,
+          background: "none", border: "none", cursor: "pointer", padding: 0,
+          color: "var(--text3)", fontFamily: "Sora, sans-serif",
+        }}
+      >
+        <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+          Journey Progress
+        </span>
+        <span style={{ fontSize: 10, color: "var(--text3)", opacity: 0.6 }}>
+          · Phase {current} of {steps.length}
+        </span>
+        <svg
+          width="12" height="12" viewBox="0 0 24 24" fill="none"
+          style={{ marginLeft: 2, transition: "transform 0.25s", transform: open ? "rotate(0deg)" : "rotate(-90deg)" }}
+        >
+          <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
 
-            {/* Content */}
-            <div style={{ paddingBottom: last ? 0 : 24, opacity: locked ? 0.6 : 1 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 3 }}>
-                <span style={{ fontSize: 15, fontWeight: 700, color: active ? "var(--text)" : color, letterSpacing: "-0.2px" }}>{s.label}</span>
-                <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
-                  padding: "2px 8px", borderRadius: 100,
-                  background: done ? "#4ecdc418" : active ? "rgba(124,110,247,0.15)" : "var(--surface)",
-                  color: done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--text3)",
-                  border: `1px solid ${done ? "#4ecdc433" : active ? "rgba(124,110,247,0.3)" : "var(--border)"}` }}>
-                  {s.sub}
-                </span>
-              </div>
-              <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.55, maxWidth: 560 }}>{s.desc}</p>
-            </div>
-          </div>
-        );
-      })}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="phase-list"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            style={{ overflow: "hidden" }}
+          >
+            {steps.map((s, i) => {
+              const done = current > s.n;
+              const active = current === s.n;
+              const locked = current < s.n;
+              const color = done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--text3)";
+              const last = i === steps.length - 1;
+              return (
+                <div key={s.n} style={{ display: "flex", gap: 16 }}>
+                  {/* Rail */}
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{
+                      width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
+                      display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700,
+                      background: done ? "#4ecdc422" : active ? "var(--violet)" : "var(--surface)",
+                      border: `1px solid ${done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--border2)"}`,
+                      color: done ? "#4ecdc4" : active ? "#fff" : "var(--text3)",
+                      boxShadow: active ? "0 0 20px rgba(124,110,247,0.4)" : "none",
+                    }}>
+                      {done ? "✓" : locked
+                        ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                        : s.n}
+                    </div>
+                    {!last && (
+                      <div style={{ width: 2, flex: 1, minHeight: 28, marginTop: 4,
+                        background: done ? "#4ecdc4" : "var(--border)" }} />
+                    )}
+                  </div>
+
+                  {/* Content */}
+                  <div style={{ paddingBottom: last ? 0 : 24, opacity: locked ? 0.55 : 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 3 }}>
+                      <span style={{ fontSize: 15, fontWeight: 700, color: active ? "var(--text)" : color, letterSpacing: "-0.2px" }}>{s.label}</span>
+                      <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
+                        padding: "2px 8px", borderRadius: 100,
+                        background: done ? "#4ecdc418" : active ? "rgba(124,110,247,0.15)" : "var(--surface)",
+                        color: done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--text3)",
+                        border: `1px solid ${done ? "#4ecdc433" : active ? "rgba(124,110,247,0.3)" : "var(--border)"}` }}>
+                        {s.sub}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.55, maxWidth: 560 }}>{s.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
