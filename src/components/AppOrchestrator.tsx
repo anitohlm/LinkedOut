@@ -57,6 +57,7 @@ const SAVE_KEY = "linkedout_save_v1";
 export function AppOrchestrator() {
   const [state, setState] = useState<AppState>(initialState);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [landingConfirm, setLandingConfirm] = useState(false); // save-before-landing modal
 
   // Stability + tier trackers. Seeded from the initial state, then re-synced on
   // resume (see resumeGame) so loading a saved game is never mistaken for a live
@@ -228,13 +229,12 @@ export function AppOrchestrator() {
     }
   }, [state.currentScreen, state.allProfiles, state.historianLog, logAndObserve]);
 
-  const transitionTo = useCallback(
+  const doTransitionTo = useCallback(
     (screen: AppScreenState, updates?: Partial<AppState>) => {
       setIsTransitioning(true);
       setTimeout(() => {
         setState((prev) => {
           const next = { ...prev, currentScreen: screen, ...updates };
-          // Save with the merged state — but never save "landing" as the resume screen
           if (next.resumeAnalysis && screen !== "landing") {
             try { localStorage.setItem(SAVE_KEY, JSON.stringify({ ...next, resumeFile: null })); } catch {}
           }
@@ -244,6 +244,18 @@ export function AppOrchestrator() {
       }, 600);
     },
     []
+  );
+
+  const transitionTo = useCallback(
+    (screen: AppScreenState, updates?: Partial<AppState>) => {
+      // Intercept navigation to landing when there's active progress — ask to save first
+      if (screen === "landing" && state.resumeAnalysis) {
+        setLandingConfirm(true);
+        return;
+      }
+      doTransitionTo(screen, updates);
+    },
+    [state.resumeAnalysis, doTransitionTo]
   );
 
   const updateState = useCallback((updates: Partial<AppState>) => {
@@ -379,6 +391,120 @@ export function AppOrchestrator() {
           )}
         </button>
       )}
+
+      {/* Save-before-landing confirmation modal */}
+      <AnimatePresence>
+        {landingConfirm && (
+          <motion.div
+            key="landing-confirm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              position: "fixed", inset: 0, zIndex: 2000,
+              background: "rgba(0,0,0,0.72)", backdropFilter: "blur(8px)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: "24px",
+            }}
+            onClick={() => setLandingConfirm(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.93, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.93, y: 16 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              onClick={e => e.stopPropagation()}
+              style={{
+                background: "rgba(10,11,18,0.98)", border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 20, padding: "36px 32px", maxWidth: 400, width: "100%",
+                boxShadow: "0 32px 80px -16px rgba(0,0,0,0.8)",
+              }}
+            >
+              {/* Icon */}
+              <div style={{
+                width: 52, height: 52, borderRadius: 14, marginBottom: 20,
+                background: "rgba(78,205,196,0.1)", border: "1px solid rgba(78,205,196,0.25)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke="#4ecdc4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M17 21v-8H7v8M7 3v5h8" stroke="#4ecdc4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+
+              <h2 style={{ fontSize: 20, fontWeight: 700, color: "var(--text)", marginBottom: 8, fontFamily: "Sora, sans-serif", letterSpacing: "-0.3px" }}>
+                Save your progress?
+              </h2>
+              <p style={{ fontSize: 14, color: "var(--text3)", lineHeight: 1.6, marginBottom: 28, fontFamily: "Sora, sans-serif" }}>
+                You're about to return to the landing page. Would you like to save your current progress before leaving?
+              </p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {/* Save & Go */}
+                <button
+                  onClick={() => {
+                    setState(current => {
+                      if (current.resumeAnalysis) {
+                        try { localStorage.setItem(SAVE_KEY, JSON.stringify({ ...current, resumeFile: null })); } catch {}
+                      }
+                      return current;
+                    });
+                    setManualSaved(true);
+                    setTimeout(() => setManualSaved(false), 2000);
+                    setLandingConfirm(false);
+                    doTransitionTo("landing");
+                  }}
+                  style={{
+                    padding: "13px 20px", borderRadius: 11, cursor: "pointer", fontFamily: "Sora, sans-serif",
+                    fontSize: 14, fontWeight: 600, border: "none",
+                    background: "linear-gradient(135deg, rgba(78,205,196,0.25), rgba(78,205,196,0.12))",
+                    color: "#4ecdc4", transition: "all 0.2s",
+                    outline: "1px solid rgba(78,205,196,0.35)",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(78,205,196,0.22)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "linear-gradient(135deg, rgba(78,205,196,0.25), rgba(78,205,196,0.12))"; }}
+                >
+                  ✓ Save & go to landing
+                </button>
+
+                {/* Leave without saving */}
+                <button
+                  onClick={() => {
+                    setLandingConfirm(false);
+                    doTransitionTo("landing");
+                  }}
+                  style={{
+                    padding: "13px 20px", borderRadius: 11, cursor: "pointer", fontFamily: "Sora, sans-serif",
+                    fontSize: 14, fontWeight: 600,
+                    background: "transparent", border: "1px solid rgba(255,255,255,0.08)",
+                    color: "var(--text3)", transition: "all 0.2s",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)"; e.currentTarget.style.color = "var(--text2)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = "var(--text3)"; }}
+                >
+                  Leave without saving
+                </button>
+
+                {/* Cancel */}
+                <button
+                  onClick={() => setLandingConfirm(false)}
+                  style={{
+                    padding: "11px 20px", borderRadius: 11, cursor: "pointer", fontFamily: "Sora, sans-serif",
+                    fontSize: 13, fontWeight: 500,
+                    background: "transparent", border: "none",
+                    color: "var(--text3)", opacity: 0.6, transition: "opacity 0.2s",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.opacity = "1"; }}
+                  onMouseLeave={e => { e.currentTarget.style.opacity = "0.6"; }}
+                >
+                  Cancel — stay here
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div
         style={{
