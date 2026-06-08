@@ -85,11 +85,21 @@ export function AppOrchestrator() {
   }, [state]);
 
   const resumeGame = useCallback(() => {
-    if (savedRef.current) {
-      const s = savedRef.current;
-      setIsTransitioning(true);
-      setTimeout(() => { setState(s); setIsTransitioning(false); }, 400);
-    }
+    // Always read fresh from localStorage — savedRef.current is only the initial snapshot
+    try {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as AppState;
+        if (parsed?.resumeAnalysis) {
+          // Never resume to landing — fall back to universe-discovery
+          if (!parsed.currentScreen || parsed.currentScreen === "landing") {
+            parsed.currentScreen = "universe-discovery";
+          }
+          setIsTransitioning(true);
+          setTimeout(() => { setState(parsed); setIsTransitioning(false); }, 400);
+        }
+      }
+    } catch {}
   }, []);
 
   const clearSave = useCallback(() => {
@@ -102,6 +112,18 @@ export function AppOrchestrator() {
   const stability = state.timelineState.stability;
   const prevStability = useRef(stability);
   const [toast, setToast] = useState<{ value: number; delta: number; message: string; key: number } | null>(null);
+  const [manualSaved, setManualSaved] = useState(false);
+
+  const manualSave = useCallback(() => {
+    setState((current) => {
+      if (current.resumeAnalysis) {
+        try { localStorage.setItem(SAVE_KEY, JSON.stringify({ ...current, resumeFile: null })); } catch {}
+      }
+      return current;
+    });
+    setManualSaved(true);
+    setTimeout(() => setManualSaved(false), 2000);
+  }, []);
 
   useEffect(() => {
     const prev = prevStability.current;
@@ -189,8 +211,8 @@ export function AppOrchestrator() {
       setTimeout(() => {
         setState((prev) => {
           const next = { ...prev, currentScreen: screen, ...updates };
-          // Save immediately with the fully merged state so navigation never loses progress
-          if (next.resumeAnalysis) {
+          // Save with the merged state — but never save "landing" as the resume screen
+          if (next.resumeAnalysis && screen !== "landing") {
             try { localStorage.setItem(SAVE_KEY, JSON.stringify({ ...next, resumeFile: null })); } catch {}
           }
           return next;
@@ -202,7 +224,14 @@ export function AppOrchestrator() {
   );
 
   const updateState = useCallback((updates: Partial<AppState>) => {
-    setState((prev) => ({ ...prev, ...updates }));
+    setState((prev) => {
+      const next = { ...prev, ...updates };
+      // Real-time save on every state mutation
+      if (next.resumeAnalysis) {
+        try { localStorage.setItem(SAVE_KEY, JSON.stringify({ ...next, resumeFile: null })); } catch {}
+      }
+      return next;
+    });
   }, []);
 
   const renderScreen = () => {
@@ -293,6 +322,40 @@ export function AppOrchestrator() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Persistent Save button — always reads live state from AppOrchestrator */}
+      {showChrome && (
+        <button
+          onClick={manualSave}
+          style={{
+            position: "fixed", bottom: 24, right: 24, zIndex: 1200,
+            display: "flex", alignItems: "center", gap: 6,
+            padding: "8px 16px", borderRadius: 10, cursor: "pointer",
+            fontFamily: "Sora, sans-serif", fontSize: 12, fontWeight: 600,
+            letterSpacing: "0.04em",
+            background: manualSaved ? "rgba(78,205,196,0.15)" : "rgba(8,9,13,0.85)",
+            border: `1px solid ${manualSaved ? "rgba(78,205,196,0.6)" : "rgba(78,205,196,0.25)"}`,
+            color: manualSaved ? "#4ecdc4" : "rgba(78,205,196,0.65)",
+            backdropFilter: "blur(12px)",
+            transition: "all 0.2s",
+            boxShadow: manualSaved ? "0 4px 20px -4px rgba(78,205,196,0.3)" : "0 4px 16px -4px rgba(0,0,0,0.4)",
+          }}
+          onMouseEnter={e => { if (!manualSaved) { const b = e.currentTarget; b.style.background = "rgba(78,205,196,0.12)"; b.style.borderColor = "rgba(78,205,196,0.5)"; b.style.color = "#4ecdc4"; }}}
+          onMouseLeave={e => { if (!manualSaved) { const b = e.currentTarget; b.style.background = "rgba(8,9,13,0.85)"; b.style.borderColor = "rgba(78,205,196,0.25)"; b.style.color = "rgba(78,205,196,0.65)"; }}}
+        >
+          {manualSaved ? (
+            <>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#4ecdc4" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              Saved
+            </>
+          ) : (
+            <>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><path d="M17 21v-8H7v8M7 3v5h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              Save
+            </>
+          )}
+        </button>
+      )}
 
       <div
         style={{

@@ -13,14 +13,14 @@ export default function HistorianObservation({ text, onDone }: { text: string; o
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.6 }}
+      initial={{ opacity: 0, x: 24 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 24 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       onClick={onDone}
       style={{
-        position: "fixed", top: 110, left: "50%", transform: "translateX(-50%)", zIndex: 950,
-        width: "min(560px, calc(100vw - 48px))", cursor: "pointer",
+        position: "fixed", top: 80, right: 24, zIndex: 950,
+        width: "min(360px, calc(100vw - 48px))", cursor: "pointer",
       }}
     >
       <div style={{

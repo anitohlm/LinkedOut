@@ -221,7 +221,7 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, height: 64,
         display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 32px",
         background: "rgba(14,12,9,0.9)", backdropFilter: "blur(16px)", borderBottom: "1px solid #2a2520" }}>
-        <button onClick={() => transitionTo("council-of-selves")}
+        <button onClick={() => transitionTo("universe-discovery")}
           style={{ background: "none", border: "none", color: "#8a7a6a", cursor: "pointer", fontSize: 14, fontFamily: "Sora, sans-serif" }}>← Back</button>
         <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, fontWeight: 700, color: "#f5f0e8", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: accent }}>Out</span>
@@ -283,29 +283,9 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
             <h2 style={{ fontFamily: "Crimson Pro, serif", fontSize: 32, fontStyle: "italic", fontWeight: 400, color: CREAM, marginBottom: 6 }}>
               The Historian&apos;s Archive
             </h2>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
-              <p style={{ fontSize: 12, color: "#6a5a4a", letterSpacing: "0.08em", fontFamily: "Sora, sans-serif", margin: 0 }}>
-                {editions.length} {editions.length === 1 ? "edition" : "editions"} preserved
-              </p>
-              <button
-                onClick={() => downloadArchives(editions)}
-                style={{
-                  display: "flex", alignItems: "center", gap: 6,
-                  padding: "6px 14px", borderRadius: 8, cursor: "pointer",
-                  background: "transparent", border: `1px solid ${accent}44`,
-                  color: `${accent}aa`, fontFamily: "Sora, sans-serif", fontSize: 11, fontWeight: 600,
-                  letterSpacing: "0.06em", textTransform: "uppercase", transition: "all 0.2s",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = accent; e.currentTarget.style.color = accent; e.currentTarget.style.background = `${accent}12`; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = `${accent}44`; e.currentTarget.style.color = `${accent}aa`; e.currentTarget.style.background = "transparent"; }}
-              >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 3v13M7 12l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M4 20h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-                </svg>
-                Download
-              </button>
-            </div>
+            <p style={{ fontSize: 12, color: "#6a5a4a", letterSpacing: "0.08em", fontFamily: "Sora, sans-serif", margin: 0 }}>
+              {editions.length} {editions.length === 1 ? "edition" : "editions"} preserved
+            </p>
           </div>
 
           {/* Edition list */}
@@ -371,6 +351,29 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
               </motion.div>
             )}
           </div>
+
+          {/* Download Archive */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
+            style={{ marginTop: 12, display: "flex", justifyContent: "center" }}>
+            <button
+              onClick={() => downloadArchives(editions)}
+              style={{
+                display: "flex", alignItems: "center", gap: 7,
+                padding: "10px 22px", borderRadius: 10, cursor: "pointer",
+                background: "transparent", border: `1px solid ${accent}44`,
+                color: `${accent}99`, fontFamily: "Sora, sans-serif", fontSize: 12, fontWeight: 600,
+                letterSpacing: "0.06em", textTransform: "uppercase", transition: "all 0.22s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = accent; e.currentTarget.style.color = accent; e.currentTarget.style.background = `${accent}10`; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = `${accent}44`; e.currentTarget.style.color = `${accent}99`; e.currentTarget.style.background = "transparent"; }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3v13M7 12l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M4 20h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+              Download Archive
+            </button>
+          </motion.div>
 
           {/* Keep Exploring */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}

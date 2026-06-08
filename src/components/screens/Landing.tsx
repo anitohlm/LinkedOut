@@ -631,13 +631,15 @@ function UniverseCarousel() {
         ref={scrollRef}
         style={{
           display: "flex",
+          justifyContent: "center",
+          flexWrap: "nowrap",
           gap: 20,
           overflowX: "auto",
           overflowY: "visible",
           scrollSnapType: "x mandatory",
           WebkitOverflowScrolling: "touch" as any,
-          paddingLeft: "max(24px, calc((100vw - 1180px) / 2))",
-          paddingRight: 80,
+          paddingLeft: 24,
+          paddingRight: 24,
           paddingBottom: 32,
           paddingTop: 24,
           scrollbarWidth: "none",

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
@@ -14,6 +14,97 @@ interface Props {
   state: AppState;
   transitionTo: (screen: AppScreenState, updates?: any) => void;
   updateState: (updates: any) => void;
+}
+
+// Per-universe animation configs — transform/opacity only (GPU-safe, §7 motion-meaning)
+const ICON_ANIM: Record<string, { icon: object; glow: object; transition: object }> = {
+  medieval: {
+    // Noble steady heartbeat — strength and permanence
+    icon: { scale: [1, 1.1, 1] },
+    glow: { opacity: [0.5, 1, 0.5] },
+    transition: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+  },
+  cyberpunk: {
+    // Electric glitch flicker — raw digital energy
+    icon: { opacity: [1, 0.5, 1, 0.8, 1] },
+    glow: { opacity: [0.4, 1, 0.3, 0.9, 0.4] },
+    transition: { duration: 1.6, repeat: Infinity, ease: "linear" },
+  },
+  pirate: {
+    // Ocean sway — anchor rocking on waves
+    icon: { rotate: [-6, 6, -6] },
+    glow: { opacity: [0.4, 0.8, 0.4] },
+    transition: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+  },
+  dragon: {
+    // Breathing flame — alive, intense
+    icon: { scale: [1, 1.18, 1] },
+    glow: { opacity: [0.3, 1, 0.3] },
+    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+  },
+  galactic: {
+    // Slow cosmic orbit — infinite and serene
+    icon: { rotate: [0, 360] },
+    glow: { opacity: [0.5, 0.9, 0.5] },
+    transition: { duration: 12, repeat: Infinity, ease: "linear" },
+  },
+  vampire: {
+    // Spectral fade — presence felt, not seen
+    icon: { opacity: [0.55, 1, 0.55] },
+    glow: { opacity: [0.2, 0.8, 0.2] },
+    transition: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
+  },
+};
+
+function UniverseIconBadge({ id, color, visited }: { id: string; color: string; visited: boolean }) {
+  const anim = ICON_ANIM[id] ?? ICON_ANIM.medieval;
+  return (
+    <div style={{ position: "relative", marginTop: visited ? 24 : 0, transition: "margin 0.2s", flexShrink: 0 }}>
+      {/* Pulsing outer glow ring */}
+      <motion.div
+        animate={anim.glow}
+        transition={anim.transition}
+        style={{
+          position: "absolute", inset: -8, borderRadius: 22, pointerEvents: "none",
+          background: `radial-gradient(circle, ${color}40 0%, transparent 65%)`,
+        }}
+      />
+      {/* Second tighter glow */}
+      <motion.div
+        animate={{ opacity: (anim.glow as any).opacity?.map((v: number) => v * 0.6) ?? [0.3, 0.6, 0.3] }}
+        transition={{ ...anim.transition, duration: (anim.transition as any).duration * 0.7 }}
+        style={{
+          position: "absolute", inset: -2, borderRadius: 18, pointerEvents: "none",
+          background: `radial-gradient(circle, ${color}55 0%, transparent 60%)`,
+          boxShadow: `0 0 16px 4px ${color}30`,
+        }}
+      />
+      {/* Main badge */}
+      <div style={{
+        width: 56, height: 56, borderRadius: 16,
+        background: `linear-gradient(145deg, ${color}28 0%, ${color}10 60%, transparent 100%)`,
+        border: `1px solid ${color}55`,
+        boxShadow: `0 4px 20px -4px ${color}60, inset 0 1px 0 ${color}40`,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        position: "relative", overflow: "hidden",
+      }}>
+        {/* Inner radial shine */}
+        <div style={{
+          position: "absolute", top: -10, left: -10, width: 40, height: 40,
+          background: `radial-gradient(circle, ${color}35 0%, transparent 70%)`,
+          pointerEvents: "none",
+        }} />
+        {/* Animated icon */}
+        <motion.div
+          animate={anim.icon}
+          transition={anim.transition}
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", originX: "50%", originY: "50%" }}
+        >
+          <UniverseIcon id={id} size={28} color={color} strokeWidth={1.5} />
+        </motion.div>
+      </div>
+    </div>
+  );
 }
 
 export default function UniverseDiscovery({ state, transitionTo, updateState }: Props) {
@@ -31,15 +122,6 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
   const hasChronicle = (state.chronicleEditions?.length ?? 0) > 0;
   const latestEdition = state.chronicleEditions?.[state.chronicleEditions.length - 1];
   const currentPhase = !phase1Done ? 1 : !phase2Done ? 2 : 3;
-
-  const [saved, setSaved] = useState(false);
-  const saveProgress = useCallback(() => {
-    try {
-      localStorage.setItem("linkedout_save_v1", JSON.stringify({ ...state, resumeFile: null }));
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
-    } catch {}
-  }, [state]);
 
   const explore = (id: UniverseType) => {
     const next = Array.from(new Set([...explored, id]));
@@ -86,32 +168,6 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text2)"; }}
         >
           ↻ New Resume
-        </button>
-        <button
-          onClick={saveProgress}
-          style={{
-            display: "flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600,
-            cursor: "pointer", fontFamily: "Sora, sans-serif",
-            padding: "6px 14px", borderRadius: 8,
-            background: saved ? "rgba(78,205,196,0.12)" : "rgba(78,205,196,0.06)",
-            border: `1px solid ${saved ? "rgba(78,205,196,0.6)" : "rgba(78,205,196,0.25)"}`,
-            color: saved ? "#4ecdc4" : "rgba(78,205,196,0.7)",
-            transition: "all 0.2s",
-          }}
-          onMouseEnter={e => { if (!saved) { const b = e.currentTarget as HTMLButtonElement; b.style.background = "rgba(78,205,196,0.12)"; b.style.borderColor = "rgba(78,205,196,0.5)"; b.style.color = "#4ecdc4"; } }}
-          onMouseLeave={e => { if (!saved) { const b = e.currentTarget as HTMLButtonElement; b.style.background = "rgba(78,205,196,0.06)"; b.style.borderColor = "rgba(78,205,196,0.25)"; b.style.color = "rgba(78,205,196,0.7)"; } }}
-        >
-          {saved ? (
-            <>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#4ecdc4" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              Saved
-            </>
-          ) : (
-            <>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><path d="M17 21v-8H7v8M7 3v5h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              Save
-            </>
-          )}
         </button>
         <button onClick={() => transitionTo("landing")} style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px",
           background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
@@ -200,12 +256,7 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                     )}
 
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, position: "relative" }}>
-                      <div style={{ width: 52, height: 52, borderRadius: 14,
-                        background: `linear-gradient(135deg, ${c}30, ${c}12)`, border: `1px solid ${c}30`,
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        marginTop: visited ? 24 : 0, transition: "margin 0.2s" }}>
-                        <UniverseIcon id={universe.id} size={24} color={c} strokeWidth={1.4} />
-                      </div>
+                      <UniverseIconBadge id={universe.id} color={c} visited={visited} />
                       <span style={{ fontSize: 11, padding: "5px 12px", borderRadius: 100, fontWeight: 600,
                         background: `${c}18`, color: c, border: `1px solid ${c}30` }}>{universe.title}</span>
                     </div>

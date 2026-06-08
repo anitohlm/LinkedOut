@@ -1,0 +1,10 @@
+[    1415ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js:25630
+[   11917ms] [WARNING] You are trying to animate background from "rgb(240, 240, 240) none repeat scroll 0% 0% / auto padding-box border-box" to "transparent". rgb(240, 240, 240) none repeat scroll 0% 0% / auto padding-box border-box is not an animatable value - to enable this animation set rgb(240, 240, 240) none repeat scroll 0% 0% / auto padding-box border-box to a value animatable to transparent via the `style` property. @ webpack-internal:///(app-pages-browser)/./node_modules/motion-utils/dist/es/errors.mjs:13
+[   17535ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[   18878ms] [LOG] [Fast Refresh] done in 1344ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[   37118ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[   37653ms] [LOG] [Fast Refresh] done in 535ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[   54429ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[   55032ms] [LOG] [Fast Refresh] done in 602ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13
+[   60011ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[   60630ms] [LOG] [Fast Refresh] done in 619ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/report-hmr-latency.js:13

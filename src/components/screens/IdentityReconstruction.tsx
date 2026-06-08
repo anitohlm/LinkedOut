@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import UniverseBackground from "@/components/UniverseBackground";
+import UniverseIcon from "@/components/UniverseIcon";
 import { markActivity } from "@/lib/progress";
 
 interface Props {
@@ -97,8 +98,9 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
           >
             {invitationLabel}
           </button>
-          <span style={{ fontSize: 13, color: "var(--text3)" }}>
-            {universe.emoji} {universe.title}
+          <span style={{ fontSize: 13, color: "var(--text3)", display: "flex", alignItems: "center", gap: 6 }}>
+            <UniverseIcon id={universe.id} size={14} color="currentColor" strokeWidth={1.5} />
+            {universe.title}
           </span>
         </div>
       </nav>
@@ -111,14 +113,27 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
           style={{ display: "flex", alignItems: "flex-start", gap: 24, marginBottom: 40, paddingBottom: 40, borderBottom: "1px solid var(--border)" }}
         >
           {/* Avatar */}
-          <div style={{
-            width: 80, height: 80, borderRadius: 20, flexShrink: 0,
-            background: `linear-gradient(135deg, ${accentColor}40, ${accentColor}20)`,
-            border: `1px solid ${accentColor}40`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 32,
-          }}>
-            {universe.emoji}
+          <div style={{ position: "relative", flexShrink: 0 }}>
+            <div style={{
+              position: "absolute", inset: -6, borderRadius: 26,
+              background: `radial-gradient(circle, ${accentColor}22 0%, transparent 70%)`,
+              pointerEvents: "none",
+            }} />
+            <div style={{
+              width: 80, height: 80, borderRadius: 22, flexShrink: 0,
+              background: `linear-gradient(145deg, ${accentColor}35 0%, ${accentColor}15 60%, transparent 100%)`,
+              border: `1px solid ${accentColor}55`,
+              boxShadow: `0 8px 32px -8px ${accentColor}70, inset 0 1px 0 ${accentColor}45`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              position: "relative", overflow: "hidden",
+            }}>
+              <div style={{
+                position: "absolute", top: -12, left: -12, width: 50, height: 50,
+                background: `radial-gradient(circle, ${accentColor}30 0%, transparent 70%)`,
+                pointerEvents: "none",
+              }} />
+              <UniverseIcon id={universe.id} size={36} color={accentColor} strokeWidth={1.4} />
+            </div>
           </div>
 
           <div style={{ flex: 1 }}>

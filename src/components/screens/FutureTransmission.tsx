@@ -6,6 +6,7 @@ import { AppState, AppScreenState, FutureSelf } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import { generateFutureSelf, sendFutureTransmission } from "@/lib/agents/useAgents";
 import UniverseBackground from "@/components/UniverseBackground";
+import UniverseIcon from "@/components/UniverseIcon";
 import ShadowIntercept from "@/components/ShadowIntercept";
 import { applyDelta, applyEvent, corruptionLevel, interceptionRisk, curiosityGain } from "@/lib/stability";
 import { H, logEntry } from "@/lib/historian";
@@ -351,7 +352,10 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
           style={{ background: "none", border: "none", color: "var(--text2)", cursor: "pointer", fontSize: 14, fontFamily: "Sora, sans-serif" }}>
           ← Back
         </button>
-        <span style={{ fontSize: 13, color: "var(--text3)" }}>{universe.emoji} Future Transmission</span>
+        <span style={{ fontSize: 13, color: "var(--text3)", display: "flex", alignItems: "center", gap: 6 }}>
+          <UniverseIcon id={universe.id} size={14} color="currentColor" strokeWidth={1.5} />
+          Future Transmission
+        </span>
         {/* Demo control: force a Shadow intercept */}
         <button
           onClick={() => !intercept && !booting && triggerIntercept()}
@@ -379,7 +383,9 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
             filter: corruption > 0 ? `saturate(${1 - corruption * 0.6}) contrast(${1 + corruption * 0.5})` : "none",
             animation: corruption > 0.5 ? "glitch-shift 0.4s steps(2) infinite" : "none",
           }}>
-            <span style={{ filter: corruption > 0.3 ? `blur(${corruption * 1.5}px)` : "none" }}>{universe.emoji}</span>
+            <span style={{ filter: corruption > 0.3 ? `blur(${corruption * 1.5}px)` : "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <UniverseIcon id={universe.id} size={28} color={universe.color} strokeWidth={1.4} />
+            </span>
             {corruption > 0.2 && <div className="scanlines" style={{ position: "absolute", inset: 0, opacity: corruption * 0.7 }} />}
           </div>
           <div style={{ flex: 1 }}>

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, ResumeAnalysis, AlternateProfile, UniverseType } from "@/types";
 import { analyzeResume, generateProfile } from "@/lib/agents/useAgents";
 import { getAllUniverses } from "@/lib/universes";
+import UniverseIcon from "@/components/UniverseIcon";
 
 interface Props {
   state: AppState;
@@ -197,11 +198,14 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
                     }}
                   >
                     {isDone ? (
-                      <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring" }}>
-                        {u.emoji}
+                      <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring" }}
+                        style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <UniverseIcon id={u.id} size={26} color={color} strokeWidth={1.4} />
                       </motion.span>
                     ) : (
-                      <span style={{ opacity: isActive ? 1 : 0.3 }}>{u.emoji}</span>
+                      <span style={{ opacity: isActive ? 1 : 0.3, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <UniverseIcon id={u.id} size={26} color={color} strokeWidth={1.4} />
+                      </span>
                     )}
                   </motion.div>
                 </div>

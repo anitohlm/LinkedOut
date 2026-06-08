@@ -1,0 +1,261 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e374]:
+    - generic [ref=e375]:
+      - img [ref=e376]
+      - text: Unstable Timeline
+    - generic [ref=e379]: Conflicting futures are pulling against each other. Stay grounded.
+  - generic [ref=e381] [cursor=pointer]:
+    - generic [ref=e382]:
+      - generic [ref=e383]: ✦
+      - generic [ref=e384]: Historian Observation
+    - paragraph [ref=e385]: Timeline Stability dropped to Unstable Timeline (33%).
+  - generic [ref=e386]:
+    - generic [ref=e387]:
+      - generic [ref=e388]: ▼ -67
+      - generic [ref=e389]: Timeline Stability · 33%
+    - paragraph [ref=e390]: The timeline shifts.
+  - button "Save" [ref=e391] [cursor=pointer]:
+    - img [ref=e392]
+    - text: Save
+  - generic [ref=e395]:
+    - navigation [ref=e396]:
+      - button "↻ New Resume" [ref=e397] [cursor=pointer]
+      - button "LinkedOut" [ref=e398] [cursor=pointer]
+      - generic [ref=e399]:
+        - generic [ref=e401]:
+          - generic [ref=e403]: Timeline
+          - generic [ref=e406]: 33%
+        - button "Toggle Historian's Log" [ref=e408] [cursor=pointer]:
+          - img [ref=e409]
+          - generic [ref=e411]: Logs
+          - generic [ref=e412]: "72"
+    - generic [ref=e413]:
+      - generic [ref=e414]:
+        - paragraph [ref=e415]: Your Multiverse Journey
+        - heading "Meet the people you could have become." [level=1] [ref=e416]
+        - paragraph [ref=e417]: A passionate nurturer of young minds, Rowan weaves creativity and mentorship into every lesson, illuminating paths for students to discover their own voices and potentials. Rooted in community and lifelong learning, Rowan stands as a beacon of inspiration and dedication in education.
+      - generic [ref=e418]:
+        - generic [ref=e419]:
+          - generic [ref=e421]: ✓
+          - generic [ref=e423]:
+            - generic [ref=e424]:
+              - generic [ref=e425]: Explore Your Selves
+              - generic [ref=e426]: 6/6 explored
+            - paragraph [ref=e427]: Meet all six alternate-universe versions of yourself and see who you could have become.
+        - generic [ref=e428]:
+          - generic [ref=e430]: ✓
+          - generic [ref=e432]:
+            - generic [ref=e433]:
+              - generic [ref=e434]: The Butterfly Effect
+              - generic [ref=e435]: Done
+            - paragraph [ref=e436]: Change one decision and watch your life fracture across four alternate timelines.
+        - generic [ref=e437]:
+          - generic [ref=e439]: "3"
+          - generic [ref=e440]:
+            - generic [ref=e441]:
+              - generic [ref=e442]: The Council of Selves
+              - generic [ref=e443]: Unlocked
+            - paragraph [ref=e444]: Gather every version of you to debate — then choose the future you're willing to become.
+      - generic [ref=e445]:
+        - generic [ref=e446]: ✓
+        - generic [ref=e447]:
+          - generic [ref=e448]: Phase 1
+          - generic [ref=e449]: Explore Your Selves
+        - generic [ref=e450]: Every reality witnessed. Your timeline is ready to fracture.
+      - generic [ref=e451]:
+        - generic [ref=e452] [cursor=pointer]:
+          - generic [ref=e454]: ✓ EXPLORED
+          - generic [ref=e455]:
+            - img [ref=e458]
+            - generic [ref=e463]: Medieval Kingdom
+          - heading "Lady Rowan Wordgrove" [level=3] [ref=e464]
+          - paragraph [ref=e465]: Master Tutor of the Royal Literae Arts
+          - paragraph [ref=e466]: Lady Rowan Wordgrove has long been a devoted nurturer of young minds within the royal court, weaving creativity and insi...
+          - generic [ref=e467]:
+            - generic [ref=e468]:
+              - generic [ref=e469]: "70"
+              - generic [ref=e470]: innovation
+            - generic [ref=e471]:
+              - generic [ref=e472]: "65"
+              - generic [ref=e473]: leadership
+            - generic [ref=e474]:
+              - generic [ref=e475]: "80"
+              - generic [ref=e476]: collaboration
+          - generic [ref=e477]:
+            - generic [ref=e478]:
+              - generic [ref=e479]: Explored
+              - generic [ref=e480]: 60%
+            - generic [ref=e483]:
+              - generic [ref=e485]: 👤
+              - generic [ref=e487]: 📡
+              - generic [ref=e489]: 📜
+              - generic [ref=e491]: 👑
+              - generic [ref=e493]: 🌑
+        - generic [ref=e494] [cursor=pointer]:
+          - generic [ref=e496]: ✓ EXPLORED
+          - generic [ref=e497]:
+            - img [ref=e500]
+            - generic [ref=e505]: Neon Synthesis
+          - heading "Operator Rowan Mindspire" [level=3] [ref=e506]
+          - paragraph [ref=e507]: Community Learning Facilitator
+          - paragraph [ref=e508]: In the neon-lit corridors of Neo-Eden, Operator Rowan Mindspire has become a guiding presence for young data minds seeki...
+          - generic [ref=e509]:
+            - generic [ref=e510]:
+              - generic [ref=e511]: "78"
+              - generic [ref=e512]: innovation
+            - generic [ref=e513]:
+              - generic [ref=e514]: "72"
+              - generic [ref=e515]: leadership
+            - generic [ref=e516]:
+              - generic [ref=e517]: "85"
+              - generic [ref=e518]: collaboration
+          - generic [ref=e519]:
+            - generic [ref=e520]:
+              - generic [ref=e521]: Explored
+              - generic [ref=e522]: 20%
+            - generic [ref=e525]:
+              - generic [ref=e527]: 👤
+              - generic [ref=e529]: 📡
+              - generic [ref=e531]: 📜
+              - generic [ref=e533]: 👑
+              - generic [ref=e535]: 🌑
+        - generic [ref=e536] [cursor=pointer]:
+          - generic [ref=e538]: ✓ EXPLORED
+          - generic [ref=e539]:
+            - img [ref=e542]
+            - generic [ref=e547]: Endless Seas
+          - heading "First Mate Rowan Quillwarden" [level=3] [ref=e548]
+          - paragraph [ref=e549]: Voyage Mentor
+          - paragraph [ref=e550]: First Mate Rowan Quillwarden sails the Endless Seas not with cannon or sword, but with the steady hand of a guide and th...
+          - generic [ref=e551]:
+            - generic [ref=e552]:
+              - generic [ref=e553]: "75"
+              - generic [ref=e554]: innovation
+            - generic [ref=e555]:
+              - generic [ref=e556]: "70"
+              - generic [ref=e557]: leadership
+            - generic [ref=e558]:
+              - generic [ref=e559]: "85"
+              - generic [ref=e560]: collaboration
+          - generic [ref=e561]:
+            - generic [ref=e562]:
+              - generic [ref=e563]: Explored
+              - generic [ref=e564]: 60%
+            - generic [ref=e567]:
+              - generic [ref=e569]: 👤
+              - generic [ref=e571]: 📡
+              - generic [ref=e573]: 📜
+              - generic [ref=e575]: 👑
+              - generic [ref=e577]: 🌑
+        - generic [ref=e578] [cursor=pointer]:
+          - generic [ref=e580]: ✓ EXPLORED
+          - generic [ref=e581]:
+            - img [ref=e584]
+            - generic [ref=e588]: Ancient Draconia
+          - heading "Sage Rowan Inkbranch" [level=3] [ref=e589]
+          - paragraph [ref=e590]: Mentor of the Young Brood
+          - paragraph [ref=e591]: Sage Rowan Inkbranch has devoted their early years in the Ember Court to nurturing fledgling minds within the ancient ha...
+          - generic [ref=e592]:
+            - generic [ref=e593]:
+              - generic [ref=e594]: "72"
+              - generic [ref=e595]: innovation
+            - generic [ref=e596]:
+              - generic [ref=e597]: "65"
+              - generic [ref=e598]: leadership
+            - generic [ref=e599]:
+              - generic [ref=e600]: "80"
+              - generic [ref=e601]: collaboration
+          - generic [ref=e602]:
+            - generic [ref=e603]:
+              - generic [ref=e604]: Explored
+              - generic [ref=e605]: 80%
+            - generic [ref=e608]:
+              - generic [ref=e610]: 👤
+              - generic [ref=e612]: 📡
+              - generic [ref=e614]: 📜
+              - generic [ref=e616]: 👑
+              - generic [ref=e618]: 🌑
+        - generic [ref=e619] [cursor=pointer]:
+          - generic [ref=e621]: ✓ EXPLORED
+          - generic [ref=e622]:
+            - img [ref=e625]
+            - generic [ref=e631]: Cosmic Frontier
+          - heading "Commander Rowan Lumivera" [level=3] [ref=e632]
+          - paragraph [ref=e633]: Fleet Mentor
+          - paragraph [ref=e634]: Commander Rowan Lumivera has dedicated their early career to nurturing the next generation of explorers among the stars....
+          - generic [ref=e635]:
+            - generic [ref=e636]:
+              - generic [ref=e637]: "75"
+              - generic [ref=e638]: innovation
+            - generic [ref=e639]:
+              - generic [ref=e640]: "80"
+              - generic [ref=e641]: leadership
+            - generic [ref=e642]:
+              - generic [ref=e643]: "85"
+              - generic [ref=e644]: collaboration
+          - generic [ref=e645]:
+            - generic [ref=e646]:
+              - generic [ref=e647]: Explored
+              - generic [ref=e648]: 20%
+            - generic [ref=e651]:
+              - generic [ref=e653]: 👤
+              - generic [ref=e655]: 📡
+              - generic [ref=e657]: 📜
+              - generic [ref=e659]: 👑
+              - generic [ref=e661]: 🌑
+        - generic [ref=e662] [cursor=pointer]:
+          - generic [ref=e664]: ✓ EXPLORED
+          - generic [ref=e665]:
+            - img [ref=e668]
+            - generic [ref=e672]: Eternal Night
+          - heading "Keeper Rowan Lumewarden" [level=3] [ref=e673]
+          - paragraph [ref=e674]: Keeper of the Whispering Hall
+          - paragraph [ref=e675]: Keeper Rowan Lumewarden has devoted their eternal existence to nurturing the young minds that wander the shadowed halls ...
+          - generic [ref=e676]:
+            - generic [ref=e677]:
+              - generic [ref=e678]: "75"
+              - generic [ref=e679]: innovation
+            - generic [ref=e680]:
+              - generic [ref=e681]: "65"
+              - generic [ref=e682]: leadership
+            - generic [ref=e683]:
+              - generic [ref=e684]: "85"
+              - generic [ref=e685]: collaboration
+          - generic [ref=e686]:
+            - generic [ref=e687]:
+              - generic [ref=e688]: Explored
+              - generic [ref=e689]: 40%
+            - generic [ref=e692]:
+              - generic [ref=e694]: 👤
+              - generic [ref=e696]: 📡
+              - generic [ref=e698]: 📜
+              - generic [ref=e700]: 👑
+              - generic [ref=e702]: 🌑
+      - generic [ref=e703] [cursor=pointer]:
+        - img [ref=e705]
+        - generic [ref=e709]:
+          - generic [ref=e710]:
+            - generic [ref=e711]: Phase 2
+            - generic [ref=e712]: ✓ Done
+          - heading "The Butterfly Effect" [level=3] [ref=e713]
+          - paragraph [ref=e714]: Change one decision. Watch your life fracture across four alternate timelines.
+        - generic [ref=e715]: Revisit →
+      - generic [ref=e716] [cursor=pointer]:
+        - img [ref=e718]
+        - generic [ref=e721]:
+          - generic [ref=e723]: Phase 3
+          - heading "The Council of Selves" [level=3] [ref=e724]
+          - paragraph [ref=e725]: Every version of you gathers to debate — then asks the question you've been avoiding.
+        - generic [ref=e726]: Enter the Council Chamber →
+      - generic [ref=e730] [cursor=pointer]:
+        - img [ref=e732]
+        - generic [ref=e736]:
+          - generic [ref=e737]:
+            - generic [ref=e738]: Phase 4
+            - generic [ref=e739]: 5 Editions Recorded
+          - generic [ref=e740]: The Chronicle
+          - paragraph [ref=e741]: "Latest: Edition V — \"Chronicle of Rowan: Edition V — The Dragon's Reflection and the Fractured Threads\""
+        - button "Open Archive →" [ref=e742]
+  - button "Open Next.js Dev Tools" [ref=e369] [cursor=pointer]:
+    - img [ref=e370]
+  - alert [ref=e373]
