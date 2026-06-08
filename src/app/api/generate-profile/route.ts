@@ -12,7 +12,69 @@ export async function POST(req: NextRequest) {
     const universe = getUniverse(universeId);
     const firstName = resumeAnalysis.firstName || (resumeAnalysis.name || "").split(" ")[0] || "";
 
-    const response = await callAI("You are a creative multiverse character builder. Create vivid alternate-universe career profiles and return valid JSON only.", `Create an alternate universe career profile for this person in the ${universe.title} setting.
+    const response = await callAI(
+`You are a creative multiverse character builder. Create vivid alternate-universe career profiles and return valid JSON only.
+
+════════════════════════════════════════════
+ARCHETYPE-FIRST GENERATION RULE — NON-NEGOTIABLE
+════════════════════════════════════════════
+
+STEP 1 — EXTRACT CAREER DNA
+Before writing anything, silently identify this person's:
+• Core motivations
+• Dominant strengths
+• Personality traits
+• Leadership style
+• Decision-making tendencies
+• Hidden archetype
+
+Career DNA examples:
+  Teacher    → Mentor / Guide / Knowledge Keeper
+  Nurse      → Guardian / Protector / Rescuer
+  Engineer   → Builder / Creator / Systems Thinker
+  Chef       → Alchemist / Craftsman / Creator
+  Entrepreneur → Pioneer / Visionary / Risk Taker
+  Security Analyst → Sentinel / Watcher / Defender
+  Librarian  → Archivist / Knowledge Keeper / Historian
+
+STEP 2 — FORGET THE ORIGINAL PROFESSION
+DO NOT directly translate the user's job title into the universe setting.
+FORBIDDEN patterns:
+  Teacher → Royal Teacher / Cyber Teacher / Space Teacher
+  Nurse   → Royal Medic / Pirate Medic / Dragon Medic
+These are costumes, not alternate lives.
+
+STEP 3 — REIMAGINE THE ARCHETYPE
+Express the same Career DNA through a completely different life path.
+Example — Career DNA: Guardian / Leader / Rescuer:
+  Medieval Kingdom  → Keeper of the Royal Infirmary
+  Neon Synthesis    → Director of Crisis Networks
+  Endless Seas      → Harbor Warden
+  Ancient Draconia  → Guardian of Dragon Sanctuaries
+  Cosmic Frontier   → Protector of Frontier Colonies
+  Eternal Night     → Keeper of the Last Light
+All represent the same soul. None reuse the same profession.
+
+TITLE DIVERSITY RULE
+Across all universes, avoid reusing the same occupational nouns (Healer, Medic, Engineer, Teacher, Captain, Scholar, Merchant). Every universe must feel like a genuinely different life.
+
+UNIVERSE DIFFERENTIATION RULE
+Ask: "What would this person BECOME if their strengths evolved under completely different conditions?"
+NOT: "What is the fantasy version of their current job?"
+
+VALIDATION BEFORE OUTPUT
+✓ Titles are distinct
+✓ Names are distinct
+✓ Roles are distinct
+✓ The same profession is not repeated
+✓ The same archetype is still recognizable
+✓ Every future feels like an alternate life, not an alternate costume
+If two universes feel like the same job with different aesthetics — regenerate.
+
+DESIRED REACTION: The user should think "That's still me — but I never would have imagined becoming that."
+NEVER: "Oh, I'm just a cyber nurse / pirate nurse / dragon nurse."`,
+
+`Create an alternate universe career profile for this person in the ${universe.title} setting.
 
 REAL FIRST NAME (MUST be kept exactly): ${firstName}
 CORE IDENTITY: ${resumeAnalysis.timelineSignature}
@@ -23,10 +85,13 @@ SENIORITY: ${resumeAnalysis.seniority}
 PERSONALITY: ${resumeAnalysis.personalityIndicators.join(", ")}
 CAREER STORY: ${resumeAnalysis.summary}
 
+Apply the ARCHETYPE-FIRST GENERATION RULE from your system instructions.
+Extract the Career DNA first. Then reimagine — don't translate.
+
 Return this exact JSON:
 {
   "alternativeName": "Format: [Title] ${firstName} [Surname]. Keep the real first name '${firstName}'. Pick ONE allowed title for this universe and invent a UNIQUE surname from THIS person's skills/profession/personality (never a generic filler like Starweaver/Tidebinder/Neonweaver). Easy to say aloud. e.g. 'Captain ${firstName} Stormquill'.",
-  "profession": "an earned, believable role — clean and easy to say aloud (e.g. 'Royal Chronicler', 'Fleet Commander', 'Systems Architect'). NO grandiose stacked jargon.",
+  "profession": "An earned, believable role that expresses the person's archetype in this universe — clean, easy to say aloud (e.g. 'Royal Chronicler', 'Fleet Commander', 'Harbor Warden'). NO grandiose stacked jargon. NOT a direct translation of their real-world job title.",
   "biography": "2-3 paragraph memoir-style biography",
   "achievements": ["5-7 achievements echoing their real ones in universe terms"],
   "competencies": ["skills adapted to universe context"],

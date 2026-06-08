@@ -214,10 +214,10 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
                 <div style={{
                   fontSize: 10, fontWeight: 500, letterSpacing: "0.04em",
                   color: isDone ? color : isActive ? "var(--text2)" : "var(--text3)",
-                  textAlign: "center", maxWidth: 72, lineHeight: 1.3,
+                  textAlign: "center", maxWidth: 88, lineHeight: 1.3,
                   transition: "color 0.3s",
                 }}>
-                  {u.title.split(" ")[0]}
+                  {u.title}
                 </div>
               </motion.div>
             );
