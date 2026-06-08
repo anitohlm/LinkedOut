@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
@@ -127,6 +127,35 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
   const phase4Done = hasChronicle;
   const currentPhase = !phase1Done ? 1 : !phase2Done ? 2 : !phase3Done ? 3 : 4;
 
+  // ── Chronicle unlock notification ──────────────────────────────────────────
+  const NOTIF_KEY = "linkedout_chronicle_unlocked_seen";
+  const [showChronicleNotif, setShowChronicleNotif] = useState(false);
+  const prevPhase4Unlocked = useRef(phase4Unlocked);
+
+  useEffect(() => {
+    // Only fire when it transitions false → true and hasn't been shown before
+    if (phase4Unlocked && !prevPhase4Unlocked.current) {
+      if (!localStorage.getItem(NOTIF_KEY)) {
+        setShowChronicleNotif(true);
+      }
+    }
+    prevPhase4Unlocked.current = phase4Unlocked;
+  }, [phase4Unlocked]);
+
+  // Also show on mount if already unlocked but never seen
+  useEffect(() => {
+    if (phase4Unlocked && !localStorage.getItem(NOTIF_KEY)) {
+      setShowChronicleNotif(true);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const dismissChronicleNotif = () => {
+    localStorage.setItem(NOTIF_KEY, "1");
+    setShowChronicleNotif(false);
+  };
+  // ───────────────────────────────────────────────────────────────────────────
+
   const explore = (id: UniverseType) => {
     const next = Array.from(new Set([...explored, id]));
     const bonusGiven = state.completionBonusGiven || [];
@@ -150,6 +179,105 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", paddingTop: 64 }}>
+
+      {/* ── Chronicle Unlock Notification ─────────────────────────────────── */}
+      <AnimatePresence>
+        {showChronicleNotif && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            style={{
+              position: "fixed", inset: 0, zIndex: 1000,
+              background: "rgba(4,5,8,0.82)", backdropFilter: "blur(10px)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: 24,
+            }}
+            onClick={dismissChronicleNotif}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 32, scale: 0.94 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.96 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              onClick={e => e.stopPropagation()}
+              style={{
+                width: "100%", maxWidth: 480,
+                background: "rgba(10,11,16,0.98)",
+                border: "1px solid #e8c97e44",
+                borderRadius: 24,
+                overflow: "hidden",
+                boxShadow: "0 32px 80px -16px rgba(0,0,0,0.9), 0 0 0 1px #e8c97e18, inset 0 1px 0 #e8c97e22",
+              }}
+            >
+              {/* Gold top bar */}
+              <div style={{ height: 3, background: "linear-gradient(90deg, transparent, #e8c97e, transparent)" }} />
+
+              {/* Body */}
+              <div style={{ padding: "36px 36px 32px" }}>
+                {/* Icon */}
+                <div style={{
+                  width: 56, height: 56, borderRadius: 16, marginBottom: 24,
+                  background: "rgba(232,201,126,0.1)", border: "1px solid #e8c97e33",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                    <polygon points="12,2 15,9 22,9.5 17,14 18.5,21 12,17.5 5.5,21 7,14 2,9.5 9,9" stroke="#e8c97e" strokeWidth="1.5" strokeLinejoin="round" fill="rgba(232,201,126,0.15)"/>
+                  </svg>
+                </div>
+
+                {/* Eyebrow */}
+                <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#e8c97e99", marginBottom: 10, fontFamily: "Sora, sans-serif" }}>
+                  Phase IV Unlocked
+                </p>
+
+                {/* Headline */}
+                <h2 style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.5px", color: "#e8c97e", marginBottom: 12, lineHeight: 1.2, fontFamily: "Sora, sans-serif" }}>
+                  The Historian's Chronicle
+                </h2>
+
+                {/* Lore */}
+                <p style={{ fontSize: 15, color: "var(--text2)", lineHeight: 1.7, marginBottom: 28, fontFamily: "Crimson Pro, serif", fontStyle: "italic" }}>
+                  Your journey across the multiverse has been witnessed. The Historian stands ready to record it — preserved in ink and memory, across every timeline you've touched.
+                </p>
+
+                {/* CTAs */}
+                <div style={{ display: "flex", gap: 12 }}>
+                  <button
+                    onClick={() => { dismissChronicleNotif(); transitionTo("chronicle"); }}
+                    style={{
+                      flex: 1, padding: "13px 0", borderRadius: 12, cursor: "pointer",
+                      background: "linear-gradient(135deg, #e8c97e, #c9a85c)",
+                      border: "none", color: "#0a0b10", fontSize: 14, fontWeight: 700,
+                      fontFamily: "Sora, sans-serif", letterSpacing: "0.02em",
+                      boxShadow: "0 8px 24px -8px #e8c97e60",
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.opacity = "0.9")}
+                    onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+                  >
+                    Open the Chronicle
+                  </button>
+                  <button
+                    onClick={dismissChronicleNotif}
+                    style={{
+                      padding: "13px 20px", borderRadius: 12, cursor: "pointer",
+                      background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)",
+                      color: "var(--text3)", fontSize: 14, fontFamily: "Sora, sans-serif",
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.color = "var(--text)")}
+                    onMouseLeave={e => (e.currentTarget.style.color = "var(--text3)")}
+                  >
+                    Later
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* ──────────────────────────────────────────────────────────────────── */}
+
       {/* Nav */}
       <nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
