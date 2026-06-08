@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
     const response = await callAI("You are a mythic biographer who transforms real careers into legendary historical figures. Return valid JSON only.", `Generate the Legendary Self.
 
 TIMELINE SIGNATURE: ${resumeAnalysis.timelineSignature}
+PRONOUNS: ${resumeAnalysis.pronouns || "they/them"} — use these pronouns throughout, and make any title/honorific match them (never a gendered title that contradicts the pronouns).
 SKILLS: ${resumeAnalysis.skills.join(", ")}
 ACHIEVEMENTS: ${resumeAnalysis.achievements.join(", ")}
 PERSONALITY: ${resumeAnalysis.personalityIndicators.join(", ")}

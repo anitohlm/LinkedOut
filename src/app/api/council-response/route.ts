@@ -8,17 +8,18 @@ import { getVoice } from "@/lib/voices";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userMessage, speaker, allMembers, conversationHistory, isClosing, sharedMemory, timelineStability } = await req.json();
+    const { userMessage, speaker, allMembers, conversationHistory, isClosing, sharedMemory, timelineStability, pronouns } = await req.json();
     if (!userMessage || !speaker) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
     const closingNote = isClosing ? "\n\nCLOSING: Pose the final question in YOUR voice: 'Which future are you willing to become?'" : "";
+    const pronounNote = `\n\nThe user (and every self at this council, including you) uses ${pronouns || "they/them"} pronouns. Use them consistently; never switch genders or use a contradicting title.`;
     const memoryNote = sharedMemory
       ? `\n\nWHAT YOU REMEMBER — earlier private transmissions between you and them. Reference these naturally if relevant; they prove you remember your conversations:\n${sharedMemory}`
       : "";
     const systemPrompt = buildCouncilPrompt(
       speaker.futureSelf.name, speaker.futureSelf.universeId,
       speaker.futureSelf.personality, speaker.futureSelf.philosophy, allMembers
-    ) + memoryNote + closingNote + stabilityBehaviorNote(timelineStability ?? 100, "council") + getVoice(speaker.futureSelf?.universeId);
+    ) + memoryNote + pronounNote + closingNote + stabilityBehaviorNote(timelineStability ?? 100, "council") + getVoice(speaker.futureSelf?.universeId);
 
     const history = conversationHistory.slice(-8).map((m: any) => ({
       role: m.role === "future-self" ? "assistant" : m.role as "user" | "assistant",

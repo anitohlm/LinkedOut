@@ -8,9 +8,12 @@ export async function POST(req: NextRequest) {
     const { resumeAnalysis } = await req.json() as { resumeAnalysis: ResumeAnalysis };
     if (!resumeAnalysis) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
+    const pronouns = resumeAnalysis.pronouns || "they/them";
     const response = await callAI("You are a dark mirror narrator who reveals the shadow-self hidden in every career. Return valid JSON only.", `Generate the Villain Self.
 
 TIMELINE SIGNATURE: ${resumeAnalysis.timelineSignature}
+NAME: ${resumeAnalysis.name || resumeAnalysis.firstName}
+PRONOUNS: ${pronouns} — use these pronouns throughout, and make any honorific/title match (e.g. Emperor for he/him, Empress for she/her, a neutral title like Sovereign for they/them). Never use a gendered title that contradicts the pronouns.
 SKILLS: ${resumeAnalysis.skills.join(", ")}
 ACHIEVEMENTS: ${resumeAnalysis.achievements.join(", ")}
 PERSONALITY: ${resumeAnalysis.personalityIndicators.join(", ")}

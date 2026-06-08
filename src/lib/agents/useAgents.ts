@@ -84,7 +84,7 @@ export const getSuggestions = (payload: {
 }) => post<{ suggestions: string[] }>("/api/suggestions", payload);
 
 // Shadow Intercept content
-export const getShadowIntercept = (payload: { futureMeAdvice: string; firstName: string }) =>
+export const getShadowIntercept = (payload: { futureMeAdvice: string; firstName: string; pronouns?: string }) =>
   post<{ lines: string[]; revealAfter: number; identity: { name: string; timeline: string; classification: string } }>(
     "/api/shadow-intercept",
     payload
@@ -112,6 +112,7 @@ export const sendCouncilMessage = (payload: {
   isClosing?: boolean;
   sharedMemory?: string;
   timelineStability?: number;
+  pronouns?: string;
 }) => post<{ message: string; speakerName: string; speakerTitle: string; universeId: UniverseType; isClosing: boolean }>(
   "/api/council-response",
   payload

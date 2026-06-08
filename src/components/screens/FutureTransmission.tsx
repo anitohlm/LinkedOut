@@ -341,7 +341,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       {/* Shadow Self intercept — full-screen cinematic takeover */}
       <AnimatePresence>
         {intercept && (
-          <ShadowIntercept firstName={firstName} futureMeAdvice={interceptAdvice} onClose={closeIntercept} />
+          <ShadowIntercept firstName={firstName} futureMeAdvice={interceptAdvice} pronouns={state.resumeAnalysis?.pronouns} onClose={closeIntercept} />
         )}
       </AnimatePresence>
 

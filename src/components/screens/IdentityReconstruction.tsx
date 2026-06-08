@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import UniverseBackground from "@/components/UniverseBackground";
 import UniverseIcon from "@/components/UniverseIcon";
-import WorldEra from "@/components/WorldEra";
 import { markActivity } from "@/lib/progress";
 
 interface Props {
@@ -27,6 +26,12 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
   if (!profile || !universe) return null;
 
   const accentColor = universe.color;
+  const accentRgb = (() => {
+    const h = accentColor.replace("#", "");
+    const n = h.length === 3 ? h.split("").map(c => c + c).join("") : h;
+    const r = parseInt(n.slice(0, 2), 16), g = parseInt(n.slice(2, 4), 16), b = parseInt(n.slice(4, 6), 16);
+    return [r, g, b].some(isNaN) ? "124,110,247" : `${r},${g},${b}`;
+  })();
   const acceptedPosition = (state.acceptedPositions || []).find(p => p.universeId === state.selectedUniverse);
   const displayTitle = acceptedPosition?.title ?? profile.profession;
 
@@ -83,27 +88,29 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
         >
           ← Back
         </button>
-        <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
-          Linked<span style={{ color: "var(--violet2)" }}>Out</span>
+        {/* Immersive world title — you are inside this realm */}
+        <button onClick={() => transitionTo("landing")} title="Return to LinkedOut"
+          style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "Sora, sans-serif", textAlign: "center", lineHeight: 1.2, padding: 0, maxWidth: 520 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }}>
+            <UniverseIcon id={universe.id} size={15} color={accentColor} strokeWidth={1.6} />
+            <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.3px", color: "var(--text)" }}>
+              {profile.worldName}
+            </span>
+          </div>
+          <div style={{ fontSize: 10.5, color: accentColor, letterSpacing: "0.06em", textTransform: "uppercase", marginTop: 2 }}>
+            {profile.eraName}
+          </div>
+          {profile.worldDescription && (
+            <div style={{
+              fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontSize: 13.5, color: "var(--text2)",
+              marginTop: 4, lineHeight: 1.4, maxWidth: 560,
+              overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+            }}>
+              {clean(profile.worldDescription)}
+            </div>
+          )}
         </button>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <button
-            onClick={() => transitionTo("multiverse-invitations")}
-            style={{
-              background: "none", border: "1px solid var(--border2)", borderRadius: 8,
-              padding: "6px 14px", color: "var(--text2)", cursor: "pointer",
-              fontSize: 13, fontFamily: "Sora, sans-serif", transition: "all 0.2s",
-            }}
-            onMouseEnter={e => { const b = e.currentTarget as HTMLButtonElement; b.style.borderColor = "var(--border3)"; b.style.color = "var(--text)"; }}
-            onMouseLeave={e => { const b = e.currentTarget as HTMLButtonElement; b.style.borderColor = "var(--border2)"; b.style.color = "var(--text2)"; }}
-          >
-            {invitationLabel}
-          </button>
-          <span style={{ fontSize: 13, color: "var(--text3)", display: "flex", alignItems: "center", gap: 6 }}>
-            <UniverseIcon id={universe.id} size={14} color="currentColor" strokeWidth={1.5} />
-            {universe.title}
-          </span>
-        </div>
+        <div style={{ width: 60 }} />
       </nav>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 40px", position: "relative", zIndex: 1 }}>
@@ -145,31 +152,56 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
               {displayTitle}
             </p>
             <p style={{ fontSize: 13, color: "var(--text3)" }}>{universe.title} · {universe.recruiterFaction}</p>
-            {/* The specific world + era within this universe */}
-            <div style={{ marginTop: 14 }}>
-              <WorldEra
-                universeId={universe.id}
-                worldName={profile.worldName}
-                eraName={profile.eraName}
-                worldDescription={profile.worldDescription}
-                accent={accentColor}
-                size="md"
-                showDescription
-              />
+
+            {/* Destiny scores — below the faction line */}
+            <div style={{ display: "flex", gap: 12, marginTop: 16, maxWidth: 360 }}>
+              {Object.entries(profile.radarScores || {}).slice(0, 3).map(([key, val]) => (
+                <div key={key} style={{
+                  flex: 1, background: "var(--surface)", border: "1px solid var(--border)",
+                  borderRadius: 14, padding: "14px 8px", textAlign: "center",
+                }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-1px", color: accentColor }}>{val}</div>
+                  <div style={{ fontSize: 9, fontWeight: 500, letterSpacing: "0.05em", textTransform: "uppercase", color: "var(--text3)", marginTop: 4 }}>{key}</div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Destiny scores */}
-          <div style={{ display: "flex", gap: 16 }}>
-            {Object.entries(profile.radarScores || {}).slice(0, 3).map(([key, val]) => (
-              <div key={key} style={{
-                background: "var(--surface)", border: "1px solid var(--border)",
-                borderRadius: 14, padding: "16px 12px", textAlign: "center", minWidth: 72,
-              }}>
-                <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-1px", color: accentColor }}>{val}</div>
-                <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text3)", marginTop: 4 }}>{key}</div>
-              </div>
-            ))}
+          {/* Action buttons (right side) */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, width: 320, flexShrink: 0 }}>
+            {/* primary + secondary actions */}
+            <TipButton
+              primary
+              label="Begin Future Transmission →"
+              tip="Talk to the version of you who already lived this life."
+              color="#fff" bg="var(--violet)" border="var(--violet2)" accent="124,110,247"
+              onClick={() => transitionTo("future-transmission", { selectedUniverse: state.selectedUniverse })}
+            />
+            {/* Recruiter — Royal Summons / Corp Offers / etc. */}
+            <TipButton
+              primary
+              label={invitationLabel}
+              tip={`The ${universe.recruiterFaction} of ${universe.title} want to recruit you. Read their offer.`}
+              color={accentColor} bg={`${accentColor}14`} border={`${accentColor}40`} accent={accentRgb}
+              icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4z" stroke={accentColor} strokeWidth="1.6" strokeLinejoin="round"/><path d="M4 7l8 6 8-6" stroke={accentColor} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+              onClick={() => transitionTo("multiverse-invitations")}
+            />
+            <div style={{ display: "flex", gap: 10 }}>
+              <TipButton
+                label="Legendary"
+                tip="Meet your greatest possible self — if everything went right."
+                color="#e8c97e" bg="rgba(232,201,126,0.1)" border="rgba(232,201,126,0.3)" accent="232,201,126"
+                icon={<svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M3 17l2.5-8L9 13l3-7 3 7 3.5-4L21 17H3z" stroke="#e8c97e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/><path d="M3 17h18" stroke="#e8c97e" strokeWidth="1.6" strokeLinecap="round"/></svg>}
+                onClick={() => { markActivity(state, updateState, state.selectedUniverse!, "legendary"); transitionTo("legendary-self"); }}
+              />
+              <TipButton
+                label="Shadow"
+                tip="Face the self who chose ambition over everything."
+                color="#f07070" bg="rgba(240,112,112,0.08)" border="rgba(240,112,112,0.3)" accent="240,112,112"
+                icon={<svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" stroke="#f07070" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                onClick={() => { markActivity(state, updateState, state.selectedUniverse!, "shadow"); transitionTo("villain-self"); }}
+              />
+            </div>
           </div>
         </motion.div>
 
@@ -231,57 +263,6 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
 
           {/* Right column */}
           <div>
-            {/* Actions — sticky so always visible */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-              style={{ position: "sticky", top: 80, zIndex: 10, display: "flex", flexDirection: "column", gap: 10,
-                marginBottom: 16, padding: 16, borderRadius: 20,
-                background: "rgba(14,16,24,0.85)", backdropFilter: "blur(12px)", border: "1px solid var(--border)" }}>
-              <button
-                onClick={() => transitionTo("future-transmission", { selectedUniverse: state.selectedUniverse })}
-                style={{
-                  width: "100%", padding: 16, borderRadius: 12,
-                  background: "var(--violet)", border: "none",
-                  color: "#fff", fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 600,
-                  cursor: "pointer", transition: "all 0.2s", boxShadow: "0 0 30px rgba(124,110,247,0.25)",
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "var(--violet2)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "var(--violet)"; }}
-              >
-                Begin Future Transmission →
-              </button>
-
-              <div style={{ display: "flex", gap: 10 }}>
-                <button
-                  onClick={() => { markActivity(state, updateState, state.selectedUniverse!, "legendary"); transitionTo("legendary-self"); }}
-                  style={{
-                    flex: 1, padding: 12, borderRadius: 12,
-                    background: "rgba(232,201,126,0.1)", border: "1px solid rgba(232,201,126,0.3)",
-                    color: "#e8c97e", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600,
-                    cursor: "pointer", transition: "all 0.2s",
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(232,201,126,0.18)"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(232,201,126,0.1)"; }}
-                >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ display:"inline",verticalAlign:"middle",marginRight:5 }}><path d="M3 17l2.5-8L9 13l3-7 3 7 3.5-4L21 17H3z" stroke="#e8c97e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/><path d="M3 17h18" stroke="#e8c97e" strokeWidth="1.6" strokeLinecap="round"/></svg>
-                  Legendary
-                </button>
-                <button
-                  onClick={() => { markActivity(state, updateState, state.selectedUniverse!, "shadow"); transitionTo("villain-self"); }}
-                  style={{
-                    flex: 1, padding: 12, borderRadius: 12,
-                    background: "rgba(240,112,112,0.08)", border: "1px solid rgba(240,112,112,0.3)",
-                    color: "#f07070", fontFamily: "Sora, sans-serif", fontSize: 13, fontWeight: 600,
-                    cursor: "pointer", transition: "all 0.2s", display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(240,112,112,0.15)"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(240,112,112,0.08)"; }}
-                >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" stroke="#f07070" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  Shadow
-                </button>
-              </div>
-            </motion.div>
-
             {/* Personality */}
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
               style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 24, marginBottom: 16 }}>
@@ -330,6 +311,54 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+/* Action button with a hover tooltip describing what it does */
+function TipButton({ label, tip, icon, color, bg, border, accent, primary, onClick }: {
+  label: string; tip: string; icon?: React.ReactNode; color: string; bg: string; border: string;
+  accent: string; primary?: boolean; onClick: () => void;
+}) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div style={{ position: "relative", flex: primary ? undefined : 1, width: primary ? "100%" : undefined }}>
+      <button
+        onClick={onClick}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        style={{
+          width: "100%", padding: primary ? "14px 16px" : "11px 12px", borderRadius: 12,
+          background: bg, border: `1px solid ${border}`, color,
+          fontFamily: "Sora, sans-serif", fontSize: primary ? 14 : 13, fontWeight: 600,
+          cursor: "pointer", transition: "all 0.2s",
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+          boxShadow: hover ? `0 6px 20px -6px rgba(${accent},0.5)` : "none",
+          transform: hover ? "translateY(-1px)" : "none",
+        }}
+      >
+        {icon}{label}
+      </button>
+      <AnimatePresence>
+        {hover && (
+          <motion.div
+            initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.15 }}
+            style={{
+              position: "absolute", top: "calc(100% + 8px)", left: 0, right: 0, zIndex: 30,
+              padding: "10px 12px", borderRadius: 10, pointerEvents: "none",
+              background: "rgba(8,9,13,0.97)", border: `1px solid rgba(${accent},0.35)`,
+              boxShadow: `0 8px 28px -8px rgba(${accent},0.4)`, backdropFilter: "blur(12px)",
+            }}
+          >
+            {/* arrow */}
+            <div style={{ position: "absolute", top: -5, left: primary ? 24 : "50%", marginLeft: primary ? 0 : -5, width: 9, height: 9,
+              background: "rgba(8,9,13,0.97)", borderLeft: `1px solid rgba(${accent},0.35)`, borderTop: `1px solid rgba(${accent},0.35)`,
+              transform: "rotate(45deg)" }} />
+            <p style={{ fontSize: 12, color: "var(--text2)", lineHeight: 1.5, margin: 0, fontFamily: "Sora, sans-serif" }}>{tip}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

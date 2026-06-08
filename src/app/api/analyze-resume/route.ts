@@ -16,6 +16,7 @@ Return this exact JSON structure:
 {
   "name": "full name of the person from the resume header",
   "firstName": "just their first name",
+  "pronouns": "infer the person's likely pronouns from their name and any cues: one of 'he/him', 'she/her', or 'they/them'. If genuinely unclear, use 'they/them'.",
   "skills": ["array of technical and soft skills"],
   "competencies": ["core competencies that define how they work"],
   "strengths": ["recurring strengths across all roles"],

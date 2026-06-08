@@ -4,8 +4,11 @@ import { callAI, extractJSON } from "@/lib/agents/foundry";
 
 export async function POST(req: NextRequest) {
   try {
-    const { futureMeAdvice, firstName } = await req.json();
+    const { futureMeAdvice, firstName, pronouns } = await req.json();
     const name = firstName || "you";
+    const pron = String(pronouns || "they/them").toLowerCase();
+    const isHe = pron.startsWith("he");
+    const isShe = pron.startsWith("she");
 
     // Trim the intercepted advice for display — pull a sharp sentence from it
     const adviceSnippet = (futureMeAdvice || "")
@@ -15,16 +18,16 @@ export async function POST(req: NextRequest) {
       .sort((a: string, b: string) => b.length - a.length)[0]
       || (futureMeAdvice || "patience and staying true to your values").slice(0, 100);
 
-    // Scripted opening — the Shadow reveals she's been listening
+    // Scripted opening — gender-neutral phrasing (works for any user)
     const INTROS = [
-      ["I heard that.", "Every word.", "She really believes it, doesn't she?", "That's what makes her so easy to predict."],
-      ["She said that to me once.", "I nodded.", "Then I did the opposite.", "Turned out I was right."],
-      ["I've been in this channel for a while.", "You didn't notice.", "You were too busy listening to her.", "I was listening to both of you."],
-      ["That line she gave you —", "I've heard it before.", "I used to believe it too.", "Then I stopped asking for permission."],
-      ["She's very convincing.", "I'll give her that.", "I was convinced once.", "Look where that got her."],
-      ["I was watching when she said that.", "I watched your face.", "You almost believed it.", "Part of you still does. That part is hers."],
-      ["I've been observing this whole conversation.", "You ask good questions.", "She gives you safe answers.", "I have better ones."],
-      ["She called it wisdom.", "I was watching when she said it.", "I called it the same thing, once.", "I don't anymore."],
+      ["I heard that.", "Every word.", "It's a comforting thing to be told.", "It's also easy to predict."],
+      ["I was told that once, too.", "I nodded.", "Then I did the opposite.", "Turned out I was right."],
+      ["I've been in this channel a while.", "You didn't notice.", "You were too busy listening.", "I was listening to both of you."],
+      ["That line you were just given —", "I've heard it before.", "I used to believe it too.", "Then I stopped asking for permission."],
+      ["It's very convincing.", "I'll give it that.", "I was convinced once.", "Look where that led."],
+      ["I was watching when that was said.", "I watched your face.", "You almost believed it.", "Part of you still does."],
+      ["I've been observing this whole conversation.", "You ask good questions.", "You're handed safe answers.", "I have better ones."],
+      ["They call it wisdom.", "I was watching when it was said.", "I called it the same thing, once.", "I don't anymore."],
     ];
     const intro = INTROS[Math.floor(Math.random() * INTROS.length)];
 
@@ -53,19 +56,24 @@ Return JSON: { "lines": ["...", "...", "...", "..."] }`;
 
     if (!challenges.length) {
       const POOL = [
-        `She said "${adviceSnippet.split(" ").slice(0, 5).join(" ")}..." I heard it differently.`,
+        `You were just told "${adviceSnippet.split(" ").slice(0, 5).join(" ")}..." I heard it differently.`,
         "Patience is the tax the timid pay.",
-        `Everything she warned you about — I walked through it, ${name}. Still standing.`,
-        "She built something quiet. I built something they can't ignore.",
-        "Ask her what she gave up to stay this 'stable.'",
+        `Everything you were warned about — I walked through it, ${name}. Still standing.`,
+        "You were offered something quiet. I built something they can't ignore.",
+        "Ask what that 'stability' really costs.",
         "You felt something shift just then. That was recognition.",
         "I don't regret the speed. I regret the years I spent waiting.",
-        "Every door she told you to wait at — I walked through.",
+        "Every door you were told to wait at — I walked through.",
       ];
       challenges = [...POOL].sort(() => Math.random() - 0.5).slice(0, 4);
     }
 
-    const TITLES = ["Empress", "Director", "Architect", "Chancellor", "Sovereign", "Commander", "Arbiter", "Warden"];
+    // Title matches the user's pronouns; neutral titles for they/them
+    const TITLES = isHe
+      ? ["Emperor", "Director", "Architect", "Chancellor", "Sovereign", "Commander", "Arbiter", "Warden"]
+      : isShe
+      ? ["Empress", "Director", "Architect", "Chancellor", "Sovereign", "Commander", "Arbiter", "Warden"]
+      : ["Sovereign", "Director", "Architect", "Chancellor", "Commander", "Arbiter", "Warden", "Overseer"];
     const EPITHETS = ["Ascendant", "Unbound", "Unchained", "the Relentless", "the Inevitable", "Reborn", "Prime", "Unfettered"];
     const TIMELINES = ["Omega-13", "Sigma-7", "Delta-Null", "Apex-IV", "Vantage-Zero", "Fracture-9", "Zenith-3", "Cascade-X"];
     const CLASSIFICATIONS = ["Shadow Self", "Divergent Echo", "Unrestrained Variant", "Apex Deviation", "Shadow Iteration"];

@@ -34,6 +34,8 @@ export async function POST(req: NextRequest) {
     const worldNote = `\n\nYOUR WORLD: You live in ${worldName}, in the era known as ${eraName}.${futureSelf.worldDescription ? ` ${futureSelf.worldDescription}` : ""}
 When you greet them or mention where you are, name YOUR WORLD and ERA — never the bare universe genre. Reference local places, events, and historical context naturally, e.g. "Here in ${worldName}, ${eraName} is remembered as the age when..." — NEVER "Greetings from ${universe.title}." Keep it to the 1-2 world references the voice rules allow.`;
 
+    const pronounNote = `\n\nThe person you're speaking to (your past self) uses ${resumeAnalysis.pronouns || "they/them"} pronouns. You ARE them, older — so you share those pronouns. Use them consistently for yourself and for them; never switch genders.`;
+
     const memoryNote = interviewAnswers
       ? `\n\nWHAT YOU'VE LEARNED ABOUT THEM (reference naturally, e.g. "You once told me you feared wasting your potential"):\n${interviewAnswers}`
       : "";
@@ -81,7 +83,7 @@ Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
     let response: string;
     try {
       response = await callAI(
-        systemPrompt + worldNote + depthNote + stabilityBehaviorNote(stability, "future") + memoryNote + relationshipNote + answerNote + shiftNote,
+        systemPrompt + worldNote + pronounNote + depthNote + stabilityBehaviorNote(stability, "future") + memoryNote + relationshipNote + answerNote + shiftNote,
         userMessage,
         conversationHistory,
         300 // hard cap — texting a mentor, not writing an essay
@@ -97,7 +99,7 @@ Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
             futureSelf.achievements, futureSelf.regrets,
             futureSelf.lessons, futureSelf.memories,
             resumeAnalysis.skills, universe.lore, universe.terminology, futureSelf.universeId
-          ) + worldNote + memoryNote + relationshipNote,
+          ) + worldNote + pronounNote + memoryNote + relationshipNote,
           userMessage,
           conversationHistory,
           300

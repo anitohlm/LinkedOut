@@ -7,6 +7,7 @@
 export interface ResumeAnalysis {
   name: string;
   firstName: string;
+  pronouns?: string; // "he/him" | "she/her" | "they/them"
   skills: string[];
   competencies: string[];
   achievements: string[];
@@ -248,4 +249,6 @@ export interface AppState {
   pendingObservation?: string | null;
   // Track which universes have already granted a completion bonus (one-time)
   completionBonusGiven?: string[];
+  // Journey Progress tracker collapsed by the user — persists until they expand it again
+  journeyCollapsed?: boolean;
 }

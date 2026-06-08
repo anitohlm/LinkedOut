@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
 UNIVERSE (broad genre only — NOT the final answer): ${universe.title} — ${universe.lore}
 
 CHARACTER: ${alternativeName}${alternativeTitle ? ` — ${alternativeTitle}` : ""}
+PRONOUNS: ${resumeAnalysis.pronouns || "they/them"} — this future self IS the user, so use these pronouns and a matching (or neutral) title. Never use a gendered title or pronoun that contradicts them.
 TIMELINE SIGNATURE: ${resumeAnalysis.timelineSignature}
 SKILLS: ${resumeAnalysis.skills.join(", ")}
 ACHIEVEMENTS: ${resumeAnalysis.achievements.join(", ")}

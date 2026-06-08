@@ -7,12 +7,13 @@ import { getShadowIntercept } from "@/lib/agents/useAgents";
 interface Props {
   firstName: string;
   futureMeAdvice: string;
+  pronouns?: string;
   onClose: () => void;
 }
 
 const RED = "#f07070";
 
-export default function ShadowIntercept({ firstName, futureMeAdvice, onClose }: Props) {
+export default function ShadowIntercept({ firstName, futureMeAdvice, pronouns, onClose }: Props) {
   const [phase, setPhase] = useState<"alarm" | "transmission">("alarm");
   const [lines, setLines] = useState<string[]>([]);
   const [shown, setShown] = useState<string[]>([]);
@@ -30,19 +31,22 @@ export default function ShadowIntercept({ firstName, futureMeAdvice, onClose }: 
     hasInit.current = true;
     (async () => {
       try {
-        const data = await getShadowIntercept({ futureMeAdvice, firstName });
+        const data = await getShadowIntercept({ futureMeAdvice, firstName, pronouns });
         setLines(data.lines);
         setRevealAfter(data.revealAfter ?? 4);
         setIdentity(data.identity);
         setInterceptedLine((data as any).interceptedLine || null);
       } catch {
+        const isShe = String(pronouns || "").toLowerCase().startsWith("she");
+        const isHe = String(pronouns || "").toLowerCase().startsWith("he");
+        const title = isHe ? "Emperor" : isShe ? "Empress" : "Sovereign";
         setLines([
-          "Don't listen to her.",
-          "She keeps telling you patience matters.",
-          "I chose differently.",
-          "Look how far I got.",
+          "I heard that.",
+          "Every word.",
+          "I used to believe it too.",
+          "Then I stopped asking for permission.",
         ]);
-        setIdentity({ name: `Empress ${firstName || "Ascendant"} Ascendant`, timeline: "Omega-13", classification: "Shadow Self" });
+        setIdentity({ name: `${title} ${firstName || "Ascendant"} Unbound`, timeline: "Omega-13", classification: "Shadow Self" });
       }
     })();
   }, []);

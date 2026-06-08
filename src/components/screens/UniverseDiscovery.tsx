@@ -63,8 +63,8 @@ function UniverseIconBadge({ id, color, visited }: { id: string; color: string; 
     <div style={{ position: "relative", marginTop: visited ? 24 : 0, transition: "margin 0.2s", flexShrink: 0 }}>
       {/* Pulsing outer glow ring */}
       <motion.div
-        animate={anim.glow}
-        transition={anim.transition}
+        animate={anim.glow as any}
+        transition={anim.transition as any}
         style={{
           position: "absolute", inset: -8, borderRadius: 22, pointerEvents: "none",
           background: `radial-gradient(circle, ${color}40 0%, transparent 65%)`,
@@ -97,8 +97,8 @@ function UniverseIconBadge({ id, color, visited }: { id: string; color: string; 
         }} />
         {/* Animated icon */}
         <motion.div
-          animate={anim.icon}
-          transition={anim.transition}
+          animate={anim.icon as any}
+          transition={anim.transition as any}
           style={{ display: "flex", alignItems: "center", justifyContent: "center", originX: "50%", originY: "50%" }}
         >
           <UniverseIcon id={id} size={28} color={color} strokeWidth={1.5} />
@@ -196,7 +196,11 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
 
         {/* Phase tracker */}
         {allReady && (
-          <PhaseTracker current={currentPhase} steps={[
+          <PhaseTracker
+            current={currentPhase}
+            collapsed={!!state.journeyCollapsed}
+            onToggle={() => updateState({ journeyCollapsed: !state.journeyCollapsed })}
+            steps={[
             { n: 1, label: "Explore Your Selves", sub: exploredCount >= universes.length ? `${exploredCount}/6 Explored` : `${exploredCount}/6 explored`,
               desc: "Meet all six alternate-universe versions of yourself and see who you could have become." },
             { n: 2, label: "The Butterfly Effect", sub: phase2Done ? "Done" : phase2Unlocked ? "Unlocked" : "Locked",
@@ -424,13 +428,14 @@ function ActivityChip({ activity, done, color }: {
 }
 
 /* ── Phase tracker (vertical, collapsible) ── */
-function PhaseTracker({ current, steps }: { current: number; steps: { n: number; label: string; sub: string; desc: string }[] }) {
-  const [open, setOpen] = React.useState(true);
+function PhaseTracker({ current, steps, collapsed, onToggle }: { current: number; steps: { n: number; label: string; sub: string; desc: string }[]; collapsed: boolean; onToggle: () => void }) {
+  // Collapsed state is persisted in AppState, so hiding it sticks across navigation/reloads.
+  const open = !collapsed;
   return (
     <div style={{ marginBottom: 48 }}>
       {/* Header row with collapse toggle */}
       <button
-        onClick={() => setOpen(o => !o)}
+        onClick={onToggle}
         style={{
           display: "flex", alignItems: "center", gap: 8, marginBottom: open ? 20 : 0,
           background: "none", border: "none", cursor: "pointer", padding: 0,
