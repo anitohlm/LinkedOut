@@ -10,6 +10,7 @@ import { H, logEntry } from "@/lib/historian";
 import { getUniverse as getUniverseConfig } from "@/lib/universes";
 import InspirationBar from "@/components/InspirationBar";
 import UniverseIcon from "@/components/UniverseIcon";
+import { UNIVERSE_CHAT_STYLE } from "@/lib/universeStyles";
 
 interface Props {
   state: AppState;
@@ -456,6 +457,11 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
                     )}
                     <div style={{
                       padding: "14px 18px", borderRadius: 16, fontSize: 14, lineHeight: 1.7, whiteSpace: "pre-wrap",
+                      // Per-universe typing personality — universe selves only.
+                      // Legendary & Shadow keys aren't in the map so they safely fall through to {}.
+                      ...(m.role === "council" && m.metaKey
+                        ? UNIVERSE_CHAT_STYLE[m.metaKey] ?? {}
+                        : {}),
                       ...(m.role === "user"
                         ? { background: "var(--violet)", color: "#fff", borderBottomRightRadius: 4 }
                         : { background: "var(--surface)", border: "1px solid var(--border)", color: "var(--text2)", borderBottomLeftRadius: 4 }),

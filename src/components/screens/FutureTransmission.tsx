@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, FutureSelf } from "@/types";
 import { getUniverse } from "@/lib/universes";
+
+import { UNIVERSE_CHAT_STYLE } from "@/lib/universeStyles";
 import { generateFutureSelf, sendFutureTransmission } from "@/lib/agents/useAgents";
 import UniverseBackground from "@/components/UniverseBackground";
 import UniverseIcon from "@/components/UniverseIcon";
@@ -490,7 +492,11 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
                 <div style={{
                   maxWidth: "80%", padding: "14px 18px", borderRadius: 16, fontSize: 14, lineHeight: 1.7,
                   whiteSpace: "pre-wrap", position: "relative", zIndex: 6,
-                  // Assistant text fractures (chromatic bleed) as the timeline destabilizes
+                  // Per-universe typing personality — assistant only, never villain
+                  ...(m.role === "assistant" && !m.villain && universeId
+                    ? UNIVERSE_CHAT_STYLE[universeId] ?? {}
+                    : {}),
+                  // Timeline fracture: chromatic bleed as reality destabilises
                   ...(m.role === "assistant" && !m.villain && corruption > 0.3
                     ? { textShadow: `${1.4 * corruption}px 0 rgba(240,112,112,0.45), ${-1.4 * corruption}px 0 rgba(78,205,196,0.4)` }
                     : {}),
