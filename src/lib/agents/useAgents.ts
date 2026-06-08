@@ -32,8 +32,10 @@ export const generateFutureSelf = (
   resumeAnalysis: ResumeAnalysis,
   universeId: UniverseType,
   alternativeName: string,
-  alternativeTitle?: string
-) => post<FutureSelf>("/api/generate-future-self", { resumeAnalysis, universeId, alternativeName, alternativeTitle });
+  alternativeTitle?: string,
+  // The world established on the profile — passed in so the Future Self lives in the SAME world
+  world?: { worldName?: string; eraName?: string; worldDescription?: string }
+) => post<FutureSelf>("/api/generate-future-self", { resumeAnalysis, universeId, alternativeName, alternativeTitle, ...world });
 
 // Agent 3 conversation
 export const sendFutureTransmission = (payload: {

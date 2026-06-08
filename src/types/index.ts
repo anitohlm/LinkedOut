@@ -45,6 +45,11 @@ export interface AlternateProfile {
   alternativeName: string;
   portrait: string;
   profession: string;
+  // The specific civilization + era within the broad universe genre, shaped by Career DNA.
+  // Generated here so the world is visible on the profile pages; the Future Self reuses it.
+  worldName: string;
+  eraName: string;
+  worldDescription: string;
   biography: string;
   achievements: string[];
   competencies: string[];
@@ -60,6 +65,11 @@ export interface FutureSelf {
   universeId: UniverseType;
   name: string;
   title: string;
+  // The specific civilization + era this self lives in (within the broad universe genre).
+  // Shaped by the user's Career DNA, so the same universe feels different per person.
+  worldName: string;
+  eraName: string;
+  worldDescription: string;
   year: number;
   personality: string;
   philosophy: string;

@@ -6,6 +6,7 @@ import { AppState, AppScreenState } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import UniverseBackground from "@/components/UniverseBackground";
 import UniverseIcon from "@/components/UniverseIcon";
+import WorldEra from "@/components/WorldEra";
 import { markActivity } from "@/lib/progress";
 
 interface Props {
@@ -144,6 +145,18 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
               {displayTitle}
             </p>
             <p style={{ fontSize: 13, color: "var(--text3)" }}>{universe.title} · {universe.recruiterFaction}</p>
+            {/* The specific world + era within this universe */}
+            <div style={{ marginTop: 14 }}>
+              <WorldEra
+                universeId={universe.id}
+                worldName={profile.worldName}
+                eraName={profile.eraName}
+                worldDescription={profile.worldDescription}
+                accent={accentColor}
+                size="md"
+                showDescription
+              />
+            </div>
           </div>
 
           {/* Destiny scores */}

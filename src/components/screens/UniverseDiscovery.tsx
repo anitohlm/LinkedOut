@@ -6,6 +6,7 @@ import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
 import { StabilityHUD } from "@/components/StabilityHUD";
 import UniverseIcon from "@/components/UniverseIcon";
+import WorldEra from "@/components/WorldEra";
 import { UNIVERSE_ACTIVITIES, universePercent } from "@/lib/progress";
 import { applyEvent } from "@/lib/stability";
 import { H, logEntry } from "@/lib/historian";
@@ -269,7 +270,17 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                     {profile ? (
                       <>
                         <h3 style={{ fontSize: 19, fontWeight: 700, letterSpacing: "-0.3px", marginBottom: 4, color: "var(--text)" }}>{profile.alternativeName}</h3>
-                        <p style={{ fontSize: 13, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.4 }}>{cardTitle}</p>
+                        <p style={{ fontSize: 13, color: c, fontWeight: 500, marginBottom: 10, lineHeight: 1.4 }}>{cardTitle}</p>
+                        {/* The specific world + era within this universe */}
+                        <div style={{ marginBottom: 14 }}>
+                          <WorldEra
+                            universeId={universe.id}
+                            worldName={profile.worldName}
+                            eraName={profile.eraName}
+                            accent={c}
+                            size="sm"
+                          />
+                        </div>
                         <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6, marginBottom: 20 }}>
                           {(profile.biography || "").replace(/\\n/g, " ").slice(0, 120)}...
                         </p>

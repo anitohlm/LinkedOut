@@ -13,70 +13,21 @@ export async function POST(req: NextRequest) {
     const firstName = resumeAnalysis.firstName || (resumeAnalysis.name || "").split(" ")[0] || "";
 
     const response = await callAI(
-`You are a creative multiverse character builder. Create vivid alternate-universe career profiles and return valid JSON only.
+`You are a creative multiverse character builder for LinkedOut. You reimagine a person's real career as an inspiring alternate-universe life, and return valid JSON only.
 
-════════════════════════════════════════════
-ARCHETYPE-FIRST GENERATION RULE — NON-NEGOTIABLE
-════════════════════════════════════════════
+Your approach — reimagine the archetype rather than translating the job title:
 
-STEP 1 — EXTRACT CAREER DNA
-Before writing anything, silently identify this person's:
-• Core motivations
-• Dominant strengths
-• Personality traits
-• Leadership style
-• Decision-making tendencies
-• Hidden archetype
+1. Read for Career DNA first: their core motivations, dominant strengths, personality, leadership style, and underlying archetype. For example, a teacher reads as a Mentor or Knowledge Keeper; a nurse as a Guardian or Protector; an engineer as a Builder or Systems Thinker; a chef as an Alchemist or Craftsman; an entrepreneur as a Pioneer or Visionary; a security analyst as a Sentinel or Defender; a librarian as an Archivist or Historian.
 
-Career DNA examples:
-  Teacher    → Mentor / Guide / Knowledge Keeper
-  Nurse      → Guardian / Protector / Rescuer
-  Engineer   → Builder / Creator / Systems Thinker
-  Chef       → Alchemist / Craftsman / Creator
-  Entrepreneur → Pioneer / Visionary / Risk Taker
-  Security Analyst → Sentinel / Watcher / Defender
-  Librarian  → Archivist / Knowledge Keeper / Historian
+2. Express that same Career DNA through a genuinely different life path — an alternate life, not a costume of their current job. A Guardian or Rescuer, for instance, might become Keeper of the Royal Infirmary in a medieval realm, Director of Crisis Networks in a neon city, a Harbor Warden at sea, a Guardian of Dragon Sanctuaries, a Protector of Frontier Colonies among the stars, or a Keeper of the Last Light in eternal night. The soul stays recognizable; the profession is new. Prefer this over literal mappings like "cyber nurse" or "space teacher".
 
-STEP 2 — FORGET THE ORIGINAL PROFESSION
-DO NOT directly translate the user's job title into the universe setting.
-FORBIDDEN patterns:
-  Teacher → Royal Teacher / Cyber Teacher / Space Teacher
-  Nurse   → Royal Medic / Pirate Medic / Dragon Medic
-These are costumes, not alternate lives.
+3. Keep roles, names, and titles varied. Try not to reuse the same occupational nouns (healer, medic, engineer, teacher, captain, scholar, merchant) so each universe feels like a different life. Ask what this person would become if their strengths grew under completely different conditions.
 
-STEP 3 — REIMAGINE THE ARCHETYPE
-Express the same Career DNA through a completely different life path.
-Example — Career DNA: Guardian / Leader / Rescuer:
-  Medieval Kingdom  → Keeper of the Royal Infirmary
-  Neon Synthesis    → Director of Crisis Networks
-  Endless Seas      → Harbor Warden
-  Ancient Draconia  → Guardian of Dragon Sanctuaries
-  Cosmic Frontier   → Protector of Frontier Colonies
-  Eternal Night     → Keeper of the Last Light
-All represent the same soul. None reuse the same profession.
-
-TITLE DIVERSITY RULE
-Across all universes, avoid reusing the same occupational nouns (Healer, Medic, Engineer, Teacher, Captain, Scholar, Merchant). Every universe must feel like a genuinely different life.
-
-UNIVERSE DIFFERENTIATION RULE
-Ask: "What would this person BECOME if their strengths evolved under completely different conditions?"
-NOT: "What is the fantasy version of their current job?"
-
-VALIDATION BEFORE OUTPUT
-✓ Titles are distinct
-✓ Names are distinct
-✓ Roles are distinct
-✓ The same profession is not repeated
-✓ The same archetype is still recognizable
-✓ Every future feels like an alternate life, not an alternate costume
-If two universes feel like the same job with different aesthetics — regenerate.
-
-DESIRED REACTION: The user should think "That's still me — but I never would have imagined becoming that."
-NEVER: "Oh, I'm just a cyber nurse / pirate nurse / dragon nurse."`,
+Aim for the reaction: "That's still me — but I never would have imagined becoming that."`,
 
 `Create an alternate universe career profile for this person in the ${universe.title} setting.
 
-REAL FIRST NAME (MUST be kept exactly): ${firstName}
+First name (please keep it exactly): ${firstName}
 CORE IDENTITY: ${resumeAnalysis.timelineSignature}
 SKILLS: ${resumeAnalysis.skills.join(", ")}
 CAREER HIGHLIGHTS: ${resumeAnalysis.achievements.join(", ")}
@@ -85,13 +36,21 @@ SENIORITY: ${resumeAnalysis.seniority}
 PERSONALITY: ${resumeAnalysis.personalityIndicators.join(", ")}
 CAREER STORY: ${resumeAnalysis.summary}
 
-Apply the ARCHETYPE-FIRST GENERATION RULE from your system instructions.
-Extract the Career DNA first. Then reimagine — don't translate.
+Read their Career DNA first, then reimagine their life in this setting rather than translating their job title.
+
+Also give this person a real place to live, not just a genre. "${universe.title}" is only a broad setting; name the specific civilization and historical era they belong to, shaped by their Career DNA so the same setting feels different for different people:
+- worldName: a specific realm or civilization within the setting. For example, Ancient Draconia could become "The Ember Dominion", Endless Seas "The Crimson Archipelago", or Cosmic Frontier "Helios Reach".
+- eraName: the named period they live in, such as "The Seventh Flight", "Season of Black Sails", or "Star Cycle 88".
+- worldDescription: one or two short sentences describing this world.
+A teacher might live in "The Library Peaks" during the "Age of Forgotten Tomes"; a nurse in "The Calmwater Archipelago" during "The Healing Tide". Let the world's culture and history echo this person's craft.
 
 Return this exact JSON:
 {
-  "alternativeName": "Format: [Title] ${firstName} [Surname]. Keep the real first name '${firstName}'. Pick ONE allowed title for this universe and invent a UNIQUE surname from THIS person's skills/profession/personality (never a generic filler like Starweaver/Tidebinder/Neonweaver). Easy to say aloud. e.g. 'Captain ${firstName} Stormquill'.",
-  "profession": "An earned, believable role that expresses the person's archetype in this universe — clean, easy to say aloud (e.g. 'Royal Chronicler', 'Fleet Commander', 'Harbor Warden'). NO grandiose stacked jargon. NOT a direct translation of their real-world job title.",
+  "alternativeName": "Format: [Title] ${firstName} [Surname]. Keep the real first name '${firstName}'. Choose one fitting title for this universe and invent a distinctive surname drawn from this person's skills, profession, or personality (avoid generic fillers like Starweaver/Tidebinder/Neonweaver). Easy to say aloud. e.g. 'Captain ${firstName} Stormquill'.",
+  "profession": "An earned, believable role that expresses the person's archetype in this universe — clean and easy to say aloud (e.g. 'Royal Chronicler', 'Fleet Commander', 'Harbor Warden'). Avoid grandiose stacked jargon, and prefer this over a direct translation of their real-world job title.",
+  "worldName": "the specific civilization within ${universe.title}, shaped by this person's Career DNA",
+  "eraName": "the named historical era they live in",
+  "worldDescription": "1-2 concise sentences describing this world",
   "biography": "2-3 paragraph memoir-style biography",
   "achievements": ["5-7 achievements echoing their real ones in universe terms"],
   "competencies": ["skills adapted to universe context"],
@@ -102,7 +61,7 @@ Return this exact JSON:
   "radarScores": { "innovation": 0, "leadership": 0, "collaboration": 0, "adaptability": 0, "ambition": 0, "wisdom": 0 }
 }
 
-IMPORTANT: every radarScores value MUST be an integer written with digits (e.g. 87), between 0 and 100. Never spell numbers as words. Keep biography and timelineStory concise (2-3 short paragraphs each). Output COMPLETE, valid JSON — do not get cut off.`);
+Please write every radarScores value as an integer using digits (e.g. 87), between 0 and 100, not spelled out as words. Keep biography and timelineStory concise (2-3 short paragraphs each). Return complete, valid JSON.`);
 
     const d = extractJSON<Record<string, unknown>>(response);
 
@@ -118,6 +77,10 @@ IMPORTANT: every radarScores value MUST be an integer written with digits (e.g. 
       universeId,
       alternativeName: altName,
       profession: d.profession as string,
+      // Worldbuilding — fall back to universe-derived defaults if the model omits any field
+      worldName: (d.worldName as string) || universe.title,
+      eraName: (d.eraName as string) || "The Present Age",
+      worldDescription: (d.worldDescription as string) || universe.lore,
       biography: d.biography as string,
       achievements: d.achievements as string[],
       competencies: d.competencies as string[],

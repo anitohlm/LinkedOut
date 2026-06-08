@@ -7,6 +7,7 @@ import { getUniverse } from "@/lib/universes";
 import { generateFutureSelf, sendFutureTransmission } from "@/lib/agents/useAgents";
 import UniverseBackground from "@/components/UniverseBackground";
 import UniverseIcon from "@/components/UniverseIcon";
+import WorldEra from "@/components/WorldEra";
 import ShadowIntercept from "@/components/ShadowIntercept";
 import { applyDelta, applyEvent, corruptionLevel, interceptionRisk, curiosityGain } from "@/lib/stability";
 import { H, logEntry } from "@/lib/historian";
@@ -111,7 +112,9 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
         state.resumeAnalysis!,
         universeId!,
         profile!.alternativeName,
-        profile!.profession
+        profile!.profession,
+        // Reuse the world established on the profile so both screens agree
+        { worldName: profile!.worldName, eraName: profile!.eraName, worldDescription: profile!.worldDescription }
       );
       setFutureSelf(fs);
       setBooting(false);
@@ -395,6 +398,20 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
             <div style={{ fontSize: 13, color: accent }}>
               {futureSelf ? `${futureSelf.title} · Year ${futureSelf.year}` : "Establishing temporal link..."}
             </div>
+            {/* World + era — the specific civilization this self lives in */}
+            {futureSelf && (
+              <div style={{ marginTop: 8 }}>
+                <WorldEra
+                  universeId={universe.id}
+                  worldName={futureSelf.worldName}
+                  eraName={futureSelf.eraName}
+                  worldDescription={futureSelf.worldDescription}
+                  accent={accent}
+                  size="md"
+                  showDescription
+                />
+              </div>
+            )}
           </div>
           {/* Relationship stage */}
           <div style={{ textAlign: "right", minWidth: 130 }}>
