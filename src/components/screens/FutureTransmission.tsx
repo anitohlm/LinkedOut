@@ -203,31 +203,48 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     setRelationship(newRel);
     setAsked(prev => [...prev, q.id]);
 
-    // Stability shifts: interview option delta + relationship growth bonus on stage advance
+    // Stability shifts: interview option delta + relationship-growth bonus on stage advance.
+    // Compose BOTH off a single evolving base so they stack correctly, then apply ONCE.
+    // (The old code applied each from the stale render-time base in separate updates: the
+    // second overwrote the first, dropping opt.stab — and the inline chip, the toast delta,
+    // and the toast message all reported different, sometimes opposite-sign, numbers.)
     const prevStageName = getStage(relationship).name;
     const nextStageName = getStage(newRel).name;
     const stageAdvanced = nextStageName !== prevStageName;
 
+    const baseStab = state.timelineState.stability;
+    let nextStab = baseStab;
+    let nextStatus = state.timelineState.status;
     if (opt.stab) {
-      const { stability, status } = applyDelta(state.timelineState.stability, opt.stab);
-      updateState({ timelineState: { stability, status } });
+      const r = applyDelta(nextStab, opt.stab);
+      nextStab = r.stability; nextStatus = r.status;
     }
+    let growthMsg: string | undefined;
     if (stageAdvanced && futureSelf) {
-      const { stability: newStab, status, event } = applyEvent(state.timelineState.stability, "relationship-growth");
-      logEntry(H.bondAdvanced(futureSelf.name, prevStageName, nextStageName), state, updateState, {
-        toast: true,
-        extra: { timelineState: { stability: newStab, status }, stabilityMessage: event.message },
-      });
+      const r = applyEvent(nextStab, "relationship-growth");
+      nextStab = r.stability; nextStatus = r.status; growthMsg = r.event.message;
     }
+    const totalDelta = nextStab - baseStab; // the REAL net change actually applied
 
-    // Record the exchange + the reward feedback in the transcript
-    const fb = `Relationship +${opt.rel}` + (opt.stab ? `  ·  Timeline Stability ${opt.stab > 0 ? "+" : ""}${opt.stab}` : "");
+    // Inline reward chip reflects the TRUE net stability delta, so it always matches the toast.
+    const stabText = totalDelta !== 0 ? `  ·  Timeline Stability ${totalDelta > 0 ? "+" : ""}${totalDelta}` : "";
     setMessages(prev => [
       ...prev,
       { role: "assistant", content: q.prompt },
       { role: "user", content: opt.label },
-      { role: "system", content: fb },
+      { role: "system", content: `Relationship +${opt.rel}${stabText}` },
     ]);
+
+    // Apply the composed stability in a SINGLE update. On a stage advance, attach the bond
+    // entry + its message; otherwise just commit the new stability.
+    if (stageAdvanced && futureSelf) {
+      logEntry(H.bondAdvanced(futureSelf.name, prevStageName, nextStageName), state, updateState, {
+        toast: true,
+        extra: { timelineState: { stability: nextStab, status: nextStatus }, stabilityMessage: growthMsg },
+      });
+    } else if (totalDelta !== 0) {
+      updateState({ timelineState: { stability: nextStab, status: nextStatus } });
+    }
     setQuestion(null);
     setPicked(null);
 
