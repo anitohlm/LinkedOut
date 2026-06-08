@@ -174,6 +174,29 @@ export function logEntry(
   updateState(updates as any);
 }
 
+/**
+ * Remove spurious duplicate entries left over from before the resume/milestone
+ * fixes. The one-time "all six mapped" milestone is deduped globally; otherwise
+ * consecutive identical entries are collapsed (e.g. repeated tier-crossing lines
+ * produced by old hydration bugs). Safe to run on every save load.
+ */
+export function dedupeHistorianLog(log: HistorianLogEntry[]): HistorianLogEntry[] {
+  if (!Array.isArray(log)) return log;
+  const MILESTONE = "All six timelines have been mapped. The multiverse is now fully charted.";
+  let milestoneSeen = false;
+  const out: HistorianLogEntry[] = [];
+  for (const entry of log) {
+    if (!entry || typeof entry.text !== "string") continue;
+    if (entry.text === MILESTONE) {
+      if (milestoneSeen) continue;
+      milestoneSeen = true;
+    }
+    if (out.length && out[out.length - 1].text === entry.text) continue;
+    out.push(entry);
+  }
+  return out;
+}
+
 // ── Legacy compatibility ──────────────────────────────────────────────
 // These are the old pre-written lines, kept only for the few remaining
 // call sites that haven't been migrated to specific entries.

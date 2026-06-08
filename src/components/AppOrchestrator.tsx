@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { getTier } from "@/lib/stability";
-import { H } from "@/lib/historian";
+import { H, dedupeHistorianLog } from "@/lib/historian";
 import { TimelineWarningBanner } from "./StabilityHUD";
 import HistorianObservation from "./HistorianObservation";
 import Landing from "./screens/Landing";
@@ -58,6 +58,14 @@ export function AppOrchestrator() {
   const [state, setState] = useState<AppState>(initialState);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // Stability + tier trackers. Seeded from the initial state, then re-synced on
+  // resume (see resumeGame) so loading a saved game is never mistaken for a live
+  // gameplay change — which would otherwise fire phantom stability/tier notifications.
+  const stability = state.timelineState.stability;
+  const prevStability = useRef(stability);
+  const prevTierLabel = useRef(getTier(stability).label);
+  const prevTierStability = useRef(stability);
+
   // ── Save / Resume ──────────────────────────────────────────────────
   const savedRef = useRef<AppState | null>(null);
   const [savedExists, setSavedExists] = useState(false);
@@ -69,7 +77,11 @@ export function AppOrchestrator() {
       const raw = localStorage.getItem(SAVE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as AppState;
-        if (parsed?.resumeAnalysis) { savedRef.current = parsed; setSavedExists(true); }
+        if (parsed?.resumeAnalysis) {
+          parsed.historianLog = dedupeHistorianLog(parsed.historianLog || []);
+          savedRef.current = parsed;
+          setSavedExists(true);
+        }
       }
     } catch {}
     hydrated.current = true;
@@ -91,12 +103,23 @@ export function AppOrchestrator() {
       if (raw) {
         const parsed = JSON.parse(raw) as AppState;
         if (parsed?.resumeAnalysis) {
+          // Clean up any duplicate log entries from older saves before resuming
+          parsed.historianLog = dedupeHistorianLog(parsed.historianLog || []);
           // Never resume to landing — fall back to universe-discovery
           if (!parsed.currentScreen || parsed.currentScreen === "landing") {
             parsed.currentScreen = "universe-discovery";
           }
           setIsTransitioning(true);
-          setTimeout(() => { setState(parsed); setIsTransitioning(false); }, 400);
+          setTimeout(() => {
+            // Re-sync stability/tier trackers to the resumed values BEFORE applying
+            // state, so the hydration render isn't treated as a live change.
+            const st = parsed.timelineState?.stability ?? prevStability.current;
+            prevStability.current = st;
+            prevTierStability.current = st;
+            prevTierLabel.current = getTier(st).label;
+            setState(parsed);
+            setIsTransitioning(false);
+          }, 400);
         }
       }
     } catch {}
@@ -109,8 +132,6 @@ export function AppOrchestrator() {
   }, []);
 
   // Timeline stability change feedback
-  const stability = state.timelineState.stability;
-  const prevStability = useRef(stability);
   const [toast, setToast] = useState<{ value: number; delta: number; message: string; key: number } | null>(null);
   const [manualSaved, setManualSaved] = useState(false);
 
@@ -177,8 +198,6 @@ export function AppOrchestrator() {
   }, [state.pendingObservation, showObservation]);
 
   // Watch stability tier crossings — log specific text with actual values
-  const prevTierLabel = useRef(getTier(stability).label);
-  const prevTierStability = useRef(stability);
   useEffect(() => {
     const tier = getTier(stability);
     if (tier.label !== prevTierLabel.current) {
@@ -198,12 +217,16 @@ export function AppOrchestrator() {
   useEffect(() => {
     const s = state.currentScreen;
     if (s === "universe-discovery" && Object.keys(state.allProfiles || {}).length >= 6) {
-      if (!seen.current.has("multiverse")) {
+      const MILESTONE = "All six timelines have been mapped. The multiverse is now fully charted.";
+      // Dedupe against the persisted log — `seen` resets on every mount, so without
+      // this the milestone re-fires on every reload/resume once 6 profiles exist.
+      const alreadyLogged = (state.historianLog || []).some(e => e.text === MILESTONE);
+      if (!seen.current.has("multiverse") && !alreadyLogged) {
         seen.current.add("multiverse");
-        logAndObserve("All six timelines have been mapped. The multiverse is now fully charted.");
+        logAndObserve(MILESTONE);
       }
     }
-  }, [state.currentScreen, state.allProfiles, logAndObserve]);
+  }, [state.currentScreen, state.allProfiles, state.historianLog, logAndObserve]);
 
   const transitionTo = useCallback(
     (screen: AppScreenState, updates?: Partial<AppState>) => {
