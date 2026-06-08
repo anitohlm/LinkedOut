@@ -31,7 +31,7 @@ export default function VillainSelf({ state, transitionTo, updateState }: Props)
     hasInit.current = true;
     (async () => {
       try {
-        const res = await generateVillainSelf(state.resumeAnalysis!);
+        const res = await generateVillainSelf(state.resumeAnalysis!, universeId, state.allProfiles?.[universeId]);
         setData(res);
         // First reveal of this universe's shadow self — record it for the Historian + Chronicle
         logEntry(H.shadowRevealed(getUniverse(universeId).title), state, updateState, {

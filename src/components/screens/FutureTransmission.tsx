@@ -59,7 +59,6 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
 
   const stage = getStage(relationship);
 
-  const firstName = state.resumeAnalysis?.firstName || (state.resumeAnalysis?.name || "").split(" ")[0] || "You";
 
   const accent = universe?.color || "#7c6ef7";
 
@@ -275,6 +274,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     const risk = interceptionRisk({
       stability: state.timelineState.stability,
       curiosity,
+      affinity: state.shadowAffinity || 0,
       risky: signals.risky,
       vulnerable: signals.revealedSelf,
     });
@@ -287,17 +287,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
   };
 
   const triggerIntercept = () => {
-    // Shadow appearance destabilizes the timeline
-    const { stability, status, event } = applyEvent(state.timelineState.stability, "shadow-interception");
-    const delta = stability - state.timelineState.stability;
-    if (futureSelf) {
-      logEntry(H.shadowAppeared(futureSelf.name, Math.abs(delta)), state, updateState, {
-        extra: { timelineState: { stability, status }, stabilityMessage: event.message },
-      });
-    } else {
-      updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
-    }
-    // The advice the villain will challenge = the last thing the Future Self said
+    // The appearance itself is neutral — the player's CHOICE drives stability.
     const lastAdvice = [...messages].reverse().find(m => m.role === "assistant")?.content || futureSelf?.philosophy || "patience and staying true to your values";
     setInterceptAdvice(lastAdvice);
     setIntercept(true);
@@ -312,22 +302,42 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     "...I'm back. She got further than she usually does.\n\nThat version of us chose speed over everything.\n\nSome of what she said will stay with you. Let it sit before you decide what to do with it.",
   ];
 
-  const closeIntercept = () => {
+  const closeIntercept = (choice: "ignore" | "hear") => {
     setIntercept(false);
     setInterceptedRecently(true);
-    // Shadow resistance: staying and returning to the future self strengthens the timeline
-    const { stability, status, event } = applyEvent(state.timelineState.stability, "shadow-resistance");
-    const delta = stability - state.timelineState.stability;
-    if (futureSelf) {
-      logEntry(H.shadowResisted(futureSelf.name, Math.abs(delta)), state, updateState, {
-        toast: true,
-        extra: { timelineState: { stability, status }, stabilityMessage: event.message },
-      });
+
+    if (choice === "ignore") {
+      // Refusing the Shadow steadies the timeline
+      const { stability, status } = applyDelta(state.timelineState.stability, 5);
+      if (futureSelf) {
+        logEntry(H.shadowResisted(futureSelf.name, 5), state, updateState, {
+          toast: true,
+          extra: { timelineState: { stability, status }, stabilityMessage: "You refused the Shadow. The timeline steadies. +5 stability." },
+        });
+      } else {
+        updateState({ timelineState: { stability, status }, stabilityMessage: "You refused the Shadow. +5 stability." });
+      }
+      const returnLine = RETURN_LINES[Math.floor(Math.random() * RETURN_LINES.length)];
+      setMessages(prev => [...prev, { role: "assistant", content: returnLine }]);
     } else {
-      updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
+      // Engaging the Shadow destabilizes the timeline AND deepens global affinity
+      const { stability, status } = applyDelta(state.timelineState.stability, -10);
+      const affinity = (state.shadowAffinity || 0) + 1;
+      if (futureSelf) {
+        logEntry(H.shadowHeard(futureSelf.name, 10), state, updateState, {
+          toast: true,
+          extra: {
+            timelineState: { stability, status },
+            stabilityMessage: "You listened. The Shadow grows bolder. −10 stability · Shadow Affinity +1.",
+            shadowAffinity: affinity,
+          },
+        });
+      } else {
+        updateState({ timelineState: { stability, status }, shadowAffinity: affinity,
+          stabilityMessage: "You listened. −10 stability · Shadow Affinity +1." });
+      }
+      setMessages(prev => [...prev, { role: "assistant", content: "...you let it in. I felt the timeline lurch.\n\nIt'll come back now. They always do, once you answer.\n\nBe careful what you agree with." }]);
     }
-    const returnLine = RETURN_LINES[Math.floor(Math.random() * RETURN_LINES.length)];
-    setMessages(prev => [...prev, { role: "assistant", content: returnLine }]);
   };
 
   const corruption = corruptionLevel(state.timelineState.stability);
@@ -341,7 +351,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       {/* Shadow Self intercept — full-screen cinematic takeover */}
       <AnimatePresence>
         {intercept && (
-          <ShadowIntercept firstName={firstName} futureMeAdvice={interceptAdvice} pronouns={state.resumeAnalysis?.pronouns} onClose={closeIntercept} />
+          <ShadowIntercept universeId={universeId!} futureMeAdvice={interceptAdvice} onClose={closeIntercept} />
         )}
       </AnimatePresence>
 

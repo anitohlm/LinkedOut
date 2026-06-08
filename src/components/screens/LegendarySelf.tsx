@@ -31,7 +31,7 @@ export default function LegendarySelf({ state, transitionTo, updateState }: Prop
     hasInit.current = true;
     (async () => {
       try {
-        const res = await generateLegendarySelf(state.resumeAnalysis!);
+        const res = await generateLegendarySelf(state.resumeAnalysis!, universeId, state.allProfiles?.[universeId]);
         setData(res);
         // First reveal of this universe's legendary self — record it for the Historian + Chronicle
         logEntry(H.legendaryRevealed(getUniverse(universeId).title), state, updateState, {

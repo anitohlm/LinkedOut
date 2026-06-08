@@ -34,46 +34,45 @@ function downloadArchive(log: { text: string; ts: number }[]) {
   URL.revokeObjectURL(url);
 }
 
-export function StabilityHUD({ stability, log }: { stability: number; log?: { text: string; ts: number }[] }) {
+export function StabilityHUD({ stability, log, stabilityLog }: {
+  stability: number;
+  log?: { text: string; ts: number }[];
+  stabilityLog?: { value: number; delta: number; message: string; ts: number }[];
+}) {
   const tier = getTier(stability);
   const critical = tier.status === "critical" || tier.status === "collapse";
   const harmonized = tier.status === "harmonized";
   const [hover, setHover] = useState(false);
   const [showLog, setShowLog] = useState(false);
+  const [showStab, setShowStab] = useState(false);
   const logRef = useRef<HTMLDivElement>(null);
+  const stabRef = useRef<HTMLDivElement>(null);
 
-  // Close on click outside
+  // Close popovers on click outside / Escape
   useEffect(() => {
-    if (!showLog) return;
-    const handler = (e: MouseEvent) => {
-      if (logRef.current && !logRef.current.contains(e.target as Node)) {
-        setShowLog(false);
-      }
+    if (!showLog && !showStab) return;
+    const onClick = (e: MouseEvent) => {
+      if (showLog && logRef.current && !logRef.current.contains(e.target as Node)) setShowLog(false);
+      if (showStab && stabRef.current && !stabRef.current.contains(e.target as Node)) setShowStab(false);
     };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [showLog]);
-
-  // Close on Escape
-  useEffect(() => {
-    if (!showLog) return;
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setShowLog(false); };
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
-  }, [showLog]);
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") { setShowLog(false); setShowStab(false); } };
+    document.addEventListener("mousedown", onClick);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onClick); document.removeEventListener("keydown", onKey); };
+  }, [showLog, showStab]);
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
 
-      {/* ── Timeline stability pill ── */}
-      <div style={{ position: "relative" }}
+      {/* ── Timeline stability pill (click for log) ── */}
+      <div ref={stabRef} style={{ position: "relative" }}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <div style={{
-          display: "flex", alignItems: "center", gap: 10, cursor: "default",
+        <div onClick={() => { setShowStab(v => !v); setShowLog(false); }} style={{
+          display: "flex", alignItems: "center", gap: 10, cursor: "pointer",
           padding: "6px 12px", borderRadius: 100,
-          background: "rgba(255,255,255,0.03)", border: `1px solid ${tier.color}33`,
+          background: showStab ? `${tier.color}14` : "rgba(255,255,255,0.03)", border: `1px solid ${tier.color}${showStab ? "66" : "33"}`,
         }}>
           <span style={{
             width: 7, height: 7, borderRadius: "50%", background: tier.color, flexShrink: 0,
@@ -95,23 +94,81 @@ export function StabilityHUD({ stability, log }: { stability: number; log?: { te
 
         {/* Hover tooltip */}
         <AnimatePresence>
-          {hover && (
+          {hover && !showStab && (
             <motion.div
               initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.18 }}
               style={{
-                position: "absolute", top: "calc(100% + 10px)", right: 0, zIndex: 60, width: 240,
-                padding: "14px 16px", borderRadius: 14,
-                background: "rgba(14,16,24,0.97)", border: `1px solid ${tier.color}44`,
-                backdropFilter: "blur(12px)", boxShadow: `0 12px 40px -12px ${tier.color}55`,
+                position: "absolute", top: "calc(100% + 10px)", right: 0, zIndex: 60, width: 264,
+                padding: "18px 18px 14px", borderRadius: 16, pointerEvents: "none",
+                background: "rgba(14,16,24,0.97)", border: `1px solid ${tier.color}33`,
+                backdropFilter: "blur(12px)", boxShadow: `0 16px 48px -16px ${tier.color}55`,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: tier.color }} />
-                <span style={{ fontSize: 12, fontWeight: 700, color: tier.color }}>{tier.label}</span>
-                <span style={{ marginLeft: "auto", fontSize: 12, fontWeight: 700, color: "var(--text2)" }}>{stability}%</span>
+              {/* Big number + label */}
+              <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 14 }}>
+                <span style={{ fontSize: 30, fontWeight: 700, color: tier.color, letterSpacing: "-1px", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
+                  {stability}<span style={{ fontSize: 16 }}>%</span>
+                </span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: tier.color, opacity: 0.85 }}>{tier.label}</span>
               </div>
-              <p style={{ fontSize: 12, color: "var(--text3)", lineHeight: 1.55 }}>{tier.effect}</p>
+              <p style={{ fontSize: 12.5, color: "var(--text2)", lineHeight: 1.6, marginBottom: 14 }}>{tier.effect}</p>
+              <div style={{ paddingTop: 10, borderTop: `1px solid ${tier.color}1a`, display: "flex", alignItems: "center", gap: 6 }}>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke={tier.color} strokeWidth="2" strokeLinecap="round"/></svg>
+                <span style={{ fontSize: 11, color: "var(--text3)", letterSpacing: "0.02em" }}>Click to view stability log</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Timeline Stability log popover */}
+        <AnimatePresence>
+          {showStab && (
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -8, scale: 0.97 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                position: "absolute", top: "calc(100% + 12px)", right: 0, zIndex: 200, width: 380,
+                background: "rgba(8,9,13,0.97)", border: `1px solid ${tier.color}44`, borderRadius: 16,
+                backdropFilter: "blur(20px)", boxShadow: `0 24px 64px -16px rgba(0,0,0,0.8), inset 0 1px 0 ${tier.color}22`, overflow: "hidden",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "14px 18px 12px",
+                borderBottom: `1px solid ${tier.color}22`, background: `${tier.color}08` }}>
+                <span style={{ width: 7, height: 7, borderRadius: "50%", background: tier.color, boxShadow: `0 0 8px ${tier.color}` }} />
+                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: tier.color, fontFamily: "Sora, sans-serif" }}>
+                  Timeline Stability Log
+                </span>
+                <span style={{ marginLeft: "auto", fontSize: 12, fontWeight: 700, color: tier.color }}>{stability}%</span>
+              </div>
+              <div className="historian-log-scroll" style={{ maxHeight: 360, overflowY: "auto", padding: "14px 18px 18px" }}>
+                {!stabilityLog?.length ? (
+                  <p style={{ fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontSize: 14, color: "var(--text3)", textAlign: "center", padding: "12px 0" }}>
+                    No shifts yet. The timeline holds steady.
+                  </p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    {[...stabilityLog].reverse().map((e, i) => {
+                      const up = e.delta > 0;
+                      const c = up ? "#4ecdc4" : "#f07070";
+                      return (
+                        <div key={e.ts + "-" + i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                          <span style={{ flexShrink: 0, minWidth: 46, textAlign: "center", fontSize: 12, fontWeight: 700, color: c,
+                            background: `${c}15`, border: `1px solid ${c}33`, borderRadius: 7, padding: "3px 4px", fontVariantNumeric: "tabular-nums" }}>
+                            {up ? "▲ +" : "▼ "}{Math.abs(e.delta)}
+                          </span>
+                          <div style={{ flex: 1 }}>
+                            <p style={{ fontSize: 13, color: "var(--text2)", lineHeight: 1.5, margin: 0 }}>{e.message}</p>
+                            <span style={{ fontSize: 10, color: "var(--text3)", fontFamily: "Sora, sans-serif" }}>
+                              → {e.value}% · {new Date(e.ts).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

@@ -47,8 +47,10 @@ const initialState: AppState = {
   usedButterfly: false,
   universeActivity: {},
   shadowCuriosity: 0,
+  shadowAffinity: 0,
   lastInterceptTurn: -99,
   historianLog: [],
+  stabilityLog: [],
   chronicleEditions: [],
 };
 
@@ -154,8 +156,12 @@ export function AppOrchestrator() {
       const message = state.stabilityMessage || (delta > 0 ? "The futures briefly align." : "The timeline shifts.");
       setToast({ value: stability, delta, message, key: Date.now() });
       prevStability.current = stability;
-      // Clear the message from state so it doesn't persist
-      if (state.stabilityMessage) setState(s => ({ ...s, stabilityMessage: null }));
+      // Record this change in the Timeline Stability log + clear the transient message
+      setState(s => ({
+        ...s,
+        stabilityMessage: null,
+        stabilityLog: [...(s.stabilityLog || []), { value: stability, delta, message, ts: Date.now() }].slice(-60),
+      }));
       const t = setTimeout(() => setToast(null), 4000);
       return () => clearTimeout(t);
     }

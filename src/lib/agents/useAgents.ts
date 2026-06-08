@@ -58,12 +58,12 @@ export const generateRecruiter = (profile: AlternateProfile, universeId: Univers
   post<MultiverseInvitation & Record<string, unknown>>("/api/generate-recruiter", { profile, universeId });
 
 // Agent 5
-export const generateLegendarySelf = (resumeAnalysis: ResumeAnalysis) =>
-  post<Record<string, unknown>>("/api/generate-legendary", { resumeAnalysis });
+export const generateLegendarySelf = (resumeAnalysis: ResumeAnalysis, universeId?: UniverseType, profile?: AlternateProfile) =>
+  post<Record<string, unknown>>("/api/generate-legendary", { resumeAnalysis, universeId, profile });
 
 // Agent 6
-export const generateVillainSelf = (resumeAnalysis: ResumeAnalysis) =>
-  post<Record<string, unknown>>("/api/generate-villain", { resumeAnalysis });
+export const generateVillainSelf = (resumeAnalysis: ResumeAnalysis, universeId?: UniverseType, profile?: AlternateProfile) =>
+  post<Record<string, unknown>>("/api/generate-villain", { resumeAnalysis, universeId, profile });
 
 // Agent 7
 export const generateButterflyEffect = (decision: string, resumeAnalysis: ResumeAnalysis) =>
@@ -83,9 +83,9 @@ export const getSuggestions = (payload: {
   recentIntercept?: boolean;
 }) => post<{ suggestions: string[] }>("/api/suggestions", payload);
 
-// Shadow Intercept content
-export const getShadowIntercept = (payload: { futureMeAdvice: string; firstName: string; pronouns?: string }) =>
-  post<{ lines: string[]; revealAfter: number; identity: { name: string; timeline: string; classification: string } }>(
+// Shadow Intercept content — brief, universe-native manifestation
+export const getShadowIntercept = (payload: { universeId: string; futureMeAdvice: string }) =>
+  post<{ manifestation: { name: string; classification: string }; observation: string; question: string }>(
     "/api/shadow-intercept",
     payload
   );

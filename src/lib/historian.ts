@@ -64,6 +64,10 @@ export const H = {
     return `The Shadow's intervention was rejected. Connection with ${selfName} restored. Stability +${stabilityGain}%.`;
   },
 
+  shadowHeard(selfName: string, stabilityLoss: number): string {
+    return `The Shadow was heard out during ${selfName}'s transmission. The timeline destabilized. Stability −${stabilityLoss}%. Shadow Affinity rising.`;
+  },
+
   legendaryRevealed(universeName: string): string {
     return `The legendary self of ${universeName} was revealed — the timeline where every choice aligned.`;
   },

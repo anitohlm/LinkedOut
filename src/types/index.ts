@@ -236,8 +236,10 @@ export interface AppState {
   usedButterfly?: boolean;    // has run the Butterfly Effect
   universeActivity?: Record<string, string[]>; // per-universe completed activities
   shadowCuriosity?: number;   // hidden — how interested the Shadow is in this user
+  shadowAffinity?: number;    // GLOBAL — grows when the user engages the Shadow; raises intercept odds everywhere
   lastInterceptTurn?: number; // hidden — cooldown bookkeeping for interceptions
   historianLog?: { text: string; ts: number }[]; // the Historian's recorded observations
+  stabilityLog?: { value: number; delta: number; message: string; ts: number }[]; // every timeline-stability change
   butterflyCache?: { decision: string; timelines: any[] }; // last butterfly result, restored on revisit
   chronicleEditions?: ChronicleEdition[]; // all recorded editions, oldest first
   // Recruiter outcomes — one per universe

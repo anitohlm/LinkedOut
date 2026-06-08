@@ -222,16 +222,18 @@ export function applyEvent(
 export function interceptionRisk(opts: {
   stability: number;
   curiosity: number;
+  affinity?: number;   // GLOBAL Shadow Affinity — engaging the Shadow makes it bolder everywhere
   risky?: boolean;
   vulnerable?: boolean;
 }): number {
   const s = clamp(opts.stability);
   const base = 0.03;
   const instability = ((100 - s) / 100) * 0.45;
-  const curiosity = Math.min(0.35, Math.max(0, opts.curiosity) * 0.015);
+  const curiosity = Math.min(0.30, Math.max(0, opts.curiosity) * 0.015);
+  const affinity = Math.min(0.30, Math.max(0, opts.affinity || 0) * 0.06); // each "hear them out" (+1) ≈ +6% everywhere
   const riskBonus = opts.risky ? 0.12 : 0;
   const vulnBonus = opts.vulnerable ? 0.10 : 0;
-  return Math.min(0.9, base + instability + curiosity + riskBonus + vulnBonus);
+  return Math.min(0.9, base + instability + curiosity + affinity + riskBonus + vulnBonus);
 }
 
 export function curiosityGain(opts: {
