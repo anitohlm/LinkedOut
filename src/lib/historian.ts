@@ -64,6 +64,14 @@ export const H = {
     return `The Shadow's intervention was rejected. Connection with ${selfName} restored. Stability +${stabilityGain}%.`;
   },
 
+  legendaryRevealed(universeName: string): string {
+    return `The legendary self of ${universeName} was revealed — the timeline where every choice aligned.`;
+  },
+
+  shadowRevealed(universeName: string): string {
+    return `The shadow self of ${universeName} was confronted — the timeline where ambition outweighed values.`;
+  },
+
   stabilityTierCrossed(tierLabel: string, stability: number, direction: "rose" | "fell"): string {
     return direction === "rose"
       ? `Timeline Stability entered ${tierLabel} (${stability}%).`

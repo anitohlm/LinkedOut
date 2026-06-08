@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { generateVillainSelf } from "@/lib/agents/useAgents";
+import { getUniverse } from "@/lib/universes";
+import { H, logEntry } from "@/lib/historian";
 
 interface Props {
   state: AppState;
@@ -31,7 +33,11 @@ export default function VillainSelf({ state, transitionTo, updateState }: Props)
       try {
         const res = await generateVillainSelf(state.resumeAnalysis!);
         setData(res);
-        updateState({ villainSelves: { ...state.villainSelves, [universeId]: res } });
+        // First reveal of this universe's shadow self — record it for the Historian + Chronicle
+        logEntry(H.shadowRevealed(getUniverse(universeId).title), state, updateState, {
+          toast: true,
+          extra: { villainSelves: { ...state.villainSelves, [universeId]: res } },
+        });
       } catch (e: any) { setError(e.message || "Failed to reach the shadow timeline."); }
       finally { setLoading(false); }
     })();

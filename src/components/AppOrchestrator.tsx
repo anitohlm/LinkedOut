@@ -30,7 +30,7 @@ const initialState: AppState = {
   allProfiles: {} as any,
   allFutureSelves: {} as any,
   conversations: {} as any,
-  timelineState: { stability: 100, status: "stable" },
+  timelineState: { stability: 85, status: "stable" },
   legendarySelves: {} as any,
   villainSelves: {} as any,
   butterFlyDecisions: [],
@@ -161,8 +161,8 @@ export function AppOrchestrator() {
     }
   }, [stability]);
 
-  // Hide global HUD chrome on entry / landing screens
-  const showChrome = !["landing", "upload-resume", "timeline-scan"].includes(state.currentScreen);
+  // Hide global HUD chrome on entry / loading screens (before the multiverse exists)
+  const showChrome = !["landing", "upload-resume", "timeline-scan", "multiverse-calibration"].includes(state.currentScreen);
 
   // ── The Multiversal Historian ──────────────────────────────────────
   const [obsQueue, setObsQueue] = useState<string[]>([]);
