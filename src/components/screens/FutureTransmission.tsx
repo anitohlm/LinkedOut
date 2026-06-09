@@ -310,6 +310,9 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     const lastAdvice = [...messages].reverse().find(m => m.role === "assistant")?.content || futureSelf?.philosophy || "patience and staying true to your values";
     setInterceptAdvice(lastAdvice);
     setIntercept(true);
+    // Record this manifestation so future encounters in other worlds remember it.
+    const prior = state.shadowEncounters || [];
+    if (universeId && !prior.includes(universeId)) updateState({ shadowEncounters: [...prior, universeId] });
   };
 
   const RETURN_LINES = [
@@ -370,7 +373,12 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       {/* Shadow Self intercept — full-screen cinematic takeover */}
       <AnimatePresence>
         {intercept && (
-          <ShadowIntercept universeId={universeId!} futureMeAdvice={interceptAdvice} onClose={closeIntercept} />
+          <ShadowIntercept
+            universeId={universeId!}
+            futureMeAdvice={interceptAdvice}
+            priorEncounters={(state.shadowEncounters || []).filter(u => u !== universeId)}
+            onClose={closeIntercept}
+          />
         )}
       </AnimatePresence>
 

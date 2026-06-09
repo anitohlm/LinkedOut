@@ -7,12 +7,13 @@ import { getShadowIntercept } from "@/lib/agents/useAgents";
 interface Props {
   universeId: string;
   futureMeAdvice: string;
+  priorEncounters?: string[]; // universe ids the Shadow has already manifested in
   onClose: (choice: "ignore" | "hear") => void;
 }
 
 const RED = "#f07070";
 
-export default function ShadowIntercept({ universeId, futureMeAdvice, onClose }: Props) {
+export default function ShadowIntercept({ universeId, futureMeAdvice, priorEncounters, onClose }: Props) {
   const [phase, setPhase] = useState<"alarm" | "message">("alarm");
   const [data, setData] = useState<{ manifestation: { name: string; classification: string }; observation: string; question: string } | null>(null);
   const hasInit = useRef(false);
@@ -22,7 +23,7 @@ export default function ShadowIntercept({ universeId, futureMeAdvice, onClose }:
     hasInit.current = true;
     (async () => {
       try {
-        setData(await getShadowIntercept({ universeId, futureMeAdvice }));
+        setData(await getShadowIntercept({ universeId, futureMeAdvice, priorEncounters }));
       } catch {
         setData({
           manifestation: { name: "The Hollow Witness", classification: "Shadow Manifestation" },

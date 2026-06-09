@@ -243,6 +243,7 @@ export interface AppState {
   universeActivity?: Record<string, string[]>; // per-universe completed activities
   shadowCuriosity?: number;   // hidden — how interested the Shadow is in this user
   shadowAffinity?: number;    // GLOBAL — grows when the user engages the Shadow; raises intercept odds everywhere
+  shadowEncounters?: string[]; // universe ids where the Shadow has manifested — drives cross-world continuity
   lastInterceptTurn?: number; // hidden — cooldown bookkeeping for interceptions
   historianLog?: { text: string; ts: number }[]; // the Historian's recorded observations
   stabilityLog?: { value: number; delta: number; message: string; ts: number }[]; // every timeline-stability change

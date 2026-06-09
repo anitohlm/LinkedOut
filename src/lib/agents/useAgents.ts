@@ -84,7 +84,7 @@ export const getSuggestions = (payload: {
 }) => post<{ suggestions: string[] }>("/api/suggestions", payload);
 
 // Shadow Intercept content — brief, universe-native manifestation
-export const getShadowIntercept = (payload: { universeId: string; futureMeAdvice: string }) =>
+export const getShadowIntercept = (payload: { universeId: string; futureMeAdvice: string; priorEncounters?: string[] }) =>
   post<{ manifestation: { name: string; classification: string }; observation: string; question: string }>(
     "/api/shadow-intercept",
     payload

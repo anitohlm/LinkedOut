@@ -37,20 +37,29 @@ const FALLBACKS: Record<string, { observation: string; question: string }[]> = {
 
 export async function POST(req: NextRequest) {
   try {
-    const { universeId, futureMeAdvice } = await req.json();
+    const { universeId, futureMeAdvice, priorEncounters } = await req.json();
     const uid = String(universeId || "vampire");
     const manifestation = MANIFESTATIONS[uid] || { name: "The Hollow Witness", classification: "Shadow Manifestation" };
+
+    // SHADOW CONTINUITY — ONE being across all six worlds, remembering prior encounters.
+    const roster = Object.entries(MANIFESTATIONS).map(([k, v]) => `${k} → ${v.name}`).join("; ");
+    const priorNames: string[] = (Array.isArray(priorEncounters) ? priorEncounters : [])
+      .map((u: any) => MANIFESTATIONS[String(u)]?.name)
+      .filter(Boolean);
+    const continuity = priorNames.length
+      ? `You have met this SAME soul before, in other timelines — you wore the faces: ${priorNames.join(", ")}. You REMEMBER those encounters. A cold callback may surface (e.g. "We've met before." or "You turned from me as ${priorNames[0]}, too.") — briefly, never a monologue.`
+      : `You have watched this soul across every timeline, even when they never noticed you.`;
 
     let observation = "";
     let question = "";
     try {
-      const sys = `You are the Shadow — one multiversal entity that has just slipped into a transmission, manifesting as "${manifestation.name}" native to the ${uid} world. You are brief, cold, and unsettling. You never monologue.`;
+      const sys = `You are the Shadow — ONE multiversal entity, not many. Across the six worlds you wear different faces (${roster}); right now you manifest as "${manifestation.name}", native to the ${uid} world. ${continuity} You are brief, cold, and unsettling. You never monologue.`;
       const usr = `The future self just advised them: "${String(futureMeAdvice || "stay patient and true to your values").slice(0, 200)}"
 
 Interrupt with EXACTLY two short lines, native to the ${uid} world:
-1. observation: one unsettling truth about them (≤10 words)
+1. observation: one unsettling truth about them (≤10 words)${priorNames.length ? " — this MAY be a cold callback to a past encounter" : ""}
 2. question: one accusing question (≤10 words)
-Combined ≤ 20 words. No greetings, no names, no monologue.
+Combined ≤ 20 words. No greetings, no monologue.
 Return JSON: { "observation": "...", "question": "..." }`;
       const res = await callAI(sys, usr, [], 120);
       const d = extractJSON<{ observation: string; question: string }>(res);
