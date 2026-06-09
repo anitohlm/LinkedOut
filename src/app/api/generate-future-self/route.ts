@@ -4,6 +4,21 @@ import { FutureSelf, ResumeAnalysis, UniverseType } from "@/types";
 import { callAI, extractJSON } from "@/lib/agents/foundry";
 import { getUniverse } from "@/lib/universes";
 
+// Per-universe role guidance — keeps each world's roles native to its tone and prevents the
+// mystical/archival fillers (Sage, Archivist, Warden…) from bleeding across every universe.
+const UNIVERSE_ROLE_GUIDE: Record<UniverseType, { tone: string; avoid?: string[]; prefer?: string[] }> = {
+  medieval: { tone: "feudal and courtly — banners, oaths, succession, stone keeps." },
+  cyberpunk: { tone: "a neon megacity of augments and rogue networks — corporate, electric, self-made." },
+  pirate: { tone: "open seas and free ports — tides, sails, salt, and hard-won freedom." },
+  dragon: { tone: "ancient and volcanic — power measured in centuries, embers and slow wisdom." },
+  galactic: {
+    tone: "post-Earth and technologically advanced — starfaring, orbital, engineered. NOT mystical, archival, or medieval.",
+    avoid: ["Sage", "Lorekeeper", "Archivist", "Warden", "Elder"],
+    prefer: ["Signal Shepherd", "Quantum Explorer", "Planet Weaver", "Void Cartographer", "Stellar Pathfinder", "Orbital Strategist", "Colony Architect", "Neural Navigator"],
+  },
+  vampire: { tone: "eternal night — immortal courts, memory, gothic and patient." },
+};
+
 export async function POST(req: NextRequest) {
   try {
     const { resumeAnalysis, universeId, alternativeName, alternativeTitle, worldName, eraName, worldDescription } = await req.json() as {
@@ -13,6 +28,13 @@ export async function POST(req: NextRequest) {
     if (!resumeAnalysis || !universeId || !alternativeName) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
     const universe = getUniverse(universeId);
+
+    // Role guidance native to THIS universe's tone (avoid/prefer lists where defined)
+    const rg = UNIVERSE_ROLE_GUIDE[universeId];
+    const roleGuide =
+      `\nWORLD TONE for ${universe.title}: ${rg.tone}` +
+      (rg.avoid?.length ? `\nAvoid these role words here (wrong tone): ${rg.avoid.join(", ")}.` : "") +
+      (rg.prefer?.length ? `\nPrefer roles in this spirit: ${rg.prefer.join(", ")}.` : "");
 
     // If the profile already established a world, the Future Self MUST live in that exact world.
     // Otherwise the model invents one in the same call (see WORLD GENERATION block below).
@@ -31,6 +53,18 @@ TIMELINE SIGNATURE: ${resumeAnalysis.timelineSignature}
 SKILLS: ${resumeAnalysis.skills.join(", ")}
 ACHIEVEMENTS: ${resumeAnalysis.achievements.join(", ")}
 PERSONALITY: ${resumeAnalysis.personalityIndicators.join(", ")}
+
+════════════════════════════════════════════
+LIFE DIVERGENCE RULE
+════════════════════════════════════════════
+This universe is ONE of six different LIVES — not one life wearing six costumes.
+Preserve the user's STRENGTHS. Do NOT preserve their profession. Let this world change who they became.
+- Build their role from their strengths expressed through THIS world — never a re-skin of their real job, and never the same occupational noun with a themed adjective.
+- Avoid the "same role, different paint" trap:
+    BAD:  Archivist · Lorekeeper · Flame Archivist · Space Archivist
+    GOOD: Royal Cartographer · Memory Architect · Fleet Navigator · Rune Forger · Quantum Explorer · Dream Smuggler
+- The "title" below must name a life native to ${universe.title} that this person GREW INTO — earned and specific, not a literal translation of their résumé.
+${roleGuide}
 ${worldDirective}
 ════════════════════════════════════════════
 WORLD GENERATION — make this a REAL place, not a genre
@@ -58,7 +92,7 @@ Read this person's skills, achievements and personality, then let the world's id
 Return this exact JSON:
 {
   "name": "full name and title at this future point",
-  "title": "dramatic title",
+  "title": "an earned, dramatic role native to this world — drawn from their STRENGTHS, a genuinely different life (not a re-skin of their real profession, and no 'themed-adjective + same noun' costumes). Honor the WORLD TONE / avoid / prefer guidance above.",
   "worldName": "the specific civilization within ${universe.title}, shaped by this person's Career DNA",
   "eraName": "the named historical era they live in",
   "worldDescription": "1-2 concise sentences describing this world",
