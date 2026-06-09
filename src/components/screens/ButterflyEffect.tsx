@@ -415,14 +415,14 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
           </button>
         </div>
 
-        {/* Suggestion chips */}
-        {!timelines.length && !loading && (
+        {/* Suggestion chips — always available so a NEW what-if can be run even after results exist */}
+        {!loading && (
           <div style={{ marginTop: -24, marginBottom: 40 }}>
             <div style={{ fontSize: 12, color: "var(--text3)", marginBottom: 10, display: "flex", alignItems: "center", gap: 5 }}>
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
                 <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round"/>
               </svg>
-              Try one of these:
+              {timelines.length ? "Explore another what-if:" : "Try one of these:"}
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {whatIfSuggestions(state).map(s => (
@@ -486,8 +486,8 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
           </motion.div>
         )}
 
-        {/* Timeline grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+        {/* Timeline grid — align-items:start so expanding one card never stretches/collapses its row neighbor */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "start" }}>
           <AnimatePresence>
             {timelines.map((tl, i) => (
               <TimelineCard key={i} tl={tl} idx={i} rm={rm} />

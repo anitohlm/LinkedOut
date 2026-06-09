@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import UniverseBackground from "@/components/UniverseBackground";
+import UniverseArtworkBackground from "@/components/UniverseArtworkBackground";
 import UniverseIcon from "@/components/UniverseIcon";
 import { markActivity } from "@/lib/progress";
 
@@ -71,8 +72,9 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", paddingTop: 64, position: "relative" }}>
-      {/* Themed universe background */}
+      {/* Ambient themed background, merged with the universe's own scenic skyline at the bottom */}
       <UniverseBackground universeId={universe.id} color={accentColor} />
+      <UniverseArtworkBackground universeId={universe.id} color={accentColor} />
 
       {/* Nav */}
       <nav style={{
