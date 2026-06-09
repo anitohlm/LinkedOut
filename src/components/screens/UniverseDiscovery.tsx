@@ -236,7 +236,10 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
           background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
         </button>
-        <StabilityHUD stability={state.timelineState.stability} log={state.historianLog} stabilityLog={state.stabilityLog} />
+        {/* Stability HUD only once the multiverse is actually built */}
+        {allReady
+          ? <StabilityHUD stability={state.timelineState.stability} log={state.historianLog} stabilityLog={state.stabilityLog} />
+          : <span style={{ width: 50 }} />}
       </nav>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 40px" }}>

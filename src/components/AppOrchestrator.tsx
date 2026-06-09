@@ -149,9 +149,16 @@ export function AppOrchestrator() {
     setTimeout(() => setManualSaved(false), 2000);
   }, []);
 
+  // Hide global HUD chrome on entry / loading screens (before the multiverse exists)
+  const showChrome = !["landing", "upload-resume", "timeline-scan", "multiverse-calibration"].includes(state.currentScreen);
+
   useEffect(() => {
     const prev = prevStability.current;
     if (stability !== prev) {
+      // Before the multiverse exists (entry/loading screens) stability has no meaning yet —
+      // e.g. calibration resets it to 100. Absorb the change silently: no toast, no log entry,
+      // but keep the ref in sync so the first real gameplay change isn't mistaken for this one.
+      if (!showChrome) { prevStability.current = stability; return; }
       const delta = stability - prev;
       const message = state.stabilityMessage || (delta > 0 ? "The futures briefly align." : "The timeline shifts.");
       setToast({ value: stability, delta, message, key: Date.now() });
@@ -166,9 +173,6 @@ export function AppOrchestrator() {
       return () => clearTimeout(t);
     }
   }, [stability]);
-
-  // Hide global HUD chrome on entry / loading screens (before the multiverse exists)
-  const showChrome = !["landing", "upload-resume", "timeline-scan", "multiverse-calibration"].includes(state.currentScreen);
 
   // ── The Multiversal Historian ──────────────────────────────────────
   const [obsQueue, setObsQueue] = useState<string[]>([]);
@@ -322,9 +326,9 @@ export function AppOrchestrator() {
         )}
       </AnimatePresence>
 
-      {/* Stability change toast */}
+      {/* Stability change toast — gameplay only, never on entry/loading screens */}
       <AnimatePresence>
-        {toast && (
+        {showChrome && toast && (
           <motion.div
             key={toast.key}
             initial={{ opacity: 0, x: -16, scale: 0.96 }}
