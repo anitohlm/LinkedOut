@@ -12,6 +12,18 @@ export async function POST(req: NextRequest) {
     const universe = getUniverse(universeId);
     const firstName = resumeAnalysis.firstName || (resumeAnalysis.name || "").split(" ")[0] || "";
 
+    // Neon Synthesis handle styles — pick one at RANDOM per generation so the cyberpunk name
+    // isn't always [FirstName]//Prime. Each style steers the model toward a different format.
+    const CYBER_STYLES: { label: string; examples: string[] }[] = [
+      { label: "dotted suffix", examples: [`${firstName}.exe`, `${firstName}.Protocol`, `${firstName}.Null`] },
+      { label: "numeric tag", examples: [`${firstName}_7`, `${firstName.toUpperCase()}-9`, `${firstName}_v2`] },
+      { label: "system prefix", examples: [`Cipher${firstName}`, `Kernel${firstName}`, `Hex${firstName}`, `Ghost${firstName}`] },
+      { label: "slash designation", examples: [`${firstName}//Prime`, `${firstName}//Root`] },
+      { label: "process / daemon id", examples: [`GhostProcess-13`, `${firstName}-Daemon`, `Proc_${firstName}`] },
+      { label: "pure callsign (drop the human name)", examples: ["NullVector", "The Lattice Architect", "Voidcaller", "Echo of the Grid"] },
+    ];
+    const cyber = CYBER_STYLES[Math.floor(Math.random() * CYBER_STYLES.length)];
+
     // Per-universe naming conventions — each world has its own culture & linguistics.
     // The goal is cultural authenticity, NOT name similarity. A name should make the
     // universe instantly recognizable, and may fully abandon the user's real surname.
@@ -20,8 +32,9 @@ export async function POST(req: NextRequest) {
 Use noble/knightly titles (Lord, Lady, Sir, Master, Dame) and earthy heraldic surnames or "of [Place]".
 Examples (for "${firstName}"): "Lord ${firstName} Ashvale", "Sir ${firstName} Ironward", "${firstName} of Gildenspire", "Master ${firstName} Thornkeep", "${firstName} Blackthorn".`,
       cyberpunk: `NEON SYNTHESIS names — digital identities, handles, aliases, protocol designations. Post-human, cybernetic.
-The name should look like a username/process/designation, NOT a normal human name. Feel free to drop the surname entirely.
-Examples (for "${firstName}"): "${firstName}.exe", "${firstName.toUpperCase()}-7", "Cipher${firstName}", "${firstName}//Prime", "Kernel${firstName}", "${firstName}.Null", "GhostProcess-13", "Hex${firstName}".
+The name should look like a username/process/designation, NOT a normal human name. Feel free to drop the surname or the whole human name.
+THIS TIME use the "${cyber.label}" style — e.g. ${cyber.examples.map(e => `"${e}"`).join(", ")}.
+VARY the format every time — do NOT default to the "//" slash style unless it is the one named above; never always output "${firstName}//Prime".
 Do NOT prepend human titles like Lord/Captain here.`,
       pirate: `ENDLESS SEAS names — sailors, captains, pirates, navigators.
 Use sea/weather surnames; optionally a nautical rank (Captain, Navigator, Quartermaster).

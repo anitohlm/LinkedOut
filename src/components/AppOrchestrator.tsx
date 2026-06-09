@@ -210,6 +210,14 @@ export function AppOrchestrator() {
 
   // Watch stability tier crossings — log specific text with actual values
   useEffect(() => {
+    // Pre-game (entry/loading screens) stability has no meaning yet — the calibration/"New
+    // Resume" reset to 100 must not queue a tier-crossing observation. Keep the tier refs in
+    // sync so the first real gameplay reading isn't mistaken for a crossing, and emit nothing.
+    if (!showChrome) {
+      prevTierLabel.current = getTier(stability).label;
+      prevTierStability.current = stability;
+      return;
+    }
     const tier = getTier(stability);
     if (tier.label !== prevTierLabel.current) {
       const rose = stability > prevTierStability.current;
