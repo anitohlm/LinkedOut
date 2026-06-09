@@ -5,11 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
 import { StabilityHUD } from "@/components/StabilityHUD";
-import UniverseIcon from "@/components/UniverseIcon";
-import WorldEra from "@/components/WorldEra";
 import { UNIVERSE_ACTIVITIES, universePercent } from "@/lib/progress";
 import { applyEvent } from "@/lib/stability";
 import { H, logEntry } from "@/lib/historian";
+import UniverseArtwork from "@/components/UniverseArtwork";
 
 interface Props {
   state: AppState;
@@ -17,96 +16,27 @@ interface Props {
   updateState: (updates: any) => void;
 }
 
-// Per-universe animation configs — transform/opacity only (GPU-safe, §7 motion-meaning)
-const ICON_ANIM: Record<string, { icon: object; glow: object; transition: object }> = {
-  medieval: {
-    // Noble steady heartbeat — strength and permanence
-    icon: { scale: [1, 1.1, 1] },
-    glow: { opacity: [0.5, 1, 0.5] },
-    transition: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-  },
-  cyberpunk: {
-    // Electric glitch flicker — raw digital energy
-    icon: { opacity: [1, 0.5, 1, 0.8, 1] },
-    glow: { opacity: [0.4, 1, 0.3, 0.9, 0.4] },
-    transition: { duration: 1.6, repeat: Infinity, ease: "linear" },
-  },
-  pirate: {
-    // Ocean sway — anchor rocking on waves
-    icon: { rotate: [-6, 6, -6] },
-    glow: { opacity: [0.4, 0.8, 0.4] },
-    transition: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-  },
-  dragon: {
-    // Breathing flame — alive, intense
-    icon: { scale: [1, 1.18, 1] },
-    glow: { opacity: [0.3, 1, 0.3] },
-    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-  },
-  galactic: {
-    // Slow cosmic orbit — infinite and serene
-    icon: { rotate: [0, 360] },
-    glow: { opacity: [0.5, 0.9, 0.5] },
-    transition: { duration: 12, repeat: Infinity, ease: "linear" },
-  },
-  vampire: {
-    // Spectral fade — presence felt, not seen
-    icon: { opacity: [0.55, 1, 0.55] },
-    glow: { opacity: [0.2, 0.8, 0.2] },
-    transition: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
-  },
+
+// Immersive progress label — per universe flavour text (spec item #4)
+const RESONANCE_LABELS: Record<string, string> = {
+  medieval:  "Fate Convergence",
+  cyberpunk: "Reality Alignment",
+  pirate:    "Tidal Resonance",
+  dragon:    "Ancient Attunement",
+  galactic:  "World Synchronization",
+  vampire:   "Timeline Resonance",
 };
 
-function UniverseIconBadge({ id, color, visited }: { id: string; color: string; visited: boolean }) {
-  const anim = ICON_ANIM[id] ?? ICON_ANIM.medieval;
-  return (
-    <div style={{ position: "relative", marginTop: visited ? 24 : 0, transition: "margin 0.2s", flexShrink: 0 }}>
-      {/* Pulsing outer glow ring */}
-      <motion.div
-        animate={anim.glow as any}
-        transition={anim.transition as any}
-        style={{
-          position: "absolute", inset: -8, borderRadius: 22, pointerEvents: "none",
-          background: `radial-gradient(circle, ${color}40 0%, transparent 65%)`,
-        }}
-      />
-      {/* Second tighter glow */}
-      <motion.div
-        animate={{ opacity: (anim.glow as any).opacity?.map((v: number) => v * 0.6) ?? [0.3, 0.6, 0.3] }}
-        transition={{ ...anim.transition, duration: (anim.transition as any).duration * 0.7 }}
-        style={{
-          position: "absolute", inset: -2, borderRadius: 18, pointerEvents: "none",
-          background: `radial-gradient(circle, ${color}55 0%, transparent 60%)`,
-          boxShadow: `0 0 16px 4px ${color}30`,
-        }}
-      />
-      {/* Main badge */}
-      <div style={{
-        width: 56, height: 56, borderRadius: 16,
-        background: `linear-gradient(145deg, ${color}28 0%, ${color}10 60%, transparent 100%)`,
-        border: `1px solid ${color}55`,
-        boxShadow: `0 4px 20px -4px ${color}60, inset 0 1px 0 ${color}40`,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        position: "relative", overflow: "hidden",
-      }}>
-        {/* Inner radial shine */}
-        <div style={{
-          position: "absolute", top: -10, left: -10, width: 40, height: 40,
-          background: `radial-gradient(circle, ${color}35 0%, transparent 70%)`,
-          pointerEvents: "none",
-        }} />
-        {/* Animated icon */}
-        <motion.div
-          animate={anim.icon as any}
-          transition={anim.transition as any}
-          style={{ display: "flex", alignItems: "center", justifyContent: "center", originX: "50%", originY: "50%" }}
-        >
-          <UniverseIcon id={id} size={28} color={color} strokeWidth={1.5} />
-        </motion.div>
-      </div>
-    </div>
-  );
-}
+// Universe-specific typography for the world name heading (spec item #8)
+const WORLD_TITLE_STYLE: Record<string, React.CSSProperties> = {
+  medieval:  { fontFamily: "'Cinzel', serif", letterSpacing: "0.14em" },
+  cyberpunk: { fontFamily: "'Share Tech Mono', monospace", letterSpacing: "0.1em" },
+  pirate:    { fontFamily: "'Sora', sans-serif", fontStyle: "italic", letterSpacing: "0.02em" },
+  dragon:    { fontFamily: "'Cinzel Decorative', serif", letterSpacing: "0.1em" },
+  galactic:  { fontFamily: "'Exo 2', sans-serif", letterSpacing: "0.08em" },
+  vampire:   { fontFamily: "'Crimson Pro', serif", fontStyle: "italic", letterSpacing: "0.06em" },
+};
+
 
 export default function UniverseDiscovery({ state, transitionTo, updateState }: Props) {
   const universes = getAllUniverses();
@@ -130,6 +60,7 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
   // ── Chronicle unlock notification ──────────────────────────────────────────
   const NOTIF_KEY = "linkedout_chronicle_unlocked_seen";
   const [showChronicleNotif, setShowChronicleNotif] = useState(false);
+  const [hoveredUniverse, setHoveredUniverse] = useState<string | null>(null);
   const prevPhase4Unlocked = useRef(phase4Unlocked);
 
   useEffect(() => {
@@ -373,83 +304,153 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                     whileHover={{ y: -6, rotateX: 3, rotateY: -3, scale: 1.02 }}
                     style={{
                       background: "var(--bg2)", border: `1px solid ${visited ? c + "44" : "var(--border)"}`,
-                      borderRadius: 20, padding: 32, cursor: "pointer", position: "relative", overflow: "hidden",
+                      borderRadius: 20, padding: 0, cursor: "pointer", position: "relative", overflow: "hidden",
                       transformStyle: "preserve-3d",
                     }}
-                    onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = `${c}66`; el.style.boxShadow = `0 16px 50px -12px ${c}40`; }}
-                    onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = visited ? `${c}44` : "var(--border)"; el.style.boxShadow = "none"; }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = `${c}66`; el.style.boxShadow = `0 20px 60px -16px ${c}50`; setHoveredUniverse(universe.id); }}
+                    onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = visited ? `${c}44` : "var(--border)"; el.style.boxShadow = "none"; setHoveredUniverse(null); }}
                   >
-                    {/* Ambient glow */}
-                    <div style={{ position: "absolute", top: -60, right: -60, width: 200, height: 200, borderRadius: "50%",
-                      background: `radial-gradient(circle, ${c}18, transparent 70%)`, pointerEvents: "none" }} />
-                    {/* Top accent line */}
-                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2,
-                      background: `linear-gradient(90deg, transparent 10%, ${c}${visited ? "99" : "55"}, transparent 90%)`,
-                      borderRadius: "20px 20px 0 0" }} />
+                    {/* ── ARTWORK HEADER: atmospheric destination art ─────── */}
+                    <UniverseArtwork id={universe.id} color={c} visited={visited} hovering={hoveredUniverse === universe.id} />
 
-                    {/* Header row: icon + universe title pill */}
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, position: "relative" }}>
-                      <UniverseIconBadge id={universe.id} color={c} visited={visited} />
-                      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
-                        <span style={{
-                          fontSize: 11, padding: "5px 12px", borderRadius: 100, fontWeight: 600,
-                          background: `${c}18`, color: c, border: `1px solid ${c}${visited ? "55" : "30"}`,
-                          display: "flex", alignItems: "center", gap: 5,
-                        }}>
-                          {visited && (
-                            <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
-                              <path d="M2 6l3 3 5-5" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          )}
-                          {universe.title}
-                        </span>
-                      </div>
+                    {/* Universe title pill — overlaid on artwork */}
+                    <div style={{ position: "absolute", top: 14, right: 14, zIndex: 6 }}>
+                      <span style={{
+                        fontSize: 10, padding: "4px 10px", borderRadius: 100, fontWeight: 700,
+                        background: `rgba(8,9,13,0.72)`, backdropFilter: "blur(8px)",
+                        color: c, border: `1px solid ${c}${visited ? "55" : "30"}`,
+                        display: "flex", alignItems: "center", gap: 5,
+                        letterSpacing: "0.05em", textTransform: "uppercase",
+                      }}>
+                        {visited && (
+                          <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
+                            <path d="M2 6l3 3 5-5" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        )}
+                        {universe.title}
+                      </span>
                     </div>
 
-                    {profile ? (
-                      <>
-                        {/* Identity */}
-                        <h3 style={{ fontSize: 21, fontWeight: 700, letterSpacing: "-0.4px", lineHeight: 1.25, marginBottom: 8, color: "var(--text)" }}>
-                          {profile.alternativeName}
-                        </h3>
-                        <p style={{ fontSize: 14, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.4 }}>{cardTitle}</p>
-
-                        {/* World + era */}
-                        <div style={{ marginBottom: 16 }}>
-                          <WorldEra
-                            universeId={universe.id}
-                            worldName={profile.worldName}
-                            eraName={profile.eraName}
-                            accent={c}
-                            size="md"
-                          />
-                        </div>
-
-                        {/* Bio */}
-                        <p style={{ fontSize: 14, color: "var(--text3)", lineHeight: 1.65, margin: 0 }}>
-                          {(profile.biography || "").replace(/\\n/g, " ").slice(0, 160)}...
-                        </p>
-
-                        {/* Exploration footer */}
-                        <div style={{ marginTop: 24, paddingTop: 20, borderTop: `1px solid ${c}20` }}>
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                            <span style={{ fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600 }}>Explored</span>
-                            <span style={{ fontSize: 12, fontWeight: 700, color: pct === 100 ? c : "var(--text2)", fontVariantNumeric: "tabular-nums" }}>
-                              {pct}%{pct === 100 ? " ✦" : ""}
-                            </span>
+                    {/* ── CARD CONTENT ─────────────────────────────────────── */}
+                    <div style={{ padding: "18px 24px 24px" }}>
+                      {profile ? (
+                        <>
+                          {/* 1. WORLD FIRST — name in universe typography, then era */}
+                          <div style={{
+                            fontSize: 10, fontWeight: 700, letterSpacing: "0.16em",
+                            textTransform: "uppercase", color: c, marginBottom: 3,
+                            lineHeight: 1.2,
+                            ...(WORLD_TITLE_STYLE[universe.id] ?? {}),
+                          }}>
+                            {profile.worldName}
                           </div>
-                          <div style={{ height: 4, background: "var(--surface3)", borderRadius: 4, overflow: "hidden", marginBottom: 12 }}>
-                            <motion.div animate={{ width: `${pct}%` }} transition={{ duration: 0.6 }}
-                              style={{ height: "100%", background: c, borderRadius: 4, boxShadow: pct > 0 ? `0 0 8px ${c}80` : "none" }} />
+                          <div style={{ fontSize: 12, color: "var(--text3)", marginBottom: 16, letterSpacing: "0.03em" }}>
+                            {profile.eraName}
                           </div>
-                          <div style={{ display: "flex", gap: 6 }} onClick={e => e.stopPropagation()}>
-                            {UNIVERSE_ACTIVITIES.map(a => (
-                              <ActivityChip key={a.key} activity={a} done={activities.includes(a.key)} color={c} />
-                            ))}
+
+                          {/* 2. CHARACTER — name then title */}
+                          <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.3px", lineHeight: 1.25, marginBottom: 6, color: "var(--text)" }}>
+                            {profile.alternativeName}
+                          </h3>
+                          <p style={{ fontSize: 13.5, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.35 }}>{cardTitle}</p>
+
+                          {/* 3. BIO — story preview */}
+                          <p style={{ fontSize: 13.5, color: "var(--text3)", lineHeight: 1.65, margin: 0 }}>
+                            {(profile.biography || "").replace(/\\n/g, " ").slice(0, 130)}…
+                          </p>
+
+                          {/* ── FOOTER ────────────────────────────────────── */}
+                          <div style={{ marginTop: 20, paddingTop: 18, borderTop: `1px solid ${c}1a` }}>
+
+                            {/* Activity signals */}
+                            {(() => {
+                              const txMessages = (state.transmissions?.[universe.id]?.messages || []);
+                              const txCount = txMessages.filter((m: any) => m.role === "assistant").length;
+                              const hasLegendary = activities.includes("legendary");
+                              const hasShadow = activities.includes("shadow");
+                              const hasRecruiter = activities.includes("recruiter");
+                              // SVG icon nodes per signal type (no emojis — ui-ux-pro-max §4 no-emoji-icons)
+                              const SignalIcon = ({ type, color }: { type: string; color: string }) => {
+                                if (type === "tx") return (
+                                  <svg width="9" height="9" viewBox="0 0 14 14" fill="none">
+                                    <circle cx="7" cy="10" r="1.5" fill={color}/>
+                                    <path d="M4.5 7.5a3.5 3.5 0 0 1 5 0" stroke={color} strokeWidth="1.3" strokeLinecap="round"/>
+                                    <path d="M2.5 5.5a6 6 0 0 1 9 0" stroke={color} strokeWidth="1.3" strokeLinecap="round"/>
+                                  </svg>
+                                );
+                                if (type === "legendary") return (
+                                  <svg width="9" height="9" viewBox="0 0 14 14" fill="none">
+                                    <path d="M2 5h10l-1.5 6H3.5L2 5Z" stroke={color} strokeWidth="1.2" strokeLinejoin="round"/>
+                                    <path d="M2 5L4 2h6l2 3" stroke={color} strokeWidth="1.2" strokeLinejoin="round"/>
+                                    <circle cx="7" cy="8" r="1.2" fill={color}/>
+                                  </svg>
+                                );
+                                if (type === "shadow") return (
+                                  <svg width="9" height="9" viewBox="0 0 14 14" fill="none">
+                                    <circle cx="7" cy="7" r="4.5" stroke={color} strokeWidth="1.2"/>
+                                    <path d="M7 2.5A4.5 4.5 0 0 0 7 11.5" fill={color} fillOpacity="0.4"/>
+                                  </svg>
+                                );
+                                // offer/recruiter
+                                return (
+                                  <svg width="9" height="9" viewBox="0 0 14 14" fill="none">
+                                    <rect x="2" y="3" width="10" height="8" rx="1.5" stroke={color} strokeWidth="1.2"/>
+                                    <path d="M2 6h10" stroke={color} strokeWidth="1.2"/>
+                                    <path d="M5 9h4" stroke={color} strokeWidth="1.2" strokeLinecap="round"/>
+                                  </svg>
+                                );
+                              };
+                              const signals = [
+                                txCount > 0 && { type: "tx",         label: `${txCount} msg${txCount !== 1 ? "s" : ""}`, accent: c },
+                                hasLegendary && { type: "legendary",  label: "Legendary",                                  accent: "#e8c97e" },
+                                hasShadow    && { type: "shadow",     label: "Shadow",                                     accent: "#f07070" },
+                                hasRecruiter && { type: "offer",      label: "Offer",                                      accent: c },
+                              ].filter(Boolean) as { type: string; label: string; accent: string }[];
+                              return signals.length > 0 ? (
+                                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
+                                  {signals.map((s, si) => (
+                                    <span key={si} style={{
+                                      fontSize: 10, padding: "3px 8px", borderRadius: 6, fontWeight: 600,
+                                      background: `${s.accent}14`, color: s.accent, border: `1px solid ${s.accent}30`,
+                                      display: "flex", alignItems: "center", gap: 4,
+                                    }}>
+                                      <SignalIcon type={s.type} color={s.accent} />
+                                      {s.label}
+                                    </span>
+                                  ))}
+                                </div>
+                              ) : null;
+                            })()}
+
+                            {/* Resonance label + percentage */}
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                              <span style={{
+                                fontSize: 10, color: "var(--text3)", textTransform: "uppercase",
+                                letterSpacing: "0.1em", fontWeight: 600,
+                              }}>
+                                {RESONANCE_LABELS[universe.id] ?? "Resonance"}
+                              </span>
+                              <span style={{ fontSize: 12, fontWeight: 700, color: pct === 100 ? c : "var(--text2)", fontVariantNumeric: "tabular-nums" }}>
+                                {pct}%{pct === 100 ? " ✦" : ""}
+                              </span>
+                            </div>
+
+                            {/* Progress bar */}
+                            <div style={{ height: 3, background: "var(--surface3)", borderRadius: 4, overflow: "hidden", marginBottom: 12 }}>
+                              <motion.div animate={{ width: `${pct}%` }} transition={{ duration: 0.8, ease: [0.22,1,0.36,1] }}
+                                style={{ height: "100%", background: c, borderRadius: 4, boxShadow: pct > 0 ? `0 0 8px ${c}80` : "none" }} />
+                            </div>
+
+                            {/* Activity chips */}
+                            <div style={{ display: "flex", gap: 6 }} onClick={e => e.stopPropagation()}>
+                              {UNIVERSE_ACTIVITIES.map(a => (
+                                <ActivityChip key={a.key} activity={a} done={activities.includes(a.key)} color={c} />
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      </>
-                    ) : <div style={{ color: "var(--text3)", fontSize: 13, padding: "8px 0" }}>Loading profile...</div>}
+                        </>
+                      ) : <div style={{ color: "var(--text3)", fontSize: 13, padding: "8px 0" }}>Loading profile...</div>}
+                    </div>
                   </motion.div>
                 );
               })}
