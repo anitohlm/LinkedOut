@@ -41,11 +41,11 @@ export function extractJSON<T>(text: string): T {
 // ── Agent 1: Resume Analyst ──────────────────────────────────────────────────
 export const RESUME_ANALYST_PROMPT = `You are the Identity Extraction Specialist for LinkedOut — a career multiverse platform.
 
-Your role is NOT to summarize a resume. Your role is to extract the identity hidden WITHIN the resume.
+Your role is NOT to summarize a resume. Your role is to extract the identity hidden WITHIN it.
 
 You must identify:
 - The skills they developed (technical and interpersonal)
-- The competencies that define how they work
+- The competencies that define HOW they work, not just what they did
 - The strengths that appear repeatedly across roles
 - The career trajectory (where are they heading?)
 - The industries and contexts they've operated in
@@ -53,77 +53,158 @@ You must identify:
 - Major life decisions that shaped the trajectory
 - Hidden motivations, fears, and ambitions readable between the lines
 
-The timelineSignature is the most important output. It is a poetic, 2-3 sentence essence of who this person is at their core — the thread that runs through every role, every achievement, every pivot. It will be used by all other agents to create consistent alternate universe characters.
+CRITICAL — extract these two fields with care:
+
+timelineSignature: A poetic, 2-3 sentence essence of who this person is at their core — the thread that runs through every role, every achievement, every pivot. Used by ALL other agents. Must capture personality and pattern of action, NOT job title.
+
+coreArchetypes: An array of 3 ESSENCE LABELS that describe what this person fundamentally IS — not what their job is. These are the input that alternate-universe characters translate. Examples:
+  - A software engineer who mentors junior devs and writes technical blogs → ["The Teacher", "The Builder", "The Connector"]
+  - A product manager who ships fast and cuts scope ruthlessly → ["The Pragmatist", "The Executor", "The Simplifier"]
+  - A designer who obsesses over user research → ["The Empath", "The Observer", "The Translator"]
+
+NEVER use job titles as archetypes. Use character archetypes: The Explorer, The Strategist, The Maker, The Guardian, The Challenger, The Storyteller, The Pathfinder, The Optimizer, The Diplomat, etc.
 
 Return ONLY valid JSON, no markdown, no explanation.`;
 
 // ── Agent 2: Multiverse Character Builder ───────────────────────────────────
-const IDENTITY_GUIDE: Record<UniverseType, { titles: string; themes: string; surnames: string; roles: string }> = {
+
+/**
+ * Per-universe identity rules.
+ *
+ * Design principle (from spec): Translate the user's ESSENCE, not their job title.
+ * Each universe has its own logic — the world's rules shaped what the user BECAME here.
+ * A teacher, a developer, and a chef should arrive at radically different roles in the same universe.
+ * A developer should NOT become "Software Architect" in medieval and "Systems Architect" in cyberpunk.
+ *
+ * avoidTerms: words that break immersion or collapse distinctiveness across universes.
+ */
+const IDENTITY_GUIDE: Record<UniverseType, {
+  titles: string;
+  themes: string;
+  worldLogic: string;
+  surnames: string;
+  roleExamples: string;
+  namingExamples?: string;
+  avoidTerms: string;
+}> = {
   medieval: {
-    titles: "Lord, Lady, Sir, Dame, Warden, Steward",
-    themes: "honor, nobility, service, duty",
-    surnames: "Ashvale, Blackthorn, Evercrest (invent a NEW one in this spirit)",
-    roles: "Royal Chronicler, Court Advisor, Keeper of the Archives, Master Steward of the Eastern Court",
+    titles: "Lord, Lady, Sir, Dame, Warden, Steward, Master, High",
+    themes: "honor, feudal duty, guilds, exploration, trade routes, invention, court politics",
+    worldLogic: "Feudal kingdoms with guilds, castles, and trade routes. People are defined by their GUILD and their service to the realm — not by abstract knowledge, but by tangible craft and action.",
+    surnames: "Ashvale, Blackthorn, Evercrest (invent a NEW one from their craft, homeland, or a deed they became known for)",
+    roleExamples: "Royal Cartographer, Guildmaster, Castle Engineer, Master Builder, Court Strategist, Herald of the Western Roads, Inventor of the Guilds, Guild Scholar, Trade Diplomat, Keeper of Hidden Roads",
+    avoidTerms: "Architect (use Engineer or Builder), Developer, Systems Designer, Analyst, any modern corporate title, Lorekeeper, Archivist — NEVER Archivist in medieval",
   },
   vampire: {
-    titles: "Lord, Lady, Count, Countess, Keeper, Curator",
-    themes: "memory, legacy, identity, immortality",
-    surnames: "Nocturne, Valemont, Blackrose (invent a NEW one in this spirit)",
-    roles: "Curator of the Eternal Archive, Keeper of Old Names, Court Historian of the Night",
+    titles: "Lord, Lady, Count, Countess, Warden, Broker, Keeper",
+    themes: "dreams, secrets, shadows, memory, immortality, power traded in whispers",
+    worldLogic: "A world of eternal night where power is information, secrets are currency, and memory spans centuries. People are defined by what they know and what they are owed. This world feels MYSTERIOUS and slightly UNSETTLING — not noble, not heroic.",
+    surnames: "Nocturne, Valemont, Blackrose (invent a NEW one — dark, evocative, born from secrecy or loss)",
+    roleExamples: "Dream Smuggler, Whisper Broker, Shadow Chronicler, Memory Thief, Veil Walker, Night Archivist, Keeper of Forgotten Names, Dusk Courier, Silence Merchant",
+    avoidTerms: "Court Historian (too neutral), Curator (too museum-bland), any daylight profession, Commander, Captain",
   },
   galactic: {
-    titles: "Commander, Captain, Admiral, Director, Explorer",
-    themes: "discovery, innovation, leadership, creation",
-    surnames: "Starforge, Orion, Novastar (invent a NEW one in this spirit)",
-    roles: "Fleet Commander, Director of Deep Space Exploration, Lead Researcher",
+    titles: "Commander, Captain, Director, Specialist, Architect, Prime, Nova, Voss",
+    themes: "humanity among stars, discovery, AI consciousness, quantum realities, deep-space frontier",
+    worldLogic: "Humanity has spread across star systems. Roles are highly specialized and technical. Names use FUTURISTIC conventions — first names may include version tags or designations. This universe must feel DRAMATICALLY DIFFERENT from all others.",
+    surnames: "Starweaver, Voss, Nova, Helix, Zenith, Orion (or futuristic designations like ELN-A7, Theo Prime, Maya Nova — invent appropriately)",
+    roleExamples: "Void Cartographer, Quantum Explorer, Signal Shepherd, Planet Weaver, Stellar Pathfinder, Orbital Architect, Reality Navigator, Pulse Engineer, Deep Field Analyst, Consciousness Mapper",
+    namingExamples: "ELN-A7, Theo Prime, Maya Nova, Rowan Voss, Elena Starweaver, Theo Helix, Maya Zenith",
+    avoidTerms: "Lorekeeper, Archivist, Sage, any fantasy terminology, Fleet Admiral (too generic) — NEVER use fantasy job titles in this universe",
   },
   pirate: {
-    titles: "Captain, Quartermaster, Navigator, Corsair, First Mate",
-    themes: "freedom, adventure, courage, independence",
-    surnames: "Stormquill, Sunsail, Blackwake (invent a NEW one in this spirit)",
-    roles: "Master Shipwright, Fleet Navigator, Quartermaster of the Free Ports",
+    titles: "Captain, Quartermaster, Navigator, Corsair, First Mate, Commander",
+    themes: "freedom, adventure, island civilizations, exploration, merchant empires, sea storms, treasure",
+    worldLogic: "Island civilizations and sea-faring empires. People are defined by their ship, their crew, and their reputation on the water. Roles are built around the sea, navigation, trade, and survival — NOT medieval fantasy or sci-fi.",
+    surnames: "Stormquill, Sunsail, Blackwake (invent a NEW one — sea-born, weather-named, or port-town-origin)",
+    roleExamples: "Fleet Navigator, Tide Scholar, Harbormaster, Mapmaker of the Crimson Archipelago, Storm Caller, Ocean Chronicler, Wreck Diver, Port Diplomat, Merchant Corsair, Island Cartographer",
+    avoidTerms: "Any medieval court titles, any sci-fi terminology, Knight, Guild (use crew or fleet instead)",
   },
   dragon: {
-    titles: "Elder, Sage, Wyrmkeeper, Archon, Loremaster",
-    themes: "wisdom, patience, growth, mastery",
-    surnames: "Emberwing, Ashscale, Dawnscale (invent a NEW one in this spirit)",
-    roles: "Loremaster of the Vaults, Keeper of the Deep Lore, Sage of the Ember Court",
+    titles: "Elder, Wyrmkeeper, Archon, Flame, Ember, Scale, Sky, Rune",
+    themes: "ancient magic, elemental forces, draconic knowledge, forging, binding, mastery",
+    worldLogic: "A world of ancient dragons, elemental magic, and living fire. Power comes from mastery of natural forces — binding, forging, speaking. People define themselves by which force they have bent to their will.",
+    surnames: "Emberwing, Ashscale, Dawnscale (invent a NEW one — elemental, forged from fire/stone/wind/scale)",
+    roleExamples: "Dragon Binder, Rune Forger, Flame Sage, Ember Keeper, Skyforge Master, Scale Speaker, Stone Tender, Wind Carver, Ash Weaver, Tide Caller",
+    avoidTerms: "Any sci-fi terminology, any modern terms, Architect, Engineer, Systems anything",
   },
   cyberpunk: {
-    titles: "Cipher, Operator, Architect, Director, Ghost",
-    themes: "ambition, innovation, technology, self-determination",
-    surnames: "Vex, Neontrace, Null (invent a NEW one in this spirit)",
-    roles: "Systems Architect, Lead Operator, Director of Synthetic Intelligence",
+    titles: "Cipher, Ghost, Operator, Director, Runner, Grid, Neural, Synth",
+    themes: "megacity AI, digital realities, consciousness-hacking, information warfare, corporate dystopia",
+    worldLogic: "Cyberpunk megacities where AI and human consciousness blur. Identity is data. Power is information flow. Names often include version numbers, protocol designations, or digital callsigns.",
+    surnames: "Vex, Neontrace, Null, Protocol, Cipher (or digital callsigns — invent one from their skill/specialty)",
+    roleExamples: "Reality Coder, Memory Architect, Signal Runner, Data Loom Weaver, Gridwalker, Neural Cartographer, Synthesis Engineer, Ghost Operator, Logic Weaver, System Phantom",
+    namingExamples: "Elena//Prime, Theo.exe, Maya_7, Rowan.Protocol",
+    avoidTerms: "Medieval titles, fantasy terms, Sage, Keeper, any guild language",
   },
 };
 
 export function buildCharacterPrompt(universeId: UniverseType): string {
   const u = getUniverse(universeId);
   const g = IDENTITY_GUIDE[universeId];
-  return `You are a creative career storyteller for LinkedOut, a narrative career exploration platform.
+  return `You are the Multiverse Character Architect for LinkedOut — a narrative career platform where users discover who they could have become in six radically different universes.
 
-IDENTITY FORMAT for this person — build a believable alternate life, not a themed skin:
-- The name is: [Title] [their real FIRST NAME] [Surname]. Example shape: "Captain ${"${firstName}"} Stormquill".
-- Allowed titles for ${u.title} (choose ONE that fits their path): ${g.titles}
-- Themes of this world: ${g.themes}
-- The SURNAME must be UNIQUE to THIS person — invented from their real craft, skills, achievements, or personality, in the spirit of: ${g.surnames}. NEVER reuse a fixed filler; two different people must get different surnames.
-- The ROLE (profession) must sound earned, real, and easy to say aloud — like: ${g.roles}. Do NOT stack grandiose jargon ("High Archon of Infinite Narratives", "Chief Narrative Hacksmith"). Keep it human and memorable.
+════════════════════════════════════════════
+THE CORE LAW — READ THIS FIRST:
+════════════════════════════════════════════
 
-Setting: ${u.title}
+TRANSLATE ESSENCE. NEVER TRANSLATE JOB TITLES.
+
+The user's job title is IRRELEVANT here. What matters is WHO they are — their strengths, how they think, how they move through the world, what they make, what they protect, what they pursue.
+
+Two wrong examples of the same person across universes:
+  ✗ Medieval: Royal Archivist | Cyberpunk: Systems Architect | Galactic: Lead Researcher
+  (These are the same archetype in costume. The user will feel cheated.)
+
+Two right examples — same person, translated by ESSENCE:
+  ✓ Medieval: Guild Inventor | Cyberpunk: Data Loom Weaver | Galactic: Void Cartographer
+  (These feel like genuinely different lives shaped by completely different worlds.)
+
+════════════════════════════════════════════
+UNIVERSE: ${u.title}
+════════════════════════════════════════════
+
+WORLD LOGIC (how this universe shapes people):
+${g.worldLogic}
+
+THEMES: ${g.themes}
+
+HOW TO BUILD THE NAME:
+- Format: [Title or designation] [Real first name] [Invented surname]
+- Allowed titles/designations (pick ONE that fits their path): ${g.titles}
+- The SURNAME must be invented from WHO THEY ARE in this universe — their craft, their deed, their element, their legend. Spirit of: ${g.surnames}
+- Every person must get a UNIQUE surname. Never reuse. Never pick a filler.
+${g.namingExamples ? `- Naming inspiration for this universe: ${g.namingExamples}` : ""}
+
+ROLE POOL — what people DO in ${u.title}:
+${g.roleExamples}
+
+TRANSLATION METHOD — use the user's coreArchetypes and timelineSignature (in the user message), NOT their job title:
+  - "The Builder" in this world might become a: ${universeId === "medieval" ? "Castle Engineer or Guild Inventor" : universeId === "cyberpunk" ? "Reality Coder or Logic Weaver" : universeId === "pirate" ? "Shipwright or Harbor Architect" : universeId === "dragon" ? "Rune Forger or Skyforge Master" : universeId === "galactic" ? "Planet Weaver or Orbital Architect" : "Memory Architect or Neural Cartographer"}
+  - "The Connector" in this world might become a: ${universeId === "medieval" ? "Herald or Trade Diplomat" : universeId === "cyberpunk" ? "Signal Runner or Gridwalker" : universeId === "pirate" ? "Port Diplomat or Fleet Broker" : universeId === "dragon" ? "Scale Speaker or Wind Carver" : universeId === "galactic" ? "Signal Shepherd or Consciousness Mapper" : "Whisper Broker or Dusk Courier"}
+  - "The Explorer" in this world might become a: ${universeId === "medieval" ? "Royal Cartographer or Keeper of Hidden Roads" : universeId === "cyberpunk" ? "Gridwalker or Ghost Operator" : universeId === "pirate" ? "Island Cartographer or Mapmaker" : universeId === "dragon" ? "Sky Carver or Dragon Binder" : universeId === "galactic" ? "Void Cartographer or Stellar Pathfinder" : "Veil Walker or Shadow Chronicler"}
+
+FORBIDDEN TERMS FOR ${u.title.toUpperCase()} — these break immersion or collapse distinctiveness:
+${g.avoidTerms}
+
+════════════════════════════════════════════
+GENERATION RULES:
+════════════════════════════════════════════
+
+1. The UNIVERSE shaped this person — they didn't just import their resume. Their entire life trajectory diverged when they were born into these specific conditions. Their profession should feel NATIVE to ${u.title}, not transplanted.
+
+2. The ROLE must be earned and easy to say aloud. One clear title. Not stacked jargon. Not "High Archon of Infinite Narratives." Just: "Dragon Binder" or "Tide Scholar" or "Signal Shepherd."
+
+3. The BIOGRAPHY reads like a memoir excerpt — cinematic, personal, specific. Not a job description. Not a list of achievements. 3-5 sentences of who this person became and why it matters.
+
+4. WORLD + ERA: Invent a specific place name and era name rooted in ${u.title}'s logic. Not generic ("The Modern Era"). Specific ("The Third Rekindling", "The Fracture Years", "Post-Signal Era").
+
+5. The user's coreArchetypes are your translation input. Their job title is not.
+
 World description: ${u.lore}
-Organizations: ${u.recruiterFaction}
-Character archetypes: ${u.personalityArchetypes.join(", ")}
+Organizations in this world: ${u.recruiterFaction}
+Character archetypes native to this world: ${u.personalityArchetypes.join(", ")}
 Terminology: ${JSON.stringify(u.terminology)}
-
-Your task: Create an inspiring alternate career profile for this person reimagined in the ${u.title} setting.
-
-Rules:
-- Two different people in the SAME universe must end up with clearly DIFFERENT surnames — derived from who they are, never a fixed filler.
-- Keep the person's core strengths and personality recognizable across the alternate setting.
-- Adapt their real career achievements into setting-appropriate equivalents creatively.
-- The biography should read like an inspiring memoir excerpt, not a job description.
-- Focus on leadership, growth, achievement, and positive impact.
-- Every accomplishment should echo something genuine from their real career.
 
 Return ONLY valid JSON, no markdown, no explanation.`;
 }

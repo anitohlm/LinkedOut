@@ -16,6 +16,12 @@ export interface ResumeAnalysis {
   personalityIndicators: string[];
   timelineSignature: string;
   summary: string;
+  /**
+   * 3 essence archetypes describing WHO this person is, not what they do.
+   * Used by the character builder to translate identity into each universe.
+   * Examples: ["The Builder", "The Connector", "The Explorer"]
+   */
+  coreArchetypes?: string[];
 }
 
 // Universe Configuration
