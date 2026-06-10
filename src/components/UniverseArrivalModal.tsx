@@ -436,119 +436,205 @@ function PirateArrival({ profile, onDismiss, rm, color }: {
   const [coverOpen, setCoverOpen] = useState(rm);
   useEffect(() => {
     if (rm) return;
-    const t = setTimeout(() => setCoverOpen(true), 850);
+    const t = setTimeout(() => setCoverOpen(true), 900);
     return () => clearTimeout(t);
   }, [rm]);
 
+  // Weathered log palette
+  const inkDark  = "#1c1008";
+  const inkMid   = "#3a2210";
+  const inkFade  = "#6b4828";
+  const logPaper = "#e8d9b8";
+  const logMid   = "#ddc99a";
+  const logDark  = "#c9b07c";
+
   return (
-    <div style={{ maxWidth: 520, width: "100%", perspective: "1000px" }}>
+    <div style={{ maxWidth: 500, width: "100%", perspective: "1200px" }}>
       <AnimatePresence mode="wait">
         {!coverOpen ? (
-          /* ── CLOSED JOURNAL COVER ── */
+          /* ── CLOSED LOG COVER ── */
           <motion.div
             key="cover"
             initial={{ rotateY: 0 }}
-            exit={{ rotateY: -90, opacity: 0 }}
-            transition={{ duration: 0.6, ease: [0.55, 0, 1, 0.45] }}
+            exit={{ rotateY: -95, opacity: 0 }}
+            transition={{ duration: 0.7, ease: [0.55, 0, 1, 0.45] }}
             style={{
               transformOrigin: "left center",
               background: [
-                "repeating-linear-gradient(162deg, transparent, transparent 6px, rgba(255,255,255,0.012) 6px, rgba(255,255,255,0.012) 7px)",
-                "linear-gradient(135deg, #3d1f0a 0%, #2a1208 45%, #3d1f0a 100%)",
+                "repeating-linear-gradient(155deg, transparent, transparent 5px, rgba(0,0,0,0.04) 5px, rgba(0,0,0,0.04) 6px)",
+                "linear-gradient(140deg, #2e1a08 0%, #1c0e04 50%, #2a1608 100%)",
               ].join(", "),
-              borderRadius: 20, minHeight: 380,
+              borderRadius: 4,
+              minHeight: 400,
               display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
               boxShadow: [
                 "0 40px 100px rgba(0,0,0,0.98)",
-                "4px 0 24px rgba(0,0,0,0.7)",
-                `inset 0 1px 0 rgba(255,200,100,0.08)`,
-                `inset 0 0 60px rgba(0,0,0,0.4)`,
+                "6px 0 30px rgba(0,0,0,0.8)",
+                `inset 0 1px 0 rgba(255,200,80,0.06)`,
+                `inset 0 0 80px rgba(0,0,0,0.5)`,
               ].join(", "),
-              border: `1px solid ${rgba(color, 0.2)}`,
-              position: "relative", overflow: "hidden", gap: 12,
-              padding: "40px 0",
+              border: `1px solid rgba(180,120,40,0.18)`,
+              position: "relative", overflow: "hidden", gap: 10,
+              padding: "44px 32px",
             }}
           >
-            {/* Leather grain lines */}
-            {Array.from({ length: 8 }, (_, i) => (
+            {/* Worn leather grain */}
+            {Array.from({ length: 10 }, (_, i) => (
               <div key={i} style={{
                 position: "absolute", top: 0, bottom: 0,
-                left: `${8 + i * 12}%`, width: 1,
-                background: "rgba(255,255,255,0.025)",
-                transform: `rotate(${-2 + i * 0.5}deg)`,
+                left: `${5 + i * 10}%`, width: 1,
+                background: "rgba(255,255,255,0.018)",
+                transform: `rotate(${-3 + i * 0.6}deg)`,
               }} />
             ))}
-            {/* Spine binding line */}
-            <div style={{ position: "absolute", top: 0, bottom: 0, left: 28, width: 2, background: "rgba(0,0,0,0.35)", boxShadow: "1px 0 0 rgba(255,200,100,0.07)" }} />
-            {/* Cover title */}
-            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style={{ marginBottom: 8 }}>
-              <circle cx="26" cy="26" r="22" stroke={rgba(color, 0.35)} strokeWidth="1.5" />
-              <circle cx="26" cy="26" r="16" stroke={rgba(color, 0.18)} strokeWidth="1" />
-              <path d="M26 8l3 16-3 2-3-2z" fill={color} opacity="0.8" />
-              <path d="M26 44l-3-16 3-2 3 2z" fill={rgba(color, 0.35)} />
-              <circle cx="26" cy="26" r="3" fill={color} />
-              {(["N","E","S","W"] as const).map((d, i) => (
-                <text key={d} x={26 + (i===1?19:i===3?-19:0)} y={26 + (i===0?-12:i===2?16:4)} textAnchor="middle" fill={rgba(color, 0.55)} fontSize="8" fontFamily="Sora,sans-serif">{d}</text>
-              ))}
+            {/* Binding spine */}
+            <div style={{ position: "absolute", top: 0, bottom: 0, left: 24, width: 3, background: "rgba(0,0,0,0.5)", boxShadow: "2px 0 0 rgba(200,140,40,0.06), -1px 0 0 rgba(255,255,255,0.03)" }} />
+            {/* Cover ornament — skull & crossbones */}
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style={{ marginBottom: 14, opacity: 0.75 }}>
+              {/* Skull */}
+              <ellipse cx="32" cy="26" rx="14" ry="13" fill={rgba(color, 0.15)} stroke={rgba(color, 0.5)} strokeWidth="1.2"/>
+              <circle cx="26" cy="25" r="4" fill={rgba(color, 0.5)}/>
+              <circle cx="38" cy="25" r="4" fill={rgba(color, 0.5)}/>
+              <path d="M27 36 h10 M29 36 v4 M35 36 v4 M32 36 v4" stroke={rgba(color, 0.5)} strokeWidth="1.2" strokeLinecap="round"/>
+              {/* Crossbones */}
+              <line x1="10" y1="50" x2="54" y2="42" stroke={rgba(color, 0.4)} strokeWidth="3" strokeLinecap="round"/>
+              <line x1="10" y1="42" x2="54" y2="50" stroke={rgba(color, 0.4)} strokeWidth="3" strokeLinecap="round"/>
+              <circle cx="10" cy="46" r="4" fill={rgba(color, 0.3)} stroke={rgba(color, 0.4)} strokeWidth="1"/>
+              <circle cx="54" cy="46" r="4" fill={rgba(color, 0.3)} stroke={rgba(color, 0.4)} strokeWidth="1"/>
             </svg>
-            <p style={{ fontSize: 14, color: rgba(color, 0.6), letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "'Sora', sans-serif", fontWeight: 600 }}>Captain's Log</p>
-            <p style={{ fontSize: 11, color: rgba(color, 0.3), letterSpacing: "0.1em", fontStyle: "italic" }}>Opening…</p>
+            <p style={{ fontSize: 11, color: rgba(color, 0.55), letterSpacing: "0.28em", textTransform: "uppercase", fontFamily: "'Crimson Pro', Georgia, serif", fontWeight: 700 }}>Ship's Log</p>
+            <div style={{ width: 80, height: "0.5px", background: `linear-gradient(90deg, transparent, ${rgba(color, 0.4)}, transparent)`, margin: "8px 0" }} />
+            <p style={{ fontSize: 11, color: rgba(color, 0.25), letterSpacing: "0.08em", fontStyle: "italic", fontFamily: "'Crimson Pro', Georgia, serif" }}>Breaking seal…</p>
           </motion.div>
         ) : (
-          /* ── OPEN JOURNAL CONTENT ── */
+          /* ── OPEN LOG PAGES ── */
           <motion.div
             key="open"
-            initial={rm ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            initial={rm ? false : { opacity: 0, rotateY: 15 }}
+            animate={{ opacity: 1, rotateY: 0 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            style={{ transformOrigin: "left center" }}
           >
-            <ArrivalShell color={color}>
-      {/* Subtle wave shimmer */}
-      {!rm && (
-        <motion.div
-          animate={{ opacity: [0.03, 0.07, 0.03] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          style={{ position: "absolute", inset: 0, pointerEvents: "none", backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 20px, ${rgba(color, 0.05)} 20px, ${rgba(color, 0.05)} 21px)` }}
-        />
-      )}
-      <div style={{ padding: "36px 36px 28px", position: "relative", fontFamily: "'Sora', sans-serif" }}>
-        {/* Compass */}
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
-          <motion.div
-            animate={rm ? {} : { rotate: [0, 5, -3, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-              <circle cx="26" cy="26" r="24" stroke={rgba(color, 0.3)} strokeWidth="1.5" />
-              <circle cx="26" cy="26" r="18" stroke={rgba(color, 0.15)} strokeWidth="1" />
-              <path d="M26 8l3 16-3 2-3-2z" fill={color} />
-              <path d="M26 44l-3-16 3-2 3 2z" fill={rgba(color, 0.35)} />
-              <circle cx="26" cy="26" r="3" fill={color} />
-              {(["N","E","S","W"] as const).map((d, i) => (
-                <text key={d} x={26 + (i===1?19:i===3?-19:0)} y={26 + (i===0?-12:i===2?16:4)} textAnchor="middle" fill={rgba(color, 0.6)} fontSize="8" fontFamily="Sora,sans-serif">{d}</text>
-              ))}
-            </svg>
-          </motion.div>
-        </div>
-        <FadeLines rm={rm} baseDelay={0.2} lines={[
-          <p style={{ fontSize: 12, color: rgba(color, 0.5), letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, fontStyle: "italic" }}>Captain's Log</p>,
-          <div style={{ marginBottom: 20 }}>
-            <h2 style={{ fontSize: 26, fontWeight: 700, color, letterSpacing: "-0.3px", lineHeight: 1.2, marginBottom: 6 }}>{profile.worldName}</h2>
-            <p style={{ fontSize: 14, color: rgba(color, 0.55), fontStyle: "italic" }}>{profile.eraName}</p>
-          </div>,
-          <p style={{ fontSize: 15, color: rgba(color, 0.65), lineHeight: 1.75, marginBottom: 20 }}>
-            The seas connect hundreds of islands, cultures, and stories. Those who master the tides shape the future of entire nations.
-          </p>,
-          <div style={{ background: rgba(color, 0.07), border: `1px solid ${rgba(color, 0.18)}`, borderRadius: 12, padding: "16px 18px", marginBottom: 16 }}>
-            <p style={{ fontSize: 11, color: rgba(color, 0.45), letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8 }}>Your name is known among navigators</p>
-            <p style={{ fontSize: 22, fontWeight: 700, color, letterSpacing: "-0.2px" }}>{profile.alternativeName}</p>
-            <p style={{ fontSize: 14, color: rgba(color, 0.7), fontStyle: "italic", marginTop: 4 }}>{profile.profession}</p>
-          </div>,
-          <p style={{ fontSize: 14, color: rgba(color, 0.45), fontStyle: "italic", lineHeight: 1.7 }}>May favorable winds guide your journey.</p>,
-        ]} />
-        <ArrivalButton label="Set Sail" onDismiss={onDismiss} color={color} textColor={darkBg2(color)} />
-      </div>
-            </ArrivalShell>
+            {/* Weathered log paper */}
+            <div style={{
+              background: `linear-gradient(170deg, ${logPaper} 0%, ${logMid} 45%, ${logDark} 100%)`,
+              borderRadius: 4,
+              position: "relative", overflow: "hidden",
+              boxShadow: [
+                "0 40px 100px rgba(0,0,0,0.95)",
+                "6px 0 24px rgba(0,0,0,0.6)",
+                "inset 0 0 60px rgba(80,45,10,0.12)",
+                "inset 4px 0 16px rgba(80,45,10,0.08)",
+              ].join(", "),
+              fontFamily: "'Crimson Pro', Georgia, serif",
+            }}>
+              {/* Ruled lines */}
+              <div style={{
+                position: "absolute", inset: 0, pointerEvents: "none",
+                backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(80,45,10,0.055) 28px, rgba(80,45,10,0.055) 29px)",
+              }} />
+              {/* Water stain blotches */}
+              <div style={{
+                position: "absolute", inset: 0, pointerEvents: "none",
+                background: [
+                  "radial-gradient(ellipse 140px 90px at 15% 25%, rgba(100,65,20,0.07) 0%, transparent 70%)",
+                  "radial-gradient(ellipse 80px 60px at 85% 70%, rgba(80,50,15,0.06) 0%, transparent 70%)",
+                  "radial-gradient(ellipse 60px 40px at 70% 15%, rgba(90,60,18,0.05) 0%, transparent 70%)",
+                ].join(", "),
+              }} />
+              {/* Spine shadow */}
+              <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: 22, background: "linear-gradient(to right, rgba(0,0,0,0.18), transparent)", pointerEvents: "none" }} />
+
+              <div style={{ padding: "28px 32px 28px 36px", position: "relative" }}>
+
+                {/* Header — worn stamp style */}
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <circle cx="14" cy="14" r="12" stroke={rgba(color, 0.5)} strokeWidth="1.2"/>
+                    <circle cx="14" cy="14" r="8" stroke={rgba(color, 0.25)} strokeWidth="0.8"/>
+                    <path d="M14 4l2 8-2 1-2-1z" fill={color} opacity="0.8"/>
+                    <path d="M14 24l-2-8 2-1 2 1z" fill={rgba(color, 0.35)}/>
+                    <circle cx="14" cy="14" r="2" fill={color} opacity="0.7"/>
+                    {(["N","E","S","W"] as const).map((d, i) => (
+                      <text key={d} x={14 + (i===1?10:i===3?-10:0)} y={14 + (i===0?-5:i===2?8:2.5)} textAnchor="middle" fill={rgba(color, 0.6)} fontSize="4.5" fontFamily="Georgia,serif">{d}</text>
+                    ))}
+                  </svg>
+                  <div>
+                    <p style={{ fontSize: 9, color: inkFade, letterSpacing: "0.22em", textTransform: "uppercase", lineHeight: 1 }}>Ship's Log</p>
+                    <p style={{ fontSize: 11, color: inkMid, fontStyle: "italic", lineHeight: 1.4 }}>{profile.eraName}</p>
+                  </div>
+                  <div style={{ flex: 1, height: "0.5px", background: `linear-gradient(to right, rgba(80,45,10,0.25), transparent)` }} />
+                </div>
+
+                <FadeLines rm={rm} baseDelay={0.15} lines={[
+
+                  /* Port of record */
+                  <div key="port" style={{ marginBottom: 18 }}>
+                    <p style={{ fontSize: 9, color: inkFade, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 3 }}>Port of Record</p>
+                    <h2 style={{ fontSize: 28, fontWeight: 700, color: inkDark, fontFamily: "'Crimson Pro', Georgia, serif", letterSpacing: "0.02em", lineHeight: 1.15 }}>{profile.worldName}</h2>
+                  </div>,
+
+                  /* Divider with crossed anchors */
+                  <div key="div" style={{ display: "flex", alignItems: "center", gap: 8, margin: "4px 0 18px" }}>
+                    <div style={{ flex: 1, height: "0.5px", background: "rgba(80,45,10,0.2)" }} />
+                    <svg width="18" height="12" viewBox="0 0 18 12" fill="none">
+                      <line x1="0" y1="6" x2="18" y2="6" stroke={rgba(color, 0.45)} strokeWidth="1"/>
+                      <circle cx="5" cy="6" r="2.5" fill={rgba(color, 0.2)} stroke={rgba(color, 0.45)} strokeWidth="0.8"/>
+                      <circle cx="13" cy="6" r="2.5" fill={rgba(color, 0.2)} stroke={rgba(color, 0.45)} strokeWidth="0.8"/>
+                    </svg>
+                    <div style={{ flex: 1, height: "0.5px", background: "rgba(80,45,10,0.2)" }} />
+                  </div>,
+
+                  /* Log entry body — gruff voice */
+                  <p key="entry" style={{ fontSize: 15, color: inkMid, lineHeight: 1.85, marginBottom: 20, fontStyle: "italic" }}>
+                    These waters do not forgive the weak nor forget the bold. Every name that has ever mattered was written first in salt and blood before it ever reached parchment.
+                  </p>,
+
+                  /* Name manifest — stamped look */
+                  <div key="name" style={{
+                    background: "rgba(80,45,10,0.07)",
+                    border: `1px solid rgba(80,45,10,0.18)`,
+                    borderLeft: `3px solid ${rgba(color, 0.6)}`,
+                    borderRadius: 3, padding: "14px 16px", marginBottom: 16,
+                    boxShadow: "inset 0 1px 4px rgba(0,0,0,0.06)",
+                  }}>
+                    <p style={{ fontSize: 9, color: inkFade, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>Crew Manifest — Recorded Soul</p>
+                    <p style={{ fontSize: 23, fontWeight: 700, color: inkDark, letterSpacing: "0.01em", lineHeight: 1.2 }}>{profile.alternativeName}</p>
+                    <p style={{ fontSize: 13, color: inkFade, fontStyle: "italic", marginTop: 4 }}>{profile.profession}</p>
+                  </div>,
+
+                  /* Sign-off — gruff, salt-worn */
+                  <p key="signoff" style={{ fontSize: 13, color: inkFade, fontStyle: "italic", lineHeight: 1.75 }}>
+                    The sea does not ask if you are ready. She only asks if you are coming.
+                  </p>,
+                ]} />
+
+                {/* CTA — branded like a port stamp */}
+                <div style={{ marginTop: 24 }}>
+                  <button
+                    onClick={onDismiss}
+                    autoFocus
+                    style={{
+                      width: "100%", padding: "13px 0", cursor: "pointer",
+                      background: inkDark,
+                      color: logPaper,
+                      border: `1px solid rgba(80,45,10,0.4)`,
+                      borderRadius: 3, fontSize: 13, fontWeight: 700,
+                      letterSpacing: "0.16em", textTransform: "uppercase",
+                      fontFamily: "'Crimson Pro', Georgia, serif",
+                      minHeight: 48, touchAction: "manipulation",
+                      boxShadow: `0 4px 16px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,200,80,0.06)`,
+                      transition: "opacity 0.15s",
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.opacity = "0.82")}
+                    onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+                  >
+                    All Hands on Deck
+                  </button>
+                </div>
+
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

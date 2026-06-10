@@ -35,7 +35,10 @@ FIRST NAME — transform "${firstName}" into a medieval/archaic form. If it soun
 - Examples: Honey→Honoria, Sarah→Sarai, John→Jehan, Michael→Michaelis, Carlos→Karolos, Emily→Aemilia, David→Daveth, Sofia→Saoirse, James→Jamus, Anna→Anwyn
 - If the name already sounds period-appropriate (e.g. Eleanor, Roland, Arthur), keep it
 SURNAME — invent a fresh heraldic surname every time — do NOT reuse Ashvale, Ironward, Thornkeep, Blackthorn, or any name you've seen before. Coin new two-part compounds from: stone/wood/field/hill/brook/crest/ward/hold/gate/moor/vale/spire + forge/keep/wick/thorpe/fell/worth/cross/mill/mount/bridge.
-TITLE — add a noble/knightly title: Lord, Lady, Sir, Master, Dame.
+TITLE — add a noble/knightly title that matches the user's pronouns (${resumeAnalysis.pronouns || "check pronouns"}):
+  • she/her → Lady, Dame, Mistress
+  • he/him → Lord, Sir, Master
+  • they/them or neutral → use a gender-neutral title: Warden, Steward, High, or the role itself as a title
 Format: "[Title] [TransformedFirstName] [NewSurname]" or "[Title] [TransformedFirstName] of [NewPlace]".`,
       cyberpunk: `NEON SYNTHESIS names — digital identities, handles, aliases, protocol designations. Post-human, cybernetic.
 The name should look like a username/process/designation, NOT a normal human name. Feel free to drop the surname or the whole human name.
@@ -44,11 +47,32 @@ VARY the format every time — do NOT default to the "//" slash style unless it 
 Do NOT prepend human titles like Lord/Captain here.`,
       pirate: `ENDLESS SEAS names — the format is ALWAYS: [Rank] [First name] "[Epithet]" [Invented surname].
 FOUR parts, no exceptions.
-RANK — pick one: Captain, Quartermaster, Navigator, Corsair, First Mate, Commodore.
 FIRST NAME — use "${firstName}" as-is. Do NOT replace it with another name.
-EPITHET — a quoted nickname that sits between the first name and surname, earned from the person's reputation and résumé. Derive it from their defining trait: relentless negotiator → "Iron Tongue" | risk-taker → "The Reckless" | strategist → "The Cunning" | builder/engineer → "Ironhand" | connector/networker → "Silvertongue" | data/analyst → "The Cartographer" | leader → "Stonejaw" | fast-mover → "The Gale". Make it evocative and specific to THEIR legend.
-SURNAME — INVENT a fresh sea-forged surname every time — do NOT reuse Stormwake, Tidebreaker, Saltwind, Waveborn, Driftmark, Reefborn, or any name you've seen before. Coin new compounds from ocean/weather/port elements: tide, wave, gale, drift, salt, foam, shoal, helm, reef, surge, wreck, port, keel + breaker, rider, born, mark, wind, song, wake, run, shore, stone, crest, blade.
-EXAMPLE (for a user named Nova): Captain Nova "Silvertongue" Rackham | Quartermaster Nova "Ironhand" Shore | Navigator Nova "The Cunning" Vane.`,
+RANK — choose the rank CLOSEST to the user's real-world profession/Career DNA. Read their actual job and skills, then match:
+  • Captain — visionary leader, founder, CEO, executive, high-level strategist
+  • Quartermaster — operations, logistics, project manager, COO, resource manager
+  • Navigator — data analyst, researcher, strategist, cartographer, systems thinker
+  • Helmsman — engineer, developer, programmer, hands-on technician who steers execution
+  • Gunner — security, defense, enforcement, risk analyst, penetration tester
+  • Doctor — healthcare, medicine, therapist, wellness, counselor, scientist
+  • Craftsman — designer, builder, architect, maker, artisan, hardware engineer
+  • Cook — chef, hospitality, food industry, event planner, nurturer
+  • Musician — DJ, music producer, performer, musician, singer, composer, sound designer, artist, entertainer, creative, brand storyteller. If the user makes or performs music in any form → ALWAYS Musician, never Captain.
+  • Look-out — analyst, researcher, scout, journalist, intelligence, auditor
+  • Sniper — specialist, precision expert, niche consultant, sharpshooter in their field
+  • Assassin — competitive strategist, disruptor, closer, high-stakes negotiator
+  • Spy — intelligence, UX researcher, ethnographer, undercover ops, diplomat
+  • Beast Tamer — trainer, coach, animal handler, community manager, HR specialist
+  • Scholar — academic, writer, educator, librarian, historian, knowledge curator
+  • Steward — finance, accountant, estate manager, compliance, administrator
+  • Tailor — fashion, styling, recruiter (fits people to roles), consultant
+  • Botanist — biologist, environmental scientist, farmer, sustainability, naturalist
+  • Mate — generalist, early-career, versatile crew member, jack-of-all-trades
+  • Cabin Boy — intern, entry-level, apprentice, newcomer to the field
+Pick the rank that best maps to the user's real career. NEVER default to Captain just because it sounds heroic.
+EPITHET — a quoted nickname between the first name and surname, INVENTED from scratch based on this specific person's résumé, personality, and achievements. Read their Career DNA and coin something no one has heard before — a phrase that could only belong to them. It should sound like a legend whispered on the docks: what are they known for, feared for, or celebrated for at sea? The style can be an adjective ("The Relentless"), a body-part metaphor ("Ironjaw", "Saltblood"), a nature image ("The Gale"), a skill made mythic ("Tidecaller", "The Reckoning"), or any other evocative form. NEVER pick from a fixed list — invent fresh every time.
+SURNAME — INVENT a fresh sea-forged surname every time — do NOT reuse Stormwake, Tidebreaker, Saltwind, Waveborn, Driftmark, Reefborn, Crestwake, or any name you've seen before. Coin new compounds from ocean/weather/port elements: tide, wave, gale, drift, salt, foam, shoal, helm, reef, surge, wreck, port, keel + breaker, rider, born, mark, wind, song, wake, run, shore, stone, crest, blade.
+EXAMPLE (for a user named Nova who is a data analyst): Navigator Nova "The Cartographer" Tidesong.`,
       dragon: `ANCIENT DRACONIA names — Valyrian/Targaryen style. Names are elongated, melodic, and built with sounds like "ae", "yr", "rh", "ny", "ae", "on", "ar", "ys", "en", "ael".
 TRANSFORM the first name "${firstName}" into a Draconia-native form using these sounds — do NOT use "${firstName}" unchanged. Examples of the transformation style: Elena → Elhaena, Marcus → Maerys, James → Jaehaerys, Sofia → Syraea, David → Daevyn, Anna → Aenara, Carlos → Caerlon, Maria → Myraea.
 ALWAYS use the format: "[TransformedName] of House [HouseName]"
@@ -64,7 +88,7 @@ RULE: Must feature hard consonants (X, Z, V, K). NEVER soft or medieval-sounding
       vampire: `ETERNAL NIGHT names — immortal, gothic, aristocratic, ancient.
 CRITICAL: Do NOT use "${firstName}" unchanged. Transform it into its gothic/ancient variant — as if bestowed centuries ago when this person was turned. Find the Latin, Eastern European, or archaic cognate:
 ${firstName} → examples of the transformation style: Alex→Alaric or Aleksander | Maria→Mara or Morvaine | Sofia→Seraphel | David→Vladis or Dorian | Chris→Crisovan | James→Iacov | Anne→Anneliese | Michael→Mihaelos | Sarah→Saelara | Carlos→Carvael.
-TITLE — pick one old-world title: Lord, Lady, Count, Countess, Baron, Warden, Keeper.
+TITLE — pick one old-world title that matches the user's pronouns (${resumeAnalysis.pronouns || "check pronouns"}): she/her → Lady, Countess, or Baroness; he/him → Lord, Count, or Baron; neutral → Warden, Broker, or Keeper.
 SURNAME — INVENT a fresh nocturnal surname every time — do NOT reuse Nocturne, Veilborn, Duskbane, Umbra, Hollowmere, Nightwhisper, or any name you've seen before. Coin new ones from Latin/Romanian/Gothic roots: veldrane, morthis, ashenwood, valemont, craveth, seloris, duskveil, ashenmere, noctival, solvaine.
 Format: "[Title] [TransformedFirstName] [NewSurname]" — e.g. "Count Vladis Veldrane" or "Lady Seraphel Morthis".`,
     };
@@ -110,9 +134,9 @@ RULES:
 WORLD — invent first, career second
 ════════════════════════════════════════════
 The world is INDEPENDENT of the person's career. Invent it like a world-builder, not a career counsellor:
-- worldName: a vivid, original name for a specific civilization or realm within ${universe.title}. It should feel like a real place with its own history, geography, and culture — invented freely, not derived from the person's job. No two generations should produce the same name.
+- worldName: a vivid, original name for a specific civilization or realm within ${universe.title}. Invent it like a cartographer naming a place for the first time — draw from the world's terrain, culture, dominant element, or founding myth. Every generation should feel like a different corner of the universe: vary the linguistic root (Latin, Slavic, Arabic, invented phonetics), the word structure (compound, single evocative word, place + descriptor), and the feel (harsh, melodic, ancient, strange). It should feel like a real place with its own history and geography, invented freely and never derived from the person's job.
 - eraName: a named historical period within that world. Invent a fresh, specific name every time — vary the format: sometimes "The [Adjective] [Noun]" (The Scorching Veil, The Flux Convergence), sometimes "[The] Age/Era/Epoch of [Thing]" (The Age of Whispering Currents), sometimes a proper-noun event name (The Sundering, The Long Silence, The Second Bloom). Never reuse the same structure twice in a row. Has nothing to do with the person's résumé.
-- worldDescription: 1-2 sentences describing what makes this civilization distinctive.
+- worldDescription: 1-2 sentences describing what makes this civilization distinctive — its geography, political structure, dominant culture, or founding history. This must NOT reference the user's profession, skills, or industry in any way. A musician's world should not be about music; an engineer's world should not be about building. The world existed before this person arrived.
 
 Once the world exists, ask: given this person's core strengths and personality — what would they naturally grow into HERE? Their profession is what this world made of them, not a translation of their real job.
 

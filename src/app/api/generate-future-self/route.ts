@@ -11,7 +11,7 @@ const UNIVERSE_ROLE_GUIDE: Record<UniverseType, { tone: string; avoid?: string[]
   cyberpunk: { tone: "a neon megacity of augments and rogue networks — corporate, electric, self-made." },
   pirate: {
     tone: "open seas and free ports — tides, sails, salt, and hard-won freedom.",
-    prefer: ["four-part name format: Title + classic first name + quoted Epithet + invented surname — e.g. Captain Mary \"Iron Tongue\" Vane or Quartermaster Henry \"The Reckless\" Shore"],
+    prefer: ["four-part name format: Rank + user's real first name + quoted Epithet + invented surname — e.g. Navigator Nova \"The Cartographer\" Tidesong. Rank must match the user's career: Captain=leader/CEO, Navigator=analyst/strategist, Helmsman=engineer, Doctor=healthcare, Scholar=academic/educator, Craftsman=designer/builder, Steward=finance, Spy=diplomat/researcher, Sniper=niche specialist, Beast Tamer=coach/HR"],
   },
   dragon: { tone: "ancient and volcanic — power measured in centuries, embers and slow wisdom." },
   galactic: {
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       (universeId === "vampire"
         ? `\n\nVAMPIRE NAMING LAW — CRITICAL: The character's first name must be a gothic/ancient transformation of the user's real name, NOT the plain modern name. Reimagine it as if it was bestowed centuries ago: find the Latin, Eastern European, or archaic cognate (e.g. Alex → Alaric or Aleksander, Maria → Mara or Morvaine, Sofia → Seraphel, David → Vladis or Dorian, Chris → Crisovan, James → Iacov). The name must feel immortal, aristocratic, and slightly unsettling. Pair with a dark invented surname (Latin/Romanian/Gothic roots — e.g. Nocturne, Veldrane, Morthis, Ashenwood, Valemont).`
         : universeId === "pirate"
-        ? `\n\nPIRATE NAMING LAW — CRITICAL: The name must follow EXACTLY this four-part format: [Title] [User's real first name] ["Epithet"] [Invented surname] — the epithet sits between first name and surname like a sobriquet. NEVER replace the user's first name. Derive the epithet from the user's résumé reputation (e.g. negotiator → "Iron Tongue", strategist → "The Cunning", engineer → "Ironhand", connector → "Silvertongue"). Invent a sea-forged surname. Example (for a user named Nova): Captain Nova "Silvertongue" Rackham.`
+        ? `\n\nPIRATE NAMING LAW — CRITICAL: Format is [Rank] [User's real first name] ["Epithet"] [Invented surname]. NEVER replace the user's first name. The EPITHET must be invented fresh from this person's specific Career DNA and achievements — coin a nickname that could only belong to them, the legend whispered on the docks. Do NOT pick from a preset list. Style: adjective ("The Relentless"), body metaphor ("Ironjaw"), nature image ("The Gale"), skill mythologized ("Tidecaller"). Invent a sea-forged surname. Example (user named Nova, data analyst): Navigator Nova "The Cartographer" Tidesong.`
         : rg.namingLaw
         ? `\n\n${rg.namingLaw}`
         : "");
@@ -86,9 +86,9 @@ WORLD GENERATION — world first, career second
 ════════════════════════════════════════════
 The UNIVERSE above is only a broad genre category. Invent the world like a world-builder — freely and independently of this person's career:
 
-• worldName — invent an original, vivid name for a specific civilization or realm within the universe. Think geography, culture, history — not the person's job. No two generations should share a name.
+• worldName — invent an original, vivid name for a specific civilization or realm within the universe. Draw from the world's terrain, culture, dominant element, or founding myth — like a cartographer naming a place for the first time. Vary the linguistic root (Latin, Slavic, Arabic, invented phonetics), word structure (compound, single word, place + descriptor), and feel (harsh, melodic, ancient, strange) so every generation feels like a genuinely different corner of the universe. Never derived from the person's job.
 • eraName — invent a named historical period: a time of war, discovery, collapse, or renaissance. Invented freely; not tied to the person's résumé.
-• worldDescription — 1-2 sentences describing what makes this civilization distinctive.
+• worldDescription — 1-2 sentences describing what makes this civilization distinctive — its geography, political structure, dominant culture, or founding history. Must NOT reflect the user's profession or industry. The world existed before this person arrived.
 
 Once the world is established, derive the title from: (this person's core strengths + personality) × (what roles this specific world has to offer). The title is what this world made of them — native to the civilization, earned through their nature.
 

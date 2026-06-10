@@ -88,7 +88,7 @@ const IDENTITY_GUIDE: Record<UniverseType, {
   avoidTerms: string;
 }> = {
   medieval: {
-    titles: "Lord, Lady, Sir, Dame, Warden, Steward, Master, High",
+    titles: "Lord/Lady (he/she), Sir/Dame (he/she), Master/Mistress (he/she), Warden/Steward/High (gender-neutral) — ALWAYS match the title to the user's pronouns: she/her → Lady, Dame, or Mistress; he/him → Lord, Sir, or Master; they/them or neutral → Warden, Steward, or High",
     themes: "honor, feudal duty, guilds, exploration, trade routes, invention, court politics",
     worldLogic: "Feudal kingdoms with guilds, castles, and trade routes. People are defined by their GUILD and their service to the realm — not by abstract knowledge, but by tangible craft and action.",
     surnames: "Ashvale, Blackthorn, Evercrest (invent a NEW one from their craft, homeland, or a deed they became known for)",
@@ -96,7 +96,7 @@ const IDENTITY_GUIDE: Record<UniverseType, {
     avoidTerms: "Architect (use Engineer or Builder), Developer, Systems Designer, Analyst, any modern corporate title, Lorekeeper, Archivist — NEVER Archivist in medieval",
   },
   vampire: {
-    titles: "Lord, Lady, Count, Countess, Warden, Broker, Keeper",
+    titles: "Lord/Lady (he/she), Count/Countess (he/she), Baron/Baroness (he/she), Warden/Broker/Keeper (gender-neutral) — match to the user's pronouns: she/her → Lady, Countess, or Baroness; he/him → Lord, Count, or Baron; neutral → Warden, Broker, or Keeper",
     themes: "dreams, secrets, shadows, memory, immortality, power traded in whispers",
     worldLogic: "A world of eternal night where power is information, secrets are currency, and memory spans centuries. People are defined by what they know and what they are owed. This world feels MYSTERIOUS and slightly UNSETTLING — not noble, not heroic.",
     surnames: "Nocturne, Valemont, Blackrose, Morthis, Veldrane, Ashenwood (invent a NEW one — dark, evocative, born from secrecy, ancient loss, or a deed done in shadow. Draw from Latin, Romanian, or Gothic roots.)",
@@ -118,13 +118,16 @@ All three must feature sharp consonants (X, Z, V, K, Y preferred), sound sleek w
     avoidTerms: "Lorekeeper, Archivist, Sage, any fantasy terminology, Fleet Admiral (too generic) — NEVER use fantasy job titles in this universe. NEVER use soft, medieval-sounding names.",
   },
   pirate: {
-    titles: "Captain, Quartermaster, Navigator, Corsair, First Mate, Commodore",
+    titles: "Captain, Quartermaster, Navigator, Helmsman, Gunner, Doctor, Craftsman, Cook, Musician, Look-out, Sniper, Assassin, Spy, Beast Tamer, Scholar, Steward, Tailor, Botanist, Mate, Cabin Boy",
     themes: "freedom, adventure, island civilizations, exploration, merchant empires, sea storms, treasure",
     worldLogic: "Island civilizations and sea-faring empires. People are defined by their ship, their crew, and their reputation on the water. Roles are built around the sea, navigation, trade, and survival — NOT medieval fantasy or sci-fi.",
     surnames: "Blackwood, Vane, Rackham, Sterling, Shore, Blackwake (invent a NEW one — sea-born, weather-named, reef- or port-origin, historically resonant)",
-    namingExamples: `PIRATE NAMING LAW — format is: [Title] [User's real first name] ["Epithet"] [Invented Surname]. The epithet sits between the first name and surname like a sobriquet. NEVER replace the user's first name.
-- EPITHET — a quoted nickname earned from the user's résumé reputation. Their defining trait as a legend: relentless negotiator → "Iron Tongue" | risk-taker → "The Reckless" | strategist → "The Cunning" | builder → "Stout Hammer" | data person → "The Cartographer" | connector → "Silvertongue" | engineer → "Ironhand". Make it specific to THEIR legend.
-- Full name examples (for a user named Nova): Captain Nova "Silvertongue" Rackham | Quartermaster Nova "Ironhand" Shore | Navigator Nova "The Cunning" Vane.`,
+    namingExamples: `PIRATE NAMING LAW — format is: [Rank] [User's real first name] ["Epithet"] [Invented Surname]. NEVER replace the user's first name.
+- RANK — must match the user's real career DNA (see rank mapping below).
+- EPITHET — a quoted nickname INVENTED from scratch by reading this specific person's Career DNA, achievements, and personality. Coin something that could only belong to them — the legend whispered on the docks. Style options: an adjective ("The Relentless"), a body-part metaphor ("Ironjaw"), a nature image ("The Gale"), a skill made mythic ("Tidecaller"). NEVER pick from a fixed list — invent fresh every time.
+- RANK MAPPING — choose the rank closest to the user's profession:
+  Captain=leader/founder/CEO | Quartermaster=ops/logistics/PM | Navigator=analyst/researcher/strategist | Helmsman=engineer/developer | Gunner=security/risk/defense | Doctor=healthcare/medicine/science | Craftsman=designer/builder/maker | Cook=hospitality/food/events | Musician=artist/creative/marketer | Look-out=journalist/auditor/intelligence | Sniper=niche specialist/consultant | Assassin=competitive strategist/closer | Spy=diplomat/UX researcher/ethnographer | Beast Tamer=coach/trainer/HR | Scholar=academic/educator/writer | Steward=finance/compliance/admin | Tailor=fashion/recruiter/stylist | Botanist=biologist/sustainability/naturalist | Mate=generalist | Cabin Boy=intern/entry-level
+- Full name examples (for a user named Nova): Navigator Nova "The Cartographer" Tidesong | Scholar Nova "The Cunning" Vane | Doctor Nova "Gentlehand" Saltcrest.`,
     roleExamples: "Fleet Navigator, Tide Scholar, Harbormaster, Mapmaker of the Crimson Archipelago, Storm Caller, Ocean Chronicler, Wreck Diver, Port Diplomat, Merchant Corsair, Island Cartographer",
     avoidTerms: "Any medieval court titles, any sci-fi terminology, Knight, Guild (use crew or fleet instead)",
   },
