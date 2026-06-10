@@ -260,4 +260,6 @@ export interface AppState {
   completionBonusGiven?: string[];
   // Journey Progress tracker collapsed by the user — persists until they expand it again
   journeyCollapsed?: boolean;
+  // Whether the user has seen the first-entry timeline stability briefing modal
+  hasSeenStabilityBriefing?: boolean;
 }

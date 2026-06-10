@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
 import { StabilityHUD } from "@/components/StabilityHUD";
@@ -39,6 +39,7 @@ const WORLD_TITLE_STYLE: Record<string, React.CSSProperties> = {
 
 
 export default function UniverseDiscovery({ state, transitionTo, updateState }: Props) {
+  const rm = useReducedMotion() ?? false;
   const universes = getAllUniverses();
   const profileCount = Object.keys(state.allProfiles || {}).length;
   const allReady = profileCount === universes.length;
@@ -61,6 +62,7 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
   const NOTIF_KEY = "linkedout_chronicle_unlocked_seen";
   const [showChronicleNotif, setShowChronicleNotif] = useState(false);
   const [hoveredUniverse, setHoveredUniverse] = useState<string | null>(null);
+  const [showStabilityBriefing, setShowStabilityBriefing] = useState(false);
   const prevPhase4Unlocked = useRef(phase4Unlocked);
 
   useEffect(() => {
@@ -84,6 +86,22 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
   const dismissChronicleNotif = () => {
     localStorage.setItem(NOTIF_KEY, "1");
     setShowChronicleNotif(false);
+  };
+  // ───────────────────────────────────────────────────────────────────────────
+
+  // ── Stability briefing: first entry only ──────────────────────────────────
+  useEffect(() => {
+    if (!state.hasSeenStabilityBriefing) {
+      // Small delay so the page renders first before the modal appears
+      const t = setTimeout(() => setShowStabilityBriefing(true), 600);
+      return () => clearTimeout(t);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const dismissStabilityBriefing = () => {
+    setShowStabilityBriefing(false);
+    updateState({ hasSeenStabilityBriefing: true });
   };
   // ───────────────────────────────────────────────────────────────────────────
 
@@ -202,6 +220,154 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                     Later
                   </button>
                 </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* ──────────────────────────────────────────────────────────────────── */}
+
+      {/* ── Stability Briefing Modal ───────────────────────────────────────── */}
+      <AnimatePresence>
+        {showStabilityBriefing && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: rm ? 0.1 : 0.25 }}
+            style={{
+              position: "fixed", inset: 0, zIndex: 1100,
+              background: "rgba(4,5,8,0.88)", backdropFilter: "blur(12px)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: 24,
+            }}
+            onClick={dismissStabilityBriefing}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="stability-briefing-title"
+          >
+            <motion.div
+              initial={rm ? false : { opacity: 0, y: 28, scale: 0.92 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={rm ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.96 }}
+              transition={{ duration: rm ? 0.1 : 0.32, ease: [0.22, 1, 0.36, 1] }}
+              onClick={e => e.stopPropagation()}
+              style={{
+                width: "100%", maxWidth: 480,
+                background: "rgba(10,11,16,0.98)",
+                border: "1px solid rgba(124,110,247,0.35)",
+                borderRadius: 24, overflow: "hidden",
+                boxShadow: "0 32px 80px -16px rgba(0,0,0,0.9), 0 0 0 1px rgba(124,110,247,0.12), inset 0 1px 0 rgba(124,110,247,0.15)",
+              }}
+            >
+              {/* Violet top accent line */}
+              <div style={{ height: 3, background: "linear-gradient(90deg, transparent 5%, #7c6ef7cc, transparent 95%)" }} />
+
+              <div style={{ padding: "36px 36px 32px" }}>
+
+                {/* Stability ring + score */}
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}>
+                  <div style={{ position: "relative", width: 96, height: 96 }}>
+                    <svg width="96" height="96" viewBox="0 0 96 96" style={{ transform: "rotate(-90deg)" }}>
+                      {/* Track */}
+                      <circle cx="48" cy="48" r="40" fill="none" stroke="rgba(124,110,247,0.12)" strokeWidth="5" />
+                      {/* Progress arc */}
+                      <motion.circle
+                        cx="48" cy="48" r="40"
+                        fill="none"
+                        stroke="#7c6ef7"
+                        strokeWidth="5"
+                        strokeLinecap="round"
+                        strokeDasharray={`${2 * Math.PI * 40}`}
+                        initial={{ strokeDashoffset: 2 * Math.PI * 40 }}
+                        animate={{ strokeDashoffset: 0 }}
+                        transition={rm ? { duration: 0 } : { duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                        style={{ filter: "drop-shadow(0 0 6px #7c6ef7aa)" }}
+                      />
+                    </svg>
+                    {/* Score text centred in ring */}
+                    <div style={{
+                      position: "absolute", inset: 0,
+                      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                    }}>
+                      <span style={{ fontSize: 22, fontWeight: 800, color: "#7c6ef7", fontFamily: "Sora, sans-serif", lineHeight: 1 }}>
+                        100%
+                      </span>
+                      <span style={{ fontSize: 9, color: "rgba(124,110,247,0.7)", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginTop: 3 }}>
+                        Stable
+                      </span>
+                    </div>
+                    {/* Ambient glow */}
+                    <div style={{
+                      position: "absolute", inset: -12, borderRadius: "50%",
+                      background: "radial-gradient(circle, rgba(124,110,247,0.12) 0%, transparent 70%)",
+                      pointerEvents: "none",
+                    }} />
+                  </div>
+                </div>
+
+                {/* Eyebrow */}
+                <p id="stability-briefing-title" style={{
+                  fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase",
+                  color: "rgba(124,110,247,0.7)", marginBottom: 10, fontFamily: "Sora, sans-serif", textAlign: "center",
+                }}>
+                  Timeline Status
+                </p>
+
+                {/* Headline */}
+                <h2 style={{
+                  fontSize: 26, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)",
+                  marginBottom: 14, lineHeight: 1.2, fontFamily: "Sora, sans-serif", textAlign: "center",
+                }}>
+                  Your Timeline is Stable
+                </h2>
+
+                {/* Body */}
+                <p style={{
+                  fontSize: 15, color: "var(--text2)", lineHeight: 1.72, marginBottom: 28,
+                  fontFamily: "Sora, sans-serif", textAlign: "center",
+                }}>
+                  Your timeline integrity is at <strong style={{ color: "var(--text)", fontWeight: 700 }}>100%</strong> — fully synchronized across all realities.
+                </p>
+
+                {/* Divider */}
+                <div style={{ height: 1, background: "rgba(255,255,255,0.06)", marginBottom: 20 }} />
+
+                {/* Mechanic explanation */}
+                <div style={{
+                  display: "flex", gap: 12, alignItems: "flex-start",
+                  padding: "14px 16px", borderRadius: 12,
+                  background: "rgba(124,110,247,0.07)", border: "1px solid rgba(124,110,247,0.15)",
+                  marginBottom: 28,
+                }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
+                    <circle cx="12" cy="12" r="10" stroke="#7c6ef7" strokeWidth="1.5"/>
+                    <path d="M12 8v4m0 4h.01" stroke="#7c6ef7" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                  <p style={{ fontSize: 13.5, color: "var(--text2)", lineHeight: 1.65, margin: 0, fontFamily: "Sora, sans-serif" }}>
+                    As you explore universes, make decisions, and engage with your alternate selves — actions will <strong style={{ color: "var(--text)" }}>raise or lower</strong> this stability. Watch it carefully.
+                  </p>
+                </div>
+
+                {/* CTA */}
+                <button
+                  onClick={dismissStabilityBriefing}
+                  autoFocus
+                  style={{
+                    width: "100%", padding: "14px 0", borderRadius: 12, cursor: "pointer",
+                    background: "linear-gradient(135deg, #7c6ef7, #5b4fd4)",
+                    border: "none", color: "#fff", fontSize: 15, fontWeight: 700,
+                    fontFamily: "Sora, sans-serif", letterSpacing: "0.02em",
+                    boxShadow: "0 8px 24px -8px rgba(124,110,247,0.55)",
+                    touchAction: "manipulation", minHeight: 48,
+                    transition: rm ? "none" : "opacity 0.15s",
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.opacity = "0.88")}
+                  onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+                >
+                  Begin Exploration →
+                </button>
+
               </div>
             </motion.div>
           </motion.div>
