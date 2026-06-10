@@ -133,7 +133,7 @@ const IDENTITY_GUIDE: Record<UniverseType, {
     themes: "megacity AI, digital realities, consciousness-hacking, information warfare, corporate dystopia",
     worldLogic: "Cyberpunk megacities where AI and human consciousness blur. Identity is data. Power is information flow. Names often include version numbers, protocol designations, or digital callsigns.",
     surnames: "Vex, Neontrace, Null, Protocol, Cipher (or digital callsigns — invent one from their skill/specialty)",
-    roleExamples: "Reality Coder, Memory Architect, Signal Runner, Data Loom Weaver, Gridwalker, Neural Cartographer, Synthesis Engineer, Ghost Operator, Logic Weaver, System Phantom",
+    roleExamples: "Reality Coder, Memory Architect, Signal Runner, Data Loom Operator, Gridwalker, Neural Cartographer, Synthesis Engineer, Ghost Operator, Logic Phantom, System Wraith",
     namingExamples: "Elena//Prime, Theo.exe, Maya_7, Rowan.Protocol",
     avoidTerms: "Medieval titles, fantasy terms, Sage, Keeper, any guild language",
   },
@@ -157,7 +157,7 @@ Two wrong examples of the same person across universes:
   (These are the same archetype in costume. The user will feel cheated.)
 
 Two right examples — same person, translated by ESSENCE:
-  ✓ Medieval: Guild Inventor | Cyberpunk: Data Loom Weaver | Galactic: Void Cartographer
+  ✓ Medieval: Guild Inventor | Cyberpunk: Data Loom Operator | Galactic: Void Cartographer
   (These feel like genuinely different lives shaped by completely different worlds.)
 
 ════════════════════════════════════════════
@@ -180,7 +180,7 @@ ROLE POOL — what people DO in ${u.title}:
 ${g.roleExamples}
 
 TRANSLATION METHOD — use the user's coreArchetypes and timelineSignature (in the user message), NOT their job title:
-  - "The Builder" in this world might become a: ${universeId === "medieval" ? "Castle Engineer or Guild Inventor" : universeId === "cyberpunk" ? "Reality Coder or Logic Weaver" : universeId === "pirate" ? "Shipwright or Harbor Architect" : universeId === "dragon" ? "Rune Forger or Skyforge Master" : universeId === "galactic" ? "Planet Weaver or Orbital Architect" : "Memory Architect or Neural Cartographer"}
+  - "The Builder" in this world might become a: ${universeId === "medieval" ? "Castle Engineer or Guild Inventor" : universeId === "cyberpunk" ? "Reality Coder or Logic Phantom" : universeId === "pirate" ? "Shipwright or Harbor Architect" : universeId === "dragon" ? "Rune Forger or Skyforge Master" : universeId === "galactic" ? "Colony Strategist or Orbital Architect" : "Memory Architect or Neural Cartographer"}
   - "The Connector" in this world might become a: ${universeId === "medieval" ? "Herald or Trade Diplomat" : universeId === "cyberpunk" ? "Signal Runner or Gridwalker" : universeId === "pirate" ? "Port Diplomat or Fleet Broker" : universeId === "dragon" ? "Scale Speaker or Wind Carver" : universeId === "galactic" ? "Signal Shepherd or Consciousness Mapper" : "Whisper Broker or Dusk Courier"}
   - "The Explorer" in this world might become a: ${universeId === "medieval" ? "Royal Cartographer or Keeper of Hidden Roads" : universeId === "cyberpunk" ? "Gridwalker or Ghost Operator" : universeId === "pirate" ? "Island Cartographer or Mapmaker" : universeId === "dragon" ? "Sky Carver or Dragon Binder" : universeId === "galactic" ? "Void Cartographer or Stellar Pathfinder" : "Veil Walker or Shadow Chronicler"}
 

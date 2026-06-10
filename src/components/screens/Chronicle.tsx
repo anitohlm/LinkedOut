@@ -108,7 +108,7 @@ function countNewMemories(prev: MemorySnapshot, current: MemorySnapshot): number
 
 type BookPage =
   | { kind: "cover"; edition: ChronicleEdition; accent: string }
-  | { kind: "section"; label: string; body: string; pageNum: number; totalPages: number }
+  | { kind: "section"; label: string; body: string; pageNum: number; totalPages: number; editionNumber: number }
   | { kind: "back"; edition: ChronicleEdition; canGenerateNew: boolean; newMemoryCount: number; editionNumber: number; accent: string };
 
 function buildPages(edition: ChronicleEdition, accent: string, canGenerateNew: boolean, newMemoryCount: number, nextEditionNumber: number): BookPage[] {
@@ -123,7 +123,7 @@ function buildPages(edition: ChronicleEdition, accent: string, canGenerateNew: b
   if (edition.epilogue) sections.push({ label: "Epilogue", body: edition.epilogue });
 
   sections.forEach((s, i) =>
-    pages.push({ kind: "section", label: s.label, body: s.body, pageNum: i + 1, totalPages: sections.length })
+    pages.push({ kind: "section", label: s.label, body: s.body, pageNum: i + 1, totalPages: sections.length, editionNumber: edition.editionNumber })
   );
 
   pages.push({ kind: "back", edition, canGenerateNew, newMemoryCount, editionNumber: nextEditionNumber, accent });
@@ -150,6 +150,7 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
   const [viewingEdition, setViewingEdition] = useState<ChronicleEdition | null>(latestEdition);
   const [showShelf, setShowShelf] = useState(editions.length > 0);
   const [pageIndex, setPageIndex] = useState(0);
+  const [coverOpen, setCoverOpen] = useState(false);
   const hasInit = useRef(false);
   const bookRef = useRef<any>(null);
 
@@ -158,13 +159,23 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
     : [];
 
 
-  // When the user switches editions from the shelf, reset to page 0
+  // When the user switches editions from the shelf, reset to page 0 + close cover
   useEffect(() => {
+    setCoverOpen(false);
     setPageIndex(0);
     if (bookRef.current) {
       try { bookRef.current.pageFlip().turnToPage(0); } catch (_) { /* not yet mounted */ }
     }
   }, [viewingEdition]);
+
+  // Fire flipNext when cover reaches ~-90° (edge-on) — right as it becomes invisible
+  useEffect(() => {
+    if (!coverOpen || pageIndex !== 0) return;
+    const t = setTimeout(() => {
+      try { bookRef.current?.pageFlip().flipNext(); } catch (_) {}
+    }, 420); // ~time for spring to reach -90° edge-on point
+    return () => clearTimeout(t);
+  }, [coverOpen, pageIndex]);
 
   useEffect(() => {
     if (!state.resumeAnalysis || !finalChoice) { transitionTo("universe-discovery"); return; }
@@ -461,46 +472,189 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
                 </span>
               </div>
 
-              {/* Page area — react-pageflip physical page turn */}
-              <div style={{ flex: 1, overflow: "hidden", position: "relative", borderRadius: "0 12px 12px 0" }}>
-                <HTMLFlipBook
-                  key={viewingEdition?.id ?? "book"}
-                  ref={bookRef}
-                  width={760}
-                  height={640}
-                  size="fixed"
-                  usePortrait={true}
-                  drawShadow={true}
-                  maxShadowOpacity={0.35}
-                  showCover={true}
-                  flippingTime={650}
-                  startPage={0}
-                  onFlip={(e: any) => setPageIndex(e.data)}
-                  style={{ borderRadius: "0 12px 12px 0" } as any}
-                  className=""
-                  mobileScrollSupport={false}
-                  showPageCorners={true}
-                  clickEventForward={false}
-                  useMouseEvents={true}
-                  swipeDistance={50}
-                  disableFlipByClick={true}
-                  minWidth={280}
-                  maxWidth={760}
-                  minHeight={400}
-                  maxHeight={640}
-                  autoSize={false}
-                  startZIndex={0}
-                >
-                  {pages.map((page, i) => (
-                    <FlipPage key={i}>
-                      <PageContent page={page} onAction={(action) => {
-                        if (action === "continue") transitionTo("universe-discovery");
-                        if (action === "generate") runGenerate();
-                        if (action === "shelf") setShowShelf(true);
-                      }} />
-                    </FlipPage>
-                  ))}
-                </HTMLFlipBook>
+              {/* Page area — react-pageflip + custom hard cover overlay */}
+              <div style={{ flex: 1, overflow: "hidden", position: "relative", borderRadius: "0 12px 12px 0", height: 640 }}>
+                  <HTMLFlipBook
+                    key={viewingEdition?.id ?? "book"}
+                    ref={bookRef}
+                    width={760}
+                    height={640}
+                    size="fixed"
+                    usePortrait={true}
+                    drawShadow={true}
+                    maxShadowOpacity={0.35}
+                    showCover={false}
+                    flippingTime={680}
+                    startPage={0}
+                    onFlip={(e: any) => setPageIndex(e.data)}
+                    style={{ borderRadius: "0 12px 12px 0" } as any}
+                    className=""
+                    mobileScrollSupport={false}
+                    showPageCorners={true}
+                    clickEventForward={false}
+                    useMouseEvents={true}
+                    swipeDistance={50}
+                    disableFlipByClick={true}
+                    minWidth={280}
+                    maxWidth={760}
+                    minHeight={400}
+                    maxHeight={640}
+                    autoSize={false}
+                    startZIndex={0}
+                  >
+                    {pages.map((page, i) => (
+                      <FlipPage key={i}>
+                        <PageContent page={page} onAction={(action) => {
+                          if (action === "continue") transitionTo("universe-discovery");
+                          if (action === "generate") runGenerate();
+                          if (action === "shelf") setShowShelf(true);
+                        }} />
+                      </FlipPage>
+                    ))}
+                  </HTMLFlipBook>
+
+                {/* ── Hard Cover — spring-physics 3D overlay ── */}
+                {pageIndex === 0 && (
+                  // Outer: handles fade-out as cover passes edge-on (~380ms)
+                  <motion.div
+                    initial={false}
+                    animate={{ opacity: coverOpen ? 0 : 1 }}
+                    transition={{ delay: coverOpen ? 0.38 : 0, duration: 0.22, ease: "easeIn" }}
+                    style={{
+                      position: "absolute", top: 0, left: 0,
+                      width: "100%", height: "100%",
+                      zIndex: 5,
+                      perspective: "1400px",
+                      cursor: coverOpen ? "default" : "pointer",
+                      pointerEvents: coverOpen ? "none" : "auto",
+                    }}
+                    onClick={() => !coverOpen && setCoverOpen(true)}
+                  >
+                    {/* Inner: spring rotation about the left edge (spine) */}
+                    <motion.div
+                      initial={false}
+                      animate={{ rotateY: coverOpen ? -180 : 0 }}
+                      transition={{ type: "spring", stiffness: 50, damping: 14, mass: 1.5 }}
+                      style={{
+                        width: "100%", height: "100%",
+                        transformOrigin: "left center",
+                        transformStyle: "preserve-3d",
+                        position: "relative",
+                      }}
+                    >
+                      {/* ── Front face — the cover ── */}
+                      <div style={{
+                        position: "absolute", inset: 0,
+                        backfaceVisibility: "hidden",
+                        WebkitBackfaceVisibility: "hidden",
+                        background: `linear-gradient(150deg, #2e2210 0%, #1a1208 45%, #0e0a06 100%)`,
+                        borderRadius: "0 12px 12px 0",
+                        overflow: "hidden",
+                        boxShadow: "inset -6px 0 24px rgba(0,0,0,0.55), inset 0 0 40px rgba(0,0,0,0.3)",
+                      }}>
+                        {/* Leather grain texture */}
+                        <div style={{
+                          position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.6,
+                          backgroundImage: `repeating-linear-gradient(42deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 6px),
+                            repeating-linear-gradient(-42deg, transparent, transparent 3px, rgba(255,255,255,0.008) 3px, rgba(255,255,255,0.008) 6px)`,
+                        }} />
+                        {/* Right-edge depth shadow */}
+                        <div style={{
+                          position: "absolute", top: 0, right: 0, bottom: 0, width: "35%",
+                          background: "linear-gradient(to right, transparent, rgba(0,0,0,0.45))",
+                          pointerEvents: "none",
+                        }} />
+                        {/* Binding-edge highlight */}
+                        <div style={{
+                          position: "absolute", top: 0, left: 0, bottom: 0, width: 3,
+                          background: "linear-gradient(to right, rgba(255,255,255,0.07), transparent)",
+                          pointerEvents: "none",
+                        }} />
+
+                        {/* Cover content */}
+                        <div style={{
+                          position: "relative", height: "100%",
+                          display: "flex", flexDirection: "column",
+                          justifyContent: "center", alignItems: "center",
+                          padding: "36px 28px", textAlign: "center",
+                        }}>
+                          {/* Double decorative frame */}
+                          <div style={{ position: "absolute", inset: 16, border: `1px solid ${accent}30`, borderRadius: 4, pointerEvents: "none" }} />
+                          <div style={{ position: "absolute", inset: 23, border: `1px solid ${accent}18`, borderRadius: 2, pointerEvents: "none" }} />
+                          {/* Corner ornaments */}
+                          {[["16px","16px","top","left"],["16px","16px","top","right"],["16px","16px","bottom","left"],["16px","16px","bottom","right"]].map(([t, r, pos1, pos2], i) => (
+                            <div key={i} style={{
+                              position: "absolute",
+                              [pos1]: t, [pos2]: r,
+                              width: 14, height: 14,
+                              borderTop: pos1 === "top" ? `1px solid ${accent}55` : "none",
+                              borderBottom: pos1 === "bottom" ? `1px solid ${accent}55` : "none",
+                              borderLeft: pos2 === "left" ? `1px solid ${accent}55` : "none",
+                              borderRight: pos2 === "right" ? `1px solid ${accent}55` : "none",
+                              pointerEvents: "none",
+                            }} />
+                          ))}
+
+                          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: accent, marginBottom: 18, fontFamily: "Sora, sans-serif", opacity: 0.85 }}>
+                            The Multiversal Chronicle
+                          </p>
+                          <div style={{ width: 36, height: 1, background: `${accent}60`, margin: "0 auto 20px" }} />
+                          <h1 style={{
+                            fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontWeight: 400,
+                            fontSize: "clamp(22px, 3.2vw, 36px)", color: CREAM, lineHeight: 1.35,
+                            marginBottom: 20, maxWidth: 480,
+                          }}>
+                            {viewingEdition.title.replace(/\bEdition\s+[IVXLCDM]+\s*[—–\-]\s*/gi, "").trim()}
+                          </h1>
+                          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: accent, marginBottom: 4, fontFamily: "Sora, sans-serif" }}>
+                            Edition {toRoman(viewingEdition.editionNumber)}
+                          </p>
+                          {/* "Open" pulse hint */}
+                          <motion.div
+                            animate={{ opacity: [0.35, 0.85, 0.35] }}
+                            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                            style={{ marginTop: 32, display: "flex", alignItems: "center", gap: 7 }}
+                          >
+                            <span style={{ fontSize: 11, color: `${accent}70`, letterSpacing: "0.18em", textTransform: "uppercase", fontFamily: "Sora, sans-serif" }}>Open</span>
+                            <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                              <path d="M1 5.5h12M8 1.5l5 4-5 4" stroke={`${accent}70`} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </motion.div>
+                        </div>
+                      </div>
+
+                      {/* ── Back face — endpaper ── */}
+                      <div style={{
+                        position: "absolute", inset: 0,
+                        backfaceVisibility: "hidden",
+                        WebkitBackfaceVisibility: "hidden",
+                        transform: "rotateY(180deg)",
+                        background: "linear-gradient(to right, #ddd4bb, #ebe3ce)",
+                        borderRadius: "0 12px 12px 0",
+                        overflow: "hidden",
+                      }}>
+                        {/* Endpaper diagonal textile pattern */}
+                        <div style={{
+                          position: "absolute", inset: 0, pointerEvents: "none",
+                          backgroundImage: `repeating-linear-gradient(52deg, transparent, transparent 9px, rgba(160,140,100,0.07) 9px, rgba(160,140,100,0.07) 10px),
+                            repeating-linear-gradient(-52deg, transparent, transparent 9px, rgba(160,140,100,0.05) 9px, rgba(160,140,100,0.05) 10px)`,
+                        }} />
+                        {/* Binding shadow on the endpaper */}
+                        <div style={{
+                          position: "absolute", top: 0, left: 0, bottom: 0, width: "22%",
+                          background: "linear-gradient(to right, rgba(0,0,0,0.18), transparent)",
+                          pointerEvents: "none",
+                        }} />
+                        {/* Subtle vignette */}
+                        <div style={{
+                          position: "absolute", inset: 0,
+                          background: "radial-gradient(ellipse at 60% 50%, transparent 40%, rgba(0,0,0,0.08) 100%)",
+                          pointerEvents: "none",
+                        }} />
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                )}
               </div>
             </div>
           </div>
@@ -508,7 +662,11 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
           {/* Navigation */}
           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
             <button
-              onClick={() => bookRef.current?.pageFlip().flipPrev()}
+              onClick={() => {
+                if (pageIndex === 0) return;
+                if (pageIndex === 1) setCoverOpen(false);
+                bookRef.current?.pageFlip().flipPrev();
+              }}
               disabled={pageIndex === 0}
               aria-label="Previous page"
               style={{
@@ -533,7 +691,11 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
             </div>
 
             <button
-              onClick={() => bookRef.current?.pageFlip().flipNext()}
+              onClick={() => {
+                if (pageIndex === 0 && !coverOpen) { setCoverOpen(true); return; }
+                if (pageIndex >= pages.length - 1) return;
+                bookRef.current?.pageFlip().flipNext();
+              }}
               disabled={pageIndex === pages.length - 1}
               aria-label="Next page"
               style={{
@@ -569,31 +731,10 @@ function PageContent({ page, onAction }: { page: BookPage; onAction: (action: st
   };
 
   if (page.kind === "cover") {
+    // The spring-physics hard-cover overlay sits on top of this page when at page 0.
+    // Render a plain dark backing so nothing shows through or conflicts.
     return (
-      <div style={{ ...pageStyle, justifyContent: "center", alignItems: "center", textAlign: "center",
-        background: `linear-gradient(145deg, #2a1f0e 0%, #1a1208 50%, #0e0c09 100%)`,
-        borderRight: "none" }}>
-        {/* Decorative frame */}
-        <div style={{ position: "absolute", inset: 20, border: `1px solid ${page.accent}33`, borderRadius: 4, pointerEvents: "none" }} />
-        <div style={{ position: "absolute", inset: 26, border: `1px solid ${page.accent}18`, borderRadius: 2, pointerEvents: "none" }} />
-
-        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase",
-          color: page.accent, marginBottom: 20, fontFamily: "Sora, sans-serif", opacity: 0.9 }}>
-          The Multiversal Chronicle
-        </p>
-        <div style={{ width: 40, height: 1, background: `${page.accent}66`, margin: "0 auto 24px" }} />
-        <h1 style={{ fontFamily: "Crimson Pro, serif", fontSize: "clamp(22px, 3.5vw, 34px)",
-          fontWeight: 400, fontStyle: "italic", color: CREAM, lineHeight: 1.3, marginBottom: 24, maxWidth: 400 }}>
-          {page.edition.title}
-        </h1>
-        <div style={{ width: 40, height: 1, background: `${page.accent}66`, margin: "0 auto 20px" }} />
-        <p style={{ fontSize: 12, color: "#8a7060", letterSpacing: "0.1em", fontFamily: "Sora, sans-serif" }}>
-          Edition {toRoman(page.edition.editionNumber)} · {new Date(page.edition.generatedAt).toLocaleDateString()}
-        </p>
-        <p style={{ fontSize: 11, color: "#5a4a3a", marginTop: 8, fontFamily: "Sora, sans-serif" }}>
-          A volume in an ongoing saga
-        </p>
-      </div>
+      <div style={{ ...pageStyle, background: `linear-gradient(145deg, #2a1f0e 0%, #1a1208 50%, #0e0c09 100%)`, borderRight: "none" }} />
     );
   }
 
@@ -702,7 +843,7 @@ function PageContent({ page, onAction }: { page: BookPage; onAction: (action: st
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center",
         borderTop: `1px solid ${INK}18`, paddingTop: 16, marginTop: 20 }}>
         <span style={{ fontSize: 10, color: "#8a7060", fontFamily: "Sora, sans-serif" }}>
-          Chronicle · Edition {toRoman((page as any).edition?.editionNumber ?? 1)}
+          Chronicle · Edition {toRoman(page.editionNumber)}
         </span>
         <span style={{ fontSize: 11, color: "#8a7060", fontFamily: "Crimson Pro, serif", fontStyle: "italic" }}>
           {page.pageNum} / {page.totalPages}

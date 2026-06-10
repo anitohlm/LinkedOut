@@ -14,7 +14,7 @@ const UNIVERSE_ROLE_GUIDE: Record<UniverseType, { tone: string; avoid?: string[]
   galactic: {
     tone: "post-Earth and technologically advanced — starfaring, orbital, engineered. NOT mystical, archival, or medieval.",
     avoid: ["Sage", "Lorekeeper", "Archivist", "Warden", "Elder"],
-    prefer: ["Signal Shepherd", "Quantum Explorer", "Planet Weaver", "Void Cartographer", "Stellar Pathfinder", "Orbital Strategist", "Colony Architect", "Neural Navigator"],
+    prefer: ["Signal Shepherd", "Quantum Explorer", "Void Cartographer", "Stellar Pathfinder", "Orbital Strategist", "Colony Architect", "Neural Navigator", "Deep Field Analyst"],
   },
   vampire: { tone: "eternal night — immortal courts, memory, gothic and patient." },
 };
