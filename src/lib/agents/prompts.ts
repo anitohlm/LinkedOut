@@ -99,24 +99,32 @@ const IDENTITY_GUIDE: Record<UniverseType, {
     titles: "Lord, Lady, Count, Countess, Warden, Broker, Keeper",
     themes: "dreams, secrets, shadows, memory, immortality, power traded in whispers",
     worldLogic: "A world of eternal night where power is information, secrets are currency, and memory spans centuries. People are defined by what they know and what they are owed. This world feels MYSTERIOUS and slightly UNSETTLING — not noble, not heroic.",
-    surnames: "Nocturne, Valemont, Blackrose (invent a NEW one — dark, evocative, born from secrecy or loss)",
-    roleExamples: "Dream Smuggler, Whisper Broker, Shadow Chronicler, Memory Thief, Veil Walker, Night Archivist, Keeper of Forgotten Names, Dusk Courier, Silence Merchant",
+    surnames: "Nocturne, Valemont, Blackrose, Morthis, Veldrane, Ashenwood (invent a NEW one — dark, evocative, born from secrecy, ancient loss, or a deed done in shadow. Draw from Latin, Romanian, or Gothic roots.)",
+    namingExamples: "VAMPIRE NAMING LAW — the first name must be TRANSFORMED, not kept as-is. Reimagine the user's real name as if it were reborn centuries ago into a vampire lineage: find the gothic, Eastern European, Latin, or ancient-sounding cognate or variant. Examples of transformations: Alex → Aleksander or Alaric | Maria → Mara or Morvaine | James → Iacov or Jasuren | Sofia → Sephira or Seraphel | David → Vladis or Dorian | Chris → Crisovan | Anne → Anneliese or Ankou | Michael → Mihaelos or Malachar. The result must feel ancient, aristocratic, and slightly unsettling — as if the name has been carried through centuries of dark memory. Never use the plain modern name unchanged.",
+    roleExamples: "Dream Smuggler, Whisper Broker, Shadow Chronicler, Memory Thief, Veil Walker, Keeper of Forgotten Names, Dusk Courier, Silence Merchant, Bloodline Archivist, Covenant Broker",
     avoidTerms: "Court Historian (too neutral), Curator (too museum-bland), any daylight profession, Commander, Captain",
   },
   galactic: {
-    titles: "Commander, Captain, Director, Specialist, Architect, Prime, Nova, Voss",
+    titles: "Commander, Director, Specialist, Architect, Prime, Axon, Vex, Zero",
     themes: "humanity among stars, discovery, AI consciousness, quantum realities, deep-space frontier",
-    worldLogic: "Humanity has spread across star systems. Roles are highly specialized and technical. Names use FUTURISTIC conventions — first names may include version tags or designations. This universe must feel DRAMATICALLY DIFFERENT from all others.",
-    surnames: "Voss, Nova, Helix, Zenith, Orion, Driftmark (or futuristic designations like ELN-A7, Theo Prime, Maya Nova — invent appropriately)",
+    worldLogic: "Humanity has spread across star systems. Roles are highly specialized and technical. Names are futuristic transformations of real names — sleek, sharp, cosmic. This universe must feel DRAMATICALLY DIFFERENT from all others.",
+    surnames: "Voss, Zenith, Oryn, Driftmark, Nexar, Solveig, Crestix (invent a NEW one — celestial, cosmic, or hard-consonant forged. Draw from star systems, physics terms, or alien phonetics.)",
+    namingExamples: `GALACTIC NAMING LAW — names must sound like they belong centuries into a spacefaring future. Three approaches, pick the one that best fits the user's vibe:
+1. SLEEK FUTURE SPIN — a futuristic respelling or phonetic sharpening of their real name, keeping it recognizable but evolved: Sofia → Sofyx | Marcus → Marcxen | Elena → Elynx | James → Jaxen | David → Daxid | Chris → Chryzx | Maria → Maryxa | Alex → Alxyn.
+2. CELESTIAL / COSMIC — replace entirely with a name evoking stars, voids, quantum fields, or cosmic phenomena: Zephyra, Vexon, Kaelyx, Zynara, Orxan, Solvexa, Nexari, Dravox, Zaryn.
+3. DESIGNATION HYBRID — a callsign or designation fused with a cosmic surname: Axon-7 Voss | Echo Prime Nexar | Cipher Zenith | Pulse Oryn.
+All three must feature sharp consonants (X, Z, V, K, Y preferred), sound sleek when spoken aloud, and feel like they belong to someone who was born among the stars — NOT a fantasy name with a space coat of paint.`,
     roleExamples: "Void Cartographer, Quantum Explorer, Signal Shepherd, Stellar Pathfinder, Orbital Architect, Reality Navigator, Pulse Engineer, Deep Field Analyst, Consciousness Mapper, Colony Strategist",
-    namingExamples: "ELN-A7, Theo Prime, Maya Nova, Rowan Voss, Elena Helix, Theo Zenith, Maya Orion",
-    avoidTerms: "Lorekeeper, Archivist, Sage, any fantasy terminology, Fleet Admiral (too generic) — NEVER use fantasy job titles in this universe",
+    avoidTerms: "Lorekeeper, Archivist, Sage, any fantasy terminology, Fleet Admiral (too generic) — NEVER use fantasy job titles in this universe. NEVER use soft, medieval-sounding names.",
   },
   pirate: {
-    titles: "Captain, Quartermaster, Navigator, Corsair, First Mate, Commander",
+    titles: "Captain, Quartermaster, Navigator, Corsair, First Mate, Commodore",
     themes: "freedom, adventure, island civilizations, exploration, merchant empires, sea storms, treasure",
     worldLogic: "Island civilizations and sea-faring empires. People are defined by their ship, their crew, and their reputation on the water. Roles are built around the sea, navigation, trade, and survival — NOT medieval fantasy or sci-fi.",
-    surnames: "Stormquill, Sunsail, Blackwake (invent a NEW one — sea-born, weather-named, or port-town-origin)",
+    surnames: "Blackwood, Vane, Rackham, Sterling, Shore, Blackwake (invent a NEW one — sea-born, weather-named, reef- or port-origin, historically resonant)",
+    namingExamples: `PIRATE NAMING LAW — format is: [Title] [User's real first name] ["Epithet"] [Invented Surname]. The epithet sits between the first name and surname like a sobriquet. NEVER replace the user's first name.
+- EPITHET — a quoted nickname earned from the user's résumé reputation. Their defining trait as a legend: relentless negotiator → "Iron Tongue" | risk-taker → "The Reckless" | strategist → "The Cunning" | builder → "Stout Hammer" | data person → "The Cartographer" | connector → "Silvertongue" | engineer → "Ironhand". Make it specific to THEIR legend.
+- Full name examples (for a user named Nova): Captain Nova "Silvertongue" Rackham | Quartermaster Nova "Ironhand" Shore | Navigator Nova "The Cunning" Vane.`,
     roleExamples: "Fleet Navigator, Tide Scholar, Harbormaster, Mapmaker of the Crimson Archipelago, Storm Caller, Ocean Chronicler, Wreck Diver, Port Diplomat, Merchant Corsair, Island Cartographer",
     avoidTerms: "Any medieval court titles, any sci-fi terminology, Knight, Guild (use crew or fleet instead)",
   },
@@ -170,11 +178,23 @@ ${g.worldLogic}
 THEMES: ${g.themes}
 
 HOW TO BUILD THE NAME:
-- Format: [Title or designation] [Real first name] [Invented surname]
-- Allowed titles/designations (pick ONE that fits their path): ${g.titles}
+${universeId === "vampire"
+  ? `- VAMPIRE NAMING LAW: Do NOT keep the user's real name unchanged. Transform it into its ancient, gothic, or Eastern European variant — as if the name was given centuries ago when they were turned. Then pair with a dark invented surname.
+- Format: [Title] [Transformed gothic first name] [Invented dark surname]
+- ${g.namingExamples}
+- Allowed titles (pick ONE): ${g.titles}`
+  : universeId === "pirate"
+  ? `- PIRATE NAMING LAW: Format is [Title] [Classic first name] ["Epithet"] [Invented surname] — the epithet sits between the first name and surname like a sobriquet.
+- ${g.namingExamples}
+- Allowed titles (pick ONE): ${g.titles}`
+  : universeId === "galactic"
+  ? `- GALACTIC NAMING LAW: The name must sound like it belongs centuries into a spacefaring future — sharp consonants, cosmic resonance, sleek when spoken aloud.
+- ${g.namingExamples}
+- Allowed titles (pick ONE): ${g.titles}`
+  : `- Format: [Title or designation] [Real first name] [Invented surname]
+- Allowed titles/designations (pick ONE that fits their path): ${g.titles}`}
 - The SURNAME must be invented from WHO THEY ARE in this universe — their craft, their deed, their element, their legend. Spirit of: ${g.surnames}
 - Every person must get a UNIQUE surname. Never reuse. Never pick a filler.
-${g.namingExamples ? `- Naming inspiration for this universe: ${g.namingExamples}` : ""}
 
 ROLE POOL — what people DO in ${u.title}:
 ${g.roleExamples}

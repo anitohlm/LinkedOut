@@ -6,17 +6,25 @@ import { getUniverse } from "@/lib/universes";
 
 // Per-universe role guidance — keeps each world's roles native to its tone and prevents the
 // mystical/archival fillers (Sage, Archivist, Warden…) from bleeding across every universe.
-const UNIVERSE_ROLE_GUIDE: Record<UniverseType, { tone: string; avoid?: string[]; prefer?: string[] }> = {
+const UNIVERSE_ROLE_GUIDE: Record<UniverseType, { tone: string; avoid?: string[]; prefer?: string[]; namingLaw?: string }> = {
   medieval: { tone: "feudal and courtly — banners, oaths, succession, stone keeps." },
   cyberpunk: { tone: "a neon megacity of augments and rogue networks — corporate, electric, self-made." },
-  pirate: { tone: "open seas and free ports — tides, sails, salt, and hard-won freedom." },
+  pirate: {
+    tone: "open seas and free ports — tides, sails, salt, and hard-won freedom.",
+    prefer: ["four-part name format: Title + classic first name + quoted Epithet + invented surname — e.g. Captain Mary \"Iron Tongue\" Vane or Quartermaster Henry \"The Reckless\" Shore"],
+  },
   dragon: { tone: "ancient and volcanic — power measured in centuries, embers and slow wisdom." },
   galactic: {
     tone: "post-Earth and technologically advanced — starfaring, orbital, engineered. NOT mystical, archival, or medieval.",
     avoid: ["Sage", "Lorekeeper", "Archivist", "Warden", "Elder"],
     prefer: ["Signal Shepherd", "Quantum Explorer", "Void Cartographer", "Stellar Pathfinder", "Orbital Strategist", "Colony Architect", "Neural Navigator", "Deep Field Analyst"],
+    namingLaw: `GALACTIC NAMING LAW — CRITICAL: The name must sound spacefaring and futuristic. Choose one approach: (1) Sleek future spin on their real name — sharp consonants, cosmic feel: Sofia→Sofyx, Marcus→Marcxen, Elena→Elynx, James→Jaxen, David→Daxid; (2) Fully cosmic/alien: Zephyra, Vexon, Kaelyx, Zynara, Dravox, Zaryn; (3) Designation hybrid: Axon-7 Voss, Echo Prime Nexar, Cipher Zenith. All must feature hard consonants (X, Z, V, K, Y), sound sleek aloud, and feel born among the stars. NEVER use soft medieval-sounding names.`,
   },
-  vampire: { tone: "eternal night — immortal courts, memory, gothic and patient." },
+  vampire: {
+    tone: "eternal night — immortal courts, memory, gothic and patient.",
+    avoid: ["modern first names unchanged — transform them"],
+    prefer: ["gothic cognates", "Eastern European variants", "Latin-root reimaginings of the user's real name — Alaric, Vladis, Seraphel, Mara, Dorian, Anneliese, Crisovan, Mihaelos"],
+  },
 };
 
 export async function POST(req: NextRequest) {
@@ -33,8 +41,15 @@ export async function POST(req: NextRequest) {
     const rg = UNIVERSE_ROLE_GUIDE[universeId];
     const roleGuide =
       `\nWORLD TONE for ${universe.title}: ${rg.tone}` +
-      (rg.avoid?.length ? `\nAvoid these role words here (wrong tone): ${rg.avoid.join(", ")}.` : "") +
-      (rg.prefer?.length ? `\nPrefer roles in this spirit: ${rg.prefer.join(", ")}.` : "");
+      (rg.avoid?.length ? `\nAvoid these: ${rg.avoid.join(", ")}.` : "") +
+      (rg.prefer?.length ? `\nPrefer / draw inspiration from: ${rg.prefer.join(", ")}.` : "") +
+      (universeId === "vampire"
+        ? `\n\nVAMPIRE NAMING LAW — CRITICAL: The character's first name must be a gothic/ancient transformation of the user's real name, NOT the plain modern name. Reimagine it as if it was bestowed centuries ago: find the Latin, Eastern European, or archaic cognate (e.g. Alex → Alaric or Aleksander, Maria → Mara or Morvaine, Sofia → Seraphel, David → Vladis or Dorian, Chris → Crisovan, James → Iacov). The name must feel immortal, aristocratic, and slightly unsettling. Pair with a dark invented surname (Latin/Romanian/Gothic roots — e.g. Nocturne, Veldrane, Morthis, Ashenwood, Valemont).`
+        : universeId === "pirate"
+        ? `\n\nPIRATE NAMING LAW — CRITICAL: The name must follow EXACTLY this four-part format: [Title] [User's real first name] ["Epithet"] [Invented surname] — the epithet sits between first name and surname like a sobriquet. NEVER replace the user's first name. Derive the epithet from the user's résumé reputation (e.g. negotiator → "Iron Tongue", strategist → "The Cunning", engineer → "Ironhand", connector → "Silvertongue"). Invent a sea-forged surname. Example (for a user named Nova): Captain Nova "Silvertongue" Rackham.`
+        : rg.namingLaw
+        ? `\n\n${rg.namingLaw}`
+        : "");
 
     // If the profile already established a world, the Future Self MUST live in that exact world.
     // Otherwise the model invents one in the same call (see WORLD GENERATION block below).

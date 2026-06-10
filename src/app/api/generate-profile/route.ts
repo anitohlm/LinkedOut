@@ -42,22 +42,31 @@ The name should look like a username/process/designation, NOT a normal human nam
 THIS TIME use the "${cyber.label}" style — e.g. ${cyber.examples.map(e => `"${e}"`).join(", ")}.
 VARY the format every time — do NOT default to the "//" slash style unless it is the one named above; never always output "${firstName}//Prime".
 Do NOT prepend human titles like Lord/Captain here.`,
-      pirate: `ENDLESS SEAS names — sailors, captains, pirates, navigators.
-Use sea/weather surnames; optionally a nautical rank (Captain, Navigator, Quartermaster).
-INVENT a fresh nautical surname every time — do NOT reuse Stormwake, Tidebreaker, Saltwind, Waveborn, Driftmark, Blackcurrent, or any name you've seen before. Coin new compounds from ocean/weather elements: tide, wave, gale, drift, salt, foam, squall, shoal, helm, keel, mast, port, reef, surge, wreck + breaker, rider, chaser, born, mark, wind, sworn, bound, song, strike, wake, run.
-Format: "[Rank] ${firstName} [NewSurname]" or "${firstName} [NewSurname]".`,
+      pirate: `ENDLESS SEAS names — the format is ALWAYS: [Rank] [First name] "[Epithet]" [Invented surname].
+FOUR parts, no exceptions.
+RANK — pick one: Captain, Quartermaster, Navigator, Corsair, First Mate, Commodore.
+FIRST NAME — use "${firstName}" as-is. Do NOT replace it with another name.
+EPITHET — a quoted nickname that sits between the first name and surname, earned from the person's reputation and résumé. Derive it from their defining trait: relentless negotiator → "Iron Tongue" | risk-taker → "The Reckless" | strategist → "The Cunning" | builder/engineer → "Ironhand" | connector/networker → "Silvertongue" | data/analyst → "The Cartographer" | leader → "Stonejaw" | fast-mover → "The Gale". Make it evocative and specific to THEIR legend.
+SURNAME — INVENT a fresh sea-forged surname every time — do NOT reuse Stormwake, Tidebreaker, Saltwind, Waveborn, Driftmark, Reefborn, or any name you've seen before. Coin new compounds from ocean/weather/port elements: tide, wave, gale, drift, salt, foam, shoal, helm, reef, surge, wreck, port, keel + breaker, rider, born, mark, wind, song, wake, run, shore, stone, crest, blade.
+EXAMPLE (for a user named Nova): Captain Nova "Silvertongue" Rackham | Quartermaster Nova "Ironhand" Shore | Navigator Nova "The Cunning" Vane.`,
       dragon: `ANCIENT DRACONIA names — Valyrian/Targaryen style. Names are elongated, melodic, and built with sounds like "ae", "yr", "rh", "ny", "ae", "on", "ar", "ys", "en", "ael".
 TRANSFORM the first name "${firstName}" into a Draconia-native form using these sounds — do NOT use "${firstName}" unchanged. Examples of the transformation style: Elena → Elhaena, Marcus → Maerys, James → Jaehaerys, Sofia → Syraea, David → Daevyn, Anna → Aenara, Carlos → Caerlon, Maria → Myraea.
 ALWAYS use the format: "[TransformedName] of House [HouseName]"
 INVENT a fresh House name every time — do NOT reuse Ashscale, Emberwing, Flameheart, Stormwyrm, Brightclaw, Inkbranch. Coin new House names from draconic/elemental roots: ember, ash, stone, iron, bone, cinder, scale, flame, sky, shadow, rune, void, blood, star + wing, claw, fang, heart, eye, born, vale, peak, rift, forge, keep, brand, fire, wyrm — but combine them in new ways each time.`,
-      galactic: `COSMIC FRONTIER names — colonists, explorers, interstellar pioneers.
-Use stellar/space surnames; optionally an exploration rank (Commander, Pilot, Pioneer).
-INVENT a fresh stellar surname every time — do NOT reuse Starforge, Novareach, Solaris, Kepler, Astralyn, Horizonfall, or any name you've seen before. Coin new compounds from space/celestial elements: nova, pulsar, void, orbit, helix, drift, arc, flux, quasar, nebula, ion, zenith, apex, sol, lux + reach, fall, born, ward, mark, forge, field, runner, seeker, sworn, drift, scan, jump, chart, run.
-Format: "[Rank] ${firstName} [NewSurname]" or "${firstName} [NewSurname]".`,
-      vampire: `ETERNAL NIGHT names — mystical, elegant, melancholic, immortal.
-Use shadowed/nocturnal surnames; optionally an old-world title (Lord, Lady, Count, Baron, Countess).
-INVENT a fresh nocturnal surname every time — do NOT reuse Nocturne, Veilborn, Duskbane, Umbra, Hollowmere, Nightwhisper, or any name you've seen before. Coin new compounds from darkness/gothic elements: veil, dusk, dawn, shade, ash, mist, crypt, grave, hollow, shadow, sable, blood, raven, ivory, silver + born, mere, bane, fall, song, thorn, keep, blade, light, wick, vale, mark, borne, stone, croft.
-Format: "[Title] ${firstName} [NewSurname]" or "${firstName} [NewSurname]".`,
+      galactic: `COSMIC FRONTIER names — spacefaring, futuristic, sharp-consonant. The name must sound like it belongs centuries into a starfaring future.
+THREE approaches — pick the one that best fits this person's vibe:
+1. SLEEK FUTURE SPIN — phonetically sharpen "${firstName}" with hard consonants (X, Z, V, K, Y), keeping it recognizable but evolved: Sofia→Sofyx, Marcus→Marcxen, Elena→Elynx, James→Jaxen, David→Daxid, Chris→Chryzx, Maria→Maryxa, Alex→Alxyn, Anna→Annyx, Carlos→Karlvex.
+2. FULLY COSMIC — replace entirely with a celestial/alien invention: Zephyra, Vexon, Kaelyx, Zynara, Orxan, Solvexa, Nexari, Dravox, Zaryn, Kyrex.
+3. DESIGNATION HYBRID — callsign fused with cosmic surname: Axon-7, Echo Prime, Cipher, Pulse, Relay.
+SURNAME — INVENT a fresh cosmic surname every time — do NOT reuse Voss, Nova, Helix, Zenith, Orion, Driftmark, Reefborn, or any prior name. Coin new ones from space/physics roots: nexar, vexis, oryn, crestix, solveig, dravon, zynex, kelvorn, arxen, quazyn.
+Optionally add a rank: Commander, Director, Specialist, Architect, Prime.
+RULE: Must feature hard consonants (X, Z, V, K). NEVER soft or medieval-sounding. NEVER "Nova Reefborn" style (that's pirate, not galactic).`,
+      vampire: `ETERNAL NIGHT names — immortal, gothic, aristocratic, ancient.
+CRITICAL: Do NOT use "${firstName}" unchanged. Transform it into its gothic/ancient variant — as if bestowed centuries ago when this person was turned. Find the Latin, Eastern European, or archaic cognate:
+${firstName} → examples of the transformation style: Alex→Alaric or Aleksander | Maria→Mara or Morvaine | Sofia→Seraphel | David→Vladis or Dorian | Chris→Crisovan | James→Iacov | Anne→Anneliese | Michael→Mihaelos | Sarah→Saelara | Carlos→Carvael.
+TITLE — pick one old-world title: Lord, Lady, Count, Countess, Baron, Warden, Keeper.
+SURNAME — INVENT a fresh nocturnal surname every time — do NOT reuse Nocturne, Veilborn, Duskbane, Umbra, Hollowmere, Nightwhisper, or any name you've seen before. Coin new ones from Latin/Romanian/Gothic roots: veldrane, morthis, ashenwood, valemont, craveth, seloris, duskveil, ashenmere, noctival, solvaine.
+Format: "[Title] [TransformedFirstName] [NewSurname]" — e.g. "Count Vladis Veldrane" or "Lady Seraphel Morthis".`,
     };
     const nameConvention = NAME_CONVENTIONS[universeId] || "";
 
@@ -76,7 +85,7 @@ Aim for the reaction: "That's still me — but I never would have imagined becom
 
 `Create an alternate universe career profile for this person in the ${universe.title} setting.
 
-First name (please keep it exactly): ${firstName}
+First name: ${firstName}${universeId === "vampire" || universeId === "galactic" ? ` — TRANSFORM this per the NAMING CONVENTION below, do NOT use it unchanged` : ` (keep it exactly)`}
 CORE IDENTITY: ${resumeAnalysis.timelineSignature}
 SKILLS: ${resumeAnalysis.skills.join(", ")}
 CAREER HIGHLIGHTS: ${resumeAnalysis.achievements.join(", ")}
