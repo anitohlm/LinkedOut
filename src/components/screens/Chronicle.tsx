@@ -1,8 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { AppState, AppScreenState, ChronicleEdition, MemorySnapshot, UniverseType } from "@/types";
+import HTMLFlipBook from "react-pageflip";
+
+// react-pageflip requires every direct child to forward a ref to its root DOM element
+const FlipPage = React.forwardRef<HTMLDivElement, { children: React.ReactNode }>(
+  ({ children }, ref) => (
+    <div ref={ref} style={{ width: "100%", height: "100%" }}>
+      {children}
+    </div>
+  )
+);
+FlipPage.displayName = "FlipPage";
 import { getUniverse } from "@/lib/universes";
 import { generateChronicle } from "@/lib/agents/useAgents";
 import { H, logEntry } from "@/lib/historian";
@@ -139,18 +150,21 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
   const [viewingEdition, setViewingEdition] = useState<ChronicleEdition | null>(latestEdition);
   const [showShelf, setShowShelf] = useState(editions.length > 0);
   const [pageIndex, setPageIndex] = useState(0);
-  const [flipDir, setFlipDir] = useState(1);
   const hasInit = useRef(false);
+  const bookRef = useRef<any>(null);
 
   const pages = viewingEdition
     ? buildPages(viewingEdition, accent, canGenerateNew, newMemoryCount, editionNumber)
     : [];
 
-  const goTo = (idx: number) => {
-    const dir = idx > pageIndex ? 1 : -1;
-    setFlipDir(dir);
-    setPageIndex(Math.max(0, Math.min(idx, pages.length - 1)));
-  };
+
+  // When the user switches editions from the shelf, reset to page 0
+  useEffect(() => {
+    setPageIndex(0);
+    if (bookRef.current) {
+      try { bookRef.current.pageFlip().turnToPage(0); } catch (_) { /* not yet mounted */ }
+    }
+  }, [viewingEdition]);
 
   useEffect(() => {
     if (!state.resumeAnalysis || !finalChoice) { transitionTo("universe-discovery"); return; }
@@ -447,27 +461,46 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
                 </span>
               </div>
 
-              {/* Page area */}
+              {/* Page area — react-pageflip physical page turn */}
               <div style={{ flex: 1, overflow: "hidden", position: "relative", borderRadius: "0 12px 12px 0" }}>
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={pageIndex}
-                    initial={{ rotateY: flipDir > 0 ? 60 : -60, opacity: 0, x: flipDir > 0 ? 40 : -40 }}
-                    animate={{ rotateY: 0, opacity: 1, x: 0 }}
-                    exit={{ rotateY: flipDir > 0 ? -60 : 60, opacity: 0, x: flipDir > 0 ? -40 : 40 }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                    style={{
-                      transformOrigin: flipDir > 0 ? "left center" : "right center",
-                      transformStyle: "preserve-3d",
-                    }}
-                  >
-                    <PageContent page={pages[pageIndex]} onAction={(action) => {
-                      if (action === "continue") transitionTo("universe-discovery");
-                      if (action === "generate") runGenerate();
-                      if (action === "shelf") setShowShelf(true);
-                    }} />
-                  </motion.div>
-                </AnimatePresence>
+                <HTMLFlipBook
+                  key={viewingEdition?.id ?? "book"}
+                  ref={bookRef}
+                  width={760}
+                  height={640}
+                  size="fixed"
+                  usePortrait={true}
+                  drawShadow={true}
+                  maxShadowOpacity={0.35}
+                  showCover={true}
+                  flippingTime={650}
+                  startPage={0}
+                  onFlip={(e: any) => setPageIndex(e.data)}
+                  style={{ borderRadius: "0 12px 12px 0" } as any}
+                  className=""
+                  mobileScrollSupport={false}
+                  showPageCorners={true}
+                  clickEventForward={false}
+                  useMouseEvents={true}
+                  swipeDistance={50}
+                  disableFlipByClick={true}
+                  minWidth={280}
+                  maxWidth={760}
+                  minHeight={400}
+                  maxHeight={640}
+                  autoSize={false}
+                  startZIndex={0}
+                >
+                  {pages.map((page, i) => (
+                    <FlipPage key={i}>
+                      <PageContent page={page} onAction={(action) => {
+                        if (action === "continue") transitionTo("universe-discovery");
+                        if (action === "generate") runGenerate();
+                        if (action === "shelf") setShowShelf(true);
+                      }} />
+                    </FlipPage>
+                  ))}
+                </HTMLFlipBook>
               </div>
             </div>
           </div>
@@ -475,7 +508,7 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
           {/* Navigation */}
           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
             <button
-              onClick={() => goTo(pageIndex - 1)}
+              onClick={() => bookRef.current?.pageFlip().flipPrev()}
               disabled={pageIndex === 0}
               aria-label="Previous page"
               style={{
@@ -490,7 +523,7 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
             {/* Page dots */}
             <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
               {pages.map((_, i) => (
-                <button key={i} onClick={() => goTo(i)} aria-label={`Go to page ${i + 1}`} style={{
+                <button key={i} onClick={() => bookRef.current?.pageFlip().turnToPage(i)} aria-label={`Go to page ${i + 1}`} style={{
                   width: i === pageIndex ? 20 : 6, height: 6, borderRadius: 3,
                   border: "none", cursor: "pointer", padding: 0,
                   background: i === pageIndex ? accent : "#3a3020",
@@ -500,7 +533,7 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
             </div>
 
             <button
-              onClick={() => goTo(pageIndex + 1)}
+              onClick={() => bookRef.current?.pageFlip().flipNext()}
               disabled={pageIndex === pages.length - 1}
               aria-label="Next page"
               style={{
@@ -527,11 +560,12 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
 function PageContent({ page, onAction }: { page: BookPage; onAction: (action: string) => void }) {
   const pageStyle: React.CSSProperties = {
     background: `linear-gradient(135deg, ${CREAM} 0%, ${CREAM2} 100%)`,
-    minHeight: "min(560px, 72vh)",
+    height: "100%",
     padding: "48px 52px",
     position: "relative",
     display: "flex",
     flexDirection: "column",
+    boxSizing: "border-box",
   };
 
   if (page.kind === "cover") {

@@ -107,9 +107,9 @@ const IDENTITY_GUIDE: Record<UniverseType, {
     titles: "Commander, Captain, Director, Specialist, Architect, Prime, Nova, Voss",
     themes: "humanity among stars, discovery, AI consciousness, quantum realities, deep-space frontier",
     worldLogic: "Humanity has spread across star systems. Roles are highly specialized and technical. Names use FUTURISTIC conventions — first names may include version tags or designations. This universe must feel DRAMATICALLY DIFFERENT from all others.",
-    surnames: "Starweaver, Voss, Nova, Helix, Zenith, Orion (or futuristic designations like ELN-A7, Theo Prime, Maya Nova — invent appropriately)",
-    roleExamples: "Void Cartographer, Quantum Explorer, Signal Shepherd, Planet Weaver, Stellar Pathfinder, Orbital Architect, Reality Navigator, Pulse Engineer, Deep Field Analyst, Consciousness Mapper",
-    namingExamples: "ELN-A7, Theo Prime, Maya Nova, Rowan Voss, Elena Starweaver, Theo Helix, Maya Zenith",
+    surnames: "Voss, Nova, Helix, Zenith, Orion, Driftmark (or futuristic designations like ELN-A7, Theo Prime, Maya Nova — invent appropriately)",
+    roleExamples: "Void Cartographer, Quantum Explorer, Signal Shepherd, Stellar Pathfinder, Orbital Architect, Reality Navigator, Pulse Engineer, Deep Field Analyst, Consciousness Mapper, Colony Strategist",
+    namingExamples: "ELN-A7, Theo Prime, Maya Nova, Rowan Voss, Elena Helix, Theo Zenith, Maya Orion",
     avoidTerms: "Lorekeeper, Archivist, Sage, any fantasy terminology, Fleet Admiral (too generic) — NEVER use fantasy job titles in this universe",
   },
   pirate: {
@@ -125,7 +125,7 @@ const IDENTITY_GUIDE: Record<UniverseType, {
     themes: "ancient magic, elemental forces, draconic knowledge, forging, binding, mastery",
     worldLogic: "A world of ancient dragons, elemental magic, and living fire. Power comes from mastery of natural forces — binding, forging, speaking. People define themselves by which force they have bent to their will.",
     surnames: "Emberwing, Ashscale, Dawnscale (invent a NEW one — elemental, forged from fire/stone/wind/scale)",
-    roleExamples: "Dragon Binder, Rune Forger, Flame Sage, Ember Keeper, Skyforge Master, Scale Speaker, Stone Tender, Wind Carver, Ash Weaver, Tide Caller",
+    roleExamples: "Dragon Binder, Rune Forger, Flame Sage, Ember Keeper, Skyforge Master, Scale Speaker, Stone Tender, Wind Carver, Ash Shaper, Tide Caller",
     avoidTerms: "Any sci-fi terminology, any modern terms, Architect, Engineer, Systems anything",
   },
   cyberpunk: {

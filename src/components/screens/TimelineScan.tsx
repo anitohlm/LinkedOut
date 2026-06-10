@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
+import { SpiralAnimation } from "@/components/ui/spiral-animation";
 
 interface TimelineScanProps {
   state: AppState;
@@ -50,18 +51,31 @@ export default function TimelineScan({ transitionTo }: TimelineScanProps) {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "var(--bg)",
+      background: "#000",
       paddingTop: 64,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      position: "relative",
+      overflow: "hidden",
     }}>
+      {/* Spiral animation — full-screen background */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
+        <SpiralAnimation />
+      </div>
+
+      {/* Dark overlay to keep UI readable */}
+      <div style={{
+        position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none",
+        background: "radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.65) 100%)",
+      }} />
+
       {/* Nav */}
       <nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
         height: 64, display: "flex", alignItems: "center", padding: "0 40px",
-        background: "rgba(8,9,13,0.8)", backdropFilter: "blur(20px)",
-        borderBottom: "1px solid var(--border)",
+        background: "rgba(0,0,0,0.55)", backdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
       }}>
         <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
@@ -72,7 +86,7 @@ export default function TimelineScan({ transitionTo }: TimelineScanProps) {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        style={{ textAlign: "center", maxWidth: 400, width: "100%", padding: "0 24px" }}
+        style={{ position: "relative", zIndex: 10, textAlign: "center", maxWidth: 400, width: "100%", padding: "0 24px" }}
       >
         {/* Orb */}
         <div style={{ position: "relative", width: 120, height: 120, margin: "0 auto 40px" }}>
