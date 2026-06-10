@@ -4,8 +4,12 @@ import { callAI, extractJSON } from "@/lib/agents/foundry";
 
 export async function POST(req: NextRequest) {
   try {
-    const { resumeText } = await req.json();
+    const { resumeText, explicitPronouns } = await req.json();
     if (!resumeText) return NextResponse.json({ error: "Resume text is required" }, { status: 400 });
+
+    const pronounsInstruction = explicitPronouns
+      ? `"pronouns": "${explicitPronouns}" — the user has explicitly chosen these pronouns. Use exactly this value.`
+      : `"pronouns": "infer the person's likely pronouns from their name and any cues: one of 'he/him', 'she/her', or 'they/them'. If genuinely unclear, use 'they/them'."`;
 
     const response = await callAI("You are an expert resume analyst. Extract structured data from resumes and return valid JSON only.", `Extract the identity hidden within this resume. Return JSON only.
 
@@ -16,7 +20,7 @@ Return this exact JSON structure:
 {
   "name": "full name of the person from the resume header",
   "firstName": "just their first name",
-  "pronouns": "infer the person's likely pronouns from their name and any cues: one of 'he/him', 'she/her', or 'they/them'. If genuinely unclear, use 'they/them'.",
+  ${pronounsInstruction},
   "skills": ["array of technical and soft skills"],
   "competencies": ["core competencies that define how they work"],
   "strengths": ["recurring strengths across all roles"],

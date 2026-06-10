@@ -264,4 +264,8 @@ export interface AppState {
   hasSeenStabilityBriefing?: boolean;
   // Universe IDs for which the arrival experience has been completed (not shown again unless replayed)
   arrivedUniverses?: string[];
+  // Gender selected by the user on the resume upload screen
+  selectedGender?: "female" | "male" | "prefer-not-to-say" | null;
+  // Explicit pronouns derived from selectedGender — overrides AI inference in all prompts
+  explicitPronouns?: string | null;
 }

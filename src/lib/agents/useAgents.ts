@@ -20,8 +20,8 @@ async function post<T>(path: string, body: unknown): Promise<T> {
 }
 
 // Agent 1
-export const analyzeResume = (resumeText: string) =>
-  post<ResumeAnalysis>("/api/analyze-resume", { resumeText });
+export const analyzeResume = (resumeText: string, explicitPronouns?: string | null) =>
+  post<ResumeAnalysis>("/api/analyze-resume", { resumeText, explicitPronouns });
 
 // Agent 2
 export const generateProfile = (resumeAnalysis: ResumeAnalysis, universeId: UniverseType) =>

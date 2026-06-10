@@ -56,7 +56,7 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
       // Phase 1: Analyze resume
       setPhase("analyzing");
       setProgress(5);
-      const analysis: ResumeAnalysis = await analyzeResume(state.resumeText!);
+      const analysis: ResumeAnalysis = await analyzeResume(state.resumeText!, state.explicitPronouns);
       updateState({ resumeAnalysis: analysis });
       setProgress(15);
       setPhase("building");
