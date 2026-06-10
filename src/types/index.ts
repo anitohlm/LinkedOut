@@ -262,4 +262,6 @@ export interface AppState {
   journeyCollapsed?: boolean;
   // Whether the user has seen the first-entry timeline stability briefing modal
   hasSeenStabilityBriefing?: boolean;
+  // Universe IDs for which the arrival experience has been completed (not shown again unless replayed)
+  arrivedUniverses?: string[];
 }

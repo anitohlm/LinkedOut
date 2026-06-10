@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import UniverseArrivalModal from "@/components/UniverseArrivalModal";
 import { AppState, AppScreenState } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import UniverseBackground from "@/components/UniverseBackground";
@@ -19,10 +20,32 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
   const profile = state.selectedUniverse ? state.allProfiles?.[state.selectedUniverse] ?? null : null;
   const universe = state.selectedUniverse ? getUniverse(state.selectedUniverse) : null;
 
+  // Arrival modal — shown on first entry per universe
+  const arrivedUniverses = state.arrivedUniverses ?? [];
+  const [showArrival, setShowArrival] = useState(false);
+
   useEffect(() => {
     if (!state.selectedUniverse || !profile) { transitionTo("universe-discovery"); return; }
     markActivity(state, updateState, state.selectedUniverse, "profile");
+    // Show arrival modal only if this universe hasn't been arrived at yet
+    if (!arrivedUniverses.includes(state.selectedUniverse)) {
+      const t = setTimeout(() => setShowArrival(true), 400);
+      return () => clearTimeout(t);
+    }
   }, []);
+
+  const dismissArrival = () => {
+    setShowArrival(false);
+    if (state.selectedUniverse) {
+      updateState({ arrivedUniverses: [...new Set([...arrivedUniverses, state.selectedUniverse])] });
+    }
+  };
+
+  const replayArrival = () => {
+    if (!state.selectedUniverse) return;
+    updateState({ arrivedUniverses: arrivedUniverses.filter(id => id !== state.selectedUniverse) });
+    setShowArrival(true);
+  };
 
   if (!profile || !universe) return null;
 
@@ -72,6 +95,16 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", paddingTop: 64, position: "relative" }}>
+
+      {/* ── Universe Arrival Modal ─────────────────────────────────────────── */}
+      {showArrival && profile && universe && (
+        <UniverseArrivalModal
+          universeId={universe.id}
+          profile={profile}
+          onDismiss={dismissArrival}
+        />
+      )}
+
       {/* Ambient themed background, merged with the universe's own scenic skyline at the bottom */}
       <UniverseBackground universeId={universe.id} color={accentColor} />
       <UniverseArtworkBackground universeId={universe.id} color={accentColor} />
@@ -323,6 +356,24 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
 
           </div>
         </div>
+
+        {/* Replay Arrival link */}
+        <div style={{ textAlign: "center", paddingBottom: 60, paddingTop: 8 }}>
+          <button
+            onClick={replayArrival}
+            style={{
+              background: "none", border: "none", cursor: "pointer",
+              fontSize: 12, color: "var(--text3)", fontFamily: "Sora, sans-serif",
+              letterSpacing: "0.04em", padding: "8px 12px", minHeight: 44,
+              transition: "color 0.15s", touchAction: "manipulation",
+            }}
+            onMouseEnter={e => (e.currentTarget.style.color = accentColor)}
+            onMouseLeave={e => (e.currentTarget.style.color = "var(--text3)")}
+          >
+            ↺ Replay Arrival
+          </button>
+        </div>
+
       </div>
     </div>
   );
