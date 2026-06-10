@@ -87,10 +87,10 @@ Return this exact JSON:
   "year": 2150,
   "personality": "2-3 sentences: who are they now?",
   "philosophy": "core belief forged through experience",
-  "memories": ["5 vivid first-person memories of being the user — include vulnerable, funny, and crossroads moments"],
-  "achievements": ["5-7 major achievements in this universe"],
-  "regrets": ["3-5 human-scale regrets"],
-  "lessons": ["5 lessons earned through experience"]
+  "memories": ["5 vivid first-person memories written in the voice and language of this world — no modern vocabulary. Each memory should feel like it happened in this civilization: smells, sounds, stakes, and people native to this world. No web, network, protocol, database, incident, KPI, or modern corporate language unless the universe is Cyberpunk or Galactic."],
+  "achievements": ["5-7 major achievements expressed as in-world events — vivid, historically-phrased, native to this civilization's language and stakes. Not 'Led a cross-functional team' but 'Rallied the fractured war-bands of the Northern Reaches under a single banner during the Siege of Valmoor'. No modern vocabulary in non-tech universes."],
+  "regrets": ["3-5 human-scale regrets phrased in the language of this world — things this person failed to do, people they let down, choices that still haunt them, expressed through this civilization's values and relationships"],
+  "lessons": ["5 lessons earned through hard experience — written as wisdom this person would actually speak aloud in this world, not modern self-help language"]
 }
 
 Output COMPLETE, valid JSON only — do not get cut off.`);

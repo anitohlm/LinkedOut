@@ -22,16 +22,13 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
 
   // Arrival modal — shown on first entry per universe
   const arrivedUniverses = state.arrivedUniverses ?? [];
-  const [showArrival, setShowArrival] = useState(false);
+  // Initialize to true immediately if this is a first visit — modal blocks the profile from frame one
+  const isFirstVisit = state.selectedUniverse ? !arrivedUniverses.includes(state.selectedUniverse) : false;
+  const [showArrival, setShowArrival] = useState(isFirstVisit);
 
   useEffect(() => {
     if (!state.selectedUniverse || !profile) { transitionTo("universe-discovery"); return; }
     markActivity(state, updateState, state.selectedUniverse, "profile");
-    // Show arrival modal only if this universe hasn't been arrived at yet
-    if (!arrivedUniverses.includes(state.selectedUniverse)) {
-      const t = setTimeout(() => setShowArrival(true), 400);
-      return () => clearTimeout(t);
-    }
   }, []);
 
   const dismissArrival = () => {
@@ -57,7 +54,8 @@ export default function IdentityReconstruction({ state, transitionTo, updateStat
     return [r, g, b].some(isNaN) ? "124,110,247" : `${r},${g},${b}`;
   })();
   const acceptedPosition = (state.acceptedPositions || []).find(p => p.universeId === state.selectedUniverse);
-  const displayTitle = acceptedPosition?.title ?? profile.profession;
+  const rawDisplayTitle = acceptedPosition?.title ?? profile.profession ?? "";
+  const displayTitle = rawDisplayTitle.split(/\s[—–-]\s/)[0].trim();
 
   // Universe-themed label for the recruiter mailbox
   const INVITATION_LABELS: Record<string, string> = {

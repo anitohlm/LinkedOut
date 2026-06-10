@@ -34,7 +34,7 @@ const WORLD_TITLE_STYLE: Record<string, React.CSSProperties> = {
   pirate:    { fontFamily: "'Sora', sans-serif", fontStyle: "italic", letterSpacing: "0.02em" },
   dragon:    { fontFamily: "'Cinzel Decorative', serif", letterSpacing: "0.1em" },
   galactic:  { fontFamily: "'Exo 2', sans-serif", letterSpacing: "0.08em" },
-  vampire:   { fontFamily: "'Crimson Pro', serif", fontStyle: "italic", letterSpacing: "0.06em" },
+  vampire:   { fontFamily: "'Crimson Pro', serif", fontStyle: "italic", letterSpacing: "0.06em", fontSize: 12 },
 };
 
 
@@ -460,7 +460,9 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                 const c = universe.color;
                 const visited = explored.includes(universe.id);
                 const acceptedPos = (state.acceptedPositions || []).find(p => p.universeId === universe.id);
-                const cardTitle = acceptedPos?.title ?? profile?.profession;
+                const rawTitle = acceptedPos?.title ?? profile?.profession ?? "";
+                // Strip " — description" suffixes the AI sometimes appends to role titles
+                const cardTitle = rawTitle.split(/\s[—–-]\s/)[0].trim();
                 const activities = state.universeActivity?.[universe.id] || [];
                 const pct = universePercent(activities);
                 return (
@@ -482,46 +484,50 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                     {/* ── ARTWORK HEADER: atmospheric destination art ─────── */}
                     <UniverseArtwork id={universe.id} color={c} visited={visited} hovering={hoveredUniverse === universe.id} />
 
-                    {/* Universe title pill — overlaid on artwork */}
-                    <div style={{ position: "absolute", top: 14, right: 14, zIndex: 6 }}>
-                      <span style={{
-                        fontSize: 10, padding: "4px 10px", borderRadius: 100, fontWeight: 700,
-                        background: `rgba(8,9,13,0.72)`, backdropFilter: "blur(8px)",
-                        color: c, border: `1px solid ${c}${visited ? "55" : "30"}`,
-                        display: "flex", alignItems: "center", gap: 5,
-                        letterSpacing: "0.05em", textTransform: "uppercase",
+                    {/* World name + era pill — top right, same position as old universe badge */}
+                    <div style={{ position: "absolute", top: 24, right: 14, zIndex: 6 }}>
+                      <div style={{
+                        borderRadius: 8, padding: "5px 10px", textAlign: "right",
                       }}>
-                        {visited && (
-                          <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
-                            <path d="M2 6l3 3 5-5" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
+                        {profile ? (
+                          <>
+                            <div style={{
+                              fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
+                              textTransform: "uppercase", color: c, lineHeight: 1.3,
+                              display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 5,
+                              ...(WORLD_TITLE_STYLE[universe.id] ?? {}),
+                            }}>
+                              {visited && (
+                                <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
+                                  <path d="M2 6l3 3 5-5" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                              )}
+                              {profile.worldName}
+                            </div>
+                            <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: "0.02em", marginTop: 1 }}>
+                              {profile.eraName}
+                            </div>
+                          </>
+                        ) : (
+                          <div style={{
+                            fontSize: 10, fontWeight: 700, color: c,
+                            letterSpacing: "0.05em", textTransform: "uppercase",
+                          }}>
+                            {universe.title}
+                          </div>
                         )}
-                        {universe.title}
-                      </span>
+                      </div>
                     </div>
 
                     {/* ── CARD CONTENT ─────────────────────────────────────── */}
                     <div style={{ padding: "18px 24px 24px" }}>
                       {profile ? (
                         <>
-                          {/* 1. WORLD FIRST — name in universe typography, then era */}
-                          <div style={{
-                            fontSize: 10, fontWeight: 700, letterSpacing: "0.16em",
-                            textTransform: "uppercase", color: c, marginBottom: 3,
-                            lineHeight: 1.2,
-                            ...(WORLD_TITLE_STYLE[universe.id] ?? {}),
-                          }}>
-                            {profile.worldName}
-                          </div>
-                          <div style={{ fontSize: 12, color: "var(--text3)", marginBottom: 16, letterSpacing: "0.03em" }}>
-                            {profile.eraName}
-                          </div>
-
-                          {/* 2. CHARACTER — name then title */}
+                          {/* 1. CHARACTER — name then title */}
                           <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.3px", lineHeight: 1.25, marginBottom: 6, color: "var(--text)" }}>
                             {profile.alternativeName}
                           </h3>
-                          <p style={{ fontSize: 13.5, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.35 }}>{cardTitle}</p>
+                          <p style={{ fontSize: 13.5, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.35, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={cardTitle}>{cardTitle}</p>
 
                           {/* 3. BIO — story preview */}
                           <p style={{ fontSize: 13.5, color: "var(--text3)", lineHeight: 1.65, margin: 0 }}>

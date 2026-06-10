@@ -29,9 +29,14 @@ export async function POST(req: NextRequest) {
     // universe instantly recognizable, and may fully abandon the user's real surname.
     const NAME_CONVENTIONS: Record<string, string> = {
       medieval: `MEDIEVAL KINGDOM names — nobility, guilds, royal houses, knighthood.
-Use noble/knightly titles (Lord, Lady, Sir, Master, Dame) and earthy heraldic surnames or "of [Place]".
-INVENT a fresh heraldic surname every time — do NOT reuse Ashvale, Ironward, Thornkeep, Blackthorn, or any name you've seen before. Coin new two-part compounds from natural/feudal elements: stone, wood, field, hill, brook, crest, ward, hold, gate, moor, vale, spire + forge, keep, wick, thorpe, fell, worth, cross, mill, mount, bridge.
-Format: "[Title] ${firstName} [NewSurname]" or "${firstName} of [NewPlace]".`,
+FIRST NAME — transform "${firstName}" into a medieval/archaic form. If it sounds modern, apply period phonetics:
+- Add Latin/Old English endings: -ia, -or, -yn, -wyn, -eth, -ald (-ia gives feminine grace; -eth/-ald give weight)
+- Replace modern sounds: J→Joh/Jeh, C→K/Ch, x→cks, ck→k, y→i, modern vowel combos → archaic equivalents
+- Examples: Honey→Honoria, Sarah→Sarai, John→Jehan, Michael→Michaelis, Carlos→Karolos, Emily→Aemilia, David→Daveth, Sofia→Saoirse, James→Jamus, Anna→Anwyn
+- If the name already sounds period-appropriate (e.g. Eleanor, Roland, Arthur), keep it
+SURNAME — invent a fresh heraldic surname every time — do NOT reuse Ashvale, Ironward, Thornkeep, Blackthorn, or any name you've seen before. Coin new two-part compounds from: stone/wood/field/hill/brook/crest/ward/hold/gate/moor/vale/spire + forge/keep/wick/thorpe/fell/worth/cross/mill/mount/bridge.
+TITLE — add a noble/knightly title: Lord, Lady, Sir, Master, Dame.
+Format: "[Title] [TransformedFirstName] [NewSurname]" or "[Title] [TransformedFirstName] of [NewPlace]".`,
       cyberpunk: `NEON SYNTHESIS names — digital identities, handles, aliases, protocol designations. Post-human, cybernetic.
 The name should look like a username/process/designation, NOT a normal human name. Feel free to drop the surname or the whole human name.
 THIS TIME use the "${cyber.label}" style — e.g. ${cyber.examples.map(e => `"${e}"`).join(", ")}.
@@ -97,21 +102,35 @@ WORLD — invent first, career second
 ════════════════════════════════════════════
 The world is INDEPENDENT of the person's career. Invent it like a world-builder, not a career counsellor:
 - worldName: a vivid, original name for a specific civilization or realm within ${universe.title}. It should feel like a real place with its own history, geography, and culture — invented freely, not derived from the person's job. No two generations should produce the same name.
-- eraName: a named historical period within that world — a time of upheaval, flourishing, discovery, or decline. Invented freely; has nothing to do with the person's résumé.
+- eraName: a named historical period within that world. Invent a fresh, specific name every time — vary the format: sometimes "The [Adjective] [Noun]" (The Scorching Veil, The Flux Convergence), sometimes "[The] Age/Era/Epoch of [Thing]" (The Age of Whispering Currents), sometimes a proper-noun event name (The Sundering, The Long Silence, The Second Bloom). Never reuse the same structure twice in a row. Has nothing to do with the person's résumé.
 - worldDescription: 1-2 sentences describing what makes this civilization distinctive.
 
 Once the world exists, ask: given this person's core strengths and personality — what would they naturally grow into HERE? Their profession is what this world made of them, not a translation of their real job.
 
+════════════════════════════════════════════
+UNIVERSE IMMERSION — achievements & skills must feel NATIVE
+════════════════════════════════════════════
+Every achievement and competency must be written as if by someone who has never heard of the modern world. The underlying human ability stays (leadership, pattern recognition, crisis handling, negotiation, systems thinking) — but the FORM it takes is entirely of this civilization.
+
+BANNED in non-tech universes (Medieval, Pirate, Dragon, Vampire): web, network, breach, protocol, infrastructure, database, cloud, server, system, incident response, SLA, KPI, roadmap, sprint, deployment, cybersecurity, governance charter, training program, stakeholder, onboarding, pipeline, metrics, dashboard.
+
+Per-universe transformation guide:
+• MEDIEVAL KINGDOM — leadership → "Commanded the defence of three keeps during the Siege of Valmoor"; analysis → "Read the enemy's battle formation and repositioned the flank before the charge"; governance → "Drafted the Ironwood Accord, settling a decade of border disputes between noble houses"; skill-building → "Trained thirty squires in the art of mounted reconnaissance".
+• ENDLESS SEAS — project delivery → "Navigated the Stormbreak Passage in three days, beating the trade fleet by a fortnight"; leadership → "Rallied a fractured crew through the Doldrums of Sorrow without losing a single man"; negotiation → "Brokered a truce between the Saltwind Brotherhood and the Merchant Lords of Vel Canta".
+• ANCIENT DRACONIA — incident response → "Sealed the Ashrift wards before the void-wyrms breached the inner sanctum"; network security → "Wove a lattice of flame-seals across seven mountain passes, holding the border for three years"; governance → "Authored the Draconic Compact of the Seven Houses, binding rival clans under one flame-oath"; skill-building → "Mentored a cohort of young wyrm-readers in the lost art of ember-divination".
+• COSMIC FRONTIER — leadership → "Led the first successful survey mission into the Vanthar Nebula, charting 14 habitable systems"; analysis → "Decoded the colonial distress pattern and rerouted the fleet before the ion storm hit"; governance → "Drafted the Frontier Charter of Rights, adopted by six independent colony stations".
+• ETERNAL NIGHT — leadership → "Guided a fractured coven through the Night of Hollow Bells without a single soul lost to the Veil"; analysis → "Traced the memory-theft pattern back to its origin across four centuries of buried records"; negotiation → "Brokered a 50-year silence between the Ashborne Court and the Duskward Conclave".
+
 Return this exact JSON:
 {
   "alternativeName": "A culturally authentic name for a native of ${universe.title}, following the NAMING convention above. Make the universe recognizable from the name alone. Easy to say aloud (or read, for Neon Synthesis handles).",
-  "profession": "The role this person grew into within this specific world — shaped by both their core strengths AND what this civilization values and needs. Not a re-skin of their real job. A role that feels native to worldName.",
+  "profession": "SHORT role title only — 2 to 5 words max, no sentences, no descriptions, no dashes followed by explanations. Examples: 'Warden of the Veil', 'Sentinel Architect', 'Fleet Navigator', 'Rune Forger'. Native to this world, shaped by this person's strengths.",
   "worldName": "an original civilization/realm name within ${universe.title} — invented freely, not derived from this person's career",
-  "eraName": "a named historical period in this world — invented freely",
+  "eraName": "a specific, invented era name — vary the format each generation (e.g. 'The Scorching Veil', 'The Long Silence', 'Age of Broken Tides', 'The Second Bloom')",
   "worldDescription": "1-2 concise sentences describing what makes this civilization distinctive",
-  "biography": "2-3 paragraph memoir-style biography",
-  "achievements": ["5-7 achievements echoing their real ones in universe terms"],
-  "competencies": ["skills adapted to universe context"],
+  "biography": "2-3 paragraph memoir-style biography written in the voice and language of this world — no modern vocabulary",
+  "achievements": ["5-7 achievements, each a vivid in-world story event following the UNIVERSE IMMERSION guide above. No modern vocabulary. Each entry should feel like a line from this civilization's historical record."],
+  "competencies": ["6-8 skills that are NATIVE PRACTICES of this world — fully reimagined, never just a universe adjective prepended to a modern skill. Each skill must be something a native practitioner of this civilization would actually be known for. BAD: 'Ember Network Security', 'Flame Incident Response', 'Pirate Cloud Management'. GOOD examples by universe — Dragon: 'Wyrm-Sign Reading', 'Flame-Seal Warding', 'Draconic Compact Drafting', 'Omen Council Leadership'; Medieval: 'Siege Tactics', 'Oath-Bond Negotiation', 'Keep Fortification', 'Battle Formation Reading'; Pirate: 'Tide & Current Reading', 'Crew Morale Command', 'Port Authority Negotiation', 'Storm Navigation'; Galactic: 'Stellar Cartography', 'Colony Logistics', 'Neural Interface Design', 'Quantum Signal Analysis'; Vampire: 'Memory Extraction', 'Court Intrigue & Shadow Counsel', 'Veil Crossing', 'Blood-Oath Binding'; Cyberpunk: 'Neural Exploit Mapping', 'Ghost Protocol Design', 'Grid Infiltration', 'Corporate Psych Profiling'."],
   "timelineStory": "narrative career path in this universe",
   "personalityProfile": "how their core personality manifests here",
   "careerTrajectory": "where are they going in this universe?",
