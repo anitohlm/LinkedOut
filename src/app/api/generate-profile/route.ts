@@ -30,7 +30,8 @@ export async function POST(req: NextRequest) {
     const NAME_CONVENTIONS: Record<string, string> = {
       medieval: `MEDIEVAL KINGDOM names — nobility, guilds, royal houses, knighthood.
 Use noble/knightly titles (Lord, Lady, Sir, Master, Dame) and earthy heraldic surnames or "of [Place]".
-Examples (for "${firstName}"): "Lord ${firstName} Ashvale", "Sir ${firstName} Ironward", "${firstName} of Gildenspire", "Master ${firstName} Thornkeep", "${firstName} Blackthorn".`,
+INVENT a fresh heraldic surname every time — do NOT reuse Ashvale, Ironward, Thornkeep, Blackthorn, or any name you've seen before. Coin new two-part compounds from natural/feudal elements: stone, wood, field, hill, brook, crest, ward, hold, gate, moor, vale, spire + forge, keep, wick, thorpe, fell, worth, cross, mill, mount, bridge.
+Format: "[Title] ${firstName} [NewSurname]" or "${firstName} of [NewPlace]".`,
       cyberpunk: `NEON SYNTHESIS names — digital identities, handles, aliases, protocol designations. Post-human, cybernetic.
 The name should look like a username/process/designation, NOT a normal human name. Feel free to drop the surname or the whole human name.
 THIS TIME use the "${cyber.label}" style — e.g. ${cyber.examples.map(e => `"${e}"`).join(", ")}.
@@ -38,16 +39,20 @@ VARY the format every time — do NOT default to the "//" slash style unless it 
 Do NOT prepend human titles like Lord/Captain here.`,
       pirate: `ENDLESS SEAS names — sailors, captains, pirates, navigators.
 Use sea/weather surnames; optionally a nautical rank (Captain, Navigator, Quartermaster).
-Examples (for "${firstName}"): "${firstName} Stormwake", "Captain ${firstName} Blackcurrent", "${firstName} Tidebreaker", "${firstName} Saltwind", "${firstName} Waveborn", "${firstName} Driftmark".`,
-      dragon: `ANCIENT DRACONIA names — dragon clans, ancient scholars, mythic lineages.
-Use fire/scale/clan surnames; optionally a scholarly/clan title (Sage, Elder, Keeper).
-Examples (for "${firstName}"): "${firstName} Emberwing", "Sage ${firstName} Inkbranch", "${firstName} Flameheart", "${firstName} Ashscale", "${firstName} Stormwyrm", "${firstName} Brightclaw".`,
+INVENT a fresh nautical surname every time — do NOT reuse Stormwake, Tidebreaker, Saltwind, Waveborn, Driftmark, Blackcurrent, or any name you've seen before. Coin new compounds from ocean/weather elements: tide, wave, gale, drift, salt, foam, squall, shoal, helm, keel, mast, port, reef, surge, wreck + breaker, rider, chaser, born, mark, wind, sworn, bound, song, strike, wake, run.
+Format: "[Rank] ${firstName} [NewSurname]" or "${firstName} [NewSurname]".`,
+      dragon: `ANCIENT DRACONIA names — Valyrian/Targaryen style. Names are elongated, melodic, and built with sounds like "ae", "yr", "rh", "ny", "ae", "on", "ar", "ys", "en", "ael".
+TRANSFORM the first name "${firstName}" into a Draconia-native form using these sounds — do NOT use "${firstName}" unchanged. Examples of the transformation style: Elena → Elhaena, Marcus → Maerys, James → Jaehaerys, Sofia → Syraea, David → Daevyn, Anna → Aenara, Carlos → Caerlon, Maria → Myraea.
+ALWAYS use the format: "[TransformedName] of House [HouseName]"
+INVENT a fresh House name every time — do NOT reuse Ashscale, Emberwing, Flameheart, Stormwyrm, Brightclaw, Inkbranch. Coin new House names from draconic/elemental roots: ember, ash, stone, iron, bone, cinder, scale, flame, sky, shadow, rune, void, blood, star + wing, claw, fang, heart, eye, born, vale, peak, rift, forge, keep, brand, fire, wyrm — but combine them in new ways each time.`,
       galactic: `COSMIC FRONTIER names — colonists, explorers, interstellar pioneers.
 Use stellar/space surnames; optionally an exploration rank (Commander, Pilot, Pioneer).
-Examples (for "${firstName}"): "${firstName} Starforge", "${firstName} Novareach", "${firstName} Solaris", "Commander ${firstName} Kepler", "${firstName} Astralyn", "${firstName} Horizonfall".`,
+INVENT a fresh stellar surname every time — do NOT reuse Starforge, Novareach, Solaris, Kepler, Astralyn, Horizonfall, or any name you've seen before. Coin new compounds from space/celestial elements: nova, pulsar, void, orbit, helix, drift, arc, flux, quasar, nebula, ion, zenith, apex, sol, lux + reach, fall, born, ward, mark, forge, field, runner, seeker, sworn, drift, scan, jump, chart, run.
+Format: "[Rank] ${firstName} [NewSurname]" or "${firstName} [NewSurname]".`,
       vampire: `ETERNAL NIGHT names — mystical, elegant, melancholic, immortal.
-Use shadowed/nocturnal surnames; optionally an old-world title (Lord, Lady, Count, Baron).
-Examples (for "${firstName}"): "${firstName} Nocturne", "Lord ${firstName} Veilborn", "${firstName} Duskbane", "${firstName} Umbra", "${firstName} Hollowmere", "${firstName} Nightwhisper".`,
+Use shadowed/nocturnal surnames; optionally an old-world title (Lord, Lady, Count, Baron, Countess).
+INVENT a fresh nocturnal surname every time — do NOT reuse Nocturne, Veilborn, Duskbane, Umbra, Hollowmere, Nightwhisper, or any name you've seen before. Coin new compounds from darkness/gothic elements: veil, dusk, dawn, shade, ash, mist, crypt, grave, hollow, shadow, sable, blood, raven, ivory, silver + born, mere, bane, fall, song, thorn, keep, blade, light, wick, vale, mark, borne, stone, croft.
+Format: "[Title] ${firstName} [NewSurname]" or "${firstName} [NewSurname]".`,
     };
     const nameConvention = NAME_CONVENTIONS[universeId] || "";
 
@@ -87,19 +92,23 @@ RULES:
 - You may keep the first name "${firstName}", transform it, or — when it fits the world (especially Neon Synthesis) — fully reinterpret it.
 - The reader should recognize the universe from the name alone. Aim for cultural authenticity, not similarity to the original name.
 
-Also give this person a real place to live, not just a genre. "${universe.title}" is only a broad setting; name the specific civilization and historical era they belong to, shaped by their Career DNA so the same setting feels different for different people:
-- worldName: a specific realm or civilization within the setting. For example, Ancient Draconia could become "The Ember Dominion", Endless Seas "The Crimson Archipelago", or Cosmic Frontier "Helios Reach".
-- eraName: the named period they live in, such as "The Seventh Flight", "Season of Black Sails", or "Star Cycle 88".
-- worldDescription: one or two short sentences describing this world.
-A teacher might live in "The Library Peaks" during the "Age of Forgotten Tomes"; a nurse in "The Calmwater Archipelago" during "The Healing Tide". Let the world's culture and history echo this person's craft.
+════════════════════════════════════════════
+WORLD — invent first, career second
+════════════════════════════════════════════
+The world is INDEPENDENT of the person's career. Invent it like a world-builder, not a career counsellor:
+- worldName: a vivid, original name for a specific civilization or realm within ${universe.title}. It should feel like a real place with its own history, geography, and culture — invented freely, not derived from the person's job. No two generations should produce the same name.
+- eraName: a named historical period within that world — a time of upheaval, flourishing, discovery, or decline. Invented freely; has nothing to do with the person's résumé.
+- worldDescription: 1-2 sentences describing what makes this civilization distinctive.
+
+Once the world exists, ask: given this person's core strengths and personality — what would they naturally grow into HERE? Their profession is what this world made of them, not a translation of their real job.
 
 Return this exact JSON:
 {
   "alternativeName": "A culturally authentic name for a native of ${universe.title}, following the NAMING convention above. Make the universe recognizable from the name alone. Easy to say aloud (or read, for Neon Synthesis handles).",
-  "profession": "An earned, believable role that expresses the person's archetype in this universe — clean and easy to say aloud (e.g. 'Royal Chronicler', 'Fleet Commander', 'Harbor Warden'). Avoid grandiose stacked jargon, and prefer this over a direct translation of their real-world job title.",
-  "worldName": "the specific civilization within ${universe.title}, shaped by this person's Career DNA",
-  "eraName": "the named historical era they live in",
-  "worldDescription": "1-2 concise sentences describing this world",
+  "profession": "The role this person grew into within this specific world — shaped by both their core strengths AND what this civilization values and needs. Not a re-skin of their real job. A role that feels native to worldName.",
+  "worldName": "an original civilization/realm name within ${universe.title} — invented freely, not derived from this person's career",
+  "eraName": "a named historical period in this world — invented freely",
+  "worldDescription": "1-2 concise sentences describing what makes this civilization distinctive",
   "biography": "2-3 paragraph memoir-style biography",
   "achievements": ["5-7 achievements echoing their real ones in universe terms"],
   "competencies": ["skills adapted to universe context"],

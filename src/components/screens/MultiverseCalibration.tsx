@@ -51,6 +51,9 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
         shadowCuriosity: 0, lastInterceptTurn: -99, historianLog: [],
         completionBonusGiven: [], stabilityMessage: null,
         timelineState: { stability: 100, status: "stable" },
+        // Reset first-time modals so they show again on each new generation
+        hasSeenStabilityBriefing: false,
+        arrivedUniverses: [],
       });
 
       // Phase 1: Analyze resume

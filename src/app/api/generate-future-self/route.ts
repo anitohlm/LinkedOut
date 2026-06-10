@@ -67,27 +67,15 @@ Preserve the user's STRENGTHS. Do NOT preserve their profession. Let this world 
 ${roleGuide}
 ${worldDirective}
 ════════════════════════════════════════════
-WORLD GENERATION — make this a REAL place, not a genre
+WORLD GENERATION — world first, career second
 ════════════════════════════════════════════
-The UNIVERSE above is only a broad category. You must invent the SPECIFIC civilization and era this person actually lives in:
-• worldName — a specific civilization/realm WITHIN the universe.
-• eraName — the named historical period they live in.
-• worldDescription — 1-2 concise sentences describing this world.
+The UNIVERSE above is only a broad genre category. Invent the world like a world-builder — freely and independently of this person's career:
 
-Shape examples (universe → world → era):
-  Ancient Draconia → "The Ember Dominion" → "The Seventh Flight"
-  Endless Seas     → "The Crimson Archipelago" → "Season of Black Sails"
-  Cosmic Frontier  → "Helios Reach" → "Star Cycle 88"
-  Neon Synthesis   → "The Lumen Grid" → "Protocol Era 12"
-  Medieval Kingdom → "The Seven Banner Realms" → "The Third Succession"
-  Eternal Night    → "The City Below" → "The Long Twilight"
+• worldName — invent an original, vivid name for a specific civilization or realm within the universe. Think geography, culture, history — not the person's job. No two generations should share a name.
+• eraName — invent a named historical period: a time of war, discovery, collapse, or renaissance. Invented freely; not tied to the person's résumé.
+• worldDescription — 1-2 sentences describing what makes this civilization distinctive.
 
-CAREER DNA INFLUENCE — CRITICAL:
-The world MUST be shaped by who THIS person is. The SAME universe must produce a DIFFERENT world for a different person.
-  Teacher in Ancient Draconia      → World: "The Library Peaks",       Era: "Age of Forgotten Tomes"
-  Security Analyst in Cosmic Frontier → World: "The Sentinel Belt",    Era: "Firewall Epoch"
-  Nurse in Endless Seas            → World: "The Calmwater Archipelago", Era: "The Healing Tide"
-Read this person's skills, achievements and personality, then let the world's identity, history and culture echo their craft.
+Once the world is established, derive the title from: (this person's core strengths + personality) × (what roles this specific world has to offer). The title is what this world made of them — native to the civilization, earned through their nature.
 
 Return this exact JSON:
 {
