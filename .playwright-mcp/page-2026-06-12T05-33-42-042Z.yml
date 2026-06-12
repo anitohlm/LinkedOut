@@ -1,0 +1,130 @@
+- generic [ref=e1]:
+  - generic [ref=e616]:
+    - generic [ref=e617]:
+      - img [ref=e618]
+      - text: Harmonized Timeline
+    - generic [ref=e620]: All futures are briefly singing the same note. This is rare.
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e3904]:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - img
+    - navigation [ref=e3937]:
+      - button "← Back" [active] [ref=e3938] [cursor=pointer]
+      - button "Vaelrys The Emberforge Era" [ref=e3939] [cursor=pointer]:
+        - generic [ref=e3940]:
+          - img [ref=e3941]
+          - generic [ref=e3945]: Vaelrys
+        - generic [ref=e3946]: The Emberforge Era
+    - generic [ref=e3947]:
+      - generic [ref=e3948]:
+        - img [ref=e3951]
+        - generic [ref=e3955]:
+          - heading "Raehysal of House Cindervale" [level=1] [ref=e3956]
+          - paragraph [ref=e3957]: Ember-Ward Seer
+          - paragraph [ref=e3958]: Ancient Draconia · Ancient Orders
+          - generic [ref=e3959]:
+            - generic [ref=e3960]:
+              - generic [ref=e3961]: "85"
+              - generic [ref=e3962]: innovation
+            - generic [ref=e3963]:
+              - generic [ref=e3964]: "78"
+              - generic [ref=e3965]: leadership
+            - generic [ref=e3966]:
+              - generic [ref=e3967]: "80"
+              - generic [ref=e3968]: collaboration
+        - generic [ref=e3969]:
+          - button "Begin Future Transmission →" [ref=e3971] [cursor=pointer]
+          - button "Ancient Covenants" [ref=e3973] [cursor=pointer]:
+            - img [ref=e3974]
+            - text: Ancient Covenants
+          - generic [ref=e3977]:
+            - button "Legendary" [ref=e3979] [cursor=pointer]:
+              - img [ref=e3980]
+              - text: Legendary
+            - button "Shadow" [ref=e3983] [cursor=pointer]:
+              - img [ref=e3984]
+              - text: Shadow
+      - generic [ref=e3986]:
+        - generic [ref=e3987]: The Realm
+        - paragraph [ref=e3988]: Vaelrys is a highland realm of smoldering ashfields and jagged obsidian spires where ancient wyrms slumber beneath the earth. Its fractured clans are bound by flame-oaths and guarded by eldritch ember-wardens who command fire and fate.
+      - generic [ref=e3989]:
+        - generic [ref=e3990]:
+          - generic [ref=e3991]:
+            - generic: ”
+            - generic [ref=e4133]: Biography
+            - paragraph [ref=e3996]: Raehysal of House Cindervale, born beneath the crimson skies of Vaelrys, was drawn from youth to the flickering tongues of ember and shadow. From the moment he cracked his first rune-stone, his keen mind sought patterns in the restless flames, weaving order from chaos where others saw only destruction. His rise among the ember-wardens was marked by quiet resolve and a subtle command, guiding the flame-seals that sheltered the realm from the void-wyrm scourge. As a master seer, Raehysal led the forging of the Lattice of Ashrift Wards, a network of eternal fire made to guard the inner sanctum of the High Flame. Through seasons of unrest and shifting alliances, his counsel was sought by the Flame Council, where his scholarly insight and steady hand tempered rash decisions. Though unassuming in bearing, his innovations in ember-divination and ward-craft reshaped the defenses of House Cindervale and the wider realm alike.
+          - generic [ref=e3997]:
+            - generic [ref=e4137]: Timeline Story
+            - paragraph [ref=e4004]: Raehysal’s path began as an apprentice to a venerable ember-warden, where he learned the sacred arts of flame-sealing and wyrm-sight. His innovations in weaving ember wards secured several mountain passes against incursions, earning him a place among the elite Flame Council. Over a decade, he grew from a quiet seer into the chief architect of the realm’s defensive lattice, his influence shaping Vaelrys's fate through fire and shadow.
+          - generic [ref=e4005]:
+            - generic [ref=e4141]: Where They're Heading
+            - paragraph [ref=e4010]: Raehysal is destined to become the Arch-Seer of the Ember-Wardens, tasked with expanding the flame-lattice beyond Vaelrys to safeguard all Draconia from the creeping void. His vision blends ancient wisdom with new embercraft, promising a future where the realm’s flame burns eternal against darkness.
+          - generic [ref=e4011]:
+            - generic [ref=e4145]: Achievements
+            - generic [ref=e4016]:
+              - generic [ref=e4017]:
+                - generic [ref=e4018]: "1"
+                - generic [ref=e4019]: Wove a lattice of flame-seals across seven mountain passes, holding the border for three years.
+              - generic [ref=e4020]:
+                - generic [ref=e4021]: "2"
+                - generic [ref=e4022]: Sealed the Ashrift wards before the void-wyrms breached the inner sanctum during the Great Quelling.
+              - generic [ref=e4023]:
+                - generic [ref=e4024]: "3"
+                - generic [ref=e4025]: Mentored a cohort of young wyrm-readers in the lost art of ember-divination, reviving ancient lore.
+              - generic [ref=e4026]:
+                - generic [ref=e4027]: "4"
+                - generic [ref=e4028]: Authored the Draconic Compact of the Seven Houses, binding rival clans under one flame-oath.
+              - generic [ref=e4029]:
+                - generic [ref=e4030]: "5"
+                - generic [ref=e4031]: Led the Ember-Ward Seers in the forging of the Eternal Pyre, a beacon against shadow incursions.
+              - generic [ref=e4032]:
+                - generic [ref=e4033]: "6"
+                - generic [ref=e4034]: Guided House Cindervale through the trials of the Riftfall, preserving the clan’s sacred flame.
+              - generic [ref=e4035]:
+                - generic [ref=e4036]: "7"
+                - generic [ref=e4037]: Devised the Emberflow Cipher, allowing swift and secret communication between scattered wards.
+        - generic [ref=e4038]:
+          - generic [ref=e4039]:
+            - generic [ref=e4149]: Personality
+            - paragraph [ref=e4044]: In the realm of flame and ash, Raehysal’s quiet determination and sharp curiosity manifest as a patient yet innovative seer. He collaborates with other wardens and clan leaders, valuing detail and adaptability to weave protections that endure. His leadership is not of loud command but of steady guidance, inspiring trust through mastery and insight.
+          - generic [ref=e4045]:
+            - generic [ref=e4153]: Competency Matrix
+            - generic [ref=e4050]:
+              - generic [ref=e4052]:
+                - generic [ref=e4053]: innovation
+                - generic [ref=e4054]: "85"
+              - generic [ref=e4058]:
+                - generic [ref=e4059]: leadership
+                - generic [ref=e4060]: "78"
+              - generic [ref=e4064]:
+                - generic [ref=e4065]: collaboration
+                - generic [ref=e4066]: "80"
+              - generic [ref=e4070]:
+                - generic [ref=e4071]: adaptability
+                - generic [ref=e4072]: "88"
+              - generic [ref=e4076]:
+                - generic [ref=e4077]: ambition
+                - generic [ref=e4078]: "72"
+              - generic [ref=e4082]:
+                - generic [ref=e4083]: wisdom
+                - generic [ref=e4084]: "90"
+          - generic [ref=e4087]:
+            - generic [ref=e4157]: Skills
+            - generic [ref=e4092]:
+              - generic [ref=e4093]: Ember-Divination Patterning
+              - generic [ref=e4094]: Flame-Seal Warding
+              - generic [ref=e4095]: Wyrm-Sign Reading
+              - generic [ref=e4096]: Draconic Compact Drafting
+              - generic [ref=e4097]: Omen Council Leadership
+              - generic [ref=e4098]: Runic Flame Crafting
+              - generic [ref=e4099]: Ashrift Ward Forging
+              - generic [ref=e4100]: Emberflow Cipher Weaving
+      - button "↺ Replay Arrival" [ref=e4102] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

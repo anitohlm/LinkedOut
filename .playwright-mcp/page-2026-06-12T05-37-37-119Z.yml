@@ -1,0 +1,215 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e6288] [cursor=pointer]:
+    - generic [ref=e6289]:
+      - generic [ref=e6290]: ✦
+      - generic [ref=e6291]: Historian Observation
+    - paragraph [ref=e6292]: 6 universes explored. 10 events in the record. The subject is beginning to recognize themselves.
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e6253]:
+    - navigation [ref=e6254]:
+      - button "← Back" [ref=e6255] [cursor=pointer]
+      - button "LinkedOut" [ref=e6256] [cursor=pointer]
+    - generic [ref=e6257]:
+      - generic [ref=e6258]:
+        - paragraph [ref=e6259]: Butterfly Effect Engine
+        - heading "What If?" [level=1] [ref=e6260]
+        - paragraph [ref=e6261]: Change one decision. Watch your life fracture across four divergent realities.
+      - generic [ref=e6262]:
+        - textbox "Enter a life decision to explore alternate timelines" [ref=e6263]:
+          - /placeholder: What if I never studied my field?
+          - text: What if I'd started my own company?
+        - button "Generate →" [ref=e6293] [cursor=pointer]
+      - generic [ref=e6294]:
+        - generic [ref=e6295]:
+          - img [ref=e6296]
+          - text: "Explore another what-if:"
+        - generic [ref=e6298]:
+          - button "What if I'd taken the job I turned down?" [ref=e6299] [cursor=pointer]
+          - button "What if I'd never learned React?" [ref=e6300] [cursor=pointer]
+          - button "What if I'd moved to another country?" [ref=e6301] [cursor=pointer]
+          - button "What if I'd started my own company?" [ref=e6302] [cursor=pointer]
+          - button "What if I'd said yes to the risky opportunity?" [ref=e6303] [cursor=pointer]
+      - generic [ref=e6304]:
+        - generic [ref=e6305]: "Divergence:"
+        - generic [ref=e6306]: 1-20 Minor
+        - generic [ref=e6308]: 21-50 Moderate
+        - generic [ref=e6310]: 51-80 Major
+        - generic [ref=e6312]: 81-100 Reality-altering
+      - generic [ref=e6314]:
+        - generic [ref=e6317]:
+          - generic [ref=e6318]:
+            - generic [ref=e6320]: Realistic
+            - generic [ref=e6321]:
+              - generic [ref=e6322]: "35"
+              - generic [ref=e6325]: Moderate divergence
+          - heading "The Quiet Roots" [level=3] [ref=e6326]
+          - paragraph [ref=e6327]: A thoughtful founder who built a successful fintech startup focused on secure personal finance apps.
+          - paragraph [ref=e6328]: In this timeline, the fintech landscape sees a rise in privacy-focused financial tools, empowering users to control their money securely. Rafael’s company inspires a wave of startups emphasizing transparency and user-centric design.
+          - generic [ref=e6329]:
+            - generic [ref=e6330]:
+              - generic [ref=e6331]: Gained
+              - generic [ref=e6332]:
+                - generic [ref=e6333]:
+                  - generic [ref=e6334]: ▲
+                  - generic [ref=e6335]: Leadership experience running a growing company
+                - generic [ref=e6336]:
+                  - generic [ref=e6337]: ▲
+                  - generic [ref=e6338]: Financial independence
+                - generic [ref=e6339]:
+                  - generic [ref=e6340]: ▲
+                  - generic [ref=e6341]: A loyal community of users and collaborators
+                - generic [ref=e6342]:
+                  - generic [ref=e6343]: ▲
+                  - generic [ref=e6344]: Personal pride in building secure fintech products
+            - generic [ref=e6345]:
+              - generic [ref=e6346]: Lost
+              - generic [ref=e6347]:
+                - generic [ref=e6348]:
+                  - generic [ref=e6349]: ▼
+                  - generic [ref=e6350]: Long hours impacting personal time
+                - generic [ref=e6351]:
+                  - generic [ref=e6352]: ▼
+                  - generic [ref=e6353]: Stress of financial risk and uncertainty
+                - generic [ref=e6354]:
+                  - generic [ref=e6355]: ▼
+                  - generic [ref=e6356]: Occasional burnout and health strains
+                - generic [ref=e6357]:
+                  - generic [ref=e6358]: ▼
+                  - generic [ref=e6359]: Less time for hobbies like rock climbing
+          - button "Expand full timeline details" [ref=e6360] [cursor=pointer]:
+            - img [ref=e6361]
+            - text: Full timeline →
+        - generic [ref=e6365]:
+          - generic [ref=e6366]:
+            - generic [ref=e6368]: Optimistic
+            - generic [ref=e6369]:
+              - generic [ref=e6370]: "50"
+              - generic [ref=e6373]: Moderate divergence
+          - heading "The Digital Architect" [level=3] [ref=e6374]
+          - paragraph [ref=e6375]: A visionary tech entrepreneur who revolutionized digital identity and online trust.
+          - paragraph [ref=e6376]: Rafael’s breakthrough in decentralized identity management reshaped how people interact online, reducing fraud and empowering users globally. The tech ecosystem shifted toward greater user autonomy and secure digital ecosystems.
+          - generic [ref=e6377]:
+            - generic [ref=e6378]:
+              - generic [ref=e6379]: Gained
+              - generic [ref=e6380]:
+                - generic [ref=e6381]:
+                  - generic [ref=e6382]: ▲
+                  - generic [ref=e6383]: Global recognition and influence
+                - generic [ref=e6384]:
+                  - generic [ref=e6385]: ▲
+                  - generic [ref=e6386]: Financial success enabling philanthropy
+                - generic [ref=e6387]:
+                  - generic [ref=e6388]: ▲
+                  - generic [ref=e6389]: Opportunity to shape tech policy and ethics
+                - generic [ref=e6390]:
+                  - generic [ref=e6391]: ▲
+                  - generic [ref=e6392]: Personal fulfillment from impactful innovation
+            - generic [ref=e6393]:
+              - generic [ref=e6394]: Lost
+              - generic [ref=e6395]:
+                - generic [ref=e6396]:
+                  - generic [ref=e6397]: ▼
+                  - generic [ref=e6398]: Heavy public scrutiny and pressure
+                - generic [ref=e6399]:
+                  - generic [ref=e6400]: ▼
+                  - generic [ref=e6401]: Loss of anonymity and private life
+                - generic [ref=e6402]:
+                  - generic [ref=e6403]: ▼
+                  - generic [ref=e6404]: Frequent travel and time away from home
+                - generic [ref=e6405]:
+                  - generic [ref=e6406]: ▼
+                  - generic [ref=e6407]: Strained personal relationships due to workload
+          - button "Expand full timeline details" [ref=e6408] [cursor=pointer]:
+            - img [ref=e6409]
+            - text: Full timeline →
+        - generic [ref=e6413]:
+          - generic [ref=e6414]:
+            - generic [ref=e6416]: Quiet Path
+            - generic [ref=e6417]:
+              - generic [ref=e6418]: "30"
+              - generic [ref=e6421]: Moderate divergence
+          - heading "The Hearth Coder" [level=3] [ref=e6422]
+          - paragraph [ref=e6423]: A devoted community technologist who built tools to support local nonprofits and artists.
+          - paragraph [ref=e6424]: Rafael’s focus on small-scale, community-driven software fostered stronger local bonds and preserved cultural heritage. Though invisible on the global stage, his work enriched the lives of many at the grassroots level.
+          - generic [ref=e6425]:
+            - generic [ref=e6426]:
+              - generic [ref=e6427]: Gained
+              - generic [ref=e6428]:
+                - generic [ref=e6429]:
+                  - generic [ref=e6430]: ▲
+                  - generic [ref=e6431]: Strong personal ties within his community
+                - generic [ref=e6432]:
+                  - generic [ref=e6433]: ▲
+                  - generic [ref=e6434]: Daily fulfillment from meaningful work
+                - generic [ref=e6435]:
+                  - generic [ref=e6436]: ▲
+                  - generic [ref=e6437]: Recognition as a local tech steward
+                - generic [ref=e6438]:
+                  - generic [ref=e6439]: ▲
+                  - generic [ref=e6440]: Peace of a balanced, grounded lifestyle
+            - generic [ref=e6441]:
+              - generic [ref=e6442]: Lost
+              - generic [ref=e6443]:
+                - generic [ref=e6444]:
+                  - generic [ref=e6445]: ▼
+                  - generic [ref=e6446]: Financial limitations compared to corporate peers
+                - generic [ref=e6447]:
+                  - generic [ref=e6448]: ▼
+                  - generic [ref=e6449]: Limited wider recognition
+                - generic [ref=e6450]:
+                  - generic [ref=e6451]: ▼
+                  - generic [ref=e6452]: Occasional frustration with resource scarcity
+                - generic [ref=e6453]:
+                  - generic [ref=e6454]: ▼
+                  - generic [ref=e6455]: Sacrificed broader career ambitions for local focus
+          - button "Expand full timeline details" [ref=e6456] [cursor=pointer]:
+            - img [ref=e6457]
+            - text: Full timeline →
+        - generic [ref=e6461]:
+          - generic [ref=e6462]:
+            - generic [ref=e6464]: Wildcard ✦
+            - generic [ref=e6465]:
+              - generic [ref=e6466]: "85"
+              - generic [ref=e6469]: Reality-altering
+          - heading "The Echoes of Tomorrow" [level=3] [ref=e6470]
+          - paragraph [ref=e6471]: A pioneer in predictive software that subtly altered how society anticipates and responds to future events.
+          - paragraph [ref=e6472]: Rafael’s company developed algorithms capable of modeling near-future social and economic patterns, reshaping decision-making globally. This new era, known as 'The Forecast Age,' changed politics, commerce, and daily life by making prediction an integral reality, but also sparked debates about free will and determinism.
+          - generic [ref=e6473]:
+            - generic [ref=e6474]:
+              - generic [ref=e6475]: Gained
+              - generic [ref=e6476]:
+                - generic [ref=e6477]:
+                  - generic [ref=e6478]: ▲
+                  - generic [ref=e6479]: Groundbreaking scientific and technical acclaim
+                - generic [ref=e6480]:
+                  - generic [ref=e6481]: ▲
+                  - generic [ref=e6482]: Influential role in shaping global futures
+                - generic [ref=e6483]:
+                  - generic [ref=e6484]: ▲
+                  - generic [ref=e6485]: Intellectual legacy in philosophy and technology
+                - generic [ref=e6486]:
+                  - generic [ref=e6487]: ▲
+                  - generic [ref=e6488]: Access to cutting-edge research and thinkers
+            - generic [ref=e6489]:
+              - generic [ref=e6490]: Lost
+              - generic [ref=e6491]:
+                - generic [ref=e6492]:
+                  - generic [ref=e6493]: ▼
+                  - generic [ref=e6494]: Personal isolation due to public controversy
+                - generic [ref=e6495]:
+                  - generic [ref=e6496]: ▼
+                  - generic [ref=e6497]: Moral burden of unintended social manipulation
+                - generic [ref=e6498]:
+                  - generic [ref=e6499]: ▼
+                  - generic [ref=e6500]: Fragmented personal relationships strained by work demands
+                - generic [ref=e6501]:
+                  - generic [ref=e6502]: ▼
+                  - generic [ref=e6503]: Endless scrutiny and distrust from skeptics
+          - button "Expand full timeline details" [ref=e6504] [cursor=pointer]:
+            - img [ref=e6505]
+            - text: Full timeline →
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

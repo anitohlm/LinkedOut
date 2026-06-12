@@ -101,7 +101,7 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
           </div>
           <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 12, color: "var(--rose2)" }}>Calibration Failed</h2>
           <p style={{ fontSize: 14, color: "var(--text2)", marginBottom: 24, lineHeight: 1.6 }}>{error}</p>
-          <button onClick={() => transitionTo("upload-resume")} style={{
+          <button onClick={() => transitionTo("upload-resume", { resumeText: state.resumeText })} style={{
             padding: "12px 28px", borderRadius: 10, background: "var(--violet)",
             border: "none", color: "#fff", fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 600, cursor: "pointer",
           }}>← Try Again</button>

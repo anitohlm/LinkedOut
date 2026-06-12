@@ -1,0 +1,9 @@
+- generic [ref=e1]:
+  - generic [ref=e490]:
+    - img [ref=e492]
+    - heading "Calibration Failed" [level=2] [ref=e495]
+    - paragraph [ref=e496]: Unknown error
+    - button "← Try Again" [active] [ref=e497] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

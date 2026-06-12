@@ -13,7 +13,7 @@ async function post<T>(path: string, body: unknown): Promise<T> {
     body: JSON.stringify(body),
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: "Unknown error" }));
+    const err = await res.json().catch(() => ({ error: `Request failed: ${res.status}` }));
     throw new Error(err.error || `Request failed: ${res.status}`);
   }
   return res.json() as Promise<T>;

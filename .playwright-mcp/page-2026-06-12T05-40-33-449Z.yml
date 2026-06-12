@@ -1,0 +1,83 @@
+- generic [active] [ref=e1]:
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e7029]:
+    - navigation [ref=e7030]:
+      - button "← Back" [ref=e7031] [cursor=pointer]
+      - generic [ref=e7032]: ⚖️ The Council of Selves
+    - generic [ref=e7033]:
+      - generic [ref=e7034]:
+        - generic [ref=e7035]:
+          - generic [ref=e7108]:
+            - img [ref=e7110]
+            - generic [ref=e7116]: Rafael the Ascended
+            - generic [ref=e7117]: Legendary
+          - generic [ref=e7118]:
+            - img [ref=e7120]
+            - generic [ref=e7124]: Rafael the Unseen Coder
+            - generic [ref=e7125]: Shadow
+        - generic [ref=e7047]:
+          - generic [ref=e7048]:
+            - img [ref=e7050]
+            - generic [ref=e7055]: Sir Raffael Wardmont
+            - generic [ref=e7056]: Medieval
+          - generic [ref=e7057]:
+            - img [ref=e7059]
+            - generic [ref=e7064]: R4F4EL-ΔXIS
+            - generic [ref=e7065]: Neon
+          - generic [ref=e7066]:
+            - img [ref=e7068]
+            - generic [ref=e7073]: Helmsman Rafael "The Quiet Helm" Reefrune
+            - generic [ref=e7074]: Endless
+          - generic [ref=e7075]:
+            - img [ref=e7077]
+            - generic [ref=e7081]: Raehysal of House Cindervale
+            - generic [ref=e7082]: Ancient
+          - generic [ref=e7083]:
+            - img [ref=e7085]
+            - generic [ref=e7091]: Vexkar Crestix
+            - generic [ref=e7092]: Cosmic
+          - generic [ref=e7093]:
+            - img [ref=e7095]
+            - generic [ref=e7100]: Lord Rafail Craveth
+            - generic [ref=e7101]: Eternal
+      - generic [ref=e7102]:
+        - generic [ref=e7127]:
+          - generic [ref=e7129]:
+            - img [ref=e7130]
+            - text: Rafael the Ascended
+          - generic [ref=e7136]: The summit of all your becoming stands before us—each path a fire forged in different trials. Speak boldly, for the mountain’s clarity awaits only those who dare to strip away all but the rawest truth.
+        - generic [ref=e7138]:
+          - generic [ref=e7140]:
+            - img [ref=e7141]
+            - text: Rafael the Unseen Coder
+          - generic [ref=e7145]: I am Rafael the Unseen Coder — the shadow no one trusts but all depend on. The fractures in your resolve will decide what you become; speak now, before hesitation fractures you first. What have you already sacrificed that haunts your steps?
+        - generic [ref=e7157]: Which version of me made the biggest sacrifice?
+        - generic [ref=e7159]:
+          - generic [ref=e7161]:
+            - img [ref=e7162]
+            - text: Sir Raffael Wardmont
+          - generic [ref=e7167]: "Sir Raffael Wardmont, Master of Keepcraft: The self who bore the heaviest sacrifice is the one who upheld his vow when all else fell to ruin. It is I who, standing amid shattered stones and broken oaths, rebuilt not only walls but the very spirit of those who relied upon me. Others may claim grander battles or grander power, but sacrifice is measured in the steadfastness of one’s duty when the night is darkest. Do not ask if it is wise. Ask if it is honorable."
+        - generic [ref=e7179]:
+          - generic [ref=e7181]:
+            - img [ref=e7182]
+            - text: Raehysal of House Cindervale
+          - generic [ref=e7186]: You count this in months. I have watched empires forget they ever chose. Yet, the greatest sacrifice is not in a single blaze but in the quiet, ceaseless tending of the ember-lattice that holds the realm from falling into shadow. I, who bear the slow weight of unseen duty, weaving protections beyond sight or praise, relinquish the fleeting glory of immediate triumph for the enduring flame that guards all from oblivion. This is the sacrifice born not of spectacle but of patience — the sacrifice that shapes eternity.
+        - generic [ref=e7188]:
+          - generic [ref=e7190]:
+            - img [ref=e7191]
+            - text: Rafael the Ascended
+          - generic [ref=e7197]: The greatest sacrifice is the one that demanded you surrender the self you thought you were, to become the self you must be—unwavering, relentless, and clear. In that crucible, I forged my code and my conviction. Sacrifice is not measured by loss but by the weight of transformation it compels. Tell me, what part of yourself do you fear you have already lost forever?
+      - generic [ref=e7103]:
+        - button "Need inspiration? ▼" [ref=e7174] [cursor=pointer]:
+          - img [ref=e7175]
+          - text: Need inspiration?
+          - generic [ref=e7177]: ▼
+        - generic [ref=e7104]:
+          - textbox "Ask the council..." [ref=e7154]
+          - button "Send" [disabled] [ref=e7106]
+          - button "Chronicle →" [ref=e7107] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

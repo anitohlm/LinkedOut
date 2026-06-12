@@ -1,0 +1,30 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e616]:
+    - generic [ref=e617]:
+      - img [ref=e618]
+      - text: Harmonized Timeline
+    - generic [ref=e620]: All futures are briefly singing the same note. This is rare.
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e6253]:
+    - navigation [ref=e6254]:
+      - button "← Back" [ref=e6255] [cursor=pointer]
+      - button "LinkedOut" [ref=e6256] [cursor=pointer]
+    - generic [ref=e6257]:
+      - generic [ref=e6258]:
+        - paragraph [ref=e6259]: Butterfly Effect Engine
+        - heading "What If?" [level=1] [ref=e6260]
+        - paragraph [ref=e6261]: Change one decision. Watch your life fracture across four divergent realities.
+      - generic [ref=e6262]:
+        - textbox "Enter a life decision to explore alternate timelines" [disabled] [ref=e6263]:
+          - /placeholder: What if I never studied my field?
+          - text: What if I'd started my own company?
+        - button "Fracturing..." [disabled] [ref=e6277]
+      - generic [ref=e6278]:
+        - img [ref=e6281]
+        - paragraph [ref=e6285]: Splitting your timeline four ways...
+        - paragraph [ref=e6286]: Each reality is being fully rendered
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

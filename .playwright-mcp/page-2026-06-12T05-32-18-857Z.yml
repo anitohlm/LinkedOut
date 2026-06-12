@@ -1,0 +1,127 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e616]:
+    - generic [ref=e617]:
+      - img [ref=e618]
+      - text: Harmonized Timeline
+    - generic [ref=e620]: All futures are briefly singing the same note. This is rare.
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e2349]:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - img
+    - navigation [ref=e2378]:
+      - button "← Back" [ref=e2379] [cursor=pointer]
+      - button "Synthara The Flux Convergence" [ref=e2380] [cursor=pointer]:
+        - generic [ref=e2381]:
+          - img [ref=e2382]
+          - generic [ref=e2387]: Synthara
+        - generic [ref=e2388]: The Flux Convergence
+    - generic [ref=e2389]:
+      - generic [ref=e2390]:
+        - img [ref=e2393]
+        - generic [ref=e2398]:
+          - heading "R4F4EL-ΔXIS" [level=1] [ref=e2399]
+          - paragraph [ref=e2400]: Lattice Weaver
+          - paragraph [ref=e2401]: Neon Synthesis · Megacorporations
+          - generic [ref=e2402]:
+            - generic [ref=e2403]:
+              - generic [ref=e2404]: "88"
+              - generic [ref=e2405]: innovation
+            - generic [ref=e2406]:
+              - generic [ref=e2407]: "75"
+              - generic [ref=e2408]: leadership
+            - generic [ref=e2409]:
+              - generic [ref=e2410]: "82"
+              - generic [ref=e2411]: collaboration
+        - generic [ref=e2412]:
+          - button "Begin Future Transmission →" [ref=e2414] [cursor=pointer]
+          - button "Corp Offers" [ref=e2416] [cursor=pointer]:
+            - img [ref=e2417]
+            - text: Corp Offers
+          - generic [ref=e2420]:
+            - button "Legendary" [ref=e2422] [cursor=pointer]:
+              - img [ref=e2423]
+              - text: Legendary
+            - button "Shadow" [ref=e2426] [cursor=pointer]:
+              - img [ref=e2427]
+              - text: Shadow
+      - generic [ref=e2429]:
+        - generic [ref=e2430]: The Realm
+        - paragraph [ref=e2431]: Synthara is a sprawling cyber-metropolis built atop glowing crystal spires, where organic life merges seamlessly with crafted synths. Its society revolves around the flow and balance of luminous energy channels, regulated by expert Lattice Weavers who shape and maintain the city’s vibrant pulse.
+      - generic [ref=e2432]:
+        - generic [ref=e2433]:
+          - generic [ref=e2434]:
+            - generic: ”
+            - generic [ref=e2545]: Biography
+            - paragraph [ref=e2439]: Born amid the radiant towers of Synthara, R4F4EL-ΔXIS learned early to read the shifting currents of the city’s luminous lattice. His steady mind and patient hands shaped new strands within the weave, enabling fresh pathways for energy and thought to flow. His peers sought his counsel, for he balanced innovation with care, threading brilliance through the pulsing grid. R4F4EL-ΔXIS rose to prominence during the Flux Convergence, when Synthara’s lattice began fracturing under surging demands. He led a cohort of Weavers, crafting intricate harmonics and stabilizing the volatile threads that threatened the metropolis. Though quiet and methodical, his presence anchored the team, and his curiosity sparked pioneering strands that expanded the lattice’s reach into uncharted domains.
+          - generic [ref=e2440]:
+            - generic [ref=e2549]: Timeline Story
+            - paragraph [ref=e2447]: R4F4EL-ΔXIS began as a meticulous apprentice, steadily mastering the delicate art of harmonic weaving. When the Flux Convergence threatened the city’s network of luminous threads, he emerged as a key figure in stabilizing and expanding the lattice. His work not only quelled the disruptions but charted new paths for Synthara’s energy to flourish, earning him respect and leadership among the Weavers.
+          - generic [ref=e2448]:
+            - generic [ref=e2553]: Where They're Heading
+            - paragraph [ref=e2453]: Continuing his ascent, R4F4EL-ΔXIS aims to become a Master Weaver—one who not only maintains but redefines the city’s luminous lattice. His future holds the weaving of new metaphysical pathways that could unlock unimagined potential for Synthara’s harmony and expansion.
+          - generic [ref=e2454]:
+            - generic [ref=e2557]: Achievements
+            - generic [ref=e2459]:
+              - generic [ref=e2460]:
+                - generic [ref=e2461]: "1"
+                - generic [ref=e2462]: Engineered a new harmonic weave that restored balance to the fractured eastern spires during the Flux Convergence.
+              - generic [ref=e2463]:
+                - generic [ref=e2464]: "2"
+                - generic [ref=e2465]: Led a collective of Weavers to rethread the Luminal Passage, reducing cascade failures by half across Synthara.
+              - generic [ref=e2466]:
+                - generic [ref=e2467]: "3"
+                - generic [ref=e2468]: Discovered and integrated a dormant energy strand, expanding the lattice’s capacity beyond prior limits.
+              - generic [ref=e2469]:
+                - generic [ref=e2470]: "4"
+                - generic [ref=e2471]: Forged the ‘Silent Thread’ technique, allowing seamless weaving without disrupting neighboring currents.
+              - generic [ref=e2472]:
+                - generic [ref=e2473]: "5"
+                - generic [ref=e2474]: Guided apprentices through the intricate practice of layered lattice crafting, ensuring the city’s future stability.
+              - generic [ref=e2475]:
+                - generic [ref=e2476]: "6"
+                - generic [ref=e2477]: Mapped the hidden resonances of Synthara’s core, revealing pathways for sustainable energy flow.
+        - generic [ref=e2478]:
+          - generic [ref=e2479]:
+            - generic [ref=e2561]: Personality
+            - paragraph [ref=e2484]: In Synthara’s glowing heart, R4F4EL-ΔXIS manifests as a quietly determined and deeply curious Weaver. His collaborative nature fosters trust among peers, while his innovative mind crafts unseen harmonies in the lattice. Detail-oriented and adaptable, he balances the delicate strands of energy with calm precision, always seeking to deepen his understanding of the weave’s infinite complexities.
+          - generic [ref=e2485]:
+            - generic [ref=e2565]: Competency Matrix
+            - generic [ref=e2490]:
+              - generic [ref=e2492]:
+                - generic [ref=e2493]: innovation
+                - generic [ref=e2494]: "88"
+              - generic [ref=e2498]:
+                - generic [ref=e2499]: leadership
+                - generic [ref=e2500]: "75"
+              - generic [ref=e2504]:
+                - generic [ref=e2505]: collaboration
+                - generic [ref=e2506]: "82"
+              - generic [ref=e2510]:
+                - generic [ref=e2511]: adaptability
+                - generic [ref=e2512]: "90"
+              - generic [ref=e2516]:
+                - generic [ref=e2517]: ambition
+                - generic [ref=e2518]: "70"
+              - generic [ref=e2522]:
+                - generic [ref=e2523]: wisdom
+                - generic [ref=e2524]: "85"
+          - generic [ref=e2527]:
+            - generic [ref=e2569]: Skills
+            - generic [ref=e2532]:
+              - generic [ref=e2533]: Harmonic Weaving
+              - generic [ref=e2534]: Luminous Threading
+              - generic [ref=e2535]: Energy Flow Harmonization
+              - generic [ref=e2536]: Strand Pattern Decoding
+              - generic [ref=e2537]: Collective Weave Coordination
+              - generic [ref=e2538]: Resonance Mapping
+              - generic [ref=e2539]: Silent Thread Crafting
+              - generic [ref=e2540]: Adaptive Lattice Integration
+      - button "↺ Replay Arrival" [ref=e2542] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

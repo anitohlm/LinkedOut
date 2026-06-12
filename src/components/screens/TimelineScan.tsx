@@ -88,23 +88,9 @@ export default function TimelineScan({ transitionTo }: TimelineScanProps) {
         transition={{ duration: 0.5 }}
         style={{ position: "relative", zIndex: 10, textAlign: "center", maxWidth: 400, width: "100%", padding: "0 24px" }}
       >
-        {/* Orb */}
-        <div style={{ position: "relative", width: 120, height: 120, margin: "0 auto 40px" }}>
-          <div style={{
-            width: "100%", height: "100%", borderRadius: "50%",
-            background: "radial-gradient(circle, var(--violet) 0%, var(--violet3) 50%, transparent 100%)",
-            animation: "pulse-glow 2s ease-in-out infinite",
-          }} />
-          <div style={{
-            position: "absolute", inset: -8, borderRadius: "50%",
-            border: "1px solid rgba(124,110,247,0.3)",
-            animation: "spin-slow 4s linear infinite",
-          }} />
-          <div style={{
-            position: "absolute", inset: -16, borderRadius: "50%",
-            border: "1px dashed rgba(124,110,247,0.15)",
-            animation: "spin-slow 8s linear infinite reverse",
-          }} />
+        {/* Spiral */}
+        <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", opacity: 0.55 }}>
+          <SpiralAnimation />
         </div>
 
         <h2 style={{ fontSize: 28, fontWeight: 700, letterSpacing: "-1px", marginBottom: 8, color: "var(--text)" }}>

@@ -1,0 +1,130 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e616]:
+    - generic [ref=e617]:
+      - img [ref=e618]
+      - text: Harmonized Timeline
+    - generic [ref=e620]: All futures are briefly singing the same note. This is rare.
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e5454]:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - img
+    - navigation [ref=e5512]:
+      - button "← Back" [ref=e5513] [cursor=pointer]
+      - button "Valemorra The Night of Hollow Bells" [ref=e5514] [cursor=pointer]:
+        - generic [ref=e5515]:
+          - img [ref=e5516]
+          - generic [ref=e5521]: Valemorra
+        - generic [ref=e5522]: The Night of Hollow Bells
+    - generic [ref=e5523]:
+      - generic [ref=e5524]:
+        - img [ref=e5527]
+        - generic [ref=e5532]:
+          - heading "Lord Rafail Craveth" [level=1] [ref=e5533]
+          - paragraph [ref=e5534]: Keeper of the Lost Echoes
+          - paragraph [ref=e5535]: Eternal Night · Ancient Covenants
+          - generic [ref=e5536]:
+            - generic [ref=e5537]:
+              - generic [ref=e5538]: "78"
+              - generic [ref=e5539]: innovation
+            - generic [ref=e5540]:
+              - generic [ref=e5541]: "85"
+              - generic [ref=e5542]: leadership
+            - generic [ref=e5543]:
+              - generic [ref=e5544]: "83"
+              - generic [ref=e5545]: collaboration
+        - generic [ref=e5546]:
+          - button "Begin Future Transmission →" [ref=e5548] [cursor=pointer]
+          - button "Blood Pacts" [ref=e5550] [cursor=pointer]:
+            - img [ref=e5551]
+            - text: Blood Pacts
+          - generic [ref=e5554]:
+            - button "Legendary" [ref=e5556] [cursor=pointer]:
+              - img [ref=e5557]
+              - text: Legendary
+            - button "Shadow" [ref=e5560] [cursor=pointer]:
+              - img [ref=e5561]
+              - text: Shadow
+      - generic [ref=e5563]:
+        - generic [ref=e5564]: The Realm
+        - paragraph [ref=e5565]: Valemorra is a twilight realm of endless shadow-swathed spires and labyrinthine archives, ruled by ancient covens and bound by silent pacts. Its people revere memory and secrets as the purest currency, weaving the past into the present to preserve the fragile balance under the Eternal Night.
+      - generic [ref=e5566]:
+        - generic [ref=e5567]:
+          - generic [ref=e5568]:
+            - generic: ”
+            - generic [ref=e5682]: Biography
+            - paragraph [ref=e5573]: Lord Rafail Craveth was born beneath the veiled skies of Valemorra, where whispers are the lifeblood of power and silence holds the deepest truths. From youth, he displayed a keen mind for unraveling the threads of forgotten tales and guiding those lost in the maze of shadowed knowledge. His calm resolve and sharp insight soon drew the attention of the Ashborne Court, where he was entrusted with the sacred duty of guarding echoes—the fragile imprints of vanished souls and truths long buried. Within the Night of Hollow Bells, a time when memory-thieves stalked the forgotten corridors, Rafail emerged as a steadfast guardian. His leadership kept fractured covens united through the darkest hours, and his skill in tracing stolen echoes restored countless legacies. Yet beneath his careful watch, he sought not just to protect but to innovate the ancient arts, crafting new wards to hold back oblivion and guiding apprentices through the labyrinthine archives with patience and precision. Now, as the shadows stir with new threats and old secrets whisper anew, Lord Rafail stands as a beacon of order and quiet authority. His name is spoken in reverence among those who walk the twilight paths, a symbol that even in eternal darkness, light can be found in the careful weaving of memory’s threads.
+          - generic [ref=e5574]:
+            - generic [ref=e5686]: Timeline Story
+            - paragraph [ref=e5581]: From a young seeker of lost truths, Rafail steadily rose within the Ashborne Court's ranks by mastering the ancient arts of echo-weaving and silent negotiation. Amid the chaos of the Night of Hollow Bells, he united disparate covens and restored fractured legacies, earning his title as Keeper of the Lost Echoes. Today, he leads efforts to innovate traditional wards and guide new acolytes, ensuring the survival of Valemorra’s past into an uncertain future.
+          - generic [ref=e5582]:
+            - generic [ref=e5690]: Where They're Heading
+            - paragraph [ref=e5587]: Lord Rafail’s path leads toward becoming a Master of the Silent Archives, expanding the reach of echo-ward craft beyond Valemorra’s borders and securing new alliances across the twilight realms. His ambition to blend tradition with new methods foretells a future where lost histories might illuminate paths through the darkness, safeguarding the Eternal Night for generations to come.
+          - generic [ref=e5588]:
+            - generic [ref=e5694]: Achievements
+            - generic [ref=e5593]:
+              - generic [ref=e5594]:
+                - generic [ref=e5595]: "1"
+                - generic [ref=e5596]: Guided a fractured coven through the Night of Hollow Bells without a single soul lost to the Veil
+              - generic [ref=e5597]:
+                - generic [ref=e5598]: "2"
+                - generic [ref=e5599]: Traced the memory-theft pattern back to its origin across four centuries of buried records
+              - generic [ref=e5600]:
+                - generic [ref=e5601]: "3"
+                - generic [ref=e5602]: Brokered a 50-year silence between the Ashborne Court and the Duskward Conclave
+              - generic [ref=e5603]:
+                - generic [ref=e5604]: "4"
+                - generic [ref=e5605]: Crafted a new lattice of echo-wards that preserved the ancestral voices of Valemorra’s founders
+              - generic [ref=e5606]:
+                - generic [ref=e5607]: "5"
+                - generic [ref=e5608]: Mentored a cadre of shadow-readers in the art of silent reconciliation and lost knowledge retrieval
+              - generic [ref=e5609]:
+                - generic [ref=e5610]: "6"
+                - generic [ref=e5611]: Led the restoration of the Forgotten Gallery, reviving relics thought swallowed by the eternal dark
+              - generic [ref=e5612]:
+                - generic [ref=e5613]: "7"
+                - generic [ref=e5614]: Negotiated the delicate Treaty of Whispered Chains to prevent bloodshed among rival keeper factions
+        - generic [ref=e5615]:
+          - generic [ref=e5616]:
+            - generic [ref=e5698]: Personality
+            - paragraph [ref=e5621]: In Valemorra’s eternal dark, Rafail’s collaborative spirit manifests as a patient and quiet guide through shadowed mazes, his curiosity driving deep exploration of forgotten memories. His detail-oriented nature sharpens his craft in echo-ward creation, while his adaptability helps him navigate shifting alliances and ancient rivalries. Innovation is tempered with reverence, his leadership style centered on uniting the fractured and preserving what must not be lost.
+          - generic [ref=e5622]:
+            - generic [ref=e5702]: Competency Matrix
+            - generic [ref=e5627]:
+              - generic [ref=e5629]:
+                - generic [ref=e5630]: innovation
+                - generic [ref=e5631]: "78"
+              - generic [ref=e5635]:
+                - generic [ref=e5636]: leadership
+                - generic [ref=e5637]: "85"
+              - generic [ref=e5641]:
+                - generic [ref=e5642]: collaboration
+                - generic [ref=e5643]: "83"
+              - generic [ref=e5647]:
+                - generic [ref=e5648]: adaptability
+                - generic [ref=e5649]: "80"
+              - generic [ref=e5653]:
+                - generic [ref=e5654]: ambition
+                - generic [ref=e5655]: "70"
+              - generic [ref=e5659]:
+                - generic [ref=e5660]: wisdom
+                - generic [ref=e5661]: "88"
+          - generic [ref=e5664]:
+            - generic [ref=e5706]: Skills
+            - generic [ref=e5669]:
+              - generic [ref=e5670]: Echo-Weaving
+              - generic [ref=e5671]: Silent Counsel Leadership
+              - generic [ref=e5672]: Memory-Thread Tracing
+              - generic [ref=e5673]: Luminous Ward Crafting
+              - generic [ref=e5674]: Coven Diplomacy
+              - generic [ref=e5675]: Shadow-Labyrinth Navigation
+              - generic [ref=e5676]: Ancestral Voice Interpretation
+              - generic [ref=e5677]: Lost Legacy Restoration
+      - button "↺ Replay Arrival" [ref=e5679] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

@@ -7,6 +7,7 @@ import {
   FileText, Globe2, Radio, AlertTriangle, Eye, Scale, BookOpen, type LucideIcon,
 } from "lucide-react";
 import { AppState, AppScreenState } from "@/types";
+import { UNIVERSES } from "@/lib/universes";
 
 const AuroraStars = dynamic(
   () => import("@/components/ui/aurora-stars").then(m => m.AuroraStars),
@@ -334,7 +335,7 @@ const WORLDS: World[] = [
     id: "galactic",
     color: "#00D9FF",
     accentColor: "#7c6ef7",
-    name: "Cosmic Frontier",
+    name: UNIVERSES.galactic.title,
     era: "Year 3050 · Deep Space",
     teaser: "Humanity's second home lies past the last mapped star. The frontier doesn't forgive hesitation — or second thoughts.",
     transmission: "3 transmissions intercepted · Signal origin: unknown",

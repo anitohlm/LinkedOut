@@ -1,0 +1,36 @@
+- generic [ref=e1]:
+  - generic [ref=e616]:
+    - generic [ref=e617]:
+      - img [ref=e618]
+      - text: Harmonized Timeline
+    - generic [ref=e620]: All futures are briefly singing the same note. This is rare.
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e6253]:
+    - navigation [ref=e6254]:
+      - button "← Back" [ref=e6255] [cursor=pointer]
+      - button "LinkedOut" [ref=e6256] [cursor=pointer]
+    - generic [ref=e6257]:
+      - generic [ref=e6258]:
+        - paragraph [ref=e6259]: Butterfly Effect Engine
+        - heading "What If?" [level=1] [ref=e6260]
+        - paragraph [ref=e6261]: Change one decision. Watch your life fracture across four divergent realities.
+      - generic [ref=e6262]:
+        - textbox "Enter a life decision to explore alternate timelines" [ref=e6263]:
+          - /placeholder: What if I never studied my field?
+          - text: What if I'd started my own company?
+        - button "Generate →" [ref=e6264] [cursor=pointer]
+      - generic [ref=e6265]:
+        - generic [ref=e6266]:
+          - img [ref=e6267]
+          - text: "Try one of these:"
+        - generic [ref=e6269]:
+          - button "What if I'd never learned React?" [ref=e6275] [cursor=pointer]
+          - button "What if I never went into FinTech?" [ref=e6273] [cursor=pointer]
+          - button "What if I'd started my own company?" [active] [ref=e6270] [cursor=pointer]
+          - button "What if I'd moved to another country?" [ref=e6276] [cursor=pointer]
+          - button "What if I'd taken the job I turned down?" [ref=e6271] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]
