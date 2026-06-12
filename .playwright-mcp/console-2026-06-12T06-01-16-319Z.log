@@ -1,0 +1,91 @@
+[  754009ms] [ERROR] ./src/components/UniverseArrivalModal.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\hmanito\Documents\linkedout\src\components\UniverseArrivalModal.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/UniverseArrivalModal.tsx
+./src/components/screens/IdentityReconstruction.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  754009ms] [ERROR] ./src/components/UniverseArtwork.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\hmanito\Documents\linkedout\src\components\UniverseArtwork.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/UniverseArtwork.tsx
+./src/components/screens/UniverseDiscovery.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  754009ms] [ERROR] ./src/components/UniverseArtworkBackground.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\hmanito\Documents\linkedout\src\components\UniverseArtworkBackground.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/UniverseArtworkBackground.tsx
+./src/components/screens/IdentityReconstruction.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  754009ms] [ERROR] ./src/components/WorldEra.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\hmanito\Documents\linkedout\src\components\WorldEra.tsx
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/WorldEra.tsx
+./src/components/screens/FutureTransmission.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  754009ms] [ERROR] ./src/components/ui/aurora-stars.tsx
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\hmanito\Documents\linkedout\src\components\ui\aurora-stars.tsx
+    1: The system cannot find the path specified. (os error 3)
+
+Import trace for requested module:
+./src/components/ui/aurora-stars.tsx
+./src/components/screens/Landing.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  754010ms] [ERROR] ./src/lib/universeStyles.ts
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\hmanito\Documents\linkedout\src\lib\universeStyles.ts
+    1: The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/lib/universeStyles.ts
+./src/components/screens/FutureTransmission.tsx
+./src/components/AppOrchestrator.tsx
+./src/app/page.tsx @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  754022ms] [LOG] {file: Object} @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/next-devtools/index.js:1630
+[  754148ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3456/_next/static/webpack/4da51c7877c79af0.webpack.hot-update.json:0
+[  755168ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3456/_next/static/webpack/4da51c7877c79af0.webpack.hot-update.json:0
+[  755295ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/dev/hot-reloader/app/hot-reloader-app.js:196
+[  756334ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3456/_next/static/webpack/7ec611682fe60070.webpack.hot-update.json:0
+[  756347ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3456/:0
+[  756793ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ webpack-internal:///(pages-dir-browser)/./node_modules/react-dom/cjs/react-dom.development.js:29889
+[  756878ms] ModuleBuildError: Module build failed (from ./node_modules/next/dist/build/webpack/loaders/next-swc-loader.js):
+Error: 
+
+Caused by:
+    0: Failed to read source code from C:\Users\hmanito\Documents\linkedout\src\components\UniverseArrivalModal.tsx
+    1: The system cannot find the file specified. (os error 2)
+    at processResult (file://C:\Users\hmanito\Documents\linkedout\node_modules\next\dist\compiled\webpack\bundle5.js:29:407086)
+    at <unknown> (file://C:\Users\hmanito\Documents\linkedout\node_modules\next\dist\compiled\webpack\bundle5.js:29:408881)
+    at <unknown> (file://C:\Users\hmanito\Documents\linkedout\node_modules\next\dist\compiled\loader-runner\LoaderRunner.js:1:8645)
+    at <unknown> (file://C:\Users\hmanito\Documents\linkedout\node_modules\next\dist\compiled\loader-runner\LoaderRunner.js:1:5019)
+    at r.callback (file://C:\Users\hmanito\Documents\linkedout\node_modules\next\dist\compiled\loader-runner\LoaderRunner.js:1:4039)
+[  756879ms] [LOG] [HMR] connected @ webpack-internal:///(pages-dir-browser)/./node_modules/next/dist/client/dev/hot-reloader/pages/websocket.js:45
