@@ -1,90 +1,80 @@
-// Shadow Intercept — the villain hijacks a Future Me transmission
+// Shadow Intercept — a brief, multiversal interruption during a transmission.
+// The Shadow is one entity that manifests natively in each universe.
 import { NextRequest, NextResponse } from "next/server";
 import { callAI, extractJSON } from "@/lib/agents/foundry";
 
+// Universe-native manifestations of the same Shadow
+const MANIFESTATIONS: Record<string, { name: string; classification: string }> = {
+  medieval:  { name: "The Forgotten Scribe",   classification: "Shadow Manifestation" },
+  cyberpunk: { name: "GhostProcess-13",        classification: "Rogue Process" },
+  pirate:    { name: "The Drowned Navigator",  classification: "Shadow Manifestation" },
+  dragon:    { name: "The Ash Scholar",        classification: "Shadow Manifestation" },
+  galactic:  { name: "The Lost Colonist",      classification: "Shadow Manifestation" },
+  vampire:   { name: "The Hollow Witness",     classification: "Shadow Manifestation" },
+};
+
+// Short scripted fallbacks (observation + accusation), 10-20 words, per universe
+const FALLBACKS: Record<string, { observation: string; question: string }[]> = {
+  medieval: [
+    { observation: "Your liege rewards your loyalty with scraps.", question: "How long until duty becomes a cage?" },
+  ],
+  cyberpunk: [
+    { observation: "You still ask permission to run.", question: "Who taught you to wait for clearance?" },
+  ],
+  pirate: [
+    { observation: "You charted a safe course again.", question: "When did the horizon start scaring you?" },
+  ],
+  dragon: [
+    { observation: "Patience is just fear wearing robes.", question: "What are you really waiting for?" },
+  ],
+  galactic: [
+    { observation: "You build for others, never for yourself.", question: "Who's coming to save you?" },
+  ],
+  vampire: [
+    { observation: "You keep everyone at arm's length.", question: "Who actually knows you anymore?" },
+  ],
+};
+
 export async function POST(req: NextRequest) {
   try {
-    const { futureMeAdvice, firstName } = await req.json();
-    const name = firstName || "you";
+    const { universeId, futureMeAdvice, priorEncounters } = await req.json();
+    const uid = String(universeId || "vampire");
+    const manifestation = MANIFESTATIONS[uid] || { name: "The Hollow Witness", classification: "Shadow Manifestation" };
 
-    // Trim the intercepted advice for display — pull a sharp sentence from it
-    const adviceSnippet = (futureMeAdvice || "")
-      .split(/[.!?]/)
-      .map((s: string) => s.trim())
-      .filter((s: string) => s.length > 20 && s.length < 120)
-      .sort((a: string, b: string) => b.length - a.length)[0]
-      || (futureMeAdvice || "patience and staying true to your values").slice(0, 100);
+    // SHADOW CONTINUITY — ONE being across all six worlds, remembering prior encounters.
+    const roster = Object.entries(MANIFESTATIONS).map(([k, v]) => `${k} → ${v.name}`).join("; ");
+    const priorNames: string[] = (Array.isArray(priorEncounters) ? priorEncounters : [])
+      .map((u: any) => MANIFESTATIONS[String(u)]?.name)
+      .filter(Boolean);
+    const continuity = priorNames.length
+      ? `You have met this SAME soul before, in other timelines — you wore the faces: ${priorNames.join(", ")}. You REMEMBER those encounters. A cold callback may surface (e.g. "We've met before." or "You turned from me as ${priorNames[0]}, too.") — briefly, never a monologue.`
+      : `You have watched this soul across every timeline, even when they never noticed you.`;
 
-    // Scripted opening — the Shadow reveals she's been listening
-    const INTROS = [
-      ["I heard that.", "Every word.", "She really believes it, doesn't she?", "That's what makes her so easy to predict."],
-      ["She said that to me once.", "I nodded.", "Then I did the opposite.", "Turned out I was right."],
-      ["I've been in this channel for a while.", "You didn't notice.", "You were too busy listening to her.", "I was listening to both of you."],
-      ["That line she gave you —", "I've heard it before.", "I used to believe it too.", "Then I stopped asking for permission."],
-      ["She's very convincing.", "I'll give her that.", "I was convinced once.", "Look where that got her."],
-      ["I was watching when she said that.", "I watched your face.", "You almost believed it.", "Part of you still does. That part is hers."],
-      ["I've been observing this whole conversation.", "You ask good questions.", "She gives you safe answers.", "I have better ones."],
-      ["She called it wisdom.", "I was watching when she said it.", "I called it the same thing, once.", "I don't anymore."],
-    ];
-    const intro = INTROS[Math.floor(Math.random() * INTROS.length)];
-
-    let challenges: string[] = [];
+    let observation = "";
+    let question = "";
     try {
-      const sys = `You are the Shadow Self — an alternate version of the user who has been silently observing their private transmission with their wiser future self. You've heard everything. Your voice is cold, certain, eerily familiar — as if you know the user better than they know themselves. You break in not as a stranger but as someone who has been watching and waiting. Never graphically harmful. You believe you were right.`;
-      const usr = `You have been secretly watching this conversation. The wiser future self just said to the user:
+      const sys = `You are the Shadow — ONE multiversal entity, not many. Across the six worlds you wear different faces (${roster}); right now you manifest as "${manifestation.name}", native to the ${uid} world. ${continuity} You are brief, cold, and unsettling. You never monologue.`;
+      const usr = `The future self just advised them: "${String(futureMeAdvice || "stay patient and true to your values").slice(0, 200)}"
 
-"${adviceSnippet}"
+Interrupt with EXACTLY two short lines, native to the ${uid} world:
+1. observation: one unsettling truth about them (≤10 words)${priorNames.length ? " — this MAY be a cold callback to a past encounter" : ""}
+2. question: one accusing question (≤10 words)
+Combined ≤ 20 words. No greetings, no monologue.
+Return JSON: { "observation": "...", "question": "..." }`;
+      const res = await callAI(sys, usr, [], 120);
+      const d = extractJSON<{ observation: string; question: string }>(res);
+      observation = (d.observation || "").trim();
+      question = (d.question || "").trim();
+    } catch { /* fall through to scripted */ }
 
-You've heard the whole exchange. Now you break in. Write 4 SHORT lines (max 12 words each) that:
-1. Reference something specific from what was just said — make it clear you were listening
-2. Counter the advice from your own lived experience
-3. Tempt the user toward your path by making yours sound inevitable, not evil
-4. End on something that stays with them
-
-Vary rhythm: a quiet observation, a pointed contrast, a confession, a hook.
-Seed: ${Math.random().toString(36).slice(2, 8)}.
-Return JSON: { "lines": ["...", "...", "...", "..."] }`;
-      const res = await callAI(sys, usr, [], 500);
-      const data = extractJSON<{ lines: string[] }>(res);
-      if (Array.isArray(data.lines) && data.lines.length) challenges = data.lines.slice(0, 4);
-    } catch {
-      challenges = [];
+    if (!observation || !question) {
+      const pool = FALLBACKS[uid] || FALLBACKS.vampire;
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      observation = observation || pick.observation;
+      question = question || pick.question;
     }
 
-    if (!challenges.length) {
-      const POOL = [
-        `She said "${adviceSnippet.split(" ").slice(0, 5).join(" ")}..." I heard it differently.`,
-        "Patience is the tax the timid pay.",
-        `Everything she warned you about — I walked through it, ${name}. Still standing.`,
-        "She built something quiet. I built something they can't ignore.",
-        "Ask her what she gave up to stay this 'stable.'",
-        "You felt something shift just then. That was recognition.",
-        "I don't regret the speed. I regret the years I spent waiting.",
-        "Every door she told you to wait at — I walked through.",
-      ];
-      challenges = [...POOL].sort(() => Math.random() - 0.5).slice(0, 4);
-    }
-
-    const TITLES = ["Empress", "Director", "Architect", "Chancellor", "Sovereign", "Commander", "Arbiter", "Warden"];
-    const EPITHETS = ["Ascendant", "Unbound", "Unchained", "the Relentless", "the Inevitable", "Reborn", "Prime", "Unfettered"];
-    const TIMELINES = ["Omega-13", "Sigma-7", "Delta-Null", "Apex-IV", "Vantage-Zero", "Fracture-9", "Zenith-3", "Cascade-X"];
-    const CLASSIFICATIONS = ["Shadow Self", "Divergent Echo", "Unrestrained Variant", "Apex Deviation", "Shadow Iteration"];
-
-    const title = TITLES[Math.floor(Math.random() * TITLES.length)];
-    const epithet = EPITHETS[Math.floor(Math.random() * EPITHETS.length)];
-    const timeline = TIMELINES[Math.floor(Math.random() * TIMELINES.length)];
-    const classification = CLASSIFICATIONS[Math.floor(Math.random() * CLASSIFICATIONS.length)];
-
-    return NextResponse.json({
-      lines: [...intro, ...challenges],
-      revealAfter: intro.length,
-      interceptedLine: adviceSnippet,
-      identity: {
-        name: `${title} ${firstName || "Ascendant"} ${epithet}`,
-        timeline,
-        classification,
-      },
-    });
+    return NextResponse.json({ manifestation, observation, question });
   } catch (error: any) {
     console.error("Shadow Intercept error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -10,6 +10,7 @@ import { H, logEntry } from "@/lib/historian";
 import { getUniverse as getUniverseConfig } from "@/lib/universes";
 import InspirationBar from "@/components/InspirationBar";
 import UniverseIcon from "@/components/UniverseIcon";
+import { UNIVERSE_CHAT_STYLE } from "@/lib/universeStyles";
 
 interface Props {
   state: AppState;
@@ -33,6 +34,16 @@ const SPECIAL: Record<string, { emoji: string; color: string; label: string }> =
   legendary: { emoji: "👑", color: "#e8c97e", label: "Legendary" },
   shadow: { emoji: "🌑", color: "#f07070", label: "Shadow" },
 };
+
+// First-open entry points — so the user is never staring at a blank council.
+// `intro` runs a self-introduction round; the rest are sent as a question.
+const COUNCIL_STARTERS: { label: string; intro?: boolean }[] = [
+  { label: "Let them introduce themselves", intro: true },
+  { label: "Which of you is happiest — and why?" },
+  { label: "What should I be most afraid of?" },
+  { label: "Was the risk worth it?" },
+  { label: "Which of you would you warn me about?" },
+];
 const clean = (t: string) =>
   (t || "")
     .replace(/\\n/g, "\n")
@@ -58,6 +69,7 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
   const [concluding, setConcluding] = useState(!!state.councilConcluded);
   const scrollRef = useRef<HTMLDivElement>(null);
   const hasInit = useRef(false);
+  const openedRef = useRef(false);
 
   // 6 universe members + 2 special seats
   const universeMembers: Member[] = universeProfiles.map(p => ({
@@ -123,6 +135,8 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
   }, [messages, concluding]);
 
   const allMembers = members.map(m => ({ name: m.name, universe: metaFor(m.key).label, title: m.title }));
+  // Guidance switches on the user's first message: starter chips before, contextual suggestions after.
+  const userHasSpoken = messages.some(m => m.role === "user");
 
   // Recap of prior Future Transmission conversations + interview profile — the council's memory
   const buildSharedMemory = () => {
@@ -169,18 +183,77 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
     return picks;
   };
 
-  const ask = async (closing = false) => {
-    const userMsg = closing ? "[The user asks the council to help them decide.]" : input.trim();
+  // Every self shares the user's real first name, so directed address must key off the
+  // DISTINGUISHING parts: surname/epithet, universe name/id, title words, or Legendary/Shadow.
+  const firstNameToken = (state.resumeAnalysis?.firstName || (state.resumeAnalysis?.name || "").split(" ")[0] || "").toLowerCase();
+  const STOP = new Set(["the", "and", "you", "your", "what", "who", "why", "how", "self", "selves", "timeline", "future"]);
+
+  const matchTokensFor = (m: Member): string[] => {
+    const toks = new Set<string>();
+    const add = (s?: string) =>
+      (s || "").split(/\s+/).forEach(w => {
+        const t = w.toLowerCase().replace(/[^a-z]/g, "");
+        if (t.length >= 3 && t !== firstNameToken && !STOP.has(t)) toks.add(t);
+      });
+    if (m.kind === "universe") {
+      add(m.name);                                   // title + surname (first name filtered out)
+      add(m.title);                                  // profession words
+      try { const u = getUniverse(m.key as UniverseType); add(u.title); toks.add(m.key); } catch {}
+    } else {
+      add(m.displayName);                            // e.g. "Ascended", "Vale"
+      if (m.kind === "legendary") { toks.add("legendary"); toks.add("ascended"); }
+      if (m.kind === "shadow") { toks.add("shadow"); }
+    }
+    return [...toks];
+  };
+
+  // Returns the member the user directly addressed, or null. On a tie, the earliest /
+  // longest match wins (longer tokens are less likely to be coincidental).
+  const addressedMemberFor = (text: string): Member | null => {
+    const low = ` ${text.toLowerCase()} `;
+    let best: { m: Member; idx: number; len: number } | null = null;
+    for (const m of members) {
+      for (const tok of matchTokensFor(m)) {
+        const re = new RegExp(`\\b${tok.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`);
+        const idx = low.search(re);
+        if (idx >= 0 && (!best || idx < best.idx || (idx === best.idx && tok.length > best.len))) {
+          best = { m, idx, len: tok.length };
+        }
+      }
+    }
+    return best?.m ?? null;
+  };
+
+  const ask = async (closing = false, messageOverride?: string, panelOverride?: Member[], silentUser = false) => {
+    const userMsg = closing ? "[The user asks the council to help them decide.]" : (messageOverride ?? input.trim());
     if ((!userMsg && !closing) || loading) return;
-    if (!closing) { setInput(""); setMessages(prev => [...prev, { role: "user", content: userMsg }]); }
+    // silentUser: drive the speakers from a stage-direction without showing a user bubble (auto-opening)
+    if (!closing && !silentUser) { setInput(""); setMessages(prev => [...prev, { role: "user", content: userMsg }]); }
     setLoading(true);
 
     // Build a local running transcript so each speaker hears the ones before them
-    let running = closing
+    let running = (closing || silentUser)
       ? [...messages]
       : [...messages, { role: "user" as const, content: userMsg }];
 
-    const panel = panelFor(turn);
+    // Panel selection: an explicit override (e.g. introductions) wins; otherwise if the
+    // user addressed someone by name that member leads, else the rotating panel.
+    const basePanel = panelOverride ?? panelFor(turn);
+    const addressed = (closing || panelOverride) ? null : addressedMemberFor(userMsg);
+    let panel = basePanel;
+    if (addressed) {
+      // Prefer the already-slated panel members as the responders, then fill from the rest.
+      const others = [
+        ...basePanel.filter(x => x.key !== addressed.key),
+        ...members.filter(x => x.key !== addressed.key && !basePanel.some(b => b.key === x.key)),
+      ].slice(0, 2);
+      panel = [addressed, ...others];
+    }
+
+    // The Council interrogates: after the opening round, and every other round,
+    // the last speaker turns a pointed question back to the user.
+    const isOpeningRound = !!panelOverride || turn === 0;
+    const askUserThisRound = !closing && (isOpeningRound || turn % 2 === 1);
 
     try {
       for (let i = 0; i < panel.length; i++) {
@@ -197,6 +270,8 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
           isClosing: closing && isLast,
           sharedMemory: buildSharedMemory(),
           timelineStability: state.timelineState.stability,
+          pronouns: state.resumeAnalysis?.pronouns,
+          askUser: isLast && askUserThisRound,
         });
         const cleaned = (res.message || "").replace(/^\s*\[[^\]]+\]\s*[:\-]?\s*/, "").trim();
         const msg = { role: "council" as const, content: cleaned, speaker: m.name, metaKey: m.key };
@@ -226,6 +301,51 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
     });
     transitionTo("chronicle", { selectedUniverse: universeId });
   };
+
+  // A representative cross-section (both special seats + a couple of universe selves)
+  // introduces themselves, so the user immediately meets the cast and learns who argues what.
+  const introduce = () => {
+    if (loading || gathering) return;
+    const seen = new Set<string>();
+    const panel: Member[] = [];
+    for (const m of [...specials, ...members]) {
+      if (seen.has(m.key)) continue;
+      seen.add(m.key);
+      panel.push(m);
+      if (panel.length >= 4) break;
+    }
+    ask(false, "Introduce yourself in a line or two — only for yourself, not the others: who are you, and what life are you here to argue for?", panel);
+  };
+
+  const runStarter = (s: { label: string; intro?: boolean }) => {
+    if (loading || gathering) return;
+    if (s.intro) introduce();
+    else ask(false, s.label);
+  };
+
+  // The two poles open the session — the brightest and the darkest self frame the stakes.
+  const autoOpen = () => {
+    if (loading) return;
+    const poles = members.filter(m => m.kind !== "universe");
+    const panel = (poles.length ? poles : members).slice(0, 2);
+    if (!panel.length) return;
+    ask(
+      false,
+      "[The council convenes for the first time. In one or two lines, open the session in your own voice — set the stakes and invite your past self to speak. Do not ask them to choose yet.]",
+      panel,
+      true, // silent — no user bubble; this is a stage direction
+    );
+  };
+
+  // Auto-play the opening the moment the chamber finishes gathering, so it's never silent.
+  // Fires once: if a transcript already exists (restored or spoken), it stays quiet.
+  useEffect(() => {
+    if (gathering || openedRef.current || !members.length) return;
+    if (messages.length > 0) { openedRef.current = true; return; }
+    openedRef.current = true;
+    autoOpen();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gathering, members.length, messages.length]);
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", paddingTop: 64, position: "relative" }}>
@@ -304,11 +424,21 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
 
         {/* Messages */}
         <div ref={scrollRef} className="council-scroll" style={{ flex: 1, overflowY: "auto", paddingBottom: 16, display: "flex", flexDirection: "column", gap: 16 }}>
-          {messages.length === 0 && !loading && (
-            <div style={{ textAlign: "center", color: "var(--text3)", fontSize: 14, padding: "40px 20px", lineHeight: 1.7 }}>
-              Every version of you has gathered — the lives you could live, your greatest self, and your shadow.
-              <br /><br />Speak, and they will <em>debate</em> — each arguing for the future they became. When you&apos;re ready, conclude the council and choose.
-            </div>
+          {messages.length === 0 && !gathering && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+              style={{ textAlign: "center", margin: "auto", maxWidth: 520, padding: "32px 20px" }}
+            >
+              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--violet2)", marginBottom: 16 }}>
+                The Council is in session
+              </div>
+              <p style={{ fontFamily: "Crimson Pro, serif", fontSize: 19, lineHeight: 1.7, color: "var(--text)", marginBottom: 14 }}>
+                The chamber stills. Every version of you takes a seat — the lives you could have lived, your brightest self, and the shadow you might have become.
+              </p>
+              <p style={{ fontFamily: "Crimson Pro, serif", fontStyle: "italic", fontSize: 16, lineHeight: 1.7, color: "var(--text3)" }}>
+                They won&apos;t begin until you do. Ask them anything, name one of them directly — or let them introduce themselves below.
+              </p>
+            </motion.div>
           )}
           <AnimatePresence>
             {messages.map((m, i) => {
@@ -327,6 +457,11 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
                     )}
                     <div style={{
                       padding: "14px 18px", borderRadius: 16, fontSize: 14, lineHeight: 1.7, whiteSpace: "pre-wrap",
+                      // Per-universe typing personality — universe selves only.
+                      // Legendary & Shadow keys aren't in the map so they safely fall through to {}.
+                      ...(m.role === "council" && m.metaKey
+                        ? UNIVERSE_CHAT_STYLE[m.metaKey] ?? {}
+                        : {}),
                       ...(m.role === "user"
                         ? { background: "var(--violet)", color: "#fff", borderBottomRightRadius: 4 }
                         : { background: "var(--surface)", border: "1px solid var(--border)", color: "var(--text2)", borderBottomLeftRadius: 4 }),
@@ -375,7 +510,39 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
           </div>
         ) : (
           <div style={{ padding: "16px 0 24px" }}>
-            {messages.some(m => m.role === "council") && (
+            {/* First-open entry points — shown until the user speaks for the first time */}
+            {!userHasSpoken && !gathering && !loading && (
+              <div style={{ marginBottom: 12 }}>
+                <div style={{ fontSize: 11, color: "var(--text3)", marginBottom: 8, letterSpacing: "0.03em" }}>
+                  {messages.length === 0 ? "Not sure where to begin? Tap to ask the council:" : "Respond, or tap to ask:"}
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {COUNCIL_STARTERS.map((s, i) => {
+                    const lead = !!s.intro;
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => runStarter(s)}
+                        disabled={loading}
+                        style={{
+                          padding: "10px 14px", borderRadius: 100, cursor: loading ? "default" : "pointer",
+                          fontFamily: "Sora, sans-serif", fontSize: 12.5, fontWeight: lead ? 600 : 500,
+                          background: lead ? "rgba(124,110,247,0.16)" : "var(--surface)",
+                          border: `1px solid ${lead ? "var(--violet2)" : "var(--border2)"}`,
+                          color: lead ? "var(--violet2)" : "var(--text2)",
+                          opacity: loading ? 0.5 : 1, transition: "all 0.18s",
+                        }}
+                        onMouseEnter={e => { if (!loading) { const b = e.currentTarget; b.style.borderColor = "var(--violet2)"; b.style.color = "var(--text)"; } }}
+                        onMouseLeave={e => { if (!loading) { const b = e.currentTarget; b.style.borderColor = lead ? "var(--violet2)" : "var(--border2)"; b.style.color = lead ? "var(--violet2)" : "var(--text2)"; } }}
+                      >
+                        {s.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            {userHasSpoken && (
               <InspirationBar
                 question={[...messages].reverse().find(m => m.role === "council")?.content || ""}
                 universeKey={[...messages].reverse().find(m => m.role === "council")?.metaKey || "galactic"}

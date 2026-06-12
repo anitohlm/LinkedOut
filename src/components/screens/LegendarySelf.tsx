@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { generateLegendarySelf } from "@/lib/agents/useAgents";
+import { getUniverse } from "@/lib/universes";
+import { H, logEntry } from "@/lib/historian";
 
 interface Props {
   state: AppState;
@@ -29,9 +31,13 @@ export default function LegendarySelf({ state, transitionTo, updateState }: Prop
     hasInit.current = true;
     (async () => {
       try {
-        const res = await generateLegendarySelf(state.resumeAnalysis!);
+        const res = await generateLegendarySelf(state.resumeAnalysis!, universeId, state.allProfiles?.[universeId]);
         setData(res);
-        updateState({ legendarySelves: { ...state.legendarySelves, [universeId]: res } });
+        // First reveal of this universe's legendary self — record it for the Historian + Chronicle
+        logEntry(H.legendaryRevealed(getUniverse(universeId).title), state, updateState, {
+          toast: true,
+          extra: { legendarySelves: { ...state.legendarySelves, [universeId]: res } },
+        });
       } catch (e: any) { setError(e.message || "Failed to summon your legend."); }
       finally { setLoading(false); }
     })();

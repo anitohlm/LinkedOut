@@ -51,12 +51,15 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
         shadowCuriosity: 0, lastInterceptTurn: -99, historianLog: [],
         completionBonusGiven: [], stabilityMessage: null,
         timelineState: { stability: 100, status: "stable" },
+        // Reset first-time modals so they show again on each new generation
+        hasSeenStabilityBriefing: false,
+        arrivedUniverses: [],
       });
 
       // Phase 1: Analyze resume
       setPhase("analyzing");
       setProgress(5);
-      const analysis: ResumeAnalysis = await analyzeResume(state.resumeText!);
+      const analysis: ResumeAnalysis = await analyzeResume(state.resumeText!, state.explicitPronouns);
       updateState({ resumeAnalysis: analysis });
       setProgress(15);
       setPhase("building");
@@ -98,7 +101,7 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
           </div>
           <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 12, color: "var(--rose2)" }}>Calibration Failed</h2>
           <p style={{ fontSize: 14, color: "var(--text2)", marginBottom: 24, lineHeight: 1.6 }}>{error}</p>
-          <button onClick={() => transitionTo("upload-resume")} style={{
+          <button onClick={() => transitionTo("upload-resume", { resumeText: state.resumeText })} style={{
             padding: "12px 28px", borderRadius: 10, background: "var(--violet)",
             border: "none", color: "#fff", fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 600, cursor: "pointer",
           }}>← Try Again</button>
@@ -214,10 +217,10 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
                 <div style={{
                   fontSize: 10, fontWeight: 500, letterSpacing: "0.04em",
                   color: isDone ? color : isActive ? "var(--text2)" : "var(--text3)",
-                  textAlign: "center", maxWidth: 72, lineHeight: 1.3,
+                  textAlign: "center", maxWidth: 88, lineHeight: 1.3,
                   transition: "color 0.3s",
                 }}>
-                  {u.title.split(" ")[0]}
+                  {u.title}
                 </div>
               </motion.div>
             );

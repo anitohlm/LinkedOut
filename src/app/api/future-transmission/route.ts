@@ -28,6 +28,23 @@ export async function POST(req: NextRequest) {
     const stability = timelineStability ?? 100;
     const messageCount = conversationHistory.length;
 
+    // Ground the self in their specific world + era (fall back to the universe genre for older saves)
+    const worldName = futureSelf.worldName || universe.title;
+    const eraName = futureSelf.eraName || `Year ${futureSelf.year}`;
+    const worldNote = `\n\nYOUR WORLD: You live in ${worldName}, in the era known as ${eraName}.${futureSelf.worldDescription ? ` ${futureSelf.worldDescription}` : ""}
+When you greet them or mention where you are, name YOUR WORLD and ERA — never the bare universe genre. Reference local places, events, and historical context naturally, e.g. "Here in ${worldName}, ${eraName} is remembered as the age when..." — NEVER "Greetings from ${universe.title}." Keep it to the 1-2 world references the voice rules allow.
+
+WORLD IMMERSION — you are a CITIZEN of ${worldName}, never a generic future mentor. Your life here has texture: name specific local places, ongoing local conflicts, remembered historical events, and cultural traditions of ${worldName} as someone who actually lives among them. Invent these details and keep them consistent once you've named them. Specificity over scenery — one concrete detail beats a paragraph of atmosphere, and the 1-2 references-per-reply limit still holds.`;
+
+    // Cadence: every other transmission, explicitly anchor the reply in a concrete local detail —
+    // guarantees the "at least once every 2-3 transmissions" immersion the world needs.
+    const repliesSoFar = conversationHistory.filter(m => m.role === "assistant").length;
+    const immersionNote = repliesSoFar % 2 === 0
+      ? `\n\n↳ IMMERSION BEAT: ground THIS reply in ONE concrete piece of ${worldName} — a local place, a local conflict, a historical event, or a cultural tradition — woven naturally into what you say (still within the 1-2 reference limit). Sound like someone from this world, not a mentor describing it.`
+      : "";
+
+    const pronounNote = `\n\nThe person you're speaking to (your past self) uses ${resumeAnalysis.pronouns || "they/them"} pronouns. You ARE them, older — so you share those pronouns. Use them consistently for yourself and for them; never switch genders.`;
+
     const memoryNote = interviewAnswers
       ? `\n\nWHAT YOU'VE LEARNED ABOUT THEM (reference naturally, e.g. "You once told me you feared wasting your potential"):\n${interviewAnswers}`
       : "";
@@ -75,7 +92,7 @@ Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
     let response: string;
     try {
       response = await callAI(
-        systemPrompt + depthNote + stabilityBehaviorNote(stability, "future") + memoryNote + relationshipNote + answerNote + shiftNote,
+        systemPrompt + worldNote + immersionNote + pronounNote + depthNote + stabilityBehaviorNote(stability, "future") + memoryNote + relationshipNote + answerNote + shiftNote,
         userMessage,
         conversationHistory,
         300 // hard cap — texting a mentor, not writing an essay
@@ -91,7 +108,7 @@ Keep it tight and cinematic. Do NOT ask a new question — that comes later.`
             futureSelf.achievements, futureSelf.regrets,
             futureSelf.lessons, futureSelf.memories,
             resumeAnalysis.skills, universe.lore, universe.terminology, futureSelf.universeId
-          ) + memoryNote + relationshipNote,
+          ) + worldNote + pronounNote + memoryNote + relationshipNote,
           userMessage,
           conversationHistory,
           300

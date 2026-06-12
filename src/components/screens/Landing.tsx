@@ -1,11 +1,20 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+import { motion, useMotionTemplate, useMotionValue, animate } from "framer-motion";
 import {
   FileText, Globe2, Radio, AlertTriangle, Eye, Scale, BookOpen, type LucideIcon,
 } from "lucide-react";
 import { AppState, AppScreenState } from "@/types";
+import { UNIVERSES } from "@/lib/universes";
+
+const AuroraStars = dynamic(
+  () => import("@/components/ui/aurora-stars").then(m => m.AuroraStars),
+  { ssr: false }
+);
+
+const AURORA_COLORS = ["#7c6ef7", "#4ecdc4", "#e8c97e", "#9d4edd"];
 
 interface LandingProps {
   state: AppState;
@@ -28,30 +37,19 @@ const SCREEN_LABELS: Partial<Record<AppScreenState, string>> = {
 };
 
 export default function Landing({ transitionTo, savedExists, onResume, onNewGame, savedScreen }: LandingProps) {
-  const starsRef = useRef<HTMLDivElement>(null);
+  const color = useMotionValue(AURORA_COLORS[0]);
+  const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
+  const border = useMotionTemplate`1px solid ${color}`;
+  const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
 
   useEffect(() => {
-    const container = starsRef.current;
-    if (!container) return;
-    for (let i = 0; i < 80; i++) {
-      const star = document.createElement("div");
-      const size = Math.random() * 2 + 1;
-      Object.assign(star.style, {
-        position: "absolute",
-        borderRadius: "50%",
-        background: "#fff",
-        width: `${size}px`,
-        height: `${size}px`,
-        top: `${Math.random() * 100}%`,
-        left: `${Math.random() * 100}%`,
-        opacity: String(Math.random() * 0.6 + 0.1),
-        animation: `pulse-glow ${2 + Math.random() * 3}s ease-in-out infinite`,
-        animationDelay: `${Math.random() * 4}s`,
-      });
-      container.appendChild(star);
-    }
-    return () => { container.innerHTML = ""; };
-  }, []);
+    animate(color, AURORA_COLORS, {
+      ease: "easeInOut",
+      duration: 10,
+      repeat: Infinity,
+      repeatType: "mirror",
+    });
+  }, [color]);
 
   const stagger = {
     hidden: { opacity: 0 },
@@ -63,22 +61,11 @@ export default function Landing({ transitionTo, savedExists, onResume, onNewGame
   };
 
   return (
-    <div style={{ minHeight: "100vh", overflow: "hidden", background: "var(--grad1)", position: "relative" }}>
-      {/* Stars layer */}
-      <div ref={starsRef} style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0 }} />
-
-      {/* Nebula blobs */}
-      <div style={{
-        position: "fixed", width: 400, height: 300, top: -100, right: -100,
-        background: "rgba(124,110,247,0.2)", filter: "blur(80px)", borderRadius: "50%",
-        pointerEvents: "none", zIndex: 0, animation: "float 8s ease-in-out infinite",
-      }} />
-      <div style={{
-        position: "fixed", width: 300, height: 400, bottom: -100, left: -50,
-        background: "rgba(78,205,196,0.12)", filter: "blur(80px)", borderRadius: "50%",
-        pointerEvents: "none", zIndex: 0, animation: "float 8s ease-in-out infinite",
-        animationDelay: "-4s",
-      }} />
+    <motion.div style={{ minHeight: "100vh", overflow: "hidden", backgroundImage, position: "relative" }}>
+      {/* Three.js Stars — full-screen fixed background */}
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0 }}>
+        <AuroraStars />
+      </div>
 
       {/* ── NAV ── */}
       <nav style={{
@@ -189,29 +176,19 @@ export default function Landing({ transitionTo, savedExists, onResume, onNewGame
 
           {/* CTA group */}
           <motion.div variants={item} style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 80 }}>
-            <button
+            <motion.button
               onClick={() => { onNewGame?.(); transitionTo("upload-resume"); }}
               style={{
                 padding: "14px 32px", borderRadius: 12, fontSize: 15, fontWeight: 600,
                 cursor: "pointer", fontFamily: "Sora, sans-serif", letterSpacing: "-0.2px",
-                background: "var(--violet)", border: "1px solid var(--violet2)", color: "#fff",
-                boxShadow: "0 0 40px rgba(124,110,247,0.3)", transition: "all 0.25s",
+                background: "var(--violet)", border, color: "#fff", boxShadow,
+                transition: "background 0.25s, transform 0.25s",
               }}
-              onMouseEnter={e => {
-                const b = e.currentTarget as HTMLButtonElement;
-                b.style.background = "var(--violet2)";
-                b.style.transform = "translateY(-2px)";
-                b.style.boxShadow = "0 0 60px rgba(124,110,247,0.5)";
-              }}
-              onMouseLeave={e => {
-                const b = e.currentTarget as HTMLButtonElement;
-                b.style.background = "var(--violet)";
-                b.style.transform = "translateY(0)";
-                b.style.boxShadow = "0 0 40px rgba(124,110,247,0.3)";
-              }}
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.97 }}
             >
               Generate My Alternate Lives
-            </button>
+            </motion.button>
           </motion.div>
 
         </motion.div>
@@ -306,20 +283,20 @@ export default function Landing({ transitionTo, savedExists, onResume, onNewGame
             <p style={{ position: "relative", fontSize: 15, color: "var(--text2)", marginBottom: 28, fontWeight: 300 }}>
               Paste your résumé. Meet six versions of yourself. Choose your story.
             </p>
-            <button
+            <motion.button
               onClick={() => transitionTo("upload-resume")}
               style={{
                 position: "relative",
                 padding: "16px 36px", borderRadius: 12, fontSize: 15, fontWeight: 600,
                 cursor: "pointer", fontFamily: "Sora, sans-serif", letterSpacing: "-0.2px",
-                background: "var(--violet)", border: "1px solid var(--violet2)", color: "#fff",
-                boxShadow: "0 0 40px rgba(124,110,247,0.4)", transition: "all 0.25s",
+                background: "var(--violet)", border, color: "#fff", boxShadow,
+                transition: "background 0.25s",
               }}
-              onMouseEnter={e => { const b = e.currentTarget as HTMLButtonElement; b.style.background = "var(--violet2)"; b.style.transform = "translateY(-2px)"; b.style.boxShadow = "0 0 60px rgba(124,110,247,0.6)"; }}
-              onMouseLeave={e => { const b = e.currentTarget as HTMLButtonElement; b.style.background = "var(--violet)"; b.style.transform = "translateY(0)"; b.style.boxShadow = "0 0 40px rgba(124,110,247,0.4)"; }}
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.97 }}
             >
               Generate My Alternate Lives →
-            </button>
+            </motion.button>
           </motion.div>
 
           {/* Footer */}
@@ -336,7 +313,7 @@ export default function Landing({ transitionTo, savedExists, onResume, onNewGame
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -358,7 +335,7 @@ const WORLDS: World[] = [
     id: "galactic",
     color: "#00D9FF",
     accentColor: "#7c6ef7",
-    name: "Cosmic Frontier",
+    name: UNIVERSES.galactic.title,
     era: "Year 3050 · Deep Space",
     teaser: "Humanity's second home lies past the last mapped star. The frontier doesn't forgive hesitation — or second thoughts.",
     transmission: "3 transmissions intercepted · Signal origin: unknown",

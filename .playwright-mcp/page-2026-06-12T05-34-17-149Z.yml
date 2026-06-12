@@ -1,0 +1,130 @@
+- generic [ref=e1]:
+  - generic [ref=e616]:
+    - generic [ref=e617]:
+      - img [ref=e618]
+      - text: Harmonized Timeline
+    - generic [ref=e620]: All futures are briefly singing the same note. This is rare.
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e4677]:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - img
+    - navigation [ref=e4706]:
+      - button "← Back" [active] [ref=e4707] [cursor=pointer]
+      - button "Zypharion The Flux Convergence" [ref=e4708] [cursor=pointer]:
+        - generic [ref=e4709]:
+          - img [ref=e4710]
+          - generic [ref=e4716]: Zypharion
+        - generic [ref=e4717]: The Flux Convergence
+    - generic [ref=e4718]:
+      - generic [ref=e4719]:
+        - img [ref=e4722]
+        - generic [ref=e4728]:
+          - heading "Vexkar Crestix" [level=1] [ref=e4729]
+          - paragraph [ref=e4730]: Quantum Surveyor Captain
+          - paragraph [ref=e4731]: Cosmic Frontier · Federations & Alliances
+          - generic [ref=e4732]:
+            - generic [ref=e4733]:
+              - generic [ref=e4734]: "88"
+              - generic [ref=e4735]: innovation
+            - generic [ref=e4736]:
+              - generic [ref=e4737]: "85"
+              - generic [ref=e4738]: leadership
+            - generic [ref=e4739]:
+              - generic [ref=e4740]: "90"
+              - generic [ref=e4741]: collaboration
+        - generic [ref=e4742]:
+          - button "Begin Future Transmission →" [ref=e4744] [cursor=pointer]
+          - button "Commissions" [ref=e4746] [cursor=pointer]:
+            - img [ref=e4747]
+            - text: Commissions
+          - generic [ref=e4750]:
+            - button "Legendary" [ref=e4752] [cursor=pointer]:
+              - img [ref=e4753]
+              - text: Legendary
+            - button "Shadow" [ref=e4756] [cursor=pointer]:
+              - img [ref=e4757]
+              - text: Shadow
+      - generic [ref=e4759]:
+        - generic [ref=e4760]: The Realm
+        - paragraph [ref=e4761]: Zypharion is a sprawling cluster of interconnected orbital habitats and drifting arcologies, governed by a council of cognoscenti who prize knowledge and exploration. Its inhabitants are renowned for their disciplined curiosity and seamless integration of organic and synthetic cognition.
+      - generic [ref=e4762]:
+        - generic [ref=e4763]:
+          - generic [ref=e4764]:
+            - generic: ”
+            - generic [ref=e4906]: Biography
+            - paragraph [ref=e4769]: Born amid the shimmering bio-domes of Zypharion’s zenith arc, Vexkar Crestix emerged as a quiet force in the art of pattern unraveling and team symbiosis. From early cycles, he was drawn to the labyrinthine data streams woven through the cluster’s nexus cores, shaping his mind like the crystalline spires that pierce Zypharion’s upper rings. His ascent was marked not by clamor but by measured stride, orchestrating exploratory missions that charted unrecorded celestial phenomena. During The Flux Convergence, when the constellation pathways grew erratic and star-lanes warped, Vexkar’s leadership in the Survey Squadron became legendary. He led nuanced expeditions through unstable quantum eddies, decoding the cryptic signals of ancestral star-mappers to reroute Zypharion’s fleets safely. His quiet command fostered collaboration across disparate explorer guilds, blending diverse intelligences into a united front against cosmic uncertainty. Vexkar’s memoirs speak of patience honed like fine alloy, adaptability as constant as the flux of nebulae, and an insatiable curiosity that pushed beyond known horizons. His name is now etched in Zypharion’s annals as both a pioneer and an architect of future survey doctrines.
+          - generic [ref=e4770]:
+            - generic [ref=e4910]: Timeline Story
+            - paragraph [ref=e4777]: Vexkar first distinguished himself as a keen observer and steady mind within Zypharion’s survey guilds, quickly rising to lead small exploratory teams mapping unstable star lanes. During The Flux Convergence, his role expanded to coordinating multi-guild missions that safeguarded the cluster’s expansion prospects. His steady hand guided Zypharion’s fleets through fluctuating quantum currents and redefined the protocols of interstellar collaboration, setting new standards for exploration and alliance.
+          - generic [ref=e4778]:
+            - generic [ref=e4914]: Where They're Heading
+            - paragraph [ref=e4783]: Vexkar is poised to become a Director of Zypharion’s Stellar Convergence Council, shaping policy for cluster-wide exploration and safeguarding new frontiers. His future holds the expansion into previously unreachable quantum sectors, transforming Zypharion into an interstellar nexus of knowledge and peaceful alliance.
+          - generic [ref=e4784]:
+            - generic [ref=e4918]: Achievements
+            - generic [ref=e4789]:
+              - generic [ref=e4790]:
+                - generic [ref=e4791]: "1"
+                - generic [ref=e4792]: Led the first successful survey mission into the Vanthar Nebula, charting 14 habitable systems previously lost to quantum distortion.
+              - generic [ref=e4793]:
+                - generic [ref=e4794]: "2"
+                - generic [ref=e4795]: Decoded the ancestral star-mapper’s distress pattern and rerouted the Zypharion fleet before the ion storm overwhelmed the outer colonies.
+              - generic [ref=e4796]:
+                - generic [ref=e4797]: "3"
+                - generic [ref=e4798]: Drafted the Frontier Charter of Rights, uniting six independent exploration guilds under a shared code of conduct and resource exchange.
+              - generic [ref=e4799]:
+                - generic [ref=e4800]: "4"
+                - generic [ref=e4801]: Orchestrated the Stellar Array Alignment Ceremony during the Flux Convergence, stabilizing communication nodes across the cluster.
+              - generic [ref=e4802]:
+                - generic [ref=e4803]: "5"
+                - generic [ref=e4804]: Mentored a diverse cadre of young quantum navigators in the art of entangled signal interpretation and cosmic pattern reading.
+              - generic [ref=e4805]:
+                - generic [ref=e4806]: "6"
+                - generic [ref=e4807]: Negotiated the delicate truce between rival arcology factions to prevent sabotage during a critical survey mission into the Epsilon Rift.
+              - generic [ref=e4808]:
+                - generic [ref=e4809]: "7"
+                - generic [ref=e4810]: Engineered the Relay Nexus project, integrating neural interface designs to enhance telemetric coordination across starship crews.
+        - generic [ref=e4811]:
+          - generic [ref=e4812]:
+            - generic [ref=e4922]: Personality
+            - paragraph [ref=e4817]: Vexkar’s natural curiosity manifests as a calm and methodical approach to cosmic mysteries, favoring quiet collaboration and careful adaptation over bold spectacle. His innovative spirit thrives in weaving diverse perspectives into cohesive strategies, while his detail-oriented nature ensures precision in every maneuver. His leadership style balances empathy with quiet authority, inspiring deep trust among peers and juniors alike.
+          - generic [ref=e4818]:
+            - generic [ref=e4926]: Competency Matrix
+            - generic [ref=e4823]:
+              - generic [ref=e4825]:
+                - generic [ref=e4826]: innovation
+                - generic [ref=e4827]: "88"
+              - generic [ref=e4831]:
+                - generic [ref=e4832]: leadership
+                - generic [ref=e4833]: "85"
+              - generic [ref=e4837]:
+                - generic [ref=e4838]: collaboration
+                - generic [ref=e4839]: "90"
+              - generic [ref=e4843]:
+                - generic [ref=e4844]: adaptability
+                - generic [ref=e4845]: "92"
+              - generic [ref=e4849]:
+                - generic [ref=e4850]: ambition
+                - generic [ref=e4851]: "75"
+              - generic [ref=e4855]:
+                - generic [ref=e4856]: wisdom
+                - generic [ref=e4857]: "80"
+          - generic [ref=e4860]:
+            - generic [ref=e4930]: Skills
+            - generic [ref=e4865]:
+              - generic [ref=e4866]: Quantum Signal Analysis
+              - generic [ref=e4867]: Stellar Cartography
+              - generic [ref=e4868]: Neural Interface Design
+              - generic [ref=e4869]: Colony Logistics Coordination
+              - generic [ref=e4870]: Entangled Pattern Decoding
+              - generic [ref=e4871]: Diplomatic Alignment Negotiation
+              - generic [ref=e4872]: Exploratory Mission Leadership
+              - generic [ref=e4873]: Multisensory Data Synthesis
+      - button "↺ Replay Arrival" [ref=e4875] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

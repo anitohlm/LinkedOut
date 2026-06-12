@@ -1,0 +1,16 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e507]:
+    - navigation [ref=e508]:
+      - button "← Back" [ref=e509] [cursor=pointer]
+      - button "LinkedOut" [ref=e510] [cursor=pointer]
+    - generic [ref=e511]:
+      - paragraph [ref=e512]: Step 1 of 3
+      - heading "Begin Your Journey" [level=2] [ref=e513]
+      - paragraph [ref=e514]: Paste your resume below. We'll figure out who you could've been.
+      - generic [ref=e528]:
+        - img [ref=e530]
+        - paragraph [ref=e533]: Analyzing career history...
+        - paragraph [ref=e534]: This will just take a moment...
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

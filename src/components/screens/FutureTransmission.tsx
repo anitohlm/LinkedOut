@@ -4,9 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppState, AppScreenState, FutureSelf } from "@/types";
 import { getUniverse } from "@/lib/universes";
+
+import { UNIVERSE_CHAT_STYLE } from "@/lib/universeStyles";
 import { generateFutureSelf, sendFutureTransmission } from "@/lib/agents/useAgents";
 import UniverseBackground from "@/components/UniverseBackground";
 import UniverseIcon from "@/components/UniverseIcon";
+import WorldEra from "@/components/WorldEra";
 import ShadowIntercept from "@/components/ShadowIntercept";
 import { applyDelta, applyEvent, corruptionLevel, interceptionRisk, curiosityGain } from "@/lib/stability";
 import { H, logEntry } from "@/lib/historian";
@@ -58,7 +61,6 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
 
   const stage = getStage(relationship);
 
-  const firstName = state.resumeAnalysis?.firstName || (state.resumeAnalysis?.name || "").split(" ")[0] || "You";
 
   const accent = universe?.color || "#7c6ef7";
 
@@ -111,7 +113,9 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
         state.resumeAnalysis!,
         universeId!,
         profile!.alternativeName,
-        profile!.profession
+        profile!.profession,
+        // Reuse the world established on the profile so both screens agree
+        { worldName: profile!.worldName, eraName: profile!.eraName, worldDescription: profile!.worldDescription }
       );
       setFutureSelf(fs);
       setBooting(false);
@@ -199,31 +203,48 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     setRelationship(newRel);
     setAsked(prev => [...prev, q.id]);
 
-    // Stability shifts: interview option delta + relationship growth bonus on stage advance
+    // Stability shifts: interview option delta + relationship-growth bonus on stage advance.
+    // Compose BOTH off a single evolving base so they stack correctly, then apply ONCE.
+    // (The old code applied each from the stale render-time base in separate updates: the
+    // second overwrote the first, dropping opt.stab — and the inline chip, the toast delta,
+    // and the toast message all reported different, sometimes opposite-sign, numbers.)
     const prevStageName = getStage(relationship).name;
     const nextStageName = getStage(newRel).name;
     const stageAdvanced = nextStageName !== prevStageName;
 
+    const baseStab = state.timelineState.stability;
+    let nextStab = baseStab;
+    let nextStatus = state.timelineState.status;
     if (opt.stab) {
-      const { stability, status } = applyDelta(state.timelineState.stability, opt.stab);
-      updateState({ timelineState: { stability, status } });
+      const r = applyDelta(nextStab, opt.stab);
+      nextStab = r.stability; nextStatus = r.status;
     }
+    let growthMsg: string | undefined;
     if (stageAdvanced && futureSelf) {
-      const { stability: newStab, status, event } = applyEvent(state.timelineState.stability, "relationship-growth");
-      logEntry(H.bondAdvanced(futureSelf.name, prevStageName, nextStageName), state, updateState, {
-        toast: true,
-        extra: { timelineState: { stability: newStab, status }, stabilityMessage: event.message },
-      });
+      const r = applyEvent(nextStab, "relationship-growth");
+      nextStab = r.stability; nextStatus = r.status; growthMsg = r.event.message;
     }
+    const totalDelta = nextStab - baseStab; // the REAL net change actually applied
 
-    // Record the exchange + the reward feedback in the transcript
-    const fb = `Relationship +${opt.rel}` + (opt.stab ? `  ·  Timeline Stability ${opt.stab > 0 ? "+" : ""}${opt.stab}` : "");
+    // Inline reward chip reflects the TRUE net stability delta, so it always matches the toast.
+    const stabText = totalDelta !== 0 ? `  ·  Timeline Stability ${totalDelta > 0 ? "+" : ""}${totalDelta}` : "";
     setMessages(prev => [
       ...prev,
       { role: "assistant", content: q.prompt },
       { role: "user", content: opt.label },
-      { role: "system", content: fb },
+      { role: "system", content: `Relationship +${opt.rel}${stabText}` },
     ]);
+
+    // Apply the composed stability in a SINGLE update. On a stage advance, attach the bond
+    // entry + its message; otherwise just commit the new stability.
+    if (stageAdvanced && futureSelf) {
+      logEntry(H.bondAdvanced(futureSelf.name, prevStageName, nextStageName), state, updateState, {
+        toast: true,
+        extra: { timelineState: { stability: nextStab, status: nextStatus }, stabilityMessage: growthMsg },
+      });
+    } else if (totalDelta !== 0) {
+      updateState({ timelineState: { stability: nextStab, status: nextStatus } });
+    }
     setQuestion(null);
     setPicked(null);
 
@@ -272,6 +293,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     const risk = interceptionRisk({
       stability: state.timelineState.stability,
       curiosity,
+      affinity: state.shadowAffinity || 0,
       risky: signals.risky,
       vulnerable: signals.revealedSelf,
     });
@@ -284,20 +306,13 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
   };
 
   const triggerIntercept = () => {
-    // Shadow appearance destabilizes the timeline
-    const { stability, status, event } = applyEvent(state.timelineState.stability, "shadow-interception");
-    const delta = stability - state.timelineState.stability;
-    if (futureSelf) {
-      logEntry(H.shadowAppeared(futureSelf.name, Math.abs(delta)), state, updateState, {
-        extra: { timelineState: { stability, status }, stabilityMessage: event.message },
-      });
-    } else {
-      updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
-    }
-    // The advice the villain will challenge = the last thing the Future Self said
+    // The appearance itself is neutral — the player's CHOICE drives stability.
     const lastAdvice = [...messages].reverse().find(m => m.role === "assistant")?.content || futureSelf?.philosophy || "patience and staying true to your values";
     setInterceptAdvice(lastAdvice);
     setIntercept(true);
+    // Record this manifestation so future encounters in other worlds remember it.
+    const prior = state.shadowEncounters || [];
+    if (universeId && !prior.includes(universeId)) updateState({ shadowEncounters: [...prior, universeId] });
   };
 
   const RETURN_LINES = [
@@ -309,22 +324,42 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     "...I'm back. She got further than she usually does.\n\nThat version of us chose speed over everything.\n\nSome of what she said will stay with you. Let it sit before you decide what to do with it.",
   ];
 
-  const closeIntercept = () => {
+  const closeIntercept = (choice: "ignore" | "hear") => {
     setIntercept(false);
     setInterceptedRecently(true);
-    // Shadow resistance: staying and returning to the future self strengthens the timeline
-    const { stability, status, event } = applyEvent(state.timelineState.stability, "shadow-resistance");
-    const delta = stability - state.timelineState.stability;
-    if (futureSelf) {
-      logEntry(H.shadowResisted(futureSelf.name, Math.abs(delta)), state, updateState, {
-        toast: true,
-        extra: { timelineState: { stability, status }, stabilityMessage: event.message },
-      });
+
+    if (choice === "ignore") {
+      // Refusing the Shadow steadies the timeline
+      const { stability, status } = applyDelta(state.timelineState.stability, 5);
+      if (futureSelf) {
+        logEntry(H.shadowResisted(futureSelf.name, 5), state, updateState, {
+          toast: true,
+          extra: { timelineState: { stability, status }, stabilityMessage: "You refused the Shadow. The timeline steadies. +5 stability." },
+        });
+      } else {
+        updateState({ timelineState: { stability, status }, stabilityMessage: "You refused the Shadow. +5 stability." });
+      }
+      const returnLine = RETURN_LINES[Math.floor(Math.random() * RETURN_LINES.length)];
+      setMessages(prev => [...prev, { role: "assistant", content: returnLine }]);
     } else {
-      updateState({ timelineState: { stability, status }, stabilityMessage: event.message });
+      // Engaging the Shadow destabilizes the timeline AND deepens global affinity
+      const { stability, status } = applyDelta(state.timelineState.stability, -10);
+      const affinity = (state.shadowAffinity || 0) + 1;
+      if (futureSelf) {
+        logEntry(H.shadowHeard(futureSelf.name, 10), state, updateState, {
+          toast: true,
+          extra: {
+            timelineState: { stability, status },
+            stabilityMessage: "You listened. The Shadow grows bolder. −10 stability · Shadow Affinity +1.",
+            shadowAffinity: affinity,
+          },
+        });
+      } else {
+        updateState({ timelineState: { stability, status }, shadowAffinity: affinity,
+          stabilityMessage: "You listened. −10 stability · Shadow Affinity +1." });
+      }
+      setMessages(prev => [...prev, { role: "assistant", content: "...you let it in. I felt the timeline lurch.\n\nIt'll come back now. They always do, once you answer.\n\nBe careful what you agree with." }]);
     }
-    const returnLine = RETURN_LINES[Math.floor(Math.random() * RETURN_LINES.length)];
-    setMessages(prev => [...prev, { role: "assistant", content: returnLine }]);
   };
 
   const corruption = corruptionLevel(state.timelineState.stability);
@@ -338,7 +373,12 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       {/* Shadow Self intercept — full-screen cinematic takeover */}
       <AnimatePresence>
         {intercept && (
-          <ShadowIntercept firstName={firstName} futureMeAdvice={interceptAdvice} onClose={closeIntercept} />
+          <ShadowIntercept
+            universeId={universeId!}
+            futureMeAdvice={interceptAdvice}
+            priorEncounters={(state.shadowEncounters || []).filter(u => u !== universeId)}
+            onClose={closeIntercept}
+          />
         )}
       </AnimatePresence>
 
@@ -375,37 +415,67 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "32px 24px 0", position: "relative", zIndex: 1, height: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
         {/* Header — who you're talking to */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24, paddingBottom: 24, borderBottom: "1px solid var(--border)" }}>
+          style={{ display: "flex", alignItems: "flex-start", gap: 24, marginBottom: 28, paddingBottom: 28, borderBottom: `1px solid ${accent}22` }}>
+
+          {/* Universe icon */}
           <div style={{
-            width: 56, height: 56, borderRadius: 16, flexShrink: 0, position: "relative", overflow: "hidden",
-            background: `linear-gradient(135deg, ${accent}40, ${accent}20)`, border: `1px solid ${accent}40`,
-            display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26,
+            width: 64, height: 64, borderRadius: 18, flexShrink: 0, position: "relative", overflow: "hidden",
+            background: `linear-gradient(135deg, ${accent}35, ${accent}15)`, border: `1px solid ${accent}44`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: `0 8px 32px -8px ${accent}40`,
             filter: corruption > 0 ? `saturate(${1 - corruption * 0.6}) contrast(${1 + corruption * 0.5})` : "none",
             animation: corruption > 0.5 ? "glitch-shift 0.4s steps(2) infinite" : "none",
           }}>
             <span style={{ filter: corruption > 0.3 ? `blur(${corruption * 1.5}px)` : "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <UniverseIcon id={universe.id} size={28} color={universe.color} strokeWidth={1.4} />
+              <UniverseIcon id={universe.id} size={30} color={universe.color} strokeWidth={1.4} />
             </span>
             {corruption > 0.2 && <div className="scanlines" style={{ position: "absolute", inset: 0, opacity: corruption * 0.7 }} />}
           </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }}>
-              {futureSelf?.name || profile.alternativeName}
+
+          {/* Identity block */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            {/* Name + Bond pill on same row */}
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 6 }}>
+              <div style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.3px", color: "var(--text)", lineHeight: 1.3 }}>
+                {futureSelf?.name || profile.alternativeName}
+              </div>
+              {/* Bond badge */}
+              <div style={{
+                flexShrink: 0, textAlign: "right",
+                display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6,
+              }}>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  padding: "4px 10px 4px 8px", borderRadius: 100,
+                  background: `${accent}14`, border: `1px solid ${accent}33`,
+                }}>
+                  <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text3)" }}>Bond</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: accent }}>{stage.name}</span>
+                </div>
+                <div style={{ width: 96, height: 3, background: "var(--surface3)", borderRadius: 4, overflow: "hidden" }}>
+                  <motion.div animate={{ width: `${Math.round(stage.progress * 100)}%` }} transition={{ duration: 0.6 }}
+                    style={{ height: "100%", background: accent, borderRadius: 4 }} />
+                </div>
+              </div>
             </div>
-            <div style={{ fontSize: 13, color: accent }}>
+
+            {/* Profession + year */}
+            <div style={{ fontSize: 14, color: accent, fontWeight: 500, marginBottom: 14, lineHeight: 1.4 }}>
               {futureSelf ? `${futureSelf.title} · Year ${futureSelf.year}` : "Establishing temporal link..."}
             </div>
-          </div>
-          {/* Relationship stage */}
-          <div style={{ textAlign: "right", minWidth: 130 }}>
-            <div style={{ fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>
-              Bond
-            </div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: accent, marginBottom: 6 }}>{stage.name}</div>
-            <div style={{ width: 120, height: 3, background: "var(--surface3)", borderRadius: 4, overflow: "hidden", marginLeft: "auto" }}>
-              <motion.div animate={{ width: `${Math.round(stage.progress * 100)}%` }} transition={{ duration: 0.6 }}
-                style={{ height: "100%", background: accent, borderRadius: 4 }} />
-            </div>
+
+            {/* World + era + description */}
+            {futureSelf && (
+              <WorldEra
+                universeId={universe.id}
+                worldName={futureSelf.worldName}
+                eraName={futureSelf.eraName}
+                worldDescription={futureSelf.worldDescription}
+                accent={accent}
+                size="md"
+                showDescription
+              />
+            )}
           </div>
         </motion.div>
 
@@ -447,7 +517,11 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
                 <div style={{
                   maxWidth: "80%", padding: "14px 18px", borderRadius: 16, fontSize: 14, lineHeight: 1.7,
                   whiteSpace: "pre-wrap", position: "relative", zIndex: 6,
-                  // Assistant text fractures (chromatic bleed) as the timeline destabilizes
+                  // Per-universe typing personality — assistant only, never villain
+                  ...(m.role === "assistant" && !m.villain && universeId
+                    ? UNIVERSE_CHAT_STYLE[universeId] ?? {}
+                    : {}),
+                  // Timeline fracture: chromatic bleed as reality destabilises
                   ...(m.role === "assistant" && !m.villain && corruption > 0.3
                     ? { textShadow: `${1.4 * corruption}px 0 rgba(240,112,112,0.45), ${-1.4 * corruption}px 0 rgba(78,205,196,0.4)` }
                     : {}),

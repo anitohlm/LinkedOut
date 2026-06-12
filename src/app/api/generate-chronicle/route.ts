@@ -5,7 +5,7 @@ import { callAI, extractJSON } from "@/lib/agents/foundry";
 
 export async function POST(req: NextRequest) {
   try {
-    const { resumeAnalysis, historianLog, finalChoice, allCharacterNames, editionNumber, previousEditions, acceptedPositions, activeTitle, timelineStability } =
+    const { resumeAnalysis, historianLog, finalChoice, allCharacterNames, editionNumber, previousEditions, acceptedPositions, activeTitle, timelineStability, butterfly } =
       await req.json() as {
         resumeAnalysis: ResumeAnalysis;
         historianLog: any[];
@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
         acceptedPositions?: Array<{ universeId: string; title: string; faction: string; ts: number }>;
         activeTitle?: string;
         timelineStability?: number;
+        butterfly?: { decision: string; timelines: any[] } | null;
       };
 
     if (!resumeAnalysis || !finalChoice) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
@@ -38,7 +39,11 @@ export async function POST(req: NextRequest) {
       : "";
 
     const previousContext = previousEditions?.length
-      ? `PREVIOUS CHRONICLE EDITIONS:\n${previousEditions.map(e => `Edition ${toRoman(e.editionNumber)}: "${e.title}" — ${e.epilogue?.slice(0, 200)}...`).join("\n")}\n\nThis new edition should reference, contrast, or build upon what has changed since the previous edition.`
+      ? `PREVIOUS CHRONICLE EDITIONS (already written — DO NOT re-narrate these; only build on what is NEW):\n${previousEditions.map(e => `Edition ${toRoman(e.editionNumber)}: "${e.title}" — ${e.epilogue?.slice(0, 200)}...`).join("\n")}\n\nThe RECENT MEMORIES below are ONLY the events that happened SINCE the last edition. Cover those — never repeat chapters already told.`
+      : "";
+
+    const butterflyContext = butterfly?.timelines?.length
+      ? `BUTTERFLY EFFECT EXPLORED — the subject asked: "${butterfly.decision}"\nFour divergent timelines unfolded from that single changed decision:\n${butterfly.timelines.map((t: any, i: number) => `${i + 1}. ${t.title || t.name || "An unnamed path"}${t.summary ? ` — ${t.summary}` : ""}`).join("\n")}\nWeave the most resonant of these "paths not taken" into this edition as a moment of reflection — the lives that branched away from the one being chronicled.`
       : "";
 
     const systemPrompt = `You are the Multiversal Historian — a documentarian, not a storyteller of endings. You record history as it unfolds. A chronicle is never finished; it is only a snapshot of a moment in an ongoing saga. Never use the words "final", "end", "conclusion", or "completed journey". Instead describe each chronicle as a preserved volume, a recorded edition, a chapter in an ongoing saga. Return valid JSON only.`;
@@ -48,8 +53,9 @@ export async function POST(req: NextRequest) {
 IDENTITY: ${resumeAnalysis.timelineSignature}
 ALTERNATE SELVES ENCOUNTERED: ${characters}
 PRIMARY TIMELINE CHOSEN: ${finalChoice}
-RECENT MEMORIES & EVENTS:
-${logSummary || "A journey through the multiverse continues."}
+RECENT MEMORIES & EVENTS (since the last edition):
+${logSummary || "A quiet stretch in the saga — little has changed since the last edition; reflect on the moment rather than inventing new events."}
+${butterflyContext}
 ${stabilityContext}
 ${positionsContext}
 ${previousContext}

@@ -1,0 +1,25 @@
+- generic [ref=e1]:
+  - generic [ref=e370]:
+    - navigation [ref=e371]:
+      - button "← Back" [ref=e372] [cursor=pointer]
+      - button "LinkedOut" [ref=e373] [cursor=pointer]
+    - generic [ref=e374]:
+      - paragraph [ref=e375]: Step 1 of 3
+      - heading "Begin Your Journey" [level=2] [ref=e376]
+      - paragraph [ref=e377]: Paste your resume below. We'll figure out who you could've been.
+      - generic [ref=e378]:
+        - textbox "Paste your resume text here... Include your work experience, skills, education, and achievements for the best multiverse results." [active] [ref=e379]:
+          - /placeholder: "Paste your resume text here...\n\nInclude your work experience, skills, education, and achievements for the best multiverse results."
+        - generic [ref=e380]: 0 chars
+      - paragraph [ref=e381]: "Tip: Copy everything — job titles, bullet points, skills, dates. The more detail, the richer your alternate universe profiles."
+      - generic [ref=e382]:
+        - generic [ref=e383]: Gender
+        - group "Gender selection" [ref=e384]:
+          - button "Female" [ref=e385] [cursor=pointer]
+          - button "Male" [ref=e386] [cursor=pointer]
+          - button "Prefer Not to Say" [ref=e387] [cursor=pointer]
+        - paragraph [ref=e388]: Used to generate matching pronouns and titles across all universes. Optional.
+      - button "Paste your resume to continue" [disabled] [ref=e389]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

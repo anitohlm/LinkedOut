@@ -64,6 +64,18 @@ export const H = {
     return `The Shadow's intervention was rejected. Connection with ${selfName} restored. Stability +${stabilityGain}%.`;
   },
 
+  shadowHeard(selfName: string, stabilityLoss: number): string {
+    return `The Shadow was heard out during ${selfName}'s transmission. The timeline destabilized. Stability −${stabilityLoss}%. Shadow Affinity rising.`;
+  },
+
+  legendaryRevealed(universeName: string): string {
+    return `The legendary self of ${universeName} was revealed — the timeline where every choice aligned.`;
+  },
+
+  shadowRevealed(universeName: string): string {
+    return `The shadow self of ${universeName} was confronted — the timeline where ambition outweighed values.`;
+  },
+
   stabilityTierCrossed(tierLabel: string, stability: number, direction: "rose" | "fell"): string {
     return direction === "rose"
       ? `Timeline Stability entered ${tierLabel} (${stability}%).`
@@ -172,6 +184,29 @@ export function logEntry(
   if (opts?.extra) Object.assign(updates, opts.extra);
 
   updateState(updates as any);
+}
+
+/**
+ * Remove spurious duplicate entries left over from before the resume/milestone
+ * fixes. The one-time "all six mapped" milestone is deduped globally; otherwise
+ * consecutive identical entries are collapsed (e.g. repeated tier-crossing lines
+ * produced by old hydration bugs). Safe to run on every save load.
+ */
+export function dedupeHistorianLog(log: HistorianLogEntry[]): HistorianLogEntry[] {
+  if (!Array.isArray(log)) return log;
+  const MILESTONE = "All six timelines have been mapped. The multiverse is now fully charted.";
+  let milestoneSeen = false;
+  const out: HistorianLogEntry[] = [];
+  for (const entry of log) {
+    if (!entry || typeof entry.text !== "string") continue;
+    if (entry.text === MILESTONE) {
+      if (milestoneSeen) continue;
+      milestoneSeen = true;
+    }
+    if (out.length && out[out.length - 1].text === entry.text) continue;
+    out.push(entry);
+  }
+  return out;
 }
 
 // ── Legacy compatibility ──────────────────────────────────────────────

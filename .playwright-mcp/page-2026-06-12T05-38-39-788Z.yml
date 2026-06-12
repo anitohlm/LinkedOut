@@ -1,0 +1,210 @@
+- generic [active] [ref=e1]:
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e6520]:
+    - navigation [ref=e6521]:
+      - button "↻ New Resume" [ref=e6522] [cursor=pointer]
+      - button "LinkedOut" [ref=e6523] [cursor=pointer]
+      - generic [ref=e6524]:
+        - generic [ref=e6526] [cursor=pointer]:
+          - generic [ref=e6528]: Timeline
+          - generic [ref=e6531]: 95%
+        - button "Toggle Historian's Log" [ref=e6533] [cursor=pointer]:
+          - img [ref=e6534]
+          - generic [ref=e6536]: Logs
+          - generic [ref=e6537]: "12"
+    - generic [ref=e6538]:
+      - generic [ref=e6539]:
+        - paragraph [ref=e6540]: Your Multiverse Journey
+        - heading "Meet the people you could have become." [level=1] [ref=e6541]
+        - paragraph [ref=e6542]: From Berkeley halls to fintech calls, Rafael crafts code and leads teams with quiet determination. A climber of both rocks and challenges, he scales new heights in technology and creativity.
+      - generic [ref=e6543]:
+        - button "Journey Progress · Phase 4 of 4" [ref=e6544] [cursor=pointer]:
+          - generic [ref=e6545]: Journey Progress
+          - generic [ref=e6546]: · Phase 4 of 4
+          - img [ref=e6547]
+        - generic [ref=e6549]:
+          - generic [ref=e6550]:
+            - generic [ref=e6552]: ✓
+            - generic [ref=e6554]:
+              - generic [ref=e6555]:
+                - generic [ref=e6556]: Explore Your Selves
+                - generic [ref=e6557]: 6/6 Explored
+              - paragraph [ref=e6558]: Meet all six alternate-universe versions of yourself and see who you could have become.
+          - generic [ref=e6559]:
+            - generic [ref=e6561]: ✓
+            - generic [ref=e6563]:
+              - generic [ref=e6564]:
+                - generic [ref=e6565]: The Butterfly Effect
+                - generic [ref=e6566]: Done
+              - paragraph [ref=e6567]: Change one decision and watch your life fracture across four alternate timelines.
+          - generic [ref=e6568]:
+            - generic [ref=e6570]: ✓
+            - generic [ref=e6572]:
+              - generic [ref=e6573]:
+                - generic [ref=e6574]: The Council of Selves
+                - generic [ref=e6575]: Done
+              - paragraph [ref=e6576]: Gather every version of you to debate — then choose the future you're willing to become.
+          - generic [ref=e6577]:
+            - generic [ref=e6579]: "4"
+            - generic [ref=e6580]:
+              - generic [ref=e6581]:
+                - generic [ref=e6582]: The Historian's Chronicle
+                - generic [ref=e6583]: Unlocked
+              - paragraph [ref=e6584]: The Historian records your journey across the multiverse — preserved forever in ink and memory.
+      - generic [ref=e6585]:
+        - generic [ref=e6586]: ✓
+        - generic [ref=e6587]:
+          - generic [ref=e6588]: Phase 1
+          - generic [ref=e6589]: Explore Your Selves
+        - generic [ref=e6590]: Every reality witnessed. Your timeline is ready to fracture.
+      - generic [ref=e6591]:
+        - generic [ref=e6592] [cursor=pointer]:
+          - img [ref=e6595]
+          - generic [ref=e6638]:
+            - generic [ref=e6639]:
+              - img [ref=e6640]
+              - text: Eldvarin
+            - generic [ref=e6642]: The Age of Silver Spires
+          - generic [ref=e6643]:
+            - heading "Sir Raffael Wardmont" [level=3] [ref=e6644]
+            - paragraph [ref=e6645]: Master of Keepcraft
+            - paragraph [ref=e6646]: Born beneath the shadow of the elder spires, Sir Raffael Wardmont rose from humble origins within the artisan quarters of Eldvarin…
+            - generic [ref=e6647]:
+              - generic [ref=e6649]:
+                - img [ref=e7025]
+                - text: 4 msgs
+              - generic [ref=e6654]:
+                - generic [ref=e6655]: Fate Convergence
+                - generic [ref=e6656]: 40%
+              - generic [ref=e6659]:
+                - generic [ref=e6661]: 👤
+                - generic [ref=e6663]: 📡
+                - generic [ref=e6665]: 📜
+                - generic [ref=e6667]: 👑
+                - generic [ref=e6669]: 🌑
+        - generic [ref=e6670] [cursor=pointer]:
+          - img [ref=e6673]
+          - generic [ref=e6706]:
+            - generic [ref=e6707]:
+              - img [ref=e6708]
+              - text: Synthara
+            - generic [ref=e6710]: The Flux Convergence
+          - generic [ref=e6711]:
+            - heading "R4F4EL-ΔXIS" [level=3] [ref=e6712]
+            - paragraph [ref=e6713]: Lattice Weaver
+            - paragraph [ref=e6714]: Born amid the radiant towers of Synthara, R4F4EL-ΔXIS learned early to read the shifting currents of the city’s luminous lattice. …
+            - generic [ref=e6715]:
+              - generic [ref=e6716]:
+                - generic [ref=e6717]: Reality Alignment
+                - generic [ref=e6718]: 20%
+              - generic [ref=e6721]:
+                - generic [ref=e6723]: 👤
+                - generic [ref=e6725]: 📡
+                - generic [ref=e6727]: 📜
+                - generic [ref=e6729]: 👑
+                - generic [ref=e6731]: 🌑
+        - generic [ref=e6732] [cursor=pointer]:
+          - img [ref=e6735]
+          - generic [ref=e6761]:
+            - generic [ref=e6762]:
+              - img [ref=e6763]
+              - text: Veloria
+            - generic [ref=e6765]: The Age of Shifting Currents
+          - generic [ref=e6766]:
+            - heading "Helmsman Rafael \"The Quiet Helm\" Reefrune" [level=3] [ref=e6767]
+            - paragraph [ref=e6768]: Stormbreaker of the Tidebound Passages
+            - paragraph [ref=e6769]: Born among the salt-swept docks of Veloria’s capital, Rafael was drawn early to the art of steering through tempest and calm alike…
+            - generic [ref=e6770]:
+              - generic [ref=e6771]:
+                - generic [ref=e6772]: Tidal Resonance
+                - generic [ref=e6773]: 20%
+              - generic [ref=e6776]:
+                - generic [ref=e6778]: 👤
+                - generic [ref=e6780]: 📡
+                - generic [ref=e6782]: 📜
+                - generic [ref=e6784]: 👑
+                - generic [ref=e6786]: 🌑
+        - generic [ref=e6787] [cursor=pointer]:
+          - img [ref=e6790]
+          - generic [ref=e6826]:
+            - generic [ref=e6827]:
+              - img [ref=e6828]
+              - text: Vaelrys
+            - generic [ref=e6830]: The Emberforge Era
+          - generic [ref=e6831]:
+            - heading "Raehysal of House Cindervale" [level=3] [ref=e6832]
+            - paragraph [ref=e6833]: Ember-Ward Seer
+            - paragraph [ref=e6834]: Raehysal of House Cindervale, born beneath the crimson skies of Vaelrys, was drawn from youth to the flickering tongues of ember a…
+            - generic [ref=e6835]:
+              - generic [ref=e6836]:
+                - generic [ref=e6837]: Ancient Attunement
+                - generic [ref=e6838]: 20%
+              - generic [ref=e6841]:
+                - generic [ref=e6843]: 👤
+                - generic [ref=e6845]: 📡
+                - generic [ref=e6847]: 📜
+                - generic [ref=e6849]: 👑
+                - generic [ref=e6851]: 🌑
+        - generic [ref=e6852] [cursor=pointer]:
+          - img [ref=e6855]
+          - generic [ref=e6897]:
+            - generic [ref=e6898]:
+              - img [ref=e6899]
+              - text: Zypharion
+            - generic [ref=e6901]: The Flux Convergence
+          - generic [ref=e6902]:
+            - heading "Vexkar Crestix" [level=3] [ref=e6903]
+            - paragraph [ref=e6904]: Quantum Surveyor Captain
+            - paragraph [ref=e6905]: Born amid the shimmering bio-domes of Zypharion’s zenith arc, Vexkar Crestix emerged as a quiet force in the art of pattern unrave…
+            - generic [ref=e6906]:
+              - generic [ref=e6907]:
+                - generic [ref=e6908]: World Synchronization
+                - generic [ref=e6909]: 20%
+              - generic [ref=e6912]:
+                - generic [ref=e6914]: 👤
+                - generic [ref=e6916]: 📡
+                - generic [ref=e6918]: 📜
+                - generic [ref=e6920]: 👑
+                - generic [ref=e6922]: 🌑
+        - generic [ref=e6923] [cursor=pointer]:
+          - img [ref=e6926]
+          - generic [ref=e6975]:
+            - generic [ref=e6976]:
+              - img [ref=e6977]
+              - text: Valemorra
+            - generic [ref=e6979]: The Night of Hollow Bells
+          - generic [ref=e6980]:
+            - heading "Lord Rafail Craveth" [level=3] [ref=e6981]
+            - paragraph [ref=e6982]: Keeper of the Lost Echoes
+            - paragraph [ref=e6983]: Lord Rafail Craveth was born beneath the veiled skies of Valemorra, where whispers are the lifeblood of power and silence holds th…
+            - generic [ref=e6984]:
+              - generic [ref=e6985]:
+                - generic [ref=e6986]: Timeline Resonance
+                - generic [ref=e6987]: 20%
+              - generic [ref=e6990]:
+                - generic [ref=e6992]: 👤
+                - generic [ref=e6994]: 📡
+                - generic [ref=e6996]: 📜
+                - generic [ref=e6998]: 👑
+                - generic [ref=e7000]: 🌑
+      - generic [ref=e7001] [cursor=pointer]:
+        - img [ref=e7003]
+        - generic [ref=e7007]:
+          - generic [ref=e7008]:
+            - generic [ref=e7009]: Phase 2
+            - generic [ref=e7010]: ✓ Done
+          - heading "The Butterfly Effect" [level=3] [ref=e7011]
+          - paragraph [ref=e7012]: Change one decision. Watch your life fracture across four alternate timelines.
+        - generic [ref=e7013]: Revisit →
+      - generic [ref=e7014] [cursor=pointer]:
+        - img [ref=e7016]
+        - generic [ref=e7019]:
+          - generic [ref=e7021]: Phase 3
+          - heading "The Council of Selves" [level=3] [ref=e7022]
+          - paragraph [ref=e7023]: Every version of you gathers to debate — then asks the question you've been avoiding.
+        - generic [ref=e7024]: Enter the Council Chamber →
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

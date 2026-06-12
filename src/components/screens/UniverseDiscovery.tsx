@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses } from "@/lib/universes";
 import { StabilityHUD } from "@/components/StabilityHUD";
-import UniverseIcon from "@/components/UniverseIcon";
 import { UNIVERSE_ACTIVITIES, universePercent } from "@/lib/progress";
 import { applyEvent } from "@/lib/stability";
 import { H, logEntry } from "@/lib/historian";
+import UniverseArtwork from "@/components/UniverseArtwork";
 
 interface Props {
   state: AppState;
@@ -16,98 +16,30 @@ interface Props {
   updateState: (updates: any) => void;
 }
 
-// Per-universe animation configs — transform/opacity only (GPU-safe, §7 motion-meaning)
-const ICON_ANIM: Record<string, { icon: object; glow: object; transition: object }> = {
-  medieval: {
-    // Noble steady heartbeat — strength and permanence
-    icon: { scale: [1, 1.1, 1] },
-    glow: { opacity: [0.5, 1, 0.5] },
-    transition: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-  },
-  cyberpunk: {
-    // Electric glitch flicker — raw digital energy
-    icon: { opacity: [1, 0.5, 1, 0.8, 1] },
-    glow: { opacity: [0.4, 1, 0.3, 0.9, 0.4] },
-    transition: { duration: 1.6, repeat: Infinity, ease: "linear" },
-  },
-  pirate: {
-    // Ocean sway — anchor rocking on waves
-    icon: { rotate: [-6, 6, -6] },
-    glow: { opacity: [0.4, 0.8, 0.4] },
-    transition: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-  },
-  dragon: {
-    // Breathing flame — alive, intense
-    icon: { scale: [1, 1.18, 1] },
-    glow: { opacity: [0.3, 1, 0.3] },
-    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-  },
-  galactic: {
-    // Slow cosmic orbit — infinite and serene
-    icon: { rotate: [0, 360] },
-    glow: { opacity: [0.5, 0.9, 0.5] },
-    transition: { duration: 12, repeat: Infinity, ease: "linear" },
-  },
-  vampire: {
-    // Spectral fade — presence felt, not seen
-    icon: { opacity: [0.55, 1, 0.55] },
-    glow: { opacity: [0.2, 0.8, 0.2] },
-    transition: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
-  },
+
+// Immersive progress label — per universe flavour text (spec item #4)
+const RESONANCE_LABELS: Record<string, string> = {
+  medieval:  "Fate Convergence",
+  cyberpunk: "Reality Alignment",
+  pirate:    "Tidal Resonance",
+  dragon:    "Ancient Attunement",
+  galactic:  "World Synchronization",
+  vampire:   "Timeline Resonance",
 };
 
-function UniverseIconBadge({ id, color, visited }: { id: string; color: string; visited: boolean }) {
-  const anim = ICON_ANIM[id] ?? ICON_ANIM.medieval;
-  return (
-    <div style={{ position: "relative", marginTop: visited ? 24 : 0, transition: "margin 0.2s", flexShrink: 0 }}>
-      {/* Pulsing outer glow ring */}
-      <motion.div
-        animate={anim.glow}
-        transition={anim.transition}
-        style={{
-          position: "absolute", inset: -8, borderRadius: 22, pointerEvents: "none",
-          background: `radial-gradient(circle, ${color}40 0%, transparent 65%)`,
-        }}
-      />
-      {/* Second tighter glow */}
-      <motion.div
-        animate={{ opacity: (anim.glow as any).opacity?.map((v: number) => v * 0.6) ?? [0.3, 0.6, 0.3] }}
-        transition={{ ...anim.transition, duration: (anim.transition as any).duration * 0.7 }}
-        style={{
-          position: "absolute", inset: -2, borderRadius: 18, pointerEvents: "none",
-          background: `radial-gradient(circle, ${color}55 0%, transparent 60%)`,
-          boxShadow: `0 0 16px 4px ${color}30`,
-        }}
-      />
-      {/* Main badge */}
-      <div style={{
-        width: 56, height: 56, borderRadius: 16,
-        background: `linear-gradient(145deg, ${color}28 0%, ${color}10 60%, transparent 100%)`,
-        border: `1px solid ${color}55`,
-        boxShadow: `0 4px 20px -4px ${color}60, inset 0 1px 0 ${color}40`,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        position: "relative", overflow: "hidden",
-      }}>
-        {/* Inner radial shine */}
-        <div style={{
-          position: "absolute", top: -10, left: -10, width: 40, height: 40,
-          background: `radial-gradient(circle, ${color}35 0%, transparent 70%)`,
-          pointerEvents: "none",
-        }} />
-        {/* Animated icon */}
-        <motion.div
-          animate={anim.icon}
-          transition={anim.transition}
-          style={{ display: "flex", alignItems: "center", justifyContent: "center", originX: "50%", originY: "50%" }}
-        >
-          <UniverseIcon id={id} size={28} color={color} strokeWidth={1.5} />
-        </motion.div>
-      </div>
-    </div>
-  );
-}
+// Universe-specific typography for the world name heading (spec item #8)
+const WORLD_TITLE_STYLE: Record<string, React.CSSProperties> = {
+  medieval:  { fontFamily: "'Cinzel', serif", letterSpacing: "0.14em" },
+  cyberpunk: { fontFamily: "'Share Tech Mono', monospace", letterSpacing: "0.1em" },
+  pirate:    { fontFamily: "'Sora', sans-serif", fontStyle: "italic", letterSpacing: "0.02em" },
+  dragon:    { fontFamily: "'Cinzel Decorative', serif", letterSpacing: "0.1em" },
+  galactic:  { fontFamily: "'Exo 2', sans-serif", letterSpacing: "0.08em" },
+  vampire:   { fontFamily: "'Crimson Pro', serif", fontStyle: "italic", letterSpacing: "0.06em", fontSize: 12 },
+};
+
 
 export default function UniverseDiscovery({ state, transitionTo, updateState }: Props) {
+  const rm = useReducedMotion() ?? false;
   const universes = getAllUniverses();
   const profileCount = Object.keys(state.allProfiles || {}).length;
   const allReady = profileCount === universes.length;
@@ -121,7 +53,57 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
 
   const hasChronicle = (state.chronicleEditions?.length ?? 0) > 0;
   const latestEdition = state.chronicleEditions?.[state.chronicleEditions.length - 1];
-  const currentPhase = !phase1Done ? 1 : !phase2Done ? 2 : 3;
+  const phase3Done = !!state.selectedUniverse;
+  const phase4Unlocked = phase3Done || hasChronicle;
+  const phase4Done = hasChronicle;
+  const currentPhase = !phase1Done ? 1 : !phase2Done ? 2 : !phase3Done ? 3 : 4;
+
+  // ── Chronicle unlock notification ──────────────────────────────────────────
+  const NOTIF_KEY = "linkedout_chronicle_unlocked_seen";
+  const [showChronicleNotif, setShowChronicleNotif] = useState(false);
+  const [hoveredUniverse, setHoveredUniverse] = useState<string | null>(null);
+  const [showStabilityBriefing, setShowStabilityBriefing] = useState(false);
+  const prevPhase4Unlocked = useRef(phase4Unlocked);
+
+  useEffect(() => {
+    // Only fire when it transitions false → true and hasn't been shown before
+    if (phase4Unlocked && !prevPhase4Unlocked.current) {
+      if (!localStorage.getItem(NOTIF_KEY)) {
+        setShowChronicleNotif(true);
+      }
+    }
+    prevPhase4Unlocked.current = phase4Unlocked;
+  }, [phase4Unlocked]);
+
+  // Also show on mount if already unlocked but never seen
+  useEffect(() => {
+    if (phase4Unlocked && !localStorage.getItem(NOTIF_KEY)) {
+      setShowChronicleNotif(true);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const dismissChronicleNotif = () => {
+    localStorage.setItem(NOTIF_KEY, "1");
+    setShowChronicleNotif(false);
+  };
+  // ───────────────────────────────────────────────────────────────────────────
+
+  // ── Stability briefing: first entry only ──────────────────────────────────
+  useEffect(() => {
+    if (!state.hasSeenStabilityBriefing) {
+      // Small delay so the page renders first before the modal appears
+      const t = setTimeout(() => setShowStabilityBriefing(true), 600);
+      return () => clearTimeout(t);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const dismissStabilityBriefing = () => {
+    setShowStabilityBriefing(false);
+    updateState({ hasSeenStabilityBriefing: true });
+  };
+  // ───────────────────────────────────────────────────────────────────────────
 
   const explore = (id: UniverseType) => {
     const next = Array.from(new Set([...explored, id]));
@@ -146,6 +128,253 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", paddingTop: 64 }}>
+
+      {/* ── Chronicle Unlock Notification ─────────────────────────────────── */}
+      <AnimatePresence>
+        {showChronicleNotif && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            style={{
+              position: "fixed", inset: 0, zIndex: 1000,
+              background: "rgba(4,5,8,0.82)", backdropFilter: "blur(10px)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: 24,
+            }}
+            onClick={dismissChronicleNotif}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 32, scale: 0.94 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.96 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              onClick={e => e.stopPropagation()}
+              style={{
+                width: "100%", maxWidth: 480,
+                background: "rgba(10,11,16,0.98)",
+                border: "1px solid #e8c97e44",
+                borderRadius: 24,
+                overflow: "hidden",
+                boxShadow: "0 32px 80px -16px rgba(0,0,0,0.9), 0 0 0 1px #e8c97e18, inset 0 1px 0 #e8c97e22",
+              }}
+            >
+              {/* Gold top bar */}
+              <div style={{ height: 3, background: "linear-gradient(90deg, transparent, #e8c97e, transparent)" }} />
+
+              {/* Body */}
+              <div style={{ padding: "36px 36px 32px" }}>
+                {/* Icon */}
+                <div style={{
+                  width: 56, height: 56, borderRadius: 16, marginBottom: 24,
+                  background: "rgba(232,201,126,0.1)", border: "1px solid #e8c97e33",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                    <polygon points="12,2 15,9 22,9.5 17,14 18.5,21 12,17.5 5.5,21 7,14 2,9.5 9,9" stroke="#e8c97e" strokeWidth="1.5" strokeLinejoin="round" fill="rgba(232,201,126,0.15)"/>
+                  </svg>
+                </div>
+
+                {/* Eyebrow */}
+                <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#e8c97e99", marginBottom: 10, fontFamily: "Sora, sans-serif" }}>
+                  Phase IV Unlocked
+                </p>
+
+                {/* Headline */}
+                <h2 style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.5px", color: "#e8c97e", marginBottom: 12, lineHeight: 1.2, fontFamily: "Sora, sans-serif" }}>
+                  The Historian's Chronicle
+                </h2>
+
+                {/* Lore */}
+                <p style={{ fontSize: 15, color: "var(--text2)", lineHeight: 1.7, marginBottom: 28, fontFamily: "Crimson Pro, serif", fontStyle: "italic" }}>
+                  Your journey across the multiverse has been witnessed. The Historian stands ready to record it — preserved in ink and memory, across every timeline you've touched.
+                </p>
+
+                {/* CTAs */}
+                <div style={{ display: "flex", gap: 12 }}>
+                  <button
+                    onClick={() => { dismissChronicleNotif(); transitionTo("chronicle"); }}
+                    style={{
+                      flex: 1, padding: "13px 0", borderRadius: 12, cursor: "pointer",
+                      background: "linear-gradient(135deg, #e8c97e, #c9a85c)",
+                      border: "none", color: "#0a0b10", fontSize: 14, fontWeight: 700,
+                      fontFamily: "Sora, sans-serif", letterSpacing: "0.02em",
+                      boxShadow: "0 8px 24px -8px #e8c97e60",
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.opacity = "0.9")}
+                    onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+                  >
+                    Open the Chronicle
+                  </button>
+                  <button
+                    onClick={dismissChronicleNotif}
+                    style={{
+                      padding: "13px 20px", borderRadius: 12, cursor: "pointer",
+                      background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)",
+                      color: "var(--text3)", fontSize: 14, fontFamily: "Sora, sans-serif",
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.color = "var(--text)")}
+                    onMouseLeave={e => (e.currentTarget.style.color = "var(--text3)")}
+                  >
+                    Later
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* ──────────────────────────────────────────────────────────────────── */}
+
+      {/* ── Stability Briefing Modal ───────────────────────────────────────── */}
+      <AnimatePresence>
+        {showStabilityBriefing && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: rm ? 0.1 : 0.25 }}
+            style={{
+              position: "fixed", inset: 0, zIndex: 1100,
+              background: "rgba(4,5,8,0.88)", backdropFilter: "blur(12px)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              padding: 24,
+            }}
+            onClick={dismissStabilityBriefing}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="stability-briefing-title"
+          >
+            <motion.div
+              initial={rm ? false : { opacity: 0, y: 28, scale: 0.92 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={rm ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.96 }}
+              transition={{ duration: rm ? 0.1 : 0.32, ease: [0.22, 1, 0.36, 1] }}
+              onClick={e => e.stopPropagation()}
+              style={{
+                width: "100%", maxWidth: 480,
+                background: "rgba(10,11,16,0.98)",
+                border: "1px solid rgba(124,110,247,0.35)",
+                borderRadius: 24, overflow: "hidden",
+                boxShadow: "0 32px 80px -16px rgba(0,0,0,0.9), 0 0 0 1px rgba(124,110,247,0.12), inset 0 1px 0 rgba(124,110,247,0.15)",
+              }}
+            >
+              {/* Violet top accent line */}
+              <div style={{ height: 3, background: "linear-gradient(90deg, transparent 5%, #7c6ef7cc, transparent 95%)" }} />
+
+              <div style={{ padding: "36px 36px 32px" }}>
+
+                {/* Stability ring + score */}
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}>
+                  <div style={{ position: "relative", width: 96, height: 96 }}>
+                    <svg width="96" height="96" viewBox="0 0 96 96" style={{ transform: "rotate(-90deg)" }}>
+                      {/* Track */}
+                      <circle cx="48" cy="48" r="40" fill="none" stroke="rgba(124,110,247,0.12)" strokeWidth="5" />
+                      {/* Progress arc */}
+                      <motion.circle
+                        cx="48" cy="48" r="40"
+                        fill="none"
+                        stroke="#7c6ef7"
+                        strokeWidth="5"
+                        strokeLinecap="round"
+                        strokeDasharray={`${2 * Math.PI * 40}`}
+                        initial={{ strokeDashoffset: 2 * Math.PI * 40 }}
+                        animate={{ strokeDashoffset: 0 }}
+                        transition={rm ? { duration: 0 } : { duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                        style={{ filter: "drop-shadow(0 0 6px #7c6ef7aa)" }}
+                      />
+                    </svg>
+                    {/* Score text centred in ring */}
+                    <div style={{
+                      position: "absolute", inset: 0,
+                      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                    }}>
+                      <span style={{ fontSize: 22, fontWeight: 800, color: "#7c6ef7", fontFamily: "Sora, sans-serif", lineHeight: 1 }}>
+                        100%
+                      </span>
+                      <span style={{ fontSize: 9, color: "rgba(124,110,247,0.7)", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginTop: 3 }}>
+                        Stable
+                      </span>
+                    </div>
+                    {/* Ambient glow */}
+                    <div style={{
+                      position: "absolute", inset: -12, borderRadius: "50%",
+                      background: "radial-gradient(circle, rgba(124,110,247,0.12) 0%, transparent 70%)",
+                      pointerEvents: "none",
+                    }} />
+                  </div>
+                </div>
+
+                {/* Eyebrow */}
+                <p id="stability-briefing-title" style={{
+                  fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase",
+                  color: "rgba(124,110,247,0.7)", marginBottom: 10, fontFamily: "Sora, sans-serif", textAlign: "center",
+                }}>
+                  Timeline Status
+                </p>
+
+                {/* Headline */}
+                <h2 style={{
+                  fontSize: 26, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)",
+                  marginBottom: 14, lineHeight: 1.2, fontFamily: "Sora, sans-serif", textAlign: "center",
+                }}>
+                  Your Timeline is Stable
+                </h2>
+
+                {/* Body */}
+                <p style={{
+                  fontSize: 15, color: "var(--text2)", lineHeight: 1.72, marginBottom: 28,
+                  fontFamily: "Sora, sans-serif", textAlign: "center",
+                }}>
+                  Your timeline integrity is at <strong style={{ color: "var(--text)", fontWeight: 700 }}>100%</strong> — fully synchronized across all realities.
+                </p>
+
+                {/* Divider */}
+                <div style={{ height: 1, background: "rgba(255,255,255,0.06)", marginBottom: 20 }} />
+
+                {/* Mechanic explanation */}
+                <div style={{
+                  display: "flex", gap: 12, alignItems: "flex-start",
+                  padding: "14px 16px", borderRadius: 12,
+                  background: "rgba(124,110,247,0.07)", border: "1px solid rgba(124,110,247,0.15)",
+                  marginBottom: 28,
+                }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
+                    <circle cx="12" cy="12" r="10" stroke="#7c6ef7" strokeWidth="1.5"/>
+                    <path d="M12 8v4m0 4h.01" stroke="#7c6ef7" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                  <p style={{ fontSize: 13.5, color: "var(--text2)", lineHeight: 1.65, margin: 0, fontFamily: "Sora, sans-serif" }}>
+                    As you explore universes, make decisions, and engage with your alternate selves — actions will <strong style={{ color: "var(--text)" }}>raise or lower</strong> this stability. Watch it carefully.
+                  </p>
+                </div>
+
+                {/* CTA */}
+                <button
+                  onClick={dismissStabilityBriefing}
+                  autoFocus
+                  style={{
+                    width: "100%", padding: "14px 0", borderRadius: 12, cursor: "pointer",
+                    background: "linear-gradient(135deg, #7c6ef7, #5b4fd4)",
+                    border: "none", color: "#fff", fontSize: 15, fontWeight: 700,
+                    fontFamily: "Sora, sans-serif", letterSpacing: "0.02em",
+                    boxShadow: "0 8px 24px -8px rgba(124,110,247,0.55)",
+                    touchAction: "manipulation", minHeight: 48,
+                    transition: rm ? "none" : "opacity 0.15s",
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.opacity = "0.88")}
+                  onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+                >
+                  Begin Exploration →
+                </button>
+
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* ──────────────────────────────────────────────────────────────────── */}
+
       {/* Nav */}
       <nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
@@ -173,7 +402,10 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
           background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
           Linked<span style={{ color: "var(--violet2)" }}>Out</span>
         </button>
-        <StabilityHUD stability={state.timelineState.stability} log={state.historianLog} />
+        {/* Stability HUD only once the multiverse is actually built */}
+        {allReady
+          ? <StabilityHUD stability={state.timelineState.stability} log={state.historianLog} stabilityLog={state.stabilityLog} />
+          : <span style={{ width: 50 }} />}
       </nav>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 40px" }}>
@@ -192,13 +424,19 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
 
         {/* Phase tracker */}
         {allReady && (
-          <PhaseTracker current={currentPhase} steps={[
-            { n: 1, label: "Explore Your Selves", sub: `${exploredCount}/6 explored`,
+          <PhaseTracker
+            current={currentPhase}
+            collapsed={!!state.journeyCollapsed}
+            onToggle={() => updateState({ journeyCollapsed: !state.journeyCollapsed })}
+            steps={[
+            { n: 1, label: "Explore Your Selves", sub: exploredCount >= universes.length ? `${exploredCount}/6 Explored` : `${exploredCount}/6 explored`,
               desc: "Meet all six alternate-universe versions of yourself and see who you could have become." },
             { n: 2, label: "The Butterfly Effect", sub: phase2Done ? "Done" : phase2Unlocked ? "Unlocked" : "Locked",
               desc: "Change one decision and watch your life fracture across four alternate timelines." },
-            { n: 3, label: "The Council of Selves", sub: phase3Unlocked ? "Unlocked" : "Locked",
+            { n: 3, label: "The Council of Selves", sub: phase3Done ? "Done" : phase3Unlocked ? "Unlocked" : "Locked",
               desc: "Gather every version of you to debate — then choose the future you're willing to become." },
+            { n: 4, label: "The Historian's Chronicle", sub: phase4Done ? `${state.chronicleEditions!.length} edition${state.chronicleEditions!.length !== 1 ? "s" : ""}` : phase4Unlocked ? "Unlocked" : "Locked",
+              desc: "The Historian records your journey across the multiverse — preserved forever in ink and memory." },
           ]} />
         )}
 
@@ -222,7 +460,9 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                 const c = universe.color;
                 const visited = explored.includes(universe.id);
                 const acceptedPos = (state.acceptedPositions || []).find(p => p.universeId === universe.id);
-                const cardTitle = acceptedPos?.title ?? profile?.profession;
+                const rawTitle = acceptedPos?.title ?? profile?.profession ?? "";
+                // Strip " — description" suffixes the AI sometimes appends to role titles
+                const cardTitle = rawTitle.split(/\s[—–-]\s/)[0].trim();
                 const activities = state.universeActivity?.[universe.id] || [];
                 const pct = universePercent(activities);
                 return (
@@ -235,68 +475,157 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                     whileHover={{ y: -6, rotateX: 3, rotateY: -3, scale: 1.02 }}
                     style={{
                       background: "var(--bg2)", border: `1px solid ${visited ? c + "44" : "var(--border)"}`,
-                      borderRadius: 20, padding: 28, cursor: "pointer", position: "relative", overflow: "hidden",
+                      borderRadius: 20, padding: 0, cursor: "pointer", position: "relative", overflow: "hidden",
                       transformStyle: "preserve-3d",
                     }}
-                    onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = `${c}66`; el.style.boxShadow = `0 16px 50px -12px ${c}40`; }}
-                    onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = visited ? `${c}44` : "var(--border)"; el.style.boxShadow = "none"; }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = `${c}66`; el.style.boxShadow = `0 20px 60px -16px ${c}50`; setHoveredUniverse(universe.id); }}
+                    onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.borderColor = visited ? `${c}44` : "var(--border)"; el.style.boxShadow = "none"; setHoveredUniverse(null); }}
                   >
-                    <div style={{ position: "absolute", top: -50, right: -50, width: 160, height: 160, borderRadius: "50%",
-                      background: `radial-gradient(circle, ${c}22, transparent 70%)`, pointerEvents: "none" }} />
-                    <div style={{ position: "absolute", top: 0, left: 24, right: 24, height: 2,
-                      background: `linear-gradient(90deg, transparent, ${c}, transparent)`, opacity: 0.5 }} />
+                    {/* ── ARTWORK HEADER: atmospheric destination art ─────── */}
+                    <UniverseArtwork id={universe.id} color={c} visited={visited} hovering={hoveredUniverse === universe.id} />
 
-                    {/* Visited badge */}
-                    {visited && (
-                      <div style={{ position: "absolute", top: 16, left: 16, zIndex: 2,
-                        display: "flex", alignItems: "center", gap: 5, padding: "3px 9px", borderRadius: 100,
-                        background: `${c}22`, border: `1px solid ${c}44`, color: c, fontSize: 10, fontWeight: 700 }}>
-                        ✓ EXPLORED
+                    {/* World name + era pill — top right, same position as old universe badge */}
+                    <div style={{ position: "absolute", top: 24, right: 14, zIndex: 6 }}>
+                      <div style={{
+                        borderRadius: 8, padding: "5px 10px", textAlign: "right",
+                      }}>
+                        {profile ? (
+                          <>
+                            <div style={{
+                              fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
+                              textTransform: "uppercase", color: c, lineHeight: 1.3,
+                              display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 5,
+                              ...(WORLD_TITLE_STYLE[universe.id] ?? {}),
+                            }}>
+                              {visited && (
+                                <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
+                                  <path d="M2 6l3 3 5-5" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                              )}
+                              {profile.worldName}
+                            </div>
+                            <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: "0.02em", marginTop: 1 }}>
+                              {profile.eraName}
+                            </div>
+                          </>
+                        ) : (
+                          <div style={{
+                            fontSize: 10, fontWeight: 700, color: c,
+                            letterSpacing: "0.05em", textTransform: "uppercase",
+                          }}>
+                            {universe.title}
+                          </div>
+                        )}
                       </div>
-                    )}
-
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, position: "relative" }}>
-                      <UniverseIconBadge id={universe.id} color={c} visited={visited} />
-                      <span style={{ fontSize: 11, padding: "5px 12px", borderRadius: 100, fontWeight: 600,
-                        background: `${c}18`, color: c, border: `1px solid ${c}30` }}>{universe.title}</span>
                     </div>
 
-                    {profile ? (
-                      <>
-                        <h3 style={{ fontSize: 19, fontWeight: 700, letterSpacing: "-0.3px", marginBottom: 4, color: "var(--text)" }}>{profile.alternativeName}</h3>
-                        <p style={{ fontSize: 13, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.4 }}>{cardTitle}</p>
-                        <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.6, marginBottom: 20 }}>
-                          {(profile.biography || "").replace(/\\n/g, " ").slice(0, 120)}...
-                        </p>
-                        <div style={{ display: "flex", gap: 20, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
-                          {Object.entries(profile.radarScores || {}).slice(0, 3).map(([key, val]) => (
-                            <div key={key} style={{ textAlign: "center" }}>
-                              <div style={{ fontSize: 18, fontWeight: 700, color: c, letterSpacing: "-0.5px" }}>{val}</div>
-                              <div style={{ fontSize: 9, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 2 }}>{key}</div>
-                            </div>
-                          ))}
-                        </div>
+                    {/* ── CARD CONTENT ─────────────────────────────────────── */}
+                    <div style={{ padding: "18px 24px 24px" }}>
+                      {profile ? (
+                        <>
+                          {/* 1. CHARACTER — name then title */}
+                          <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.3px", lineHeight: 1.25, marginBottom: 6, color: "var(--text)" }}>
+                            {profile.alternativeName}
+                          </h3>
+                          <p style={{ fontSize: 13.5, color: c, fontWeight: 500, marginBottom: 14, lineHeight: 1.35, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={cardTitle}>{cardTitle}</p>
 
-                        {/* Exploration progress */}
-                        <div style={{ marginTop: 18, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                            <span style={{ fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Explored</span>
-                            <span style={{ fontSize: 12, fontWeight: 700, color: pct === 100 ? c : "var(--text2)" }}>
-                              {pct}%{pct === 100 ? " ✦" : ""}
-                            </span>
+                          {/* 3. BIO — story preview */}
+                          <p style={{ fontSize: 13.5, color: "var(--text3)", lineHeight: 1.65, margin: 0 }}>
+                            {(profile.biography || "").replace(/\\n/g, " ").slice(0, 130)}…
+                          </p>
+
+                          {/* ── FOOTER ────────────────────────────────────── */}
+                          <div style={{ marginTop: 20, paddingTop: 18, borderTop: `1px solid ${c}1a` }}>
+
+                            {/* Activity signals */}
+                            {(() => {
+                              const txMessages = (state.transmissions?.[universe.id]?.messages || []);
+                              const txCount = txMessages.filter((m: any) => m.role === "assistant").length;
+                              const hasLegendary = activities.includes("legendary");
+                              const hasShadow = activities.includes("shadow");
+                              const hasRecruiter = activities.includes("recruiter");
+                              // SVG icon nodes per signal type (no emojis — ui-ux-pro-max §4 no-emoji-icons)
+                              const SignalIcon = ({ type, color }: { type: string; color: string }) => {
+                                if (type === "tx") return (
+                                  <svg width="9" height="9" viewBox="0 0 14 14" fill="none">
+                                    <circle cx="7" cy="10" r="1.5" fill={color}/>
+                                    <path d="M4.5 7.5a3.5 3.5 0 0 1 5 0" stroke={color} strokeWidth="1.3" strokeLinecap="round"/>
+                                    <path d="M2.5 5.5a6 6 0 0 1 9 0" stroke={color} strokeWidth="1.3" strokeLinecap="round"/>
+                                  </svg>
+                                );
+                                if (type === "legendary") return (
+                                  <svg width="9" height="9" viewBox="0 0 14 14" fill="none">
+                                    <path d="M2 5h10l-1.5 6H3.5L2 5Z" stroke={color} strokeWidth="1.2" strokeLinejoin="round"/>
+                                    <path d="M2 5L4 2h6l2 3" stroke={color} strokeWidth="1.2" strokeLinejoin="round"/>
+                                    <circle cx="7" cy="8" r="1.2" fill={color}/>
+                                  </svg>
+                                );
+                                if (type === "shadow") return (
+                                  <svg width="9" height="9" viewBox="0 0 14 14" fill="none">
+                                    <circle cx="7" cy="7" r="4.5" stroke={color} strokeWidth="1.2"/>
+                                    <path d="M7 2.5A4.5 4.5 0 0 0 7 11.5" fill={color} fillOpacity="0.4"/>
+                                  </svg>
+                                );
+                                // offer/recruiter
+                                return (
+                                  <svg width="9" height="9" viewBox="0 0 14 14" fill="none">
+                                    <rect x="2" y="3" width="10" height="8" rx="1.5" stroke={color} strokeWidth="1.2"/>
+                                    <path d="M2 6h10" stroke={color} strokeWidth="1.2"/>
+                                    <path d="M5 9h4" stroke={color} strokeWidth="1.2" strokeLinecap="round"/>
+                                  </svg>
+                                );
+                              };
+                              const signals = [
+                                txCount > 0 && { type: "tx",         label: `${txCount} msg${txCount !== 1 ? "s" : ""}`, accent: c },
+                                hasLegendary && { type: "legendary",  label: "Legendary",                                  accent: "#e8c97e" },
+                                hasShadow    && { type: "shadow",     label: "Shadow",                                     accent: "#f07070" },
+                                hasRecruiter && { type: "offer",      label: "Offer",                                      accent: c },
+                              ].filter(Boolean) as { type: string; label: string; accent: string }[];
+                              return signals.length > 0 ? (
+                                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
+                                  {signals.map((s, si) => (
+                                    <span key={si} style={{
+                                      fontSize: 10, padding: "3px 8px", borderRadius: 6, fontWeight: 600,
+                                      background: `${s.accent}14`, color: s.accent, border: `1px solid ${s.accent}30`,
+                                      display: "flex", alignItems: "center", gap: 4,
+                                    }}>
+                                      <SignalIcon type={s.type} color={s.accent} />
+                                      {s.label}
+                                    </span>
+                                  ))}
+                                </div>
+                              ) : null;
+                            })()}
+
+                            {/* Resonance label + percentage */}
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                              <span style={{
+                                fontSize: 10, color: "var(--text3)", textTransform: "uppercase",
+                                letterSpacing: "0.1em", fontWeight: 600,
+                              }}>
+                                {RESONANCE_LABELS[universe.id] ?? "Resonance"}
+                              </span>
+                              <span style={{ fontSize: 12, fontWeight: 700, color: pct === 100 ? c : "var(--text2)", fontVariantNumeric: "tabular-nums" }}>
+                                {pct}%{pct === 100 ? " ✦" : ""}
+                              </span>
+                            </div>
+
+                            {/* Progress bar */}
+                            <div style={{ height: 3, background: "var(--surface3)", borderRadius: 4, overflow: "hidden", marginBottom: 12 }}>
+                              <motion.div animate={{ width: `${pct}%` }} transition={{ duration: 0.8, ease: [0.22,1,0.36,1] }}
+                                style={{ height: "100%", background: c, borderRadius: 4, boxShadow: pct > 0 ? `0 0 8px ${c}80` : "none" }} />
+                            </div>
+
+                            {/* Activity chips */}
+                            <div style={{ display: "flex", gap: 6 }} onClick={e => e.stopPropagation()}>
+                              {UNIVERSE_ACTIVITIES.map(a => (
+                                <ActivityChip key={a.key} activity={a} done={activities.includes(a.key)} color={c} />
+                              ))}
+                            </div>
                           </div>
-                          <div style={{ height: 4, background: "var(--surface3)", borderRadius: 4, overflow: "hidden", marginBottom: 10 }}>
-                            <motion.div animate={{ width: `${pct}%` }} transition={{ duration: 0.6 }}
-                              style={{ height: "100%", background: c, borderRadius: 4 }} />
-                          </div>
-                          <div style={{ display: "flex", gap: 6 }} onClick={e => e.stopPropagation()}>
-                            {UNIVERSE_ACTIVITIES.map(a => (
-                              <ActivityChip key={a.key} activity={a} done={activities.includes(a.key)} color={c} />
-                            ))}
-                          </div>
-                        </div>
-                      </>
-                    ) : <div style={{ color: "var(--text3)", fontSize: 13 }}>Loading profile...</div>}
+                        </>
+                      ) : <div style={{ color: "var(--text3)", fontSize: 13, padding: "8px 0" }}>Loading profile...</div>}
+                    </div>
                   </motion.div>
                 );
               })}
@@ -407,51 +736,93 @@ function ActivityChip({ activity, done, color }: {
   );
 }
 
-/* ── Phase tracker (vertical) ── */
-function PhaseTracker({ current, steps }: { current: number; steps: { n: number; label: string; sub: string; desc: string }[] }) {
+/* ── Phase tracker (vertical, collapsible) ── */
+function PhaseTracker({ current, steps, collapsed, onToggle }: { current: number; steps: { n: number; label: string; sub: string; desc: string }[]; collapsed: boolean; onToggle: () => void }) {
+  // Collapsed state is persisted in AppState, so hiding it sticks across navigation/reloads.
+  const open = !collapsed;
   return (
     <div style={{ marginBottom: 48 }}>
-      {steps.map((s, i) => {
-        const done = current > s.n;
-        const active = current === s.n;
-        const locked = current < s.n;
-        const color = done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--text3)";
-        const last = i === steps.length - 1;
-        return (
-          <div key={s.n} style={{ display: "flex", gap: 16 }}>
-            {/* Rail: number + connector */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <div style={{
-                width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
-                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700,
-                background: done ? "#4ecdc422" : active ? "var(--violet)" : "var(--surface)",
-                border: `1px solid ${done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--border2)"}`,
-                color: done ? "#4ecdc4" : active ? "#fff" : "var(--text3)",
-                boxShadow: active ? "0 0 20px rgba(124,110,247,0.4)" : "none",
-              }}>{done ? "✓" : locked ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg> : s.n}</div>
-              {!last && (
-                <div style={{ width: 2, flex: 1, minHeight: 28, marginTop: 4,
-                  background: done ? "#4ecdc4" : "var(--border)" }} />
-              )}
-            </div>
+      {/* Header row with collapse toggle */}
+      <button
+        onClick={onToggle}
+        style={{
+          display: "flex", alignItems: "center", gap: 8, marginBottom: open ? 20 : 0,
+          background: "none", border: "none", cursor: "pointer", padding: 0,
+          color: "var(--text3)", fontFamily: "Sora, sans-serif",
+        }}
+      >
+        <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+          Journey Progress
+        </span>
+        <span style={{ fontSize: 10, color: "var(--text3)", opacity: 0.6 }}>
+          · Phase {current} of {steps.length}
+        </span>
+        <svg
+          width="12" height="12" viewBox="0 0 24 24" fill="none"
+          style={{ marginLeft: 2, transition: "transform 0.25s", transform: open ? "rotate(0deg)" : "rotate(-90deg)" }}
+        >
+          <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
 
-            {/* Content */}
-            <div style={{ paddingBottom: last ? 0 : 24, opacity: locked ? 0.6 : 1 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 3 }}>
-                <span style={{ fontSize: 15, fontWeight: 700, color: active ? "var(--text)" : color, letterSpacing: "-0.2px" }}>{s.label}</span>
-                <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
-                  padding: "2px 8px", borderRadius: 100,
-                  background: done ? "#4ecdc418" : active ? "rgba(124,110,247,0.15)" : "var(--surface)",
-                  color: done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--text3)",
-                  border: `1px solid ${done ? "#4ecdc433" : active ? "rgba(124,110,247,0.3)" : "var(--border)"}` }}>
-                  {s.sub}
-                </span>
-              </div>
-              <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.55, maxWidth: 560 }}>{s.desc}</p>
-            </div>
-          </div>
-        );
-      })}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="phase-list"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            style={{ overflow: "hidden" }}
+          >
+            {steps.map((s, i) => {
+              const done = current > s.n;
+              const active = current === s.n;
+              const locked = current < s.n;
+              const color = done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--text3)";
+              const last = i === steps.length - 1;
+              return (
+                <div key={s.n} style={{ display: "flex", gap: 16 }}>
+                  {/* Rail */}
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{
+                      width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
+                      display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700,
+                      background: done ? "#4ecdc422" : active ? "var(--violet)" : "var(--surface)",
+                      border: `1px solid ${done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--border2)"}`,
+                      color: done ? "#4ecdc4" : active ? "#fff" : "var(--text3)",
+                      boxShadow: active ? "0 0 20px rgba(124,110,247,0.4)" : "none",
+                    }}>
+                      {done ? "✓" : locked
+                        ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                        : s.n}
+                    </div>
+                    {!last && (
+                      <div style={{ width: 2, flex: 1, minHeight: 28, marginTop: 4,
+                        background: done ? "#4ecdc4" : "var(--border)" }} />
+                    )}
+                  </div>
+
+                  {/* Content */}
+                  <div style={{ paddingBottom: last ? 0 : 24, opacity: locked ? 0.55 : 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 3 }}>
+                      <span style={{ fontSize: 15, fontWeight: 700, color: active ? "var(--text)" : color, letterSpacing: "-0.2px" }}>{s.label}</span>
+                      <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
+                        padding: "2px 8px", borderRadius: 100,
+                        background: done ? "#4ecdc418" : active ? "rgba(124,110,247,0.15)" : "var(--surface)",
+                        color: done ? "#4ecdc4" : active ? "var(--violet2)" : "var(--text3)",
+                        border: `1px solid ${done ? "#4ecdc433" : active ? "rgba(124,110,247,0.3)" : "var(--border)"}` }}>
+                        {s.sub}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: 13, color: "var(--text3)", lineHeight: 1.55, maxWidth: 560 }}>{s.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

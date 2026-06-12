@@ -18,17 +18,36 @@ const analyzeMessages = [
   "Calibrating destiny scores...",
 ];
 
+type GenderOption = "female" | "male" | "prefer-not-to-say";
+
+const GENDER_OPTIONS: { value: GenderOption; label: string }[] = [
+  { value: "female",           label: "Female"           },
+  { value: "male",             label: "Male"             },
+  { value: "prefer-not-to-say", label: "Prefer Not to Say" },
+];
+
+// Maps user's gender selection to pronouns passed to all AI prompts
+const GENDER_TO_PRONOUNS: Record<GenderOption, string> = {
+  female:            "she/her",
+  male:              "he/him",
+  "prefer-not-to-say": "they/them",
+};
+
 export default function ResumeUpload({ transitionTo, updateState }: ResumeUploadProps) {
   const [resumeText, setResumeText] = useState("");
+  const [gender, setGender] = useState<GenderOption | "">("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analyzeMsg, setAnalyzeMsg] = useState(analyzeMessages[0]);
 
   const handleAnalyze = () => {
     if (!resumeText.trim()) return;
     setIsAnalyzing(true);
+    const explicitPronouns = gender ? GENDER_TO_PRONOUNS[gender] : undefined;
     // New resume = new user — clear all previously generated AI content
     updateState({
       resumeText,
+      selectedGender: gender || null,
+      explicitPronouns: explicitPronouns || null,
       resumeAnalysis: null,
       allProfiles: {},
       allFutureSelves: {},
@@ -58,7 +77,7 @@ export default function ResumeUpload({ transitionTo, updateState }: ResumeUpload
         setAnalyzeMsg(analyzeMessages[i]);
       } else {
         clearInterval(iv);
-        setTimeout(() => transitionTo("timeline-scan", { resumeText }), 600);
+        setTimeout(() => transitionTo("timeline-scan", { resumeText, explicitPronouns }), 600);
       }
     }, 700);
   };
@@ -152,6 +171,47 @@ export default function ResumeUpload({ transitionTo, updateState }: ResumeUpload
             <p style={{ fontSize: 12, color: "var(--text3)", marginBottom: 24, lineHeight: 1.5 }}>
               Tip: Copy everything — job titles, bullet points, skills, dates. The more detail, the richer your alternate universe profiles.
             </p>
+
+            {/* Gender selector */}
+            <div style={{ marginBottom: 24 }}>
+              <label style={{
+                display: "block", fontSize: 12, fontWeight: 600,
+                color: "var(--text3)", letterSpacing: "0.06em",
+                textTransform: "uppercase", marginBottom: 10,
+              }}>
+                Gender
+              </label>
+              <div style={{ display: "flex", gap: 10 }} role="group" aria-label="Gender selection">
+                {GENDER_OPTIONS.map(opt => {
+                  const selected = gender === opt.value;
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => setGender(selected ? "" : opt.value)}
+                      aria-pressed={selected}
+                      style={{
+                        flex: 1, padding: "11px 8px", borderRadius: 10,
+                        border: selected ? "1.5px solid var(--violet)" : "1px solid var(--border)",
+                        background: selected ? "rgba(124,110,247,0.12)" : "var(--bg2)",
+                        color: selected ? "var(--violet2)" : "var(--text3)",
+                        fontSize: 13, fontWeight: selected ? 600 : 400,
+                        fontFamily: "Sora, sans-serif", cursor: "pointer",
+                        transition: "all 0.18s", minHeight: 44, touchAction: "manipulation",
+                        boxShadow: selected ? "0 0 0 1px rgba(124,110,247,0.2)" : "none",
+                      }}
+                      onMouseEnter={e => { if (!selected) { e.currentTarget.style.borderColor = "var(--border2)"; e.currentTarget.style.color = "var(--text2)"; } }}
+                      onMouseLeave={e => { if (!selected) { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text3)"; } }}
+                    >
+                      {opt.label}
+                    </button>
+                  );
+                })}
+              </div>
+              <p style={{ fontSize: 11, color: "var(--text3)", marginTop: 8, lineHeight: 1.5, opacity: 0.7 }}>
+                Used to generate matching pronouns and titles across all universes. Optional.
+              </p>
+            </div>
 
             {/* Analyze button */}
             <button
