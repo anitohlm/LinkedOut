@@ -1,0 +1,46 @@
+- generic [ref=e1]:
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e7198]:
+    - navigation [ref=e7199]:
+      - button "← Back" [ref=e7200] [cursor=pointer]
+      - button "LinkedOut" [ref=e7201] [cursor=pointer]
+      - button "Archive (1)" [ref=e7211] [cursor=pointer]
+    - generic [ref=e7212]:
+      - generic [ref=e7215]:
+        - generic [ref=e7217]: Chronicle · Ed. I
+        - generic [ref=e7220]:
+          - generic [ref=e7251]:
+            - generic [ref=e7254]: Prologue
+            - paragraph [ref=e7256]: From the halls of Berkeley to the vast expanse of the multiverse, Rafael's journey unfolds across dimensions and identities. This edition captures a pivotal moment where all six timelines have been charted and the intricate web of alternate selves begins to crystallize. Stability prevails at 95%, lending clarity to this chapter of discovery and reflection.
+            - generic [ref=e7257]:
+              - generic [ref=e7258]: Chronicle · Edition I
+              - generic [ref=e7259]: 1 / 5
+          - generic [ref=e7261]:
+            - generic [ref=e7264]: Chapter 1 · Anchors Across Realms
+            - paragraph [ref=e7266]: The first venture beyond the known began with the medieval kingdom—a world where Rafael’s alternate self, Sir Raffael Wardmont, held mastery over fortress craft. This timeline, once a distant echo, now stands anchored, its mysteries partially unveiled. Subsequent exploration led to Neon Synthesis's cyberpunk sprawl, Endless Seas' pirate horizons, Ancient Draconia's fiery legacy, and the vast reaches of the Cosmic Frontier. Each realm contributed a unique thread to the tapestry, expanding understanding and stabilizing the multiverse’s complex architecture.
+            - generic [ref=e7267]:
+              - generic [ref=e7268]: Chronicle · Edition I
+              - generic [ref=e7269]: 2 / 5
+          - generic [ref=e7273]:
+            - generic [ref=e7276]: Prologue
+            - paragraph [ref=e7278]: From the halls of Berkeley to the vast expanse of the multiverse, Rafael's journey unfolds across dimensions and identities. This edition captures a pivotal moment where all six timelines have been charted and the intricate web of alternate selves begins to crystallize. Stability prevails at 95%, lending clarity to this chapter of discovery and reflection.
+            - generic [ref=e7279]:
+              - generic [ref=e7280]: Chronicle · Edition I
+              - generic [ref=e7281]: 1 / 5
+      - generic [ref=e7236]:
+        - button "Previous page" [ref=e7237] [cursor=pointer]: ‹
+        - generic [ref=e7238]:
+          - button "Go to page 1" [ref=e7239] [cursor=pointer]
+          - button "Go to page 2" [ref=e7240] [cursor=pointer]
+          - button "Go to page 3" [ref=e7241] [cursor=pointer]
+          - button "Go to page 4" [ref=e7242] [cursor=pointer]
+          - button "Go to page 5" [ref=e7243] [cursor=pointer]
+          - button "Go to page 6" [ref=e7244] [cursor=pointer]
+          - button "Go to page 7" [ref=e7245] [cursor=pointer]
+        - button "Next page" [active] [ref=e7246] [cursor=pointer]: ›
+      - paragraph [ref=e7247]: Use ‹ › to flip pages · 2 of 7
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

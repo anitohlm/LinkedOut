@@ -1,0 +1,130 @@
+- generic [ref=e1]:
+  - generic [ref=e616]:
+    - generic [ref=e617]:
+      - img [ref=e618]
+      - text: Harmonized Timeline
+    - generic [ref=e620]: All futures are briefly singing the same note. This is rare.
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e3116]:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - img
+    - navigation [ref=e3160]:
+      - button "← Back" [active] [ref=e3161] [cursor=pointer]
+      - button "Veloria The Age of Shifting Currents" [ref=e3162] [cursor=pointer]:
+        - generic [ref=e3163]:
+          - img [ref=e3164]
+          - generic [ref=e3169]: Veloria
+        - generic [ref=e3170]: The Age of Shifting Currents
+    - generic [ref=e3171]:
+      - generic [ref=e3172]:
+        - img [ref=e3175]
+        - generic [ref=e3180]:
+          - heading "Helmsman Rafael \"The Quiet Helm\" Reefrune" [level=1] [ref=e3181]
+          - paragraph [ref=e3182]: Stormbreaker of the Tidebound Passages
+          - paragraph [ref=e3183]: Endless Seas · Fleets & Crews
+          - generic [ref=e3184]:
+            - generic [ref=e3185]:
+              - generic [ref=e3186]: "85"
+              - generic [ref=e3187]: innovation
+            - generic [ref=e3188]:
+              - generic [ref=e3189]: "78"
+              - generic [ref=e3190]: leadership
+            - generic [ref=e3191]:
+              - generic [ref=e3192]: "90"
+              - generic [ref=e3193]: collaboration
+        - generic [ref=e3194]:
+          - button "Begin Future Transmission →" [ref=e3196] [cursor=pointer]
+          - button "Crew Calls" [ref=e3198] [cursor=pointer]:
+            - img [ref=e3199]
+            - text: Crew Calls
+          - generic [ref=e3202]:
+            - button "Legendary" [ref=e3204] [cursor=pointer]:
+              - img [ref=e3205]
+              - text: Legendary
+            - button "Shadow" [ref=e3208] [cursor=pointer]:
+              - img [ref=e3209]
+              - text: Shadow
+      - generic [ref=e3211]:
+        - generic [ref=e3212]: The Realm
+        - paragraph [ref=e3213]: Veloria is a sprawling archipelago nation carved from towering coral spires and endless blue horizons, where mastery of the seas and the ever-changing tides defines power. Its clans thrive through navigating treacherous waters and uniting fractured crews into resilient expeditions.
+      - generic [ref=e3214]:
+        - generic [ref=e3215]:
+          - generic [ref=e3216]:
+            - generic: ”
+            - generic [ref=e3358]: Biography
+            - paragraph [ref=e3221]: Born among the salt-swept docks of Veloria’s capital, Rafael was drawn early to the art of steering through tempest and calm alike. He learned to read the subtle shifts of the tides and the whispers of the wind, guiding vessels long thought lost back into the embrace of safe harbors. His quiet demeanor belied an unshakable resolve, earning him the epithet “The Quiet Helm” among the seafaring folk. Rafael’s talents soon outpaced his mentors, and he was entrusted with leading crews through the infamous Tidebound Passages—narrow channels known for their lethal storms and sudden whirlpools. His innovations in sail rigging and course plotting brought renewed hope and riches to his people, blending old lore with daring new techniques. Despite his rising renown, he remains collaborative and curious, always seeking ways to hone the craft and uplift those who follow him.
+          - generic [ref=e3222]:
+            - generic [ref=e3362]: Timeline Story
+            - paragraph [ref=e3229]: Starting as a deckhand among the bustling docks of Veloria, Rafael quickly mastered the delicate balance of wind and wave. His early exploits in charting hidden currents garnered the attention of seasoned captains, and soon he helmed his own vessel. Rising through the ranks, Rafael transformed traditional sailing techniques and led perilous expeditions that expanded his archipelago’s reach. His steady command earned him a place among Veloria’s elite navigators, respected for both daring and prudence.
+          - generic [ref=e3230]:
+            - generic [ref=e3366]: Where They're Heading
+            - paragraph [ref=e3235]: Rafael is destined to become a master Stormbreaker, renowned for taming the most fearsome passages and uniting Veloria’s fractious clans into a formidable maritime alliance. His path leads toward becoming a legendary Helmsman whose name is sung in the ports and whose techniques become doctrine for generations.
+          - generic [ref=e3236]:
+            - generic [ref=e3370]: Achievements
+            - generic [ref=e3241]:
+              - generic [ref=e3242]:
+                - generic [ref=e3243]: "1"
+                - generic [ref=e3244]: Navigated the Stormbreak Passage in three days, beating the trade fleet by a fortnight
+              - generic [ref=e3245]:
+                - generic [ref=e3246]: "2"
+                - generic [ref=e3247]: Rallied a fractured crew through the Doldrums of Sorrow without losing a single man
+              - generic [ref=e3248]:
+                - generic [ref=e3249]: "3"
+                - generic [ref=e3250]: Brokered a truce between the Saltwind Brotherhood and the Merchant Lords of Vel Canta
+              - generic [ref=e3251]:
+                - generic [ref=e3252]: "4"
+                - generic [ref=e3253]: Developed a novel sail configuration that doubled speed during headwinds
+              - generic [ref=e3254]:
+                - generic [ref=e3255]: "5"
+                - generic [ref=e3256]: Charted previously unrecorded currents around the Shoals of Sighs, opening new trade routes
+              - generic [ref=e3257]:
+                - generic [ref=e3258]: "6"
+                - generic [ref=e3259]: Mentored the next generation of Helmsmen in the ancient arts of tide and wind reading
+              - generic [ref=e3260]:
+                - generic [ref=e3261]: "7"
+                - generic [ref=e3262]: Led the rescue of the lost convoy from the Maw of the Deep during the Black Gale
+        - generic [ref=e3263]:
+          - generic [ref=e3264]:
+            - generic [ref=e3374]: Personality
+            - paragraph [ref=e3269]: In this world, Rafael’s quiet determination becomes the calm center amid raging seas. His collaborative spirit manifests in how he unites diverse crews with patience and clear guidance. His curiosity drives him to tirelessly observe and adapt to nature’s whims, while his detail-oriented nature ensures no risk is overlooked. He leads not with grandiosity, but steady hands and subtle innovations that inspire deep trust.
+          - generic [ref=e3270]:
+            - generic [ref=e3378]: Competency Matrix
+            - generic [ref=e3275]:
+              - generic [ref=e3277]:
+                - generic [ref=e3278]: innovation
+                - generic [ref=e3279]: "85"
+              - generic [ref=e3283]:
+                - generic [ref=e3284]: leadership
+                - generic [ref=e3285]: "78"
+              - generic [ref=e3289]:
+                - generic [ref=e3290]: collaboration
+                - generic [ref=e3291]: "90"
+              - generic [ref=e3295]:
+                - generic [ref=e3296]: adaptability
+                - generic [ref=e3297]: "88"
+              - generic [ref=e3301]:
+                - generic [ref=e3302]: ambition
+                - generic [ref=e3303]: "75"
+              - generic [ref=e3307]:
+                - generic [ref=e3308]: wisdom
+                - generic [ref=e3309]: "80"
+          - generic [ref=e3312]:
+            - generic [ref=e3382]: Skills
+            - generic [ref=e3317]:
+              - generic [ref=e3318]: Tideborne Navigation
+              - generic [ref=e3319]: Stormbreak Course Crafting
+              - generic [ref=e3320]: Crew Morale Stewardship
+              - generic [ref=e3321]: Sail Rigging Innovation
+              - generic [ref=e3322]: Harbor Negotiation and Truce-Brokering
+              - generic [ref=e3323]: Currents and Whirlpool Mapping
+              - generic [ref=e3324]: Expedition Leadership
+              - generic [ref=e3325]: Ancient Mariner Lore Reading
+      - button "↺ Replay Arrival" [ref=e3327] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

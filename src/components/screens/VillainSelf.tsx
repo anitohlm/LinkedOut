@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { AppState, AppScreenState } from "@/types";
 import { generateVillainSelf } from "@/lib/agents/useAgents";
+import { getUniverse } from "@/lib/universes";
+import { H, logEntry } from "@/lib/historian";
 
 interface Props {
   state: AppState;
@@ -12,6 +14,15 @@ interface Props {
 }
 
 const ROSE = "#f07070";
+
+const VILLAIN_BG: Record<string, string> = {
+  medieval: "/universe-art/villain-medieval.png",
+  dragon: "/universe-art/villain-dragon.png",
+  cyberpunk: "/universe-art/villain-cyberpunk.png",
+  pirate: "/universe-art/villain-pirate.png",
+  galactic: "/universe-art/villain-galactic.png",
+  vampire: "/universe-art/villain-vampire.png",
+};
 const clean = (t: string) => (t || "").replace(/\\n/g, "\n").trim();
 
 export default function VillainSelf({ state, transitionTo, updateState }: Props) {
@@ -29,9 +40,13 @@ export default function VillainSelf({ state, transitionTo, updateState }: Props)
     hasInit.current = true;
     (async () => {
       try {
-        const res = await generateVillainSelf(state.resumeAnalysis!);
+        const res = await generateVillainSelf(state.resumeAnalysis!, universeId, state.allProfiles?.[universeId]);
         setData(res);
-        updateState({ villainSelves: { ...state.villainSelves, [universeId]: res } });
+        // First reveal of this universe's shadow self — record it for the Historian + Chronicle
+        logEntry(H.shadowRevealed(getUniverse(universeId).title), state, updateState, {
+          toast: true,
+          extra: { villainSelves: { ...state.villainSelves, [universeId]: res } },
+        });
       } catch (e: any) { setError(e.message || "Failed to reach the shadow timeline."); }
       finally { setLoading(false); }
     })();
@@ -39,9 +54,19 @@ export default function VillainSelf({ state, transitionTo, updateState }: Props)
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", paddingTop: 64, position: "relative", overflow: "hidden" }}>
+      {/* Universe-specific photo background */}
+      {VILLAIN_BG[universeId] && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
+          backgroundImage: `url(${VILLAIN_BG[universeId]})`,
+          backgroundSize: "cover", backgroundPosition: "center top",
+          WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 80%)",
+          maskImage: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 80%)",
+        }} />
+      )}
       {/* Dark crimson ambient */}
       <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
-        background: `radial-gradient(ellipse at 50% -10%, ${ROSE}10, transparent 55%), var(--bg)` }} />
+        background: `radial-gradient(ellipse at 50% -10%, ${ROSE}10, transparent 55%), ${VILLAIN_BG[universeId] ? "transparent" : "var(--bg)"}` }} />
       <motion.div animate={{ opacity: [0.06, 0.14, 0.06], scale: [1, 1.15, 1] }} transition={{ duration: 10, repeat: Infinity }}
         style={{ position: "fixed", bottom: "-15%", left: "50%", transform: "translateX(-50%)", width: 600, height: 400,
           borderRadius: "50%", background: ROSE, filter: "blur(140px)", zIndex: 0, pointerEvents: "none" }} />
@@ -52,7 +77,7 @@ export default function VillainSelf({ state, transitionTo, updateState }: Props)
         background: "rgba(8,9,13,0.8)", backdropFilter: "blur(20px)", borderBottom: "1px solid var(--border)" }}>
         <button onClick={() => transitionTo("identity-reconstruction")}
           style={{ background: "none", border: "none", color: "var(--text2)", cursor: "pointer", fontSize: 14, fontFamily: "Sora, sans-serif" }}>← Back</button>
-        <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>Linked<span style={{ color: "var(--violet2)" }}>Out</span></button>
+        <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex", alignItems: "center" }}><img src="/landing/logo.png" alt="LinkedOut" style={{ height: 26, width: "auto", display: "block" }} /></button>
         <span style={{ width: 50 }} />
       </nav>
 
@@ -103,7 +128,7 @@ export default function VillainSelf({ state, transitionTo, updateState }: Props)
 
             {/* Origin story */}
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-              style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 28, marginBottom: 20 }}>
+              style={{ background: `linear-gradient(135deg, ${ROSE}0d, rgba(255,255,255,0.03))`, borderTop: `1px solid ${ROSE}22`, borderRight: `1px solid ${ROSE}22`, borderBottom: `1px solid ${ROSE}22`, borderLeft: `3px solid ${ROSE}`, borderRadius: 16, padding: 28, marginBottom: 20 }}>
               <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 16 }}>How It Began</p>
               <p style={{ fontFamily: "Crimson Pro, serif", fontSize: 17, lineHeight: 1.85, color: "var(--text2)", whiteSpace: "pre-wrap" }}>{clean(data.originStory)}</p>
             </motion.div>
@@ -113,7 +138,7 @@ export default function VillainSelf({ state, transitionTo, updateState }: Props)
               <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} style={{ marginBottom: 20 }}>
                 <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 12 }}>The Record</p>
                 {data.headlines.map((h: string, i: number) => (
-                  <div key={i} style={{ background: "var(--surface)", borderLeft: `3px solid ${ROSE}`, borderRadius: 12,
+                  <div key={i} style={{ background: `linear-gradient(135deg, ${ROSE}0d, rgba(255,255,255,0.03))`, borderTop: `1px solid ${ROSE}22`, borderRight: `1px solid ${ROSE}22`, borderBottom: `1px solid ${ROSE}22`, borderLeft: `3px solid ${ROSE}`, borderRadius: 12,
                     padding: "16px 20px", marginBottom: 10, fontFamily: "Crimson Pro, serif", fontStyle: "italic",
                     fontSize: 16, color: "var(--text2)" }}>{h}</div>
                 ))}
@@ -123,7 +148,7 @@ export default function VillainSelf({ state, transitionTo, updateState }: Props)
             {/* Moral compromises */}
             {data.moralCompromises && (
               <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
-                style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: 28, marginBottom: 20 }}>
+                style={{ background: `linear-gradient(135deg, ${ROSE}0d, rgba(255,255,255,0.03))`, borderTop: `1px solid ${ROSE}22`, borderRight: `1px solid ${ROSE}22`, borderBottom: `1px solid ${ROSE}22`, borderLeft: `3px solid ${ROSE}`, borderRadius: 16, padding: 28, marginBottom: 20 }}>
                 <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 16 }}>The Compromises</p>
                 {data.moralCompromises.map((m: string, i: number) => (
                   <div key={i} style={{ display: "flex", gap: 14, marginBottom: 12, alignItems: "flex-start" }}>

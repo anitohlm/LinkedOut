@@ -7,6 +7,7 @@
 export interface ResumeAnalysis {
   name: string;
   firstName: string;
+  pronouns?: string; // "he/him" | "she/her" | "they/them"
   skills: string[];
   competencies: string[];
   achievements: string[];
@@ -15,6 +16,12 @@ export interface ResumeAnalysis {
   personalityIndicators: string[];
   timelineSignature: string;
   summary: string;
+  /**
+   * 3 essence archetypes describing WHO this person is, not what they do.
+   * Used by the character builder to translate identity into each universe.
+   * Examples: ["The Builder", "The Connector", "The Explorer"]
+   */
+  coreArchetypes?: string[];
 }
 
 // Universe Configuration
@@ -45,6 +52,11 @@ export interface AlternateProfile {
   alternativeName: string;
   portrait: string;
   profession: string;
+  // The specific civilization + era within the broad universe genre, shaped by Career DNA.
+  // Generated here so the world is visible on the profile pages; the Future Self reuses it.
+  worldName: string;
+  eraName: string;
+  worldDescription: string;
   biography: string;
   achievements: string[];
   competencies: string[];
@@ -60,6 +72,11 @@ export interface FutureSelf {
   universeId: UniverseType;
   name: string;
   title: string;
+  // The specific civilization + era this self lives in (within the broad universe genre).
+  // Shaped by the user's Career DNA, so the same universe feels different per person.
+  worldName: string;
+  eraName: string;
+  worldDescription: string;
   year: number;
   personality: string;
   philosophy: string;
@@ -225,8 +242,11 @@ export interface AppState {
   usedButterfly?: boolean;    // has run the Butterfly Effect
   universeActivity?: Record<string, string[]>; // per-universe completed activities
   shadowCuriosity?: number;   // hidden — how interested the Shadow is in this user
+  shadowAffinity?: number;    // GLOBAL — grows when the user engages the Shadow; raises intercept odds everywhere
+  shadowEncounters?: string[]; // universe ids where the Shadow has manifested — drives cross-world continuity
   lastInterceptTurn?: number; // hidden — cooldown bookkeeping for interceptions
   historianLog?: { text: string; ts: number }[]; // the Historian's recorded observations
+  stabilityLog?: { value: number; delta: number; message: string; ts: number }[]; // every timeline-stability change
   butterflyCache?: { decision: string; timelines: any[] }; // last butterfly result, restored on revisit
   chronicleEditions?: ChronicleEdition[]; // all recorded editions, oldest first
   // Recruiter outcomes — one per universe
@@ -238,4 +258,16 @@ export interface AppState {
   pendingObservation?: string | null;
   // Track which universes have already granted a completion bonus (one-time)
   completionBonusGiven?: string[];
+  // Journey Progress tracker collapsed by the user — persists until they expand it again
+  journeyCollapsed?: boolean;
+  // Whether the user has seen the first-entry timeline stability briefing modal
+  hasSeenStabilityBriefing?: boolean;
+  // Universe IDs for which the arrival experience has been completed (not shown again unless replayed)
+  arrivedUniverses?: string[];
+  // AI-generated alternate-self portraits, per universe (small compressed JPEG data URIs)
+  portraits?: Partial<Record<UniverseType, string>>;
+  // Gender selected by the user on the resume upload screen
+  selectedGender?: "female" | "male" | "prefer-not-to-say" | null;
+  // Explicit pronouns derived from selectedGender — overrides AI inference in all prompts
+  explicitPronouns?: string | null;
 }

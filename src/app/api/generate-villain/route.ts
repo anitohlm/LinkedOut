@@ -1,38 +1,61 @@
-// Agent 6: Villain Self — powered by Foundry agent
+// Agent 6: Shadow Self — universe-native, tragic (not evil)
 import { NextRequest, NextResponse } from "next/server";
-import { ResumeAnalysis } from "@/types";
+import { ResumeAnalysis, UniverseType } from "@/types";
 import { callAI, extractJSON } from "@/lib/agents/foundry";
+import { getUniverse } from "@/lib/universes";
+import { nameConvention, universeFailure } from "@/lib/universeNaming";
 
 export async function POST(req: NextRequest) {
   try {
-    const { resumeAnalysis } = await req.json() as { resumeAnalysis: ResumeAnalysis };
+    const { resumeAnalysis, universeId, profile } = await req.json() as {
+      resumeAnalysis: ResumeAnalysis; universeId?: UniverseType; profile?: any;
+    };
     if (!resumeAnalysis) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 
-    const response = await callAI("You are a dark mirror narrator who reveals the shadow-self hidden in every career. Return valid JSON only.", `Generate the Villain Self.
+    const firstName = resumeAnalysis.firstName || (resumeAnalysis.name || "").split(" ")[0] || "";
+    const u = universeId ? getUniverse(universeId) : null;
 
-TIMELINE SIGNATURE: ${resumeAnalysis.timelineSignature}
+    const universeBlock = u ? `
+This person is a citizen of ${u.title} — not a "failed" version of their real job.
+Universe: ${u.title} — ${u.lore}
+${profile?.worldName ? `World: ${profile.worldName}${profile.eraName ? ` · ${profile.eraName}` : ""}.` : ""}
+What ultimate failure looks like here: ${universeFailure(universeId!)}
+Naming: ${nameConvention(universeId!, firstName)}
+
+Guidance:
+- Rather than scaling down their current role (e.g. "Failed Architect"), tell a TRAGIC story — not a villain, but someone whose same gifts curdled through excess, obsession, fear, pride, avoidance, or sacrifice.
+- Reimagine their Career DNA through this universe into a different, believable, emotionally resonant life.
+- The name should make the universe recognizable on its own — often a haunting "The [X]" form, e.g. "The Ash Scholar".` : "";
+
+    const sys = "You are a tragic biographer who reveals the shadow a person's Career DNA could become within a specific universe. Tragic, not evil. Return valid JSON only.";
+    const usr = `Generate the SHADOW SELF — a tragic, distorted expression of this person, as a citizen of ${u?.title || "their world"}.
+
+CAREER DNA: ${resumeAnalysis.timelineSignature}
 SKILLS: ${resumeAnalysis.skills.join(", ")}
 ACHIEVEMENTS: ${resumeAnalysis.achievements.join(", ")}
 PERSONALITY: ${resumeAnalysis.personalityIndicators.join(", ")}
+PRONOUNS: ${resumeAnalysis.pronouns || "they/them"} — use throughout; any title must match (never a contradicting gendered title).
+${universeBlock}
 
-Return this exact JSON. notoriety, wealth, and threatLevel MUST be plain integers between 0 and 100 (no text, no words):
+Return JSON. notoriety, wealth, threatLevel are plain integers 0-100:
 {
-  "name": "their shadow-self name",
-  "title": "their title in this timeline",
-  "notoriety": 84,
-  "wealth": 72,
-  "threatLevel": 60,
-  "originStory": "2-3 paragraphs on how the drift began",
-  "philosophy": "their justifying worldview",
-  "riseToPowar": "how they climbed, using their real skills for self-interest",
-  "moralCompromises": ["4-6 specific compromises, gradual"],
-  "alternateWorldview": "how they see the world, first person",
-  "headlines": ["4 archive-style headlines about them"],
-  "warningMessage": "a reflective warning to the user about this path",
+  "name": "their shadow NAME, native to this universe (recognizable as this world on sight)",
+  "title": "their tragic title/epithet in this universe",
+  "notoriety": 70, "wealth": 40, "threatLevel": 55,
+  "originStory": "2-3 paragraphs: how the same gifts curdled — through excess, obsession, fear, pride, avoidance, or sacrifice. Specific to this universe.",
+  "philosophy": "the belief that justifies their fall (sympathetic, not cartoonish)",
+  "riseToPowar": "how they rose then lost themselves, in this universe's terms",
+  "moralCompromises": ["4-6 gradual compromises, each understandable in context"],
+  "alternateWorldview": "first-person — how they see the world now",
+  "headlines": ["4 in-world archive lines about them, native to this universe"],
+  "warningMessage": "a reflective warning to the user — tragic, personal",
   "portrait": "image generation prompt"
 }
+Output COMPLETE valid JSON.`;
 
-notoriety/wealth/threatLevel are integers 0-100 (digits). Output COMPLETE valid JSON.`);
+    let response: string;
+    try { response = await callAI(sys, usr); }
+    catch { response = await callAI(sys, usr); } // Prompt Shield is non-deterministic — one retry usually clears it
 
     return NextResponse.json(extractJSON(response));
   } catch (error: any) {

@@ -141,7 +141,7 @@ export default function MultiverseInvitations({ state, transitionTo, updateState
           ← Back
         </button>
         <button onClick={() => transitionTo("landing")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
-          Linked<span style={{ color: "var(--violet2)" }}>Out</span>
+          <img src="/landing/logo.png" alt="LinkedOut" style={{ height: 26, width: "auto", display: "block" }} />
         </button>
         <span style={{ fontSize: 13, color: "var(--text3)", display: "flex", alignItems: "center", gap: 6 }}>
           {universeId && <UniverseIcon id={universeId} size={14} color="var(--text3)" strokeWidth={1.6} />}

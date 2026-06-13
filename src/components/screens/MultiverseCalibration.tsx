@@ -45,18 +45,22 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
       // Clear ALL data from any previous run — a new resume = a fresh multiverse
       updateState({
         allProfiles: {} as any, allFutureSelves: {} as any, resumeAnalysis: null, selectedUniverse: null,
+        portraits: {},
         transmissions: {}, interviews: {}, cachedInvitations: {}, invitationDecisions: {},
         councilMessages: [], councilSpecials: [], councilConcluded: false,
         explored: [], usedButterfly: false, universeActivity: {},
         shadowCuriosity: 0, lastInterceptTurn: -99, historianLog: [],
         completionBonusGiven: [], stabilityMessage: null,
         timelineState: { stability: 100, status: "stable" },
+        // Reset first-time modals so they show again on each new generation
+        hasSeenStabilityBriefing: false,
+        arrivedUniverses: [],
       });
 
       // Phase 1: Analyze resume
       setPhase("analyzing");
       setProgress(5);
-      const analysis: ResumeAnalysis = await analyzeResume(state.resumeText!);
+      const analysis: ResumeAnalysis = await analyzeResume(state.resumeText!, state.explicitPronouns);
       updateState({ resumeAnalysis: analysis });
       setProgress(15);
       setPhase("building");
@@ -98,7 +102,7 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
           </div>
           <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 12, color: "var(--rose2)" }}>Calibration Failed</h2>
           <p style={{ fontSize: 14, color: "var(--text2)", marginBottom: 24, lineHeight: 1.6 }}>{error}</p>
-          <button onClick={() => transitionTo("upload-resume")} style={{
+          <button onClick={() => transitionTo("upload-resume", { resumeText: state.resumeText })} style={{
             padding: "12px 28px", borderRadius: 10, background: "var(--violet)",
             border: "none", color: "#fff", fontFamily: "Sora, sans-serif", fontSize: 14, fontWeight: 600, cursor: "pointer",
           }}>← Try Again</button>
@@ -110,11 +114,11 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", position: "relative" }}>
 
-      {/* Animated background blobs */}
-      <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }} transition={{ duration: 4, repeat: Infinity }}
-        style={{ position: "fixed", width: 600, height: 600, borderRadius: "50%", background: "rgba(124,110,247,0.2)", filter: "blur(100px)", top: "50%", left: "50%", transform: "translate(-50%,-50%)", pointerEvents: "none" }} />
-      <motion.div animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.2, 0.1] }} transition={{ duration: 6, repeat: Infinity }}
-        style={{ position: "fixed", width: 400, height: 400, borderRadius: "50%", background: "rgba(78,205,196,0.15)", filter: "blur(80px)", top: "30%", right: "20%", pointerEvents: "none" }} />
+      {/* Shared cosmic background (same as the timeline scan) */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
+        backgroundImage: "url('/universe-art/linkedout.png')", backgroundSize: "cover", backgroundPosition: "center" }} />
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse at 50% 45%, rgba(6,7,16,0.5) 0%, rgba(6,7,16,0.82) 68%, rgba(6,7,16,0.96) 100%)" }} />
 
       <div style={{ position: "relative", zIndex: 10, width: "100%", maxWidth: 680, padding: "0 24px" }}>
 
@@ -139,8 +143,8 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
           </p>
         </motion.div>
 
-        {/* Universe orbs grid */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 20, marginBottom: 48, flexWrap: "wrap" }}>
+        {/* Universe emblems grid */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 28, marginBottom: 48, flexWrap: "wrap" }}>
           {universes.map((u, i) => {
             const isDone = completedUniverses.includes(u.id);
             const isActive = activeUniverse === u.id;
@@ -153,71 +157,30 @@ export default function MultiverseCalibration({ state, transitionTo, updateState
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
 
-                {/* Orb */}
-                <div style={{ position: "relative", width: 72, height: 72 }}>
-                  {/* Outer ring — active pulse */}
-                  {isActive && (
-                    <motion.div
-                      animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                      style={{
-                        position: "absolute", inset: -8, borderRadius: "50%",
-                        border: `2px solid ${color}`, pointerEvents: "none",
-                      }}
-                    />
+                {/* Emblem — bigger, no enclosing orb */}
+                <div style={{ position: "relative", width: 92, height: 92, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  {(isActive || isDone) && (
+                    <div style={{ position: "absolute", inset: -4, borderRadius: "50%",
+                      background: `radial-gradient(circle, ${color}55, transparent 70%)`, filter: "blur(12px)", pointerEvents: "none" }} />
                   )}
-
-                  {/* Spinning ring — active */}
-                  {isActive && (
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      style={{
-                        position: "absolute", inset: -4, borderRadius: "50%",
-                        border: `1.5px dashed ${color}80`, pointerEvents: "none",
-                      }}
-                    />
-                  )}
-
-                  {/* Main orb */}
                   <motion.div
-                    animate={isActive ? { scale: [1, 1.05, 1] } : {}}
-                    transition={{ duration: 1, repeat: Infinity }}
-                    style={{
-                      width: "100%", height: "100%", borderRadius: "50%",
-                      background: isDone
-                        ? `radial-gradient(circle at 35% 35%, ${color}cc, ${color}44)`
-                        : isActive
-                        ? `radial-gradient(circle at 35% 35%, ${color}88, ${color}22)`
-                        : "var(--surface)",
-                      border: `1px solid ${isDone || isActive ? color + "60" : "var(--border)"}`,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 28,
-                      boxShadow: isDone ? `0 0 24px ${color}40` : isActive ? `0 0 16px ${color}30` : "none",
-                      transition: "all 0.4s",
-                    }}
-                  >
-                    {isDone ? (
-                      <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring" }}
-                        style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <UniverseIcon id={u.id} size={26} color={color} strokeWidth={1.4} />
-                      </motion.span>
-                    ) : (
-                      <span style={{ opacity: isActive ? 1 : 0.3, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <UniverseIcon id={u.id} size={26} color={color} strokeWidth={1.4} />
-                      </span>
-                    )}
+                    animate={isActive ? { scale: [1, 1.08, 1] } : {}}
+                    transition={{ duration: 1.2, repeat: Infinity }}
+                    style={{ position: "relative", display: "flex",
+                      filter: isDone ? `drop-shadow(0 0 12px ${color}aa)` : isActive ? `drop-shadow(0 0 10px ${color}88)` : "grayscale(0.7) brightness(0.6)",
+                      opacity: isDone || isActive ? 1 : 0.34, transition: "filter 0.4s, opacity 0.4s" }}>
+                    <UniverseIcon id={u.id} size={88} color={color} strokeWidth={1.4} />
                   </motion.div>
                 </div>
 
                 {/* Label */}
                 <div style={{
-                  fontSize: 10, fontWeight: 500, letterSpacing: "0.04em",
+                  fontSize: 12, fontWeight: 600, letterSpacing: "0.04em",
                   color: isDone ? color : isActive ? "var(--text2)" : "var(--text3)",
-                  textAlign: "center", maxWidth: 72, lineHeight: 1.3,
+                  textAlign: "center", maxWidth: 104, lineHeight: 1.3,
                   transition: "color 0.3s",
                 }}>
-                  {u.title.split(" ")[0]}
+                  {u.title}
                 </div>
               </motion.div>
             );

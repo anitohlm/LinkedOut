@@ -1,0 +1,275 @@
+- generic [ref=e1]:
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e7282]:
+    - navigation [ref=e7283]:
+      - button "↻ New Resume" [ref=e7284] [cursor=pointer]
+      - button "LinkedOut" [ref=e7285] [cursor=pointer]
+      - generic [ref=e7286]:
+        - generic [ref=e7288] [cursor=pointer]:
+          - generic [ref=e7290]: Timeline
+          - generic [ref=e7293]: 95%
+        - generic [ref=e7294]:
+          - button "Toggle Historian's Log" [expanded] [active] [ref=e7295] [cursor=pointer]:
+            - img [ref=e7296]
+            - generic [ref=e7298]: Logs
+            - generic [ref=e7299]: "14"
+          - generic [ref=e7803]:
+            - generic [ref=e7804]:
+              - generic [ref=e7805]:
+                - img [ref=e7806]
+                - generic [ref=e7808]: The Historian's Log
+                - generic [ref=e7809]: 14 entries
+              - generic [ref=e7810]:
+                - button "Download archive" [ref=e7811] [cursor=pointer]:
+                  - img [ref=e7812]
+                  - text: Download
+                - button "Close log" [ref=e7814] [cursor=pointer]:
+                  - img [ref=e7815]
+            - generic [ref=e7818]:
+              - generic [ref=e7822]:
+                - paragraph [ref=e7823]: "Chronicle Edition I — \"Chronicle Edition I: Mapping the Multiversal Self\" — committed to the Archive."
+                - generic [ref=e7824]: 01:41 PM
+              - generic [ref=e7828]:
+                - paragraph [ref=e7829]: "The Council of Selves convened. Present: Rafael the Ascended, Rafael the Unseen Coder, Sir Raffael Wardmont, R4F4EL-ΔXIS and 4 others."
+                - generic [ref=e7830]: 01:38 PM
+              - generic [ref=e7834]:
+                - paragraph [ref=e7835]: Timeline Stability dropped to Stable Timeline (95%).
+                - generic [ref=e7836]: 01:37 PM
+              - generic [ref=e7840]:
+                - paragraph [ref=e7841]: 6 universes explored. 10 events in the record. The subject is beginning to recognize themselves.
+                - generic [ref=e7842]: 01:37 PM
+              - generic [ref=e7846]:
+                - paragraph [ref=e7847]: "Butterfly Effect: \"What if I'd started my own company?\" — four alternate timelines mapped. Timeline Drift: −5%."
+                - generic [ref=e7848]: 01:37 PM
+              - generic [ref=e7852]:
+                - paragraph [ref=e7853]: Eternal Night entered for the first time. Timeline Anchor acquired. Stability +0%.
+                - generic [ref=e7854]: 01:34 PM
+              - generic [ref=e7858]:
+                - paragraph [ref=e7859]: 7 events recorded. The choices differ. The questions do not.
+                - generic [ref=e7860]: 01:33 PM
+              - generic [ref=e7864]:
+                - paragraph [ref=e7865]: Cosmic Frontier entered for the first time. Timeline Anchor acquired. Stability +0%.
+                - generic [ref=e7866]: 01:33 PM
+              - generic [ref=e7870]:
+                - paragraph [ref=e7871]: Ancient Draconia entered for the first time. Timeline Anchor acquired. Stability +0%.
+                - generic [ref=e7872]: 01:33 PM
+              - generic [ref=e7876]:
+                - paragraph [ref=e7877]: Endless Seas entered for the first time. Timeline Anchor acquired. Stability +0%.
+                - generic [ref=e7878]: 01:32 PM
+              - generic [ref=e7882]:
+                - paragraph [ref=e7883]: Neon Synthesis entered for the first time. Timeline Anchor acquired. Stability +0%.
+                - generic [ref=e7884]: 01:31 PM
+              - generic [ref=e7888]:
+                - paragraph [ref=e7889]: Transmission established with Sir Raffael Wardmont, Master of Keepcraft, Master of Keepcraft of Medieval Kingdom, year 2150.
+                - generic [ref=e7890]: 01:26 PM
+              - generic [ref=e7894]:
+                - paragraph [ref=e7895]: Medieval Kingdom entered for the first time. Timeline Anchor acquired. Stability +0%.
+                - generic [ref=e7896]: 01:24 PM
+              - generic [ref=e7900]:
+                - paragraph [ref=e7901]: All six timelines have been mapped. The multiverse is now fully charted.
+                - generic [ref=e7902]: 01:23 PM
+    - generic [ref=e7300]:
+      - generic [ref=e7301]:
+        - paragraph [ref=e7302]: Your Multiverse Journey
+        - heading "Meet the people you could have become." [level=1] [ref=e7303]
+        - paragraph [ref=e7304]: From Berkeley halls to fintech calls, Rafael crafts code and leads teams with quiet determination. A climber of both rocks and challenges, he scales new heights in technology and creativity.
+      - generic [ref=e7305]:
+        - button "Journey Progress · Phase 4 of 4" [ref=e7306] [cursor=pointer]:
+          - generic [ref=e7307]: Journey Progress
+          - generic [ref=e7308]: · Phase 4 of 4
+          - img [ref=e7309]
+        - generic [ref=e7311]:
+          - generic [ref=e7312]:
+            - generic [ref=e7314]: ✓
+            - generic [ref=e7316]:
+              - generic [ref=e7317]:
+                - generic [ref=e7318]: Explore Your Selves
+                - generic [ref=e7319]: 6/6 Explored
+              - paragraph [ref=e7320]: Meet all six alternate-universe versions of yourself and see who you could have become.
+          - generic [ref=e7321]:
+            - generic [ref=e7323]: ✓
+            - generic [ref=e7325]:
+              - generic [ref=e7326]:
+                - generic [ref=e7327]: The Butterfly Effect
+                - generic [ref=e7328]: Done
+              - paragraph [ref=e7329]: Change one decision and watch your life fracture across four alternate timelines.
+          - generic [ref=e7330]:
+            - generic [ref=e7332]: ✓
+            - generic [ref=e7334]:
+              - generic [ref=e7335]:
+                - generic [ref=e7336]: The Council of Selves
+                - generic [ref=e7337]: Done
+              - paragraph [ref=e7338]: Gather every version of you to debate — then choose the future you're willing to become.
+          - generic [ref=e7339]:
+            - generic [ref=e7341]: "4"
+            - generic [ref=e7342]:
+              - generic [ref=e7343]:
+                - generic [ref=e7344]: The Historian's Chronicle
+                - generic [ref=e7345]: 1 edition
+              - paragraph [ref=e7346]: The Historian records your journey across the multiverse — preserved forever in ink and memory.
+      - generic [ref=e7347]:
+        - generic [ref=e7348]: ✓
+        - generic [ref=e7349]:
+          - generic [ref=e7350]: Phase 1
+          - generic [ref=e7351]: Explore Your Selves
+        - generic [ref=e7352]: Every reality witnessed. Your timeline is ready to fracture.
+      - generic [ref=e7353]:
+        - generic [ref=e7354] [cursor=pointer]:
+          - img [ref=e7357]
+          - generic [ref=e7400]:
+            - generic [ref=e7401]:
+              - img [ref=e7402]
+              - text: Eldvarin
+            - generic [ref=e7404]: The Age of Silver Spires
+          - generic [ref=e7405]:
+            - heading "Sir Raffael Wardmont" [level=3] [ref=e7406]
+            - paragraph [ref=e7407]: Master of Keepcraft
+            - paragraph [ref=e7408]: Born beneath the shadow of the elder spires, Sir Raffael Wardmont rose from humble origins within the artisan quarters of Eldvarin…
+            - generic [ref=e7409]:
+              - generic [ref=e7411]:
+                - img [ref=e7412]
+                - text: 4 msgs
+              - generic [ref=e7416]:
+                - generic [ref=e7417]: Fate Convergence
+                - generic [ref=e7418]: 40%
+              - generic [ref=e7421]:
+                - generic [ref=e7423]: 👤
+                - generic [ref=e7425]: 📡
+                - generic [ref=e7427]: 📜
+                - generic [ref=e7429]: 👑
+                - generic [ref=e7431]: 🌑
+        - generic [ref=e7432] [cursor=pointer]:
+          - img [ref=e7435]
+          - generic [ref=e7468]:
+            - generic [ref=e7469]:
+              - img [ref=e7470]
+              - text: Synthara
+            - generic [ref=e7472]: The Flux Convergence
+          - generic [ref=e7473]:
+            - heading "R4F4EL-ΔXIS" [level=3] [ref=e7474]
+            - paragraph [ref=e7475]: Lattice Weaver
+            - paragraph [ref=e7476]: Born amid the radiant towers of Synthara, R4F4EL-ΔXIS learned early to read the shifting currents of the city’s luminous lattice. …
+            - generic [ref=e7477]:
+              - generic [ref=e7478]:
+                - generic [ref=e7479]: Reality Alignment
+                - generic [ref=e7480]: 20%
+              - generic [ref=e7483]:
+                - generic [ref=e7485]: 👤
+                - generic [ref=e7487]: 📡
+                - generic [ref=e7489]: 📜
+                - generic [ref=e7491]: 👑
+                - generic [ref=e7493]: 🌑
+        - generic [ref=e7494] [cursor=pointer]:
+          - img [ref=e7497]
+          - generic [ref=e7523]:
+            - generic [ref=e7524]:
+              - img [ref=e7525]
+              - text: Veloria
+            - generic [ref=e7527]: The Age of Shifting Currents
+          - generic [ref=e7528]:
+            - heading "Helmsman Rafael \"The Quiet Helm\" Reefrune" [level=3] [ref=e7529]
+            - paragraph [ref=e7530]: Stormbreaker of the Tidebound Passages
+            - paragraph [ref=e7531]: Born among the salt-swept docks of Veloria’s capital, Rafael was drawn early to the art of steering through tempest and calm alike…
+            - generic [ref=e7532]:
+              - generic [ref=e7533]:
+                - generic [ref=e7534]: Tidal Resonance
+                - generic [ref=e7535]: 20%
+              - generic [ref=e7538]:
+                - generic [ref=e7540]: 👤
+                - generic [ref=e7542]: 📡
+                - generic [ref=e7544]: 📜
+                - generic [ref=e7546]: 👑
+                - generic [ref=e7548]: 🌑
+        - generic [ref=e7549] [cursor=pointer]:
+          - img [ref=e7552]
+          - generic [ref=e7588]:
+            - generic [ref=e7589]:
+              - img [ref=e7590]
+              - text: Vaelrys
+            - generic [ref=e7592]: The Emberforge Era
+          - generic [ref=e7593]:
+            - heading "Raehysal of House Cindervale" [level=3] [ref=e7594]
+            - paragraph [ref=e7595]: Ember-Ward Seer
+            - paragraph [ref=e7596]: Raehysal of House Cindervale, born beneath the crimson skies of Vaelrys, was drawn from youth to the flickering tongues of ember a…
+            - generic [ref=e7597]:
+              - generic [ref=e7598]:
+                - generic [ref=e7599]: Ancient Attunement
+                - generic [ref=e7600]: 20%
+              - generic [ref=e7603]:
+                - generic [ref=e7605]: 👤
+                - generic [ref=e7607]: 📡
+                - generic [ref=e7609]: 📜
+                - generic [ref=e7611]: 👑
+                - generic [ref=e7613]: 🌑
+        - generic [ref=e7614] [cursor=pointer]:
+          - img [ref=e7617]
+          - generic [ref=e7659]:
+            - generic [ref=e7660]:
+              - img [ref=e7661]
+              - text: Zypharion
+            - generic [ref=e7663]: The Flux Convergence
+          - generic [ref=e7664]:
+            - heading "Vexkar Crestix" [level=3] [ref=e7665]
+            - paragraph [ref=e7666]: Quantum Surveyor Captain
+            - paragraph [ref=e7667]: Born amid the shimmering bio-domes of Zypharion’s zenith arc, Vexkar Crestix emerged as a quiet force in the art of pattern unrave…
+            - generic [ref=e7668]:
+              - generic [ref=e7669]:
+                - generic [ref=e7670]: World Synchronization
+                - generic [ref=e7671]: 20%
+              - generic [ref=e7674]:
+                - generic [ref=e7676]: 👤
+                - generic [ref=e7678]: 📡
+                - generic [ref=e7680]: 📜
+                - generic [ref=e7682]: 👑
+                - generic [ref=e7684]: 🌑
+        - generic [ref=e7685] [cursor=pointer]:
+          - img [ref=e7688]
+          - generic [ref=e7737]:
+            - generic [ref=e7738]:
+              - img [ref=e7739]
+              - text: Valemorra
+            - generic [ref=e7741]: The Night of Hollow Bells
+          - generic [ref=e7742]:
+            - heading "Lord Rafail Craveth" [level=3] [ref=e7743]
+            - paragraph [ref=e7744]: Keeper of the Lost Echoes
+            - paragraph [ref=e7745]: Lord Rafail Craveth was born beneath the veiled skies of Valemorra, where whispers are the lifeblood of power and silence holds th…
+            - generic [ref=e7746]:
+              - generic [ref=e7747]:
+                - generic [ref=e7748]: Timeline Resonance
+                - generic [ref=e7749]: 20%
+              - generic [ref=e7752]:
+                - generic [ref=e7754]: 👤
+                - generic [ref=e7756]: 📡
+                - generic [ref=e7758]: 📜
+                - generic [ref=e7760]: 👑
+                - generic [ref=e7762]: 🌑
+      - generic [ref=e7763] [cursor=pointer]:
+        - img [ref=e7765]
+        - generic [ref=e7769]:
+          - generic [ref=e7770]:
+            - generic [ref=e7771]: Phase 2
+            - generic [ref=e7772]: ✓ Done
+          - heading "The Butterfly Effect" [level=3] [ref=e7773]
+          - paragraph [ref=e7774]: Change one decision. Watch your life fracture across four alternate timelines.
+        - generic [ref=e7775]: Revisit →
+      - generic [ref=e7776] [cursor=pointer]:
+        - img [ref=e7778]
+        - generic [ref=e7781]:
+          - generic [ref=e7783]: Phase 3
+          - heading "The Council of Selves" [level=3] [ref=e7784]
+          - paragraph [ref=e7785]: Every version of you gathers to debate — then asks the question you've been avoiding.
+        - generic [ref=e7786]: Enter the Council Chamber →
+      - generic [ref=e7790] [cursor=pointer]:
+        - img [ref=e7792]
+        - generic [ref=e7796]:
+          - generic [ref=e7797]:
+            - generic [ref=e7798]: Phase 4
+            - generic [ref=e7799]: 1 Edition Recorded
+          - generic [ref=e7800]: The Chronicle
+          - paragraph [ref=e7801]: "Latest: Edition I — \"Chronicle Edition I: Mapping the Multiversal Self\""
+        - button "Open Archive →" [ref=e7802]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

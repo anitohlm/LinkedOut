@@ -1,124 +1,145 @@
 # LinkedOut
 
-> *Every decision creates a new timeline. Meet the people you could have become.*
-
-LinkedOut is an AI-powered narrative experience that transforms your career profile into the origin story of six alternate versions of yourself across radically different universes. Upload your career profile — receive six lives you never lived.
-
----
-
-## What It Does
-
-You upload your career profile. LinkedOut reads it, extracts your Career DNA — your strengths, archetypes, personality, and achievements — and generates six fully realized alternate selves, each native to a different world. Not re-skinned versions of your job. Different lives entirely.
-
-| Universe | Tone |
-|----------|------|
-| 🏰 **Medieval Kingdom** | Feudal courts, guild oaths, heraldic legacy |
-| 🌃 **Neon Synthesis** | Cyberpunk megacity, digital identity, augmented self |
-| ☠️ **Endless Seas** | Pirate fleets, salt-wind reputation, hard-won freedom |
-| 🐉 **Ancient Draconia** | Elemental magic, draconic power, centuries of mastery |
-| 🚀 **Cosmic Frontier** | Starfaring civilization, quantum exploration, post-Earth |
-| 🧛 **Eternal Night** | Immortal courts, gothic aristocracy, memory as currency |
+> *You made your choices. But somewhere, across six other worlds, someone with your exact mind made different ones.*
+> *LinkedOut finds them.*
+>
+> **You have been linkedout.**
 
 ---
 
-## Journey Phases
+LinkedOut is an AI-powered multiverse game where you upload your career profile and discover six alternate versions of yourself — a medieval knight, a cyberpunk ghost, a pirate captain, a dragon lord, a space pioneer, an immortal vampire — each one built from your actual Career DNA. From there, you open a live transmission and talk directly to your future self, watching the **Timeline Stability** meter rise and fall with every exchange — until the **Shadow** breaks through and intercepts the signal, forcing you to choose which voice to trust. When you're ready, you summon the **Council of Selves**, putting all six versions of you in the same room to debate, clash, and vote on who you really are. And when the multiverse has been fully explored, **The Historian** writes your **Chronicle** — a hardcover narrative book of every life you could have lived, sealed in the Archive forever.
 
-### Phase 1 — Explore Your Selves
-Six profile cards reveal who you could have become. Each alternate self has a universe-native name (gothic transformations for Eternal Night, sharp-consonant cosmic names for Cosmic Frontier, epithet-based names for Endless Seas), profession, biography, achievements, and competencies — all written in the voice and language of their world.
+---
+
+## The Six Worlds
+
+Each universe has its own naming laws, its own language, its own sense of what success means. Your alternate selves don't carry your job title into a different costume. They *became* someone else entirely.
+
+| Universe | What you become |
+|----------|----------------|
+| 🏰 **Medieval Kingdom** | A figure of feudal legend — guild oaths sworn, heraldic legacy carved in stone |
+| 🌃 **Neon Synthesis** | A ghost in the megacity — digital identity, augmented flesh, reputation sold by the byte |
+| ☠️ **Endless Seas** | A name whispered in port taverns — rank earned by salt and blood, epithet invented by the sea itself |
+| 🐉 **Ancient Draconia** | An elemental force — centuries of mastery, draconic power, memory older than kingdoms |
+| 🚀 **Cosmic Frontier** | A pioneer beyond the last star — quantum exploration, post-Earth civilization, designation etched in sector logs |
+| 🧛 **Eternal Night** | An immortal of the inner courts — gothic aristocracy, memory as currency, a name that has outlived empires |
+
+---
+
+## The Journey
+
+### Phase 1 — Six Selves Revealed
+Your career profile is read, and your **Career DNA** is extracted: role archetype (Builder, Connector, Explorer), personality signature, achievements, and the pattern underneath all of it. Six alternate profiles are built in parallel — each one a different answer to the question *"what if?"*
+
+Every name is universe-native. Eternal Night names are gothic transformations of your real name. Cosmic Frontier names carry sharp consonants and stellar concepts. Endless Seas names follow the format `[Rank] [FirstName] "Epithet" [Invented Surname]` — the epithet coined fresh from your specific profile by the AI, never pulled from a list.
 
 ### Phase 2 — Go Deeper
-- **Future Transmission** — Chat directly with your future self. They remember the conversation, have opinions, and evolve.
-- **Butterfly Effect** — Choose a pivotal life decision. Watch the timeline recalculate.
-- **Multiverse Invitations** — Receive in-world job offers written as native documents (royal proclamations, corporate contracts, stone tablets).
-- **Legendary Self** — The greatest version of you across all timelines.
-- **Villain Self** — The darkest path your strengths could have taken.
-- **Council of Selves** — All six versions of you in conversation.
+Once your six selves exist, you can reach into their worlds:
+
+- **Future Transmission** — Open a live channel to your future self. They remember the conversation, form opinions, evolve. The timeline has a stability score. The Shadow is watching.
+- **Butterfly Effect** — Name a pivotal decision you made. Watch four alternate timelines branch from it, each one mapped with its own consequences.
+- **Multiverse Invitations** — Receive in-world recruitment offers. Royal proclamations. Encrypted corporate contracts. Messages carved in stone. Each one addressed to the version of you that world believes you are.
+- **Legendary Self** — The greatest version of you across all timelines — the one where every choice aligned.
+- **Villain Self** — The darkest path your strengths could have taken. The same ambition, pointed the wrong way.
+- **Council of Selves** — All eight versions of you in the same room. They don't agree on everything.
 
 ### Phase 3 — The Multiversal Chronicle
-A physical book — complete with animated hard-cover page flip — containing your full multiverse story. Spring-physics cover, chapter-by-chapter narrative, downloadable archive.
-
----
-
-## Universe-Native Naming System
-
-Each universe has its own naming law enforced at the prompt level:
-
-- **Medieval** — Title matches gender (Lady/Dame/Mistress vs Lord/Sir/Master), name transformed to period phonetics, heraldic surname invented from deed or craft
-- **Endless Seas** — Format: `[Rank] [Name] "[Epithet]" [Surname]` — rank closest to real profession (Musician for artists, Navigator for analysts, Helmsman for engineers…), epithet invented fresh from the user's specific legend
-- **Cosmic Frontier** — Sharp consonants (X, Z, V, K), sleek future spin on real name or fully cosmic invention
-- **Eternal Night** — Gothic/Eastern European transformation of real name (Alex → Alaric, Sofia → Seraphel), Latin/Romanian dark surname
-- **Ancient Draconia** — Valyrian-style transformation (Elena → Elhaena, Marcus → Maerys), House name from elemental roots
+Your story, written. A hardcover chronicle book — animated spring-physics cover, chapter-by-chapter narrative, every universe rendered in its own voice — powered by **the-historian** via Foundry IQ. The archive is yours to keep.
 
 ---
 
 ## Tech Stack
 
-- **Next.js 15** (App Router, `"use client"`)
-- **TypeScript**
-- **Framer Motion** — Spring physics, `useMotionValue`, `useMotionTemplate`, cinematic transitions
-- **Three.js + @react-three/fiber + @react-three/drei** — Stars background on landing
-- **GSAP** — Spiral animation on loading screen
-- **react-pageflip** — Chronicle book with custom spring cover overlay
-- **Recharts** — Timeline visualizations
-- **pdfjs-dist** — Career profile PDF parsing
-- **Anthropic SDK** — All AI generation (Claude)
-- **Tailwind CSS v3**
+### Frontend
+| Library | What it does here |
+|---------|-------------------|
+| **Next.js 15** | App Router, server components, API routes |
+| **TypeScript** | End-to-end typing across all agents and state |
+| **Framer Motion** | Spring physics, `useMotionValue`, `useMotionTemplate`, cinematic screen transitions |
+| **Three.js** + `@react-three/fiber` + `drei` | Interactive star field on the landing screen |
+| **GSAP** | Spiral animation on the timeline scan screen |
+| **react-pageflip** | Chronicle book with custom spring-physics cover overlay |
+| **Recharts** | Timeline and destiny score visualizations |
+| **Lucide React** | Icon system |
+| **Tailwind CSS v3** | Utility styling |
+| **pdfjs-dist** | Career profile PDF text extraction |
+
+### AI — Azure AI Foundry IQ
+| | |
+|--|--|
+| **`@azure/ai-projects`** | Azure AI Projects SDK |
+| **`AzureOpenAI` client** | Chat completions against the Foundry IQ inference endpoint |
+| **Foundry IQ Named Agents** | `callAgent()` via Responses API + `agent_reference` — used by `the-historian` |
+| **Foundry IQ Direct Inference** | `callAI()` — all other routes |
 
 ---
 
 ## AI Architecture
 
+LinkedOut uses **Azure AI Foundry IQ** across two tiers. Most of the journey runs on direct inference — fast, parallel, model-level calls. The Chronicle is different. That goes through **the-historian**.
+
 ```
-PDF → pdfjs-dist → Text Extraction
-                        ↓
-              Anthropic: analyze-resume
-              → ResumeAnalysis (Career DNA, timelineSignature, pronouns, skills, personality)
-                        ↓
-              Anthropic: generate-profile (×6 universes, parallel)
-              → AlternateProfile (name, profession, worldName, eraName, biography, achievements)
-                        ↓
-              Anthropic: generate-future-self
-              → FutureSelf (memories, philosophy, regrets, lessons — all in-world language)
-                        ↓
-              Anthropic: future-transmission (chat)
-              → Conversational future self with timeline stability awareness
-                        ↓
-              Anthropic: generate-chronicle
-              → Full narrative book (prologue, chapters, epilogue)
+Your Career Profile (PDF)
+        ↓  pdfjs-dist
+        ↓
+  ── analyze-resume ──────────────────────────────────────────────────────
+  Career DNA extracted: archetype, pronouns, skills, timeline signature
+        ↓
+  ── generate-profile ×6 (parallel) ──────────────────────────────────────
+  Six alternate selves built simultaneously across all universes
+  Each: name · profession · world · era · biography · achievements
+        ↓
+  ── generate-future-self ──────────────────────────────────────────────
+  Future self narrated: memories, philosophy, regrets, lessons
+  Written entirely in the voice and language of their world
+        ↓
+  ── future-transmission (live) ────────────────────────────────────────
+  Ongoing chat · timeline stability tracked · Shadow can intercept
+        ↓
+  ── the-historian ◄─ Named Foundry IQ Agent (v6) ─────────────────────
+  Chronicle written: prologue · six chapters · epilogue
+  Grounded in linkedoutmultiversememory · persistent memory across sessions
 ```
 
-### Prompt Engineering Highlights
-- **Career DNA extraction** — Role archetype (Builder, Connector, Explorer) drives world-native profession, never a literal re-skin
-- **World independence** — `worldName` / `eraName` / `worldDescription` are built like a cartographer naming a real place, never derived from the user's career
-- **Universe immersion** — All achievements and competencies written in period-appropriate language; modern vocabulary banned in non-tech universes
-- **Gender-aware titles** — Pronouns from career profile drive title selection throughout all universes
-- **Epithet invention** — Pirate epithets coined fresh from each user's specific profile, never picked from a preset list
+### the-historian
 
----
+The only named Foundry IQ agent in LinkedOut. It exists outside all six universes. It is not a future self, a mentor, a recruiter, or a guide. It records what happened.
 
-## Key Screens
+| | |
+|-|--|
+| **Model** | `gpt-4.1-mini` — Global Standard deployment |
+| **Version** | 6 |
+| **Knowledge** | `linkedoutmultiversememory` — knowledge base (`ks-web-956`, Active) |
+| **Memory** | `MemoryStore-boring_ice_8n66ryry6h` — persistent cross-session memory |
+| **Tools** | Web search via Grounding with Bing |
+| **Instructions** | *"You are The Historian. You exist outside the six universes. You are not a future self, a mentor, a recruiter, or a guide."* |
 
-| Screen | What it does |
-|--------|-------------|
-| `Landing.tsx` | Aurora radial-gradient background cycling via `useMotionValue`, Three.js star field, animated CTA buttons |
-| `TimelineScan.tsx` | GSAP spiral animation, step-by-step generation progress |
-| `MultiverseCalibration.tsx` | Six universe orbs building in sequence |
-| `UniverseDiscovery.tsx` | Profile card grid — flip to explore each universe |
-| `IdentityReconstruction.tsx` | Full alternate profile with biography, achievements, competencies, timeline |
-| `FutureTransmission.tsx` | Chat interface with future self, timeline stability bar, villain intercepts |
-| `ButterflyEffect.tsx` | Decision branch visualization |
-| `MultiverseInvitations.tsx` | Universe-native job postings (parchment scroll, neon terminal, ship's log…) |
-| `Chronicle.tsx` | Spring-physics hardcover flip book, edition system, downloadable archive |
-| `CouncilOfSelves.tsx` | All six selves in conversation |
+The knowledge base `linkedoutmultiversememory` grounds the historian's output — `gpt-4.1-mini`, extractive output mode, connected via the `linkedout-srch` index.
 
-### Universe Arrival Cards
-Each universe has a custom arrival modal with its own material and attitude:
-- **Medieval** — Parchment scroll with wooden rollers, wax seal to break
-- **Cyberpunk** — Boot-from-black terminal with typewriter lines and scan sweep
-- **Endless Seas** — Weathered ship's log on aged paper, skull & crossbones cover, *"The sea does not ask if you are ready"*
-- **Dragon** — Carved stone tablet, ember particles, glowing rune
-- **Galactic** — Static-to-signal entrance, twinkling star field, interstellar transmission
-- **Vampire** — Moonlit manuscript, silver dust motes, word-by-word whisper reveal
+### Direct Inference Routes
+
+| Route | Role |
+|-------|------|
+| `analyze-resume` | Reads the career profile and extracts Career DNA |
+| `generate-profile` | Builds all six alternate selves in parallel |
+| `generate-future-self` | Narrates the future self in full universe voice |
+| `future-transmission` | Runs the live chat; tracks stability and intercepts |
+| `butterfly-effect` | Maps four alternate timelines from a single decision |
+| `generate-legendary` | Builds the legendary self — the timeline where everything aligned |
+| `generate-villain` | Builds the shadow self — the path ambition took without values |
+| `generate-recruiter` | Writes universe-native job offers as period documents |
+| `council-response` | Runs the council of selves — cross-universe dialogue |
+| `shadow-intercept` | Generates villain counter-messages during transmissions |
+| `suggestions` | Contextual prompts during the journey |
+
+### Prompt Engineering
+
+- **Career DNA → world-native profession** — Role archetype (Builder, Connector, Explorer) drives what you *do* in each world. Never a literal re-skin of your job title.
+- **World independence** — `worldName`, `eraName`, and `worldDescription` are built like a cartographer naming a real place. The world existed before you arrived.
+- **Universe immersion** — All achievements and competencies written in period-appropriate language. Modern vocabulary is banned in non-tech universes.
+- **Gender-aware titles** — Pronouns extracted from your career profile drive title selection in every universe.
+- **Epithet invention** — Pirate epithets are coined fresh from your specific profile by the AI. Never pulled from a preset list.
+- **Naming laws** — Each universe has its own law. Eternal Night: gothic transformation of your real name. Cosmic Frontier: sharp consonants, X/Z/K sounds, stellar concepts. Endless Seas: `[Rank] [FirstName] "Epithet" [Surname]`, rank derived from career, surname invented.
 
 ---
 
@@ -126,9 +147,9 @@ Each universe has a custom arrival modal with its own material and attitude:
 
 ### Prerequisites
 - Node.js 18+
-- Anthropic API key
+- An Azure AI Foundry project with a deployed model
 
-### Installation
+### Install
 
 ```bash
 git clone https://github.com/anitohlm/linkedout.git
@@ -136,18 +157,21 @@ cd linkedout
 npm install
 
 cp .env.example .env.local
-# Add ANTHROPIC_API_KEY to .env.local
-
-npm run dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000).
 
 ### Environment Variables
 
 ```env
-ANTHROPIC_API_KEY=your_key_here
+AZURE_FOUNDRY_ENDPOINT=https://your-project.api.azureml.ms/...
+AZURE_FOUNDRY_API_KEY=your_key_here
+AZURE_OPENAI_DEPLOYMENT_NAME=your_deployment_name
 ```
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
 
 ---
 
@@ -156,49 +180,35 @@ ANTHROPIC_API_KEY=your_key_here
 ```
 src/
 ├── app/
-│   ├── page.tsx
-│   ├── layout.tsx
-│   ├── globals.css
 │   └── api/
 │       ├── analyze-resume/
-│       ├── generate-profile/       # Agent 2: Character builder
-│       ├── generate-future-self/   # Agent 3: Future self narrator
-│       ├── future-transmission/    # Chat with future self
+│       ├── generate-profile/         ×6 universes, parallel
+│       ├── generate-future-self/
+│       ├── future-transmission/      live chat
 │       ├── butterfly-effect/
-│       ├── generate-chronicle/
+│       ├── generate-chronicle/       → the-historian
 │       ├── generate-legendary/
 │       ├── generate-villain/
-│       ├── generate-recruiter/     # Universe-native job postings
+│       ├── generate-recruiter/
 │       ├── council-response/
-│       └── shadow-intercept/       # Villain intercepts
+│       ├── shadow-intercept/
+│       └── suggestions/
 ├── components/
-│   ├── AppOrchestrator.tsx         # Central state machine
-│   ├── UniverseArrivalModal.tsx    # Per-universe arrival cards
-│   ├── screens/                    # All journey screens
+│   ├── AppOrchestrator.tsx           central state machine
+│   ├── UniverseArrivalModal.tsx      per-universe arrival cards (skeuomorphic)
+│   ├── screens/                      all journey screens
 │   └── ui/
-│       ├── aurora-stars.tsx        # Three.js star field
-│       └── spiral-animation.tsx    # GSAP spiral loader
-├── lib/
-│   ├── agents/
-│   │   ├── prompts.ts              # Universe identity guides + naming laws
-│   │   ├── useAgents.ts
-│   │   └── foundry.ts
-│   ├── universes.ts
-│   ├── historian.ts                # Event logging
-│   └── voices.ts
-└── types/
-    └── index.ts
+│       ├── aurora-stars.tsx          Three.js star field
+│       └── spiral-animation.tsx      GSAP spiral loader
+└── lib/
+    ├── agents/
+    │   ├── foundry.ts                callAI() + callAgent() + extractJSON()
+    │   ├── prompts.ts                universe identity guides + naming laws
+    │   └── useAgents.ts
+    ├── historian.ts                  event logging + The Multiversal Record
+    ├── universes.ts
+    └── voices.ts
 ```
-
----
-
-## Design Language
-
-- **Base** — `#0a0a0a` near-black, dark glassmorphism
-- **Aurora Landing** — Radial gradient cycling through `#7c6ef7 → #4ecdc4 → #e8c97e → #9d4edd`
-- **Universe accent colors** — Medieval gold, Cyberpunk teal, Pirate coral, Dragon amber, Galactic violet, Vampire rose
-- **Motion** — Spring physics (`stiffness: 50, damping: 14`) for the Chronicle cover; `ease: [0.22, 1, 0.36, 1]` for cinematic entrances
-- **Typography** — Cinzel (medieval/vampire headings), Crimson Pro (serif body), Sora / Exo 2 (sci-fi), Share Tech Mono (cyberpunk terminal)
 
 ---
 
@@ -212,4 +222,5 @@ Proprietary
 
 ---
 
-*Every decision creates a new timeline. Meet the people you could have become.*
+*Six worlds. One set of choices. Infinite versions of you.*
+*The Historian is already watching.*

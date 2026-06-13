@@ -54,6 +54,35 @@ export async function callAgent(agentName: string, userMessage: string, agentVer
   return text;
 }
 
+/**
+ * Generate an image via the Azure-deployed image model (gpt-image-2).
+ * Uses the dedicated images/generations endpoint (NOT the Responses API —
+ * image models are not supported there). Returns a base64 PNG data URI.
+ */
+export async function generateImage(prompt: string, size = "1024x1024"): Promise<string> {
+  const base = process.env.AZURE_FOUNDRY_ENDPOINT!.split("/api/projects")[0];
+  const deployment = process.env.AZURE_IMAGE_DEPLOYMENT_NAME!;
+  const url = `${base}/openai/deployments/${deployment}/images/generations?api-version=2025-04-01-preview`;
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "api-key": KEY(), "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt, n: 1, size }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    console.error("Image generation error:", res.status, err);
+    throw new Error(`Image gen ${res.status}: ${err}`);
+  }
+
+  const data = await res.json() as { data: Array<{ b64_json?: string; url?: string }> };
+  const item = data.data?.[0];
+  if (item?.b64_json) return `data:image/png;base64,${item.b64_json}`;
+  if (item?.url) return item.url;
+  throw new Error("Image generation returned no image");
+}
+
 export async function callAI(
   systemPrompt: string,
   userMessage: string,

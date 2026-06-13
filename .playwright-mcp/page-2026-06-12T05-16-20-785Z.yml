@@ -1,0 +1,31 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e417]:
+    - generic [ref=e418]:
+      - generic [ref=e419]: Building Multiverse
+      - heading "Calibrating your multiverse" [level=2] [ref=e421]
+      - paragraph [ref=e422]: Building Medieval Kingdom...
+    - generic [ref=e423]:
+      - generic [ref=e424]:
+        - img [ref=e428]
+        - generic [ref=e433]: Medieval Kingdom
+      - generic [ref=e434]:
+        - img [ref=e438]
+        - generic [ref=e443]: Neon Synthesis
+      - generic [ref=e444]:
+        - img [ref=e448]
+        - generic [ref=e453]: Endless Seas
+      - generic [ref=e454]:
+        - img [ref=e458]
+        - generic [ref=e462]: Ancient Draconia
+      - generic [ref=e463]:
+        - img [ref=e467]
+        - generic [ref=e473]: Cosmic Frontier
+      - generic [ref=e474]:
+        - img [ref=e478]
+        - generic [ref=e483]: Eternal Night
+    - generic [ref=e487]:
+      - paragraph [ref=e488]: 0 of 6 universes built
+      - generic [ref=e489]: 15%
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

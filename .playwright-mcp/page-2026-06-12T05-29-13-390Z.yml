@@ -1,0 +1,57 @@
+- generic [ref=e1]:
+  - generic [ref=e616]:
+    - generic [ref=e617]:
+      - img [ref=e618]
+      - text: Harmonized Timeline
+    - generic [ref=e620]: All futures are briefly singing the same note. This is rare.
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e1514]:
+    - navigation [ref=e1515]:
+      - button "← Back" [ref=e1516] [cursor=pointer]
+      - generic [ref=e1517]:
+        - img [ref=e1518]
+        - text: Future Transmission
+      - button "Shadow intercept" [ref=e1523] [cursor=pointer]:
+        - img [ref=e1524]
+    - generic [ref=e1527]:
+      - generic [ref=e1528]:
+        - img [ref=e1531]
+        - generic [ref=e1536]:
+          - generic [ref=e1537]:
+            - generic [ref=e1538]: Sir Raffael Wardmont, Master of Keepcraft
+            - generic [ref=e1540]:
+              - generic [ref=e1541]: Bond
+              - generic [ref=e1542]: Stranger
+          - generic [ref=e1544]: Master of Keepcraft · Year 2150
+          - generic [ref=e1552]:
+            - generic [ref=e1553]:
+              - img [ref=e1554]
+              - generic [ref=e1559]: Eldvarin
+              - generic [ref=e1560]: ·
+              - generic [ref=e1561]: The Age of Silver Spires
+            - paragraph [ref=e1562]: Eldvarin is a realm of sprawling highlands crowned by gleaming towers and ancient keeps. Its people value mastery of craft and martial prowess, governed by a council of lords who prize wisdom and innovation in defense.
+      - generic [ref=e1545]:
+        - generic [ref=e1564]: So, this is the dawn of my keeping. I see you there, standing at the forge's edge, hands unscarred yet eager. In Eldvarin, The Age of Silver Spires is young, and the stones of Wardmont are yet to bear the weight of siege. What burden do you carry as you face the coming night?
+        - generic [ref=e1580]: Who relies on you — and do they know they truly can?
+        - generic [ref=e1582]: Many, and yes — I show up
+        - generic [ref=e1584]: ✦ Relationship +2
+        - generic [ref=e1586]: Many lean on you, and you meet their need without falter. I remember saying exactly that before the walls of Vargan shattered and I was forced to rebuild not just stone, but hope. The Night Watch learned to send word swift and sure — for sometimes presence alone is the first defense. Hold fast to that vow; it is the foundation no enemy can breach.
+      - generic [ref=e1587]:
+        - generic [ref=e1588]:
+          - button "Need inspiration? ▲" [ref=e1596] [cursor=pointer]:
+            - img [ref=e1590]
+            - text: Need inspiration?
+            - generic [ref=e1592]: ▲
+          - generic [ref=e1598]:
+            - button "Hold fast to the code that binds us." [active] [ref=e1599] [cursor=pointer]
+            - button "Hold fast to my promise, no matter what." [ref=e1600] [cursor=pointer]
+            - button "Hold fast to duty, even when unseen." [ref=e1601] [cursor=pointer]
+            - button "Hold fast to the bridge between chaos and order." [ref=e1602] [cursor=pointer]
+        - generic [ref=e1593]:
+          - textbox "Speak to your future self..." [ref=e1594]: Hold fast to the code that binds us.
+          - button "Send" [ref=e1595] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

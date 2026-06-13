@@ -1,0 +1,130 @@
+- generic [ref=e1]:
+  - generic [ref=e616]:
+    - generic [ref=e617]:
+      - img [ref=e618]
+      - text: Harmonized Timeline
+    - generic [ref=e620]: All futures are briefly singing the same note. This is rare.
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e1620]:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - img
+    - navigation [ref=e1621]:
+      - button "← Back" [active] [ref=e1622] [cursor=pointer]
+      - button "Eldvarin The Age of Silver Spires" [ref=e1623] [cursor=pointer]:
+        - generic [ref=e1624]:
+          - img [ref=e1625]
+          - generic [ref=e1630]: Eldvarin
+        - generic [ref=e1631]: The Age of Silver Spires
+    - generic [ref=e1632]:
+      - generic [ref=e1633]:
+        - img [ref=e1636]
+        - generic [ref=e1641]:
+          - heading "Sir Raffael Wardmont" [level=1] [ref=e1642]
+          - paragraph [ref=e1643]: Master of Keepcraft
+          - paragraph [ref=e1644]: Medieval Kingdom · Royal Houses
+          - generic [ref=e1645]:
+            - generic [ref=e1646]:
+              - generic [ref=e1647]: "85"
+              - generic [ref=e1648]: innovation
+            - generic [ref=e1649]:
+              - generic [ref=e1650]: "90"
+              - generic [ref=e1651]: leadership
+            - generic [ref=e1652]:
+              - generic [ref=e1653]: "75"
+              - generic [ref=e1654]: collaboration
+        - generic [ref=e1655]:
+          - button "Begin Future Transmission →" [ref=e1657] [cursor=pointer]
+          - button "Royal Summons" [ref=e1659] [cursor=pointer]:
+            - img [ref=e1660]
+            - text: Royal Summons
+          - generic [ref=e1663]:
+            - button "Legendary" [ref=e1665] [cursor=pointer]:
+              - img [ref=e1666]
+              - text: Legendary
+            - button "Shadow" [ref=e1669] [cursor=pointer]:
+              - img [ref=e1670]
+              - text: Shadow
+      - generic [ref=e1672]:
+        - generic [ref=e1673]: The Realm
+        - paragraph [ref=e1674]: Eldvarin is a realm of sprawling highlands crowned by gleaming towers and ancient keeps. Its people value mastery of craft and martial prowess, governed by a council of lords who prize wisdom and innovation in defense.
+      - generic [ref=e1675]:
+        - generic [ref=e1676]:
+          - generic [ref=e1677]:
+            - generic: ”
+            - generic [ref=e1791]: Biography
+            - paragraph [ref=e1682]: Born beneath the shadow of the elder spires, Sir Raffael Wardmont rose from humble origins within the artisan quarters of Eldvarin’s capital. From youth he showed keen mind and steady hand, apprenticed first to the guild of master builders before heeding the call to service in the defense of the realm’s fortresses. His quiet determination and sharp insight soon marked him as a leader among the keepwrights, those who forged the very hearts of Eldvarin’s bastions. In the turbulent times of the Age of Silver Spires, when rival fiefdoms sought to test Eldvarin’s mettle, Raffael commanded the art of keepcraft with a tactician’s mind and a craftsman’s care. His vision shaped the reconstruction of runed battlements and the intricate networks of watchposts that guarded the high passes. His legacy endures in the stone and timber of Eldvarin’s mightiest holds, a testament to innovation blended with tradition.
+          - generic [ref=e1683]:
+            - generic [ref=e1795]: Timeline Story
+            - paragraph [ref=e1690]: Raffael’s early years were spent mastering the delicate arts of stonecutting and timberwork under the guild’s watchful eye. As tensions rose in Eldvarin, he was called to apply his knowledge in the defense of frontier keeps, quickly rising to command teams of craftsmen and warriors alike. His innovations in layered defenses and the blending of rune-forging with masonry transformed the realm’s approach to fortifications. By mid-age, he stood among the council of master keepwrights, advising lords and leading training of new generations in the art of keepcraft.
+          - generic [ref=e1691]:
+            - generic [ref=e1799]: Where They're Heading
+            - paragraph [ref=e1696]: Raffael is destined to become the Realm Warden of Eldvarin’s most strategic strongholds, shaping the future of keepcraft doctrine and cementing alliances through fortified diplomacy. His leadership may also extend into the realm’s council, guiding Eldvarin’s defenses into an era of unprecedented strength and resilience.
+          - generic [ref=e1697]:
+            - generic [ref=e1803]: Achievements
+            - generic [ref=e1702]:
+              - generic [ref=e1703]:
+                - generic [ref=e1704]: "1"
+                - generic [ref=e1705]: Commanded the defense of three keeps during the Siege of Valmoor, rallying the garrison to withstand siege engines and night assaults.
+              - generic [ref=e1706]:
+                - generic [ref=e1707]: "2"
+                - generic [ref=e1708]: Devised the layered battlement design still known as Wardmont’s Hold, enhancing archers’ fields of fire while shielding reinforcements.
+              - generic [ref=e1709]:
+                - generic [ref=e1710]: "3"
+                - generic [ref=e1711]: Led the rebuilding of Eldvarin’s eastern border fortresses after the Flooding, ensuring swift repairs under relentless storms.
+              - generic [ref=e1712]:
+                - generic [ref=e1713]: "4"
+                - generic [ref=e1714]: Drafted the Ironwood Accord, settling a decade of border disputes between noble houses through balanced fortification agreements.
+              - generic [ref=e1715]:
+                - generic [ref=e1716]: "5"
+                - generic [ref=e1717]: Trained thirty squires in the art of mounted reconnaissance and keep defense tactics across the realm’s highlands.
+              - generic [ref=e1718]:
+                - generic [ref=e1719]: "6"
+                - generic [ref=e1720]: Oversaw the integration of ancient rune-forging into keep masonry, increasing resilience against siege magic and fire.
+              - generic [ref=e1721]:
+                - generic [ref=e1722]: "7"
+                - generic [ref=e1723]: Negotiated the exchange of craftsmen and timber with the coastal clans to secure vital resources during prolonged campaigns.
+        - generic [ref=e1724]:
+          - generic [ref=e1725]:
+            - generic [ref=e1807]: Personality
+            - paragraph [ref=e1730]: In Eldvarin’s tumultuous world, Sir Raffael’s collaborative spirit fosters unity amongst diverse guilds and warriors alike. His curiosity drives continuous refinement of ancient techniques, while his detail-oriented nature ensures no weakness goes unnoticed in a fortress’s walls. Adaptable in both craft and command, he balances innovation with respect for tradition, inspiring those under his charge with calm determination.
+          - generic [ref=e1731]:
+            - generic [ref=e1811]: Competency Matrix
+            - generic [ref=e1736]:
+              - generic [ref=e1738]:
+                - generic [ref=e1739]: innovation
+                - generic [ref=e1740]: "85"
+              - generic [ref=e1744]:
+                - generic [ref=e1745]: leadership
+                - generic [ref=e1746]: "90"
+              - generic [ref=e1750]:
+                - generic [ref=e1751]: collaboration
+                - generic [ref=e1752]: "75"
+              - generic [ref=e1756]:
+                - generic [ref=e1757]: adaptability
+                - generic [ref=e1758]: "80"
+              - generic [ref=e1762]:
+                - generic [ref=e1763]: ambition
+                - generic [ref=e1764]: "70"
+              - generic [ref=e1768]:
+                - generic [ref=e1769]: wisdom
+                - generic [ref=e1770]: "88"
+          - generic [ref=e1773]:
+            - generic [ref=e1815]: Skills
+            - generic [ref=e1778]:
+              - generic [ref=e1779]: Siege Tactics
+              - generic [ref=e1780]: Keep Fortification
+              - generic [ref=e1781]: Battle Formation Reading
+              - generic [ref=e1782]: Oath-Bond Negotiation
+              - generic [ref=e1783]: Rune-Forge Integration
+              - generic [ref=e1784]: Mounted Reconnaissance Training
+              - generic [ref=e1785]: Diplomatic Accord Drafting
+              - generic [ref=e1786]: Craftsman Guild Leadership
+      - button "↺ Replay Arrival" [ref=e1788] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

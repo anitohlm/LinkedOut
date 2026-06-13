@@ -1,0 +1,38 @@
+- generic [ref=e1]:
+  - button "Save" [ref=e627] [cursor=pointer]:
+    - img [ref=e628]
+    - text: Save
+  - generic [ref=e7198]:
+    - navigation [ref=e7199]:
+      - button "← Back" [ref=e7200] [cursor=pointer]
+      - button "LinkedOut" [ref=e7201] [cursor=pointer]
+      - button "Archive (1)" [ref=e7211] [cursor=pointer]
+    - generic [ref=e7212]:
+      - generic [ref=e7215]:
+        - generic [ref=e7217]: Chronicle · Ed. I
+        - generic [ref=e7218]:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - paragraph: The Multiversal Chronicle
+                  - 'heading "Chronicle Edition I: Mapping the Multiversal Self" [level=1]'
+                  - paragraph: Edition I
+                  - generic:
+                    - generic: Open
+                    - img
+      - generic [ref=e7236]:
+        - button "Previous page" [disabled] [ref=e7237]: ‹
+        - generic [ref=e7238]:
+          - button "Go to page 1" [ref=e7239] [cursor=pointer]
+          - button "Go to page 2" [ref=e7240] [cursor=pointer]
+          - button "Go to page 3" [ref=e7241] [cursor=pointer]
+          - button "Go to page 4" [ref=e7242] [cursor=pointer]
+          - button "Go to page 5" [ref=e7243] [cursor=pointer]
+          - button "Go to page 6" [ref=e7244] [cursor=pointer]
+          - button "Go to page 7" [ref=e7245] [cursor=pointer]
+        - button "Next page" [active] [ref=e7246] [cursor=pointer]: ›
+      - paragraph [ref=e7247]: Use ‹ › to flip pages · 1 of 7
+  - button "Open Next.js Dev Tools" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+  - alert [ref=e369]

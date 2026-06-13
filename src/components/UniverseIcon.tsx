@@ -10,7 +10,24 @@ interface Props {
   strokeWidth?: number;
 }
 
+// Universes with dedicated full-color emblem art (rendered as images, not SVG).
+const IMAGE_ICONS = new Set(["medieval", "cyberpunk", "pirate", "dragon", "galactic", "vampire"]);
+
 export default function UniverseIcon({ id, size = 20, color = "currentColor", strokeWidth = 1.5 }: Props) {
+  // Use the dedicated emblem artwork when available.
+  if (IMAGE_ICONS.has(id)) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={`/universe-icons/${id}.png`}
+        alt=""
+        width={size}
+        height={size}
+        style={{ display: "block", flexShrink: 0, objectFit: "contain" }}
+      />
+    );
+  }
+
   const s = { stroke: color, strokeWidth, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, fill: "none" };
   const sf = { ...s, fill: color, fillOpacity: 0.15 };
 

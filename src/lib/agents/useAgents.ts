@@ -13,15 +13,15 @@ async function post<T>(path: string, body: unknown): Promise<T> {
     body: JSON.stringify(body),
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: "Unknown error" }));
+    const err = await res.json().catch(() => ({ error: `Request failed: ${res.status}` }));
     throw new Error(err.error || `Request failed: ${res.status}`);
   }
   return res.json() as Promise<T>;
 }
 
 // Agent 1
-export const analyzeResume = (resumeText: string) =>
-  post<ResumeAnalysis>("/api/analyze-resume", { resumeText });
+export const analyzeResume = (resumeText: string, explicitPronouns?: string | null) =>
+  post<ResumeAnalysis>("/api/analyze-resume", { resumeText, explicitPronouns });
 
 // Agent 2
 export const generateProfile = (resumeAnalysis: ResumeAnalysis, universeId: UniverseType) =>
@@ -32,8 +32,10 @@ export const generateFutureSelf = (
   resumeAnalysis: ResumeAnalysis,
   universeId: UniverseType,
   alternativeName: string,
-  alternativeTitle?: string
-) => post<FutureSelf>("/api/generate-future-self", { resumeAnalysis, universeId, alternativeName, alternativeTitle });
+  alternativeTitle?: string,
+  // The world established on the profile — passed in so the Future Self lives in the SAME world
+  world?: { worldName?: string; eraName?: string; worldDescription?: string }
+) => post<FutureSelf>("/api/generate-future-self", { resumeAnalysis, universeId, alternativeName, alternativeTitle, ...world });
 
 // Agent 3 conversation
 export const sendFutureTransmission = (payload: {
@@ -56,12 +58,16 @@ export const generateRecruiter = (profile: AlternateProfile, universeId: Univers
   post<MultiverseInvitation & Record<string, unknown>>("/api/generate-recruiter", { profile, universeId });
 
 // Agent 5
-export const generateLegendarySelf = (resumeAnalysis: ResumeAnalysis) =>
-  post<Record<string, unknown>>("/api/generate-legendary", { resumeAnalysis });
+export const generateLegendarySelf = (resumeAnalysis: ResumeAnalysis, universeId?: UniverseType, profile?: AlternateProfile) =>
+  post<Record<string, unknown>>("/api/generate-legendary", { resumeAnalysis, universeId, profile });
 
 // Agent 6
-export const generateVillainSelf = (resumeAnalysis: ResumeAnalysis) =>
-  post<Record<string, unknown>>("/api/generate-villain", { resumeAnalysis });
+export const generateVillainSelf = (resumeAnalysis: ResumeAnalysis, universeId?: UniverseType, profile?: AlternateProfile) =>
+  post<Record<string, unknown>>("/api/generate-villain", { resumeAnalysis, universeId, profile });
+
+// Portrait — alternate-self profile picture (gpt-image-2). Returns a base64 data URI.
+export const generatePortrait = (profile: AlternateProfile, universeId: UniverseType, resumeAnalysis?: ResumeAnalysis) =>
+  post<{ image: string }>("/api/generate-portrait", { profile, universeId, resumeAnalysis });
 
 // Agent 7
 export const generateButterflyEffect = (decision: string, resumeAnalysis: ResumeAnalysis) =>
@@ -81,9 +87,9 @@ export const getSuggestions = (payload: {
   recentIntercept?: boolean;
 }) => post<{ suggestions: string[] }>("/api/suggestions", payload);
 
-// Shadow Intercept content
-export const getShadowIntercept = (payload: { futureMeAdvice: string; firstName: string }) =>
-  post<{ lines: string[]; revealAfter: number; identity: { name: string; timeline: string; classification: string } }>(
+// Shadow Intercept content — brief, universe-native manifestation
+export const getShadowIntercept = (payload: { universeId: string; futureMeAdvice: string; priorEncounters?: string[] }) =>
+  post<{ manifestation: { name: string; classification: string }; observation: string; question: string }>(
     "/api/shadow-intercept",
     payload
   );
@@ -99,6 +105,7 @@ export const generateChronicle = (payload: {
   acceptedPositions?: Array<{ universeId: string; title: string; faction: string; ts: number }>;
   activeTitle?: string;
   timelineStability?: number;
+  butterfly?: { decision: string; timelines: any[] } | null;
 }) => post<Record<string, unknown>>("/api/generate-chronicle", payload);
 
 // Agent 10
@@ -110,6 +117,8 @@ export const sendCouncilMessage = (payload: {
   isClosing?: boolean;
   sharedMemory?: string;
   timelineStability?: number;
+  pronouns?: string;
+  askUser?: boolean;
 }) => post<{ message: string; speakerName: string; speakerTitle: string; universeId: UniverseType; isClosing: boolean }>(
   "/api/council-response",
   payload

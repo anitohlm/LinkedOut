@@ -3,10 +3,10 @@ import { UniverseConfig, UniverseType } from "@/types";
 export const UNIVERSES: Record<UniverseType, UniverseConfig> = {
   medieval: {
     id: "medieval",
-    title: "Medieval Kingdom",
+    title: "Eldergrove Realms",
     emoji: "🏰",
     color: "#D4AF37",
-    lore: "In a realm of castles and crowns, you rose to nobility through cunning and valor.",
+    lore: "In an ancient realm of elder forests, kingdoms, and old magic, you rose to legend through cunning and valor.",
     recruiterFaction: "Royal Houses",
     personalityArchetypes: ["Knight", "Sage", "Noble", "Strategist"],
     terminology: {
@@ -59,7 +59,7 @@ export const UNIVERSES: Record<UniverseType, UniverseConfig> = {
     id: "dragon",
     title: "Ancient Draconia",
     emoji: "🐉",
-    color: "#9D4EDD",
+    color: "#E31937",
     lore: "Across centuries of existence, you learned that power is wisdom's echo.",
     recruiterFaction: "Ancient Orders",
     personalityArchetypes: ["Elder Wyrm", "Dragon Sage", "Guardian", "Oracle"],
@@ -70,8 +70,8 @@ export const UNIVERSES: Record<UniverseType, UniverseConfig> = {
       success: "Ascension",
       failure: "Dormancy",
     },
-    gradientFrom: "from-purple-900",
-    gradientTo: "to-indigo-600",
+    gradientFrom: "from-red-900",
+    gradientTo: "to-rose-600",
   },
   galactic: {
     id: "galactic",
@@ -95,7 +95,7 @@ export const UNIVERSES: Record<UniverseType, UniverseConfig> = {
     id: "vampire",
     title: "Eternal Night",
     emoji: "🧛",
-    color: "#E31937",
+    color: "#9D4EDD",
     lore: "In the shadow of immortality, you discovered that time changes everything except choice.",
     recruiterFaction: "Ancient Covenants",
     personalityArchetypes: ["Ancient One", "Nocturne", "Immortal", "Sire"],
@@ -106,8 +106,8 @@ export const UNIVERSES: Record<UniverseType, UniverseConfig> = {
       success: "Eternity",
       failure: "Oblivion",
     },
-    gradientFrom: "from-red-900",
-    gradientTo: "to-rose-600",
+    gradientFrom: "from-purple-900",
+    gradientTo: "to-indigo-600",
   },
 };
 
