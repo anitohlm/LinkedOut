@@ -149,6 +149,8 @@ The only named Foundry IQ agent in LinkedOut. It exists outside all six universe
 | **Tools** | Web search via Grounding with Bing |
 | **Instructions** | *"You are The Historian. You exist outside the six universes. You are not a future self, a mentor, a recruiter, or a guide."* |
 
+> **No agent ID required.** The Historian is resolved by name (`"the-historian"`) and version (`6`) within your Foundry project via `callAgent()`. As long as your Foundry project has a published agent with that name, it is found automatically through the endpoint and API key.
+
 ### All 11 Agents
 
 | # | Agent | Description |
@@ -205,7 +207,10 @@ cp .env.example .env.local
 AZURE_FOUNDRY_ENDPOINT=https://your-project.api.azureml.ms/...
 AZURE_FOUNDRY_API_KEY=your_key_here
 AZURE_OPENAI_DEPLOYMENT_NAME=your_deployment_name
+AZURE_IMAGE_DEPLOYMENT_NAME=your_image_deployment_name
 ```
+
+> The Historian agent (`the-historian`) is resolved by name within your Foundry project — no agent ID required.
 
 ```bash
 npm run dev
