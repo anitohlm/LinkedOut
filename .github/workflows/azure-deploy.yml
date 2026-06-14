@@ -29,7 +29,7 @@ jobs:
           action: "upload"
           ###### Repository/Build Configurations ######
           app_location: "/" # App source code path
-          api_location: "/" # Points Azure to the root folder to handle Next.js SSR functions
+          api_location: "" # Points Azure to the root folder to handle Next.js SSR functions
           output_location: "" # Left completely blank so Azure SWA auto-detects the Next.js build
           ###### End of Repository/Build Configurations ######
         env:
