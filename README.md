@@ -7,11 +7,11 @@
 
 ---
 
-Demo Video: [https://youtu.be/61vVO_7Prtc](https://youtu.be/61vVO_7Prtc)
+Demo Video: https://youtu.be/KA45MO-RDKA
 
 ---
 
-LinkedOut is an AI-powered multiverse game where you upload your career profile and discover six alternate versions of yourself — a medieval knight, a cyberpunk ghost, a pirate captain, a dragon lord, a space pioneer, an immortal vampire — each one built from your actual Career DNA. From there, you open a live transmission and talk directly to your future self, watching the **Timeline Stability** meter rise and fall with every exchange — until the **Shadow** breaks through and intercepts the signal, forcing you to choose which voice to trust. When you're ready, you summon the **Council of Selves**, putting all six versions of you in the same room to debate, clash, and vote on who you really are. And when the multiverse has been fully explored, **The Historian** writes your **Chronicle** — a hardcover narrative book of every life you could have lived, sealed in the Archive forever.
+LinkedOut is an AI-powered multiverse narrative experience where you upload your career profile and discover six alternate versions of yourself — an elf, a cyberpunk, a pirate, a dragon lord, a space pioneer, an immortal vampire — each one built from your actual Career DNA. From there, you open a live transmission and talk directly to your future self, watching the **Timeline Stability** meter rise and fall with every exchange — until the **Shadow** breaks through and intercepts the signal, forcing you to choose which voice to trust. When you're ready, you summon the **Council of Selves**, putting all six versions of you in the same room to debate, clash, and vote on who you really are. And when the multiverse has been fully explored, **The Historian** writes your **Chronicle** — a hardcover narrative book of every life you could have lived, sealed in the Archive forever.
 
 ---
 
@@ -22,7 +22,7 @@ Each universe has its own naming laws, its own language, its own sense of what s
 | Universe | What you become |
 |----------|----------------|
 | 🏰 **Eldergrove Realms** | A figure of the ancient forest kingdom — elven courts, living woodland, guild pacts sworn beneath the canopy |
-| 🌃 **Neon Synthesis** | A ghost in the megacity — digital identity, augmented flesh, reputation sold by the byte |
+| 🌃 **Neon Synthesis** | A xyberpunk in the megacity — digital identity, augmented flesh, reputation sold by the byte |
 | ☠️ **Endless Seas** | A name whispered in port taverns — rank earned by salt and blood, epithet invented by the sea itself |
 | 🐉 **Ancient Draconia** | An elemental force — centuries of mastery, draconic power, memory older than kingdoms |
 | 🚀 **Cosmic Frontier** | A pioneer beyond the last star — quantum exploration, post-Earth civilization, designation etched in sector logs |
@@ -111,8 +111,7 @@ Your story, written. A hardcover chronicle book — animated spring-physics cove
 LinkedOut runs **11 agents** across two tiers on **Azure AI Foundry IQ**. Ten agents run on direct inference — fast, parallel, model-level calls. The Chronicle is different: it passes through `generate-chronicle` and is powered by **the-historian**, a named Foundry IQ agent with persistent memory and a grounded knowledge base.
 
 ```
-Your Career Profile (PDF)
-        ↓  pdfjs-dist
+Your Career Profile 
         ↓
   ── Agent 1: analyze-resume ─────────────────────────────────────────────
   Career DNA extracted: archetype, pronouns, skills, timeline signature
