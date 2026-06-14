@@ -111,8 +111,7 @@ Your story, written. A hardcover chronicle book — animated spring-physics cove
 LinkedOut runs **11 agents** across two tiers on **Azure AI Foundry IQ**. Ten agents run on direct inference — fast, parallel, model-level calls. The Chronicle is different: it passes through `generate-chronicle` and is powered by **the-historian**, a named Foundry IQ agent with persistent memory and a grounded knowledge base.
 
 ```
-Your Career Profile (PDF)
-        ↓  pdfjs-dist
+Your Career Profile 
         ↓
   ── Agent 1: analyze-resume ─────────────────────────────────────────────
   Career DNA extracted: archetype, pronouns, skills, timeline signature
