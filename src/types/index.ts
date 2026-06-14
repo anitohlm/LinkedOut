@@ -208,6 +208,9 @@ export type AppScreenState =
   | "villain-self"
   | "council-of-selves"
   | "chronicle"
+  | "historian-log"
+  | "multiverse-offers"
+  | "latest-transmissions"
   | "share-card";
 
 // Global App State

@@ -364,7 +364,11 @@ export default function CouncilOfSelves({ state, transitionTo, updateState }: Pr
         background: "rgba(8,9,13,0.8)", backdropFilter: "blur(20px)", borderBottom: "1px solid var(--border)" }}>
         <button onClick={() => transitionTo("universe-discovery")}
           style={{ background: "none", border: "none", color: "var(--text2)", cursor: "pointer", fontSize: 14, fontFamily: "Sora, sans-serif" }}>← Back</button>
-        <span style={{ fontSize: 13, color: "var(--text3)" }}>⚖️ The Council of Selves</span>
+        <span style={{ fontSize: 13, color: "var(--text3)", display: "inline-flex", alignItems: "center", gap: 7 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/universe-icons/council.png" alt="" width={22} height={22} style={{ width: 22, height: 22, objectFit: "contain" }} />
+          The Council of Selves
+        </span>
         <span style={{ width: 50 }} />
       </nav>
 

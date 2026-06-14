@@ -15,7 +15,7 @@ interface Props {
 
 const UNIVERSE_COLORS: Record<string, string> = {
   medieval: "#e8c97e",
-  cyberpunk: "#4ecdc4",
+  cyberpunk: "#5b8cff",
   pirate: "#f07070",
   dragon: "#f0a050",
   galactic: "#7c6ef7",

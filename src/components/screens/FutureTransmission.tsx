@@ -139,7 +139,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       });
       setMessages([{ role: "assistant", content: res.message }]);
       setLoading(false);
-      maybeAskQuestion(1400);
+      if (!res.message.trim().endsWith("?")) maybeAskQuestion(1400);
     } catch (e: any) {
       console.error(e);
       setError(e.message || "Transmission failed. Try again.");
@@ -180,7 +180,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       // The Shadow is drawn to people who push back and reveal themselves.
       const challenged = /\b(but|no|why|disagree|wrong|don'?t|never|actually)\b/i.test(userMsg);
       const intercepted = considerIntercept({ challenged, surprising: userMsg.length > 90 });
-      if (!intercepted) maybeAskQuestion(1100);
+      if (!intercepted && !res.message.trim().endsWith("?")) maybeAskQuestion(1100);
     } catch (e: any) {
       setMessages(prev => [...prev, { role: "assistant", content: "...the signal broke. Say that again." }]);
     } finally {
@@ -268,7 +268,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       setMessages(prev => [...prev, { role: "assistant", content: res.message }]);
       // Interview answers reveal the self — prime Shadow bait. Risky = divergent choice.
       const intercepted = considerIntercept({ revealedSelf: true, risky: opt.stab < 0 });
-      if (!intercepted) maybeAskQuestion(1600);
+      if (!intercepted && !res.message.trim().endsWith("?")) maybeAskQuestion(1600);
     } catch {
       setMessages(prev => [...prev, { role: "assistant", content: "...I felt that. Give me a moment." }]);
     } finally {

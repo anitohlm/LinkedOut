@@ -240,7 +240,9 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
 
   return (
     <div style={{
-      minHeight: "100dvh", background: "#0e0c09",
+      minHeight: "100dvh",
+      backgroundColor: "#07070c",
+      background: "linear-gradient(to bottom, rgba(7,7,12,0.42), rgba(7,7,12,0.58) 50%, rgba(7,7,12,0.82) 100%), url('/universe-art/chronicle-bg.png') center top / cover no-repeat fixed",
       display: "flex", flexDirection: "column", alignItems: "center",
       justifyContent: "center", padding: "80px 16px 24px", position: "relative", overflow: "hidden",
     }}>
@@ -304,11 +306,8 @@ export default function Chronicle({ state, transitionTo, updateState }: Props) {
           <div style={{ textAlign: "center", marginBottom: 40 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 16 }}>
               <div style={{ height: 1, width: 48, background: `linear-gradient(to right, transparent, ${accent}66)` }} />
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ opacity: 0.7 }}>
-                <path d="M4 19V6a2 2 0 012-2h12a2 2 0 012 2v13" stroke={accent} strokeWidth="1.5" strokeLinecap="round"/>
-                <path d="M4 19a2 2 0 002 2h12a2 2 0 002-2" stroke={accent} strokeWidth="1.5" strokeLinecap="round"/>
-                <path d="M9 8h6M9 12h6" stroke={accent} strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/universe-icons/chronicle.png" alt="" width={44} height={44} style={{ width: 44, height: 44, objectFit: "contain" }} />
               <div style={{ height: 1, width: 48, background: `linear-gradient(to left, transparent, ${accent}66)` }} />
             </div>
             <h2 style={{ fontFamily: "Crimson Pro, serif", fontSize: 32, fontStyle: "italic", fontWeight: 400, color: CREAM, marginBottom: 6 }}>

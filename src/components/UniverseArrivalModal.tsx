@@ -249,19 +249,18 @@ function MedievalArrival({ profile, onDismiss, rm, color }: {
                     tabIndex={0}
                     onKeyDown={e => e.key === "Enter" && setSealBroken(true)}
                   >
-                    {/* Seal star/crown icon */}
-                    <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
-                      <circle cx="21" cy="21" r="18" stroke="rgba(255,200,160,0.3)" strokeWidth="1"/>
-                      <circle cx="21" cy="21" r="13" stroke="rgba(255,200,160,0.2)" strokeWidth="0.5"/>
-                      {/* Crown points */}
-                      {[0,60,120,180,240,300].map((deg, i) => {
-                        const r = deg * Math.PI / 180;
-                        const x1 = 21 + 9 * Math.sin(r), y1 = 21 - 9 * Math.cos(r);
-                        const x2 = 21 + 14 * Math.sin(r), y2 = 21 - 14 * Math.cos(r);
-                        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(255,200,160,0.55)" strokeWidth="1.2" strokeLinecap="round"/>;
-                      })}
-                      <circle cx="21" cy="21" r="4" fill="rgba(255,200,160,0.5)"/>
-                    </svg>
+                    {/* Eldergrove realm emblem stamped into the wax */}
+                    <img
+                      src="/universe-icons/eldergrove-seal.png"
+                      alt=""
+                      width={64}
+                      height={64}
+                      style={{
+                        width: 64, height: 64, objectFit: "contain",
+                        filter: "drop-shadow(0 1px 1px rgba(0,0,0,0.45))",
+                        pointerEvents: "none",
+                      }}
+                    />
                     {/* Drip texture dots */}
                     {[{x:28,y:72},{x:62,y:78},{x:72,y:55}].map((d,i)=>(
                       <div key={i} style={{ position:"absolute", width:5, height:6, borderRadius:"50% 50% 60% 60%", background:"#7a1825", left:`${d.x}%`, top:`${d.y}%` }}/>

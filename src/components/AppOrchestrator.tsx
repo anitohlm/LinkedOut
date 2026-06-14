@@ -20,6 +20,9 @@ import VillainSelf from "./screens/VillainSelf";
 import ButterflyEffect from "./screens/ButterflyEffect";
 import CouncilOfSelves from "./screens/CouncilOfSelves";
 import Chronicle from "./screens/Chronicle";
+import HistorianLog from "./screens/HistorianLog";
+import MultiverseOffers from "./screens/MultiverseOffers";
+import LatestTransmissions from "./screens/LatestTransmissions";
 
 const initialState: AppState = {
   currentScreen: "landing",
@@ -317,6 +320,12 @@ export function AppOrchestrator() {
         return <CouncilOfSelves {...screenProps} />;
       case "chronicle":
         return <Chronicle {...screenProps} />;
+      case "historian-log":
+        return <HistorianLog {...screenProps} />;
+      case "multiverse-offers":
+        return <MultiverseOffers {...screenProps} />;
+      case "latest-transmissions":
+        return <LatestTransmissions {...screenProps} />;
       default:
         return <Landing {...screenProps} />;
     }

@@ -373,6 +373,7 @@ export default function ButterflyEffect({ state, transitionTo, updateState }: Pr
 
         {/* Header */}
         <motion.div initial={rm ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ marginBottom: 36 }}>
+          <img src="/universe-icons/butterfly-effect.png" alt="" width={64} height={64} style={{ width: 64, height: 64, objectFit: "contain", display: "block", marginBottom: 12 }} />
           <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 12 }}>
             Butterfly Effect Engine
           </p>

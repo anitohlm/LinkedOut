@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getAllUniverses, getUniverse } from "@/lib/universes";
 import { StabilityHUD } from "@/components/StabilityHUD";
-import { DASH_GRID_CSS, Panel, PanelHead, PanelText, PanelCTA, StabilityRing, SectionLabel } from "@/components/screens/DiscoveryDashboard";
+import { DASH_GRID_CSS, Panel, PanelHead, PanelText, PanelCTA, StabilityRing, SectionLabel, DashboardHeader, DashboardFooter } from "@/components/screens/DiscoveryDashboard";
 import UniverseIcon from "@/components/UniverseIcon";
 import { applyEvent } from "@/lib/stability";
 import { H, logEntry } from "@/lib/historian";
@@ -89,11 +89,11 @@ function ellipsize(ctx: CanvasRenderingContext2D, text: string, maxW: number): s
   return t + "…";
 }
 
-// Composite a shareable character card (portrait + name/world/era/job/bio) and download it.
+// Composite a shareable character card (portrait + name/world/era/job) and download it.
 async function downloadCardImage(opts: {
-  bg: string; accent: string; world: string; era: string; name: string; job: string; bio: string; fileName: string;
+  bg: string; accent: string; world: string; era: string; name: string; job: string; fileName: string;
 }) {
-  const { bg, accent, world, era, name, job, bio, fileName } = opts;
+  const { bg, accent, world, era, name, job, fileName } = opts;
   // 3× supersampled render for a crisp HD export.
   const S = 3;
   const W = 820 * S, H = 1093 * S, pad = 54 * S;
@@ -119,14 +119,12 @@ async function downloadCardImage(opts: {
   const maxW = W - pad * 2;
   ctx.textBaseline = "alphabetic";
 
-  // Pre-measure wrapped lines (full bio — no truncation)
+  // Pre-measure wrapped name lines
   ctx.font = `800 ${46 * S}px Sora, sans-serif`;
   const nameLines = wrapText(ctx, name, maxW).slice(0, 2);
-  ctx.font = `400 ${22 * S}px Sora, sans-serif`;
-  const bioLines = wrapText(ctx, bio, maxW);
 
   const kickerH = era ? 28 + 24 : 30; // world line (+ era line if present)
-  const blockH = (kickerH + 14 + nameLines.length * 54 + 10 + 34 + 12 + bioLines.length * 30) * S;
+  const blockH = (kickerH + 14 + nameLines.length * 54 + 10 + 34) * S;
   let y = H - pad - blockH + 26 * S;
 
   // Bottom scrim — tall enough to cover the whole text block for legibility
@@ -162,12 +160,6 @@ async function downloadCardImage(opts: {
   ctx.fillStyle = "rgba(255,255,255,0.86)";
   ctx.font = `500 ${25 * S}px Sora, sans-serif`;
   ctx.fillText(ellipsize(ctx, job, maxW), pad, y);
-  y += (34 + 12) * S;
-
-  // Bio
-  ctx.fillStyle = "rgba(255,255,255,0.68)";
-  ctx.font = `400 ${22 * S}px Sora, sans-serif`;
-  for (const ln of bioLines) { ctx.fillText(ln, pad, y); y += 30 * S; }
 
   // Trigger download
   const url = canvas.toDataURL("image/png");
@@ -198,7 +190,7 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
   const explored = state.explored || [];
   const exploredCount = explored.length;
   const phase1Done = exploredCount >= universes.length;
-  const phase2Unlocked = phase1Done;
+  const phase2Unlocked = true; // Butterfly Effect is always accessible
   const phase2Done = !!state.usedButterfly;
   const phase3Unlocked = phase2Done;
 
@@ -585,18 +577,38 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
           : <span style={{ width: 50 }} />}
       </nav>
 
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 40px", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "60px 48px", position: "relative", zIndex: 1 }}>
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ marginBottom: 36 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text3)", marginBottom: 12 }}>
-            Your Multiverse Journey
-          </p>
-          <h1 style={{ fontSize: 36, fontWeight: 700, letterSpacing: "-1px", marginBottom: 8, color: "var(--text)" }}>
-            Meet the people you could have become.
-          </h1>
-          <p style={{ color: "var(--text2)", fontSize: 15, lineHeight: 1.6, maxWidth: 720 }}>
-            {state.resumeAnalysis?.timelineSignature}
-          </p>
+        <motion.div
+          initial="hidden" animate="visible"
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.14, delayChildren: 0.05 } } }}
+          style={{ textAlign: "center", maxWidth: 760, margin: "0 auto 52px" }}
+        >
+          {/* Ornamental flourish */}
+          <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }}
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 26 }}>
+            <span style={{ width: 56, height: 1, background: "linear-gradient(90deg, transparent, #e8c97e)" }} />
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6L12 2z" fill="#e8c97e" opacity="0.9" />
+            </svg>
+            <span style={{ width: 56, height: 1, background: "linear-gradient(90deg, #e8c97e, transparent)" }} />
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1 variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
+            style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(30px, 5.2vw, 52px)", fontWeight: 600,
+              letterSpacing: "0.07em", lineHeight: 1.22, margin: "0 0 22px", color: "#fff",
+              textShadow: "0 2px 30px rgba(0,0,0,0.6), 0 0 40px rgba(232,201,126,0.12)" }}>
+            You Are Not<br />Just One Story
+          </motion.h1>
+
+          {/* Body */}
+          <motion.p variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
+            style={{ fontFamily: "'Crimson Pro', serif", fontSize: "clamp(16px, 2.2vw, 20px)", lineHeight: 1.85,
+              color: "rgba(255,255,255,0.72)", margin: "0 auto", maxWidth: 580, fontWeight: 300 }}>
+            Across six universes, your talents took different paths.<br />
+            Meet the selves that emerged from those choices.
+          </motion.p>
         </motion.div>
 
         {!allReady && (
@@ -674,7 +686,6 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                               era: profile.eraName || "",
                               name: profile.alternativeName || universe.title,
                               job: cardTitle,
-                              bio: (profile.biography || "").replace(/\\n/g, " ").trim(),
                               fileName: `linkedout-${universe.id}-${(profile.alternativeName || "card").replace(/[^a-z0-9]+/gi, "-").toLowerCase()}.png`,
                             });
                           }}
@@ -809,110 +820,107 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
             {/* ── YOUR MULTIVERSE — dashboard ── */}
             <div style={{ marginTop: 12 }}>
               <style>{DASH_GRID_CSS}</style>
-              <SectionLabel title="Your Multiverse" sub="Everything your six selves have set in motion." />
+              <DashboardHeader />
 
               <div className="lo-dash-grid">
 
                 {/* Timeline Stability */}
-                <Panel accent="#4ecdc4">
-                  <PanelHead accent="#4ecdc4" kicker="Equilibrium" title="Timeline Stability"
-                    icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 12h4l2-7 4 14 2-7h6" stroke="#4ecdc4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>} />
-                  <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+                <Panel accent="#4ecdc4" image="/dashboard/timeline-stability.png">
+                  <PanelHead accent="#4ecdc4" kicker="Equilibrium" title="Timeline Stability" bareIcon
+                    icon={<img src="/universe-icons/timeline-stability.png" alt="" width={46} height={46} style={{ width: 46, height: 46, objectFit: "contain" }} />} />
+                  <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
                     <StabilityRing value={Math.round(state.timelineState?.stability ?? 100)} />
-                    <p style={{ fontSize: 12.5, color: "var(--text2)", lineHeight: 1.6, margin: 0, flex: 1 }}>
+                    <p style={{ fontSize: 12, color: "var(--text2)", lineHeight: 1.55, margin: 0, flex: 1 }}>
                       Every conversation with a future self shifts the balance. Keep your timeline whole.
                     </p>
                   </div>
                 </Panel>
 
                 {/* The Butterfly Effect (in place of the Career DNA panel) */}
-                <Panel accent="#7ee8e1" locked={!phase2Unlocked} lockHint="Explore all six universes to unlock">
-                  <PanelHead accent="#7ee8e1" kicker="What If" title="The Butterfly Effect"
-                    icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 12C10 8 4 6 2 9s2 7 6 6c-2 2-2 5 4 3" stroke="#7ee8e1" strokeWidth="1.4" strokeLinecap="round"/><path d="M12 12C14 8 20 6 22 9s-2 7-6 6c2 2 2 5-4 3" stroke="#7ee8e1" strokeWidth="1.4" strokeLinecap="round"/></svg>} />
+                <Panel accent="#9d91ff" image="/dashboard/butterfly.png" locked={!phase2Unlocked} lockHint="Explore all six universes to unlock">
+                  <PanelHead accent="#9d91ff" kicker="What If" title="The Butterfly Effect" bareIcon
+                    icon={<img src="/universe-icons/butterfly-effect.png" alt="" width={46} height={46} style={{ width: 46, height: 46, objectFit: "contain" }} />} />
                   <PanelText>Change one decision and watch your life fracture across four divergent timelines.</PanelText>
-                  <PanelCTA accent="#7ee8e1" label={phase2Done ? "Revisit" : "Begin"} onClick={() => transitionTo("butterfly-effect")} disabled={!phase2Unlocked} />
+                  <PanelCTA accent="#9d91ff" label={phase2Done ? "Revisit" : "Begin"} onClick={() => transitionTo("butterfly-effect")} disabled={!phase2Unlocked} />
                 </Panel>
 
                 {/* Council of Selves */}
-                <Panel accent="#9d91ff" locked={!phase3Unlocked} lockHint="Complete the Butterfly Effect to unlock">
-                  <PanelHead accent="#9d91ff" kicker="Convergence" title="Council of Selves"
-                    icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 7l7-4 7 4M5 17l7 4 7-4" stroke="#9d91ff" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>} />
+                <Panel accent="#6c8cff" image="/dashboard/council.png" locked={!phase3Unlocked} lockHint="Complete the Butterfly Effect to unlock">
+                  <PanelHead accent="#6c8cff" kicker="Convergence" title="Council of Selves" bareIcon
+                    icon={<img src="/universe-icons/council.png" alt="" width={46} height={46} style={{ width: 46, height: 46, objectFit: "contain" }} />} />
                   <PanelText>Gather every version of you to debate — then choose who you&apos;re willing to become.</PanelText>
-                  <PanelCTA accent="#9d91ff" label="Enter Council" onClick={() => transitionTo("council-of-selves")} disabled={!phase3Unlocked} />
+                  <PanelCTA accent="#6c8cff" label="Enter Council" onClick={() => transitionTo("council-of-selves")} disabled={!phase3Unlocked} />
                 </Panel>
 
                 {/* Latest Transmissions */}
-                <Panel accent="#4ecdc4">
-                  <PanelHead accent="#4ecdc4" kicker="Signals" title="Latest Transmissions"
-                    icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="16" r="2" fill="#4ecdc4"/><path d="M8.5 12.5a5 5 0 017 0M5.5 9.5a9 9 0 0113 0" stroke="#4ecdc4" strokeWidth="1.4" strokeLinecap="round"/></svg>} />
+                <Panel accent="#4ecdc4" image="/dashboard/transmissions.png">
+                  <PanelHead accent="#4ecdc4" kicker="Signals" title="Latest Transmissions" bareIcon
+                    icon={<img src="/universe-icons/latest-transmission.png" alt="" width={46} height={46} style={{ width: 46, height: 46, objectFit: "contain" }} />} />
                   {(() => {
                     const tx = Object.entries(state.transmissions || {})
                       .map(([uid, t]: [string, any]) => ({ uid, count: (t?.messages || []).filter((m: any) => m.role === "assistant").length }))
                       .filter(x => x.count > 0).slice(0, 3);
                     if (!tx.length) return <PanelText>No transmissions yet. Open a universe and talk to your future self.</PanelText>;
                     return (
-                      <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
                         {tx.map(t => { const u = getUniverse(t.uid as UniverseType); return (
                           <div key={t.uid} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                            <UniverseIcon id={t.uid} size={22} color={u.color} />
-                            <span style={{ flex: 1, fontSize: 12.5, color: "var(--text2)" }}>{u.title}</span>
+                            <UniverseIcon id={t.uid} size={20} color={u.color} />
+                            <span style={{ flex: 1, fontSize: 12, color: "var(--text2)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{u.title}</span>
                             <span style={{ fontSize: 11, fontWeight: 600, color: u.color }}>{t.count} msg{t.count !== 1 ? "s" : ""}</span>
                           </div>
                         ); })}
                       </div>
                     );
                   })()}
+                  <PanelCTA accent="#4ecdc4" label="View All" onClick={() => transitionTo("latest-transmissions")} />
                 </Panel>
 
-                {/* Recent Reality Offers */}
-                <Panel accent="#e8c97e">
-                  <PanelHead accent="#e8c97e" kicker="Recruitment" title="Reality Offers"
-                    icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="#e8c97e" strokeWidth="1.4"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke="#e8c97e" strokeWidth="1.4"/></svg>} />
+                {/* Multiverse Offers — generated recruiter offers per universe */}
+                <Panel accent="#e8c97e" image="/dashboard/offers.png">
+                  <PanelHead accent="#e8c97e" kicker="Recruitment" title="Multiverse Offers" bareIcon
+                    icon={<img src="/universe-icons/multiverse-offers.png" alt="" width={46} height={46} style={{ width: 46, height: 46, objectFit: "contain" }} />} />
                   {(() => {
-                    const offers = (state.acceptedPositions || []).slice(-3).reverse();
+                    const offers = (Object.entries(state.cachedInvitations || {}) as [string, any][]).slice(0, 3);
                     if (!offers.length) return <PanelText>No offers yet. Explore universes and recruiters will come calling.</PanelText>;
                     return (
-                      <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-                        {offers.map((o, i) => { const u = getUniverse(o.universeId as UniverseType); return (
-                          <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                            <UniverseIcon id={o.universeId} size={20} color={u.color} />
+                      <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
+                        {offers.map(([uid, inv]) => { const u = getUniverse(uid as UniverseType); return (
+                          <div key={uid} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                            <UniverseIcon id={uid} size={20} color={u.color} />
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ fontSize: 12.5, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{o.title}</div>
-                              <div style={{ fontSize: 10.5, color: "var(--text3)" }}>{o.faction}</div>
+                              <div style={{ fontSize: 12, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{inv?.opportunityTitle || "Position offered"}</div>
+                              <div style={{ fontSize: 10.5, color: "var(--text3)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{inv?.factionName || u.title}</div>
                             </div>
                           </div>
                         ); })}
                       </div>
                     );
                   })()}
+                  <PanelCTA accent="#e8c97e" label="View All Offers" onClick={() => transitionTo("multiverse-offers")} />
                 </Panel>
 
                 {/* The Chronicle */}
-                <Panel accent="#e8c97e" locked={!phase4Unlocked} lockHint="Choose a universe to begin your chronicle">
-                  <PanelHead accent="#e8c97e" kicker="Your Saga" title="The Chronicle"
-                    icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6.5 3H20v18H6.5A2.5 2.5 0 014 18.5v-13A2.5 2.5 0 016.5 3z" stroke="#e8c97e" strokeWidth="1.3"/><path d="M8 8h8M8 12h6" stroke="#e8c97e" strokeWidth="1.2" strokeLinecap="round" opacity="0.7"/></svg>} />
+                <Panel accent="#e8c97e" image="/dashboard/chronicle.png" locked={!phase4Unlocked} lockHint="Choose a universe to begin your chronicle">
+                  <PanelHead accent="#e8c97e" kicker="Your Saga" title="The Chronicle" bareIcon
+                    icon={<img src="/universe-icons/chronicle.png" alt="" width={46} height={46} style={{ width: 46, height: 46, objectFit: "contain" }} />} />
                   <PanelText>{hasChronicle ? `${state.chronicleEditions!.length} edition${state.chronicleEditions!.length !== 1 ? "s" : ""} recorded across your timelines.` : "Your story across every reality, written as you live it."}</PanelText>
                   <PanelCTA accent="#e8c97e" label="Open Chronicle" onClick={() => transitionTo("chronicle")} disabled={!phase4Unlocked} />
                 </Panel>
 
                 {/* The Historian */}
-                <Panel accent="#e8c97e" locked={!phase4Unlocked} lockHint="Unlocks alongside your chronicle">
-                  <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/universe-icons/historian-quill.png" alt="" width={46} height={46}
-                      style={{ objectFit: "contain", flexShrink: 0, filter: "drop-shadow(0 0 10px rgba(232,201,126,0.4))" }} />
-                    <div>
-                      <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#e8c97e", marginBottom: 2 }}>Keeper of Record</div>
-                      <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text)" }}>The Historian</div>
-                    </div>
-                  </div>
+                <Panel accent="#6c8cff" image="/dashboard/historian.png" wide locked={!phase4Unlocked} lockHint="Unlocks alongside your chronicle">
+                  <PanelHead accent="#6c8cff" kicker="Keeper of Record" title="The Historian" bareIcon
+                    icon={<img src="/universe-icons/historian.png" alt="" width={46} height={46} style={{ width: 46, height: 46, objectFit: "contain" }} />} />
                   <p style={{ fontFamily: "'Crimson Pro', serif", fontStyle: "italic", fontSize: 14, color: "var(--text2)", lineHeight: 1.6, margin: "0 0 16px" }}>
                     &ldquo;I record what you become. In time, it becomes legend.&rdquo;
                   </p>
-                  <PanelCTA accent="#e8c97e" label="Consult" onClick={() => transitionTo("chronicle")} disabled={!phase4Unlocked} />
+                  <PanelCTA accent="#6c8cff" label="Consult" onClick={() => transitionTo("historian-log")} disabled={!phase4Unlocked} />
                 </Panel>
 
               </div>
+
+              <DashboardFooter />
             </div>
           </>
         )}
