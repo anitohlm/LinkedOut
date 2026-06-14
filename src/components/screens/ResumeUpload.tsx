@@ -10,6 +10,264 @@ interface ResumeUploadProps {
   updateState: (updates: any) => void;
 }
 
+const DEMO_PROFILES = [
+  `Maria Santos
+Senior Application Security Engineer
+
+About
+Application Security Engineer with 8 years of experience in secure software development, cloud security, vulnerability management, and security awareness. Passionate about helping organizations build security into their development lifecycle.
+
+Experience
+Senior Application Security Engineer
+ABC Financial Services (2022–Present)
+
+Security Analyst
+GlobalTech Solutions (2019–2022)
+
+IT Security Specialist
+Innovate Systems (2017–2019)
+
+Skills
+Application Security, Secure SDLC, OWASP Top 10, Threat Modeling, Cloud Security, Incident Response, Security Awareness Training
+
+Certifications
+CISSP, CISA, Microsoft Security Engineer Associate
+
+Education
+Bachelor of Science in Information Technology
+
+Career Goals
+Security Architecture, AI Security Governance, Security Leadership`,
+
+  `James Cruz
+Data Scientist
+
+About
+Data Scientist specializing in machine learning, business analytics, and AI solutions. Experienced in building predictive models and transforming complex datasets into actionable business insights.
+
+Experience
+Data Scientist
+DataWorks Analytics (2023–Present)
+
+Business Intelligence Analyst
+Insight Corporation (2021–2023)
+
+Data Analyst
+TechBridge Solutions (2019–2021)
+
+Skills
+Python, Machine Learning, SQL, Azure AI, Power BI, Data Visualization, Generative AI
+
+Certifications
+Microsoft Azure AI Engineer Associate, Databricks Data Analyst Associate
+
+Education
+BS Statistics
+
+Career Goals
+AI Solutions Architect, MLOps Specialist`,
+
+  `Angela Rivera
+Registered Nurse
+
+About
+Registered Nurse with experience in emergency care and patient education. Dedicated to providing compassionate healthcare while continuously improving clinical skills.
+
+Experience
+Staff Nurse
+St. Luke's Medical Center (2022–Present)
+
+Junior Nurse
+Manila General Hospital (2020–2022)
+
+Skills
+Emergency Care, Patient Assessment, IV Therapy, Clinical Documentation, Patient Education, Healthcare Coordination
+
+Certifications
+Basic Life Support (BLS), Advanced Cardiac Life Support (ACLS)
+
+Education
+BS Nursing
+
+Career Goals
+Nurse Practitioner, Healthcare Administration`,
+
+  `Michael Tan
+Software Engineer
+
+About
+Full-stack Software Engineer passionate about building scalable web applications and AI-powered platforms. Experienced in cloud-native development and modern software architecture.
+
+Experience
+Senior Software Engineer
+CloudNova Technologies (2023–Present)
+
+Software Engineer
+Digital Solutions Pte Ltd (2020–2023)
+
+Skills
+C#, .NET, React, TypeScript, Azure, Docker, Kubernetes
+
+Certifications
+Microsoft Azure Developer Associate
+
+Education
+Bachelor of Computer Science
+
+Career Goals
+Engineering Manager, Solutions Architect`,
+
+  `Sofia Mendoza
+Marketing & Content Creator
+
+About
+Digital marketing professional and content creator focused on social media growth, personal branding, and video content strategy. Experienced in building online communities and creating engaging content.
+
+Experience
+Digital Marketing Manager
+Bright Media Agency (2023–Present)
+
+Social Media Specialist
+TrendLab Marketing (2021–2023)
+
+Skills
+Content Creation, TikTok Marketing, Instagram Growth, Brand Strategy, Video Editing, Influencer Marketing
+
+Certifications
+Google Digital Marketing Certification, Meta Certified Digital Marketing Associate
+
+Education
+BS Marketing Management
+
+Career Goals
+Creative Director, Full-Time Content Creator`,
+
+  `Carlo Mendoza
+Licensed Civil Engineer
+
+About
+Civil Engineer with 10 years of experience in infrastructure, road construction, and project management. Passionate about building sustainable communities and improving public infrastructure.
+
+Experience
+Project Engineer
+BuildWell Construction Corp. (2021–Present)
+
+Site Engineer
+Metro Infrastructure Group (2016–2021)
+
+Skills
+AutoCAD, Project Management, Construction Planning, Cost Estimation, Structural Design, Site Supervision
+
+Certifications
+PRC Licensed Civil Engineer, PMP (Project Management Professional)
+
+Education
+BS Civil Engineering
+
+Career Goals
+Construction Director, Infrastructure Consultant`,
+
+  `Princess Mae Villanueva
+Public School Teacher
+
+About
+Dedicated educator focused on helping students develop critical thinking and lifelong learning skills. Experienced in classroom management, curriculum development, and educational technology.
+
+Experience
+Teacher III
+Department of Education (2018–Present)
+
+Skills
+Lesson Planning, Classroom Management, Student Assessment, Educational Technology, Public Speaking, Mentoring
+
+Certifications
+Licensed Professional Teacher (LPT)
+
+Education
+Bachelor of Secondary Education
+
+Career Goals
+School Principal, Education Program Specialist`,
+
+  `Abdul Rahman
+Restaurant Owner & Chef
+
+About
+Entrepreneur and chef specializing in Filipino and Mindanao cuisine. Started a small food stall that grew into a successful family restaurant serving hundreds of customers weekly.
+
+Experience
+Owner & Head Chef
+Rahman's Kitchen (2019–Present)
+
+Skills
+Culinary Arts, Menu Development, Business Management, Customer Service, Food Safety, Team Leadership
+
+Certifications
+Food Safety Certification, TESDA Cookery NC II
+
+Education
+Hospitality Management
+
+Career Goals
+Expand to Multiple Branches, Food Franchise Development`,
+
+  `Roberto "Berto" Ramos
+Landscape Gardener & Urban Farming Specialist
+
+About
+Experienced gardener and urban farming advocate with over 12 years of experience designing, maintaining, and revitalizing residential and commercial green spaces. Passionate about sustainable gardening, native plants, and community food gardens.
+
+Experience
+Lead Landscape Gardener
+Green Horizons Landscaping (2018–Present)
+
+Gardening Supervisor
+EcoScapes Philippines (2014–2018)
+
+Community Garden Coordinator
+Baguio Urban Farming Initiative (2012–2014)
+
+Skills
+Landscape Design, Plant Care & Maintenance, Urban Farming, Irrigation Systems, Composting, Pest Management, Greenhouse Operations
+
+Certifications
+TESDA Landscape Installation and Maintenance NC II, Urban Agriculture Training Program
+
+Education
+Diploma in Agricultural Technology
+
+Career Goals
+Establish a Sustainable Plant Nursery, Train Future Urban Farmers, Develop Community Food Security Programs`,
+
+  `Clara Bautista
+Librarian & Information Services Specialist
+
+About
+Licensed Librarian dedicated to promoting information literacy, lifelong learning, and equitable access to knowledge. Experienced in managing physical and digital collections, research assistance, and community learning programs.
+
+Experience
+Chief Librarian
+Iloilo City Public Library (2021–Present)
+
+Reference Librarian
+West Visayas University Library (2017–2021)
+
+Library Assistant
+Provincial Learning Resource Center (2015–2017)
+
+Skills
+Information Management, Research Assistance, Digital Archives, Cataloging & Classification, Knowledge Management, Community Outreach, Academic Research Support
+
+Certifications
+PRC Licensed Librarian, Digital Information Management Certificate
+
+Education
+Bachelor of Library and Information Science
+
+Career Goals
+Modernize Public Library Services, Expand Digital Knowledge Access, Lead National Information Literacy Programs`,
+];
+
 const analyzeMessages = [
   "Analyzing career history...",
   "Identifying transferable skills...",
@@ -81,6 +339,11 @@ export default function ResumeUpload({ transitionTo, updateState }: ResumeUpload
         setTimeout(() => transitionTo("timeline-scan", { resumeText, explicitPronouns }), 600);
       }
     }, 700);
+  };
+
+  const pasteDemoProfile = () => {
+    const picked = DEMO_PROFILES[Math.floor(Math.random() * DEMO_PROFILES.length)];
+    setResumeText(picked);
   };
 
   const charCount = resumeText.length;
@@ -169,9 +432,39 @@ export default function ResumeUpload({ transitionTo, updateState }: ResumeUpload
             </div>
 
             {/* Helper text */}
-            <p style={{ fontSize: 12, color: "var(--text3)", marginBottom: 24, lineHeight: 1.5 }}>
-              Tip: Copy everything — job titles, bullet points, skills, dates. The more detail, the richer your alternate universe profiles.
-            </p>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 24 }}>
+              <p style={{ fontSize: 12, color: "var(--text3)", lineHeight: 1.5, margin: 0, flex: 1 }}>
+                Tip: Copy everything — job titles, bullet points, skills, dates. The more detail, the richer your alternate universe profiles.
+              </p>
+              <button
+                type="button"
+                onClick={pasteDemoProfile}
+                style={{
+                  flexShrink: 0,
+                  padding: "7px 14px",
+                  background: "var(--bg2)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 8,
+                  color: "var(--text2)",
+                  fontFamily: "Sora, sans-serif",
+                  fontSize: 12,
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  transition: "all 0.18s",
+                  whiteSpace: "nowrap",
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = "var(--border2)";
+                  e.currentTarget.style.color = "var(--text)";
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = "var(--border)";
+                  e.currentTarget.style.color = "var(--text2)";
+                }}
+              >
+                ✦ Paste Demo Career Profile
+              </button>
+            </div>
 
             {/* Gender selector */}
             <div style={{ marginBottom: 24 }}>
