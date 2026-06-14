@@ -19,7 +19,7 @@ function fmt(ts: number): string {
 }
 
 export default function HistorianLog({ state, transitionTo }: Props) {
-  const log = state.historianLog || [];
+  const log = [...(state.historianLog || [])].reverse();
 
   return (
     <div style={{ minHeight: "100vh", background: "#06070f", paddingTop: 64, position: "relative", overflow: "hidden" }}>

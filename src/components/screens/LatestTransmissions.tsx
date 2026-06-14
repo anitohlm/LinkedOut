@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { AppState, AppScreenState, UniverseType } from "@/types";
 import { getUniverse } from "@/lib/universes";
 import UniverseIcon from "@/components/UniverseIcon";
+import { getStage } from "@/lib/interview";
 
 interface Props {
   state: AppState;
@@ -21,7 +22,9 @@ export default function LatestTransmissions({ state, transitionTo }: Props) {
       const msgs = (t?.messages || []) as { role: string; content: string }[];
       const lastReply = [...msgs].reverse().find(m => m.role === "assistant");
       const count = msgs.filter(m => m.role === "assistant").length;
-      return { uid, futureSelf: t?.futureSelf, last: lastReply?.content || "", count };
+      const relationship = (state.interviews as any)?.[uid]?.relationship ?? 0;
+      const bond = getStage(relationship);
+      return { uid, futureSelf: t?.futureSelf, last: lastReply?.content || "", count, bond };
     })
     .filter(t => t.count > 0);
 
@@ -99,12 +102,17 @@ export default function LatestTransmissions({ state, transitionTo }: Props) {
                   </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 3 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 3 }}>
                       <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: u.color }}>{u.title}</span>
                       <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase",
                         padding: "2px 8px", borderRadius: 100, background: `${TEAL}1f`, color: TEAL, border: `1px solid ${TEAL}44` }}>
                         <span style={{ width: 5, height: 5, borderRadius: "50%", background: TEAL }} />
                         {t.count} message{t.count !== 1 ? "s" : ""}
+                      </span>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase",
+                        padding: "2px 8px", borderRadius: 100, background: `${u.color}14`, color: u.color, border: `1px solid ${u.color}44` }}>
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill={u.color} /></svg>
+                        Bond · {t.bond.name}
                       </span>
                     </div>
                     <div style={{ fontSize: 17, fontWeight: 700, color: "var(--text)", letterSpacing: "-0.2px", marginBottom: 2 }}>

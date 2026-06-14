@@ -9,8 +9,8 @@ export const DASH_GRID_CSS = `
 `;
 
 /* A glassy dashboard panel with right-side atmospheric imagery + accent glow. */
-export function Panel({ accent, image, locked, lockHint, wide, children }: {
-  accent: string; image?: string; locked?: boolean; lockHint?: string; wide?: boolean; children: React.ReactNode;
+export function Panel({ accent, image, imagePosition, imageFull, locked, lockHint, wide, children }: {
+  accent: string; image?: string; imagePosition?: string; imageFull?: boolean; locked?: boolean; lockHint?: string; wide?: boolean; children: React.ReactNode;
 }) {
   return (
     <div style={{
@@ -20,10 +20,14 @@ export function Panel({ accent, image, locked, lockHint, wide, children }: {
       border: `1px solid ${accent}33`, boxShadow: `0 22px 54px -30px ${accent}66`,
       display: "flex", flexDirection: "column",
     }}>
-      {/* Right-side image */}
+      {/* Right-side image — full-bleed for panoramic images, 60%-right for others */}
       {image && (
-        <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "60%",
-          backgroundImage: `url(${image})`, backgroundSize: "cover", backgroundPosition: "center right" }} />
+        <div style={{
+          position: "absolute", top: 0, bottom: 0,
+          ...(imageFull ? { left: 0, right: 0 } : { right: 0, width: "60%" }),
+          backgroundImage: `url(${image})`, backgroundSize: "cover",
+          backgroundPosition: imagePosition ?? (imageFull ? "center center" : "center right"),
+        }} />
       )}
       {/* Fade so the left stays dark + readable */}
       {image && (

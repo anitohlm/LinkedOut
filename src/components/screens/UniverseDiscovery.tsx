@@ -550,7 +550,7 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
       }}>
         <button
           onClick={() => {
-            if (!confirm("Start over with a new resume? This clears your current multiverse.")) return;
+            if (!confirm("Start over with a new career profile? This clears your current multiverse.")) return;
             try { localStorage.removeItem("linkedout_save_v1"); } catch {}
             fullPortraits.current = {};
             transitionTo("upload-resume", {
@@ -565,7 +565,7 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text)"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--text2)"; }}
         >
-          ↻ New Resume
+          ↻ New Career Profile
         </button>
         <button onClick={() => transitionTo("landing")} style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px",
           background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontFamily: "Sora, sans-serif" }}>
@@ -901,7 +901,7 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                 </Panel>
 
                 {/* The Chronicle */}
-                <Panel accent="#e8c97e" image="/dashboard/chronicle.png" locked={!phase4Unlocked} lockHint="Choose a universe to begin your chronicle">
+                <Panel accent="#e8c97e" image="/dashboard/chronicle.png" imageFull locked={!phase4Unlocked} lockHint="Choose a universe to begin your chronicle">
                   <PanelHead accent="#e8c97e" kicker="Your Saga" title="The Chronicle" bareIcon
                     icon={<img src="/universe-icons/chronicle.png" alt="" width={46} height={46} style={{ width: 46, height: 46, objectFit: "contain" }} />} />
                   <PanelText>{hasChronicle ? `${state.chronicleEditions!.length} edition${state.chronicleEditions!.length !== 1 ? "s" : ""} recorded across your timelines.` : "Your story across every reality, written as you live it."}</PanelText>
@@ -909,7 +909,7 @@ export default function UniverseDiscovery({ state, transitionTo, updateState }: 
                 </Panel>
 
                 {/* The Historian */}
-                <Panel accent="#6c8cff" image="/dashboard/historian.png" wide locked={!phase4Unlocked} lockHint="Unlocks alongside your chronicle">
+                <Panel accent="#6c8cff" image="/dashboard/historian.png" imageFull wide locked={!phase4Unlocked} lockHint="Unlocks alongside your chronicle">
                   <PanelHead accent="#6c8cff" kicker="Keeper of Record" title="The Historian" bareIcon
                     icon={<img src="/universe-icons/historian.png" alt="" width={46} height={46} style={{ width: 46, height: 46, objectFit: "contain" }} />} />
                   <p style={{ fontFamily: "'Crimson Pro', serif", fontStyle: "italic", fontSize: 14, color: "var(--text2)", lineHeight: 1.6, margin: "0 0 16px" }}>

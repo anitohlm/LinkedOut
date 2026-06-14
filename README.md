@@ -26,6 +26,31 @@ Each universe has its own naming laws, its own language, its own sense of what s
 
 ---
 
+## Features
+
+**Universes & Identity**
+- Six parallel universes, each with its own world, era, and alternate self
+- Legendary self and Villain self generated per universe — the best and worst of who you could become
+
+**Relationships**
+- Chat with your Future Self across each universe
+- Relationship stages tracked per universe: Stranger → Curious Observer → Ally → Trusted Self → Temporal Confidant
+- Council of Selves — hold a conversation with all 8 versions of yourself at once
+
+**Timeline**
+- Timeline Stability (0–100%) — shifts with every choice; drives the tone of your narrative
+- Shadow Affinity — a hidden global counter that grows each time you engage the dark path
+
+**Records**
+- Historian Log — a factual record of every significant event across your multiverse
+- Chronicle Editions — narrative stories of your saga, written across multiple sessions; never marked as final
+
+**Progress**
+- Multiverse Offers — job offers from each universe tracked as accepted, negotiated, or rejected
+- Completion bonuses — one-time stability gains unlocked per universe
+
+---
+
 ## The Journey
 
 ### Phase 1 — Six Selves Revealed
@@ -44,7 +69,7 @@ Once your six selves exist, you can reach into their worlds:
 - **Council of Selves** — All eight versions of you in the same room. They don't agree on everything.
 
 ### Phase 3 — The Multiversal Chronicle
-Your story, written. A hardcover chronicle book — animated spring-physics cover, chapter-by-chapter narrative, every universe rendered in its own voice — powered by **the-historian** via Foundry IQ. The archive is yours to keep.
+Your story, written. A hardcover chronicle book — animated spring-physics cover, chapter-by-chapter narrative, every universe rendered in its own voice — powered by **generate-chronicle** and **the-historian** via Foundry IQ. The archive is yours to keep.
 
 ---
 
@@ -69,39 +94,42 @@ Your story, written. A hardcover chronicle book — animated spring-physics cove
 |--|--|
 | **`@azure/ai-projects`** | Azure AI Projects SDK |
 | **`AzureOpenAI` client** | Chat completions against the Foundry IQ inference endpoint |
-| **Foundry IQ Named Agents** | `callAgent()` via Responses API + `agent_reference` — used by `the-historian` |
+| **Foundry IQ Named Agent** | `callAgent()` via Responses API + `agent_reference` — used by `the-historian` |
 | **Foundry IQ Direct Inference** | `callAI()` — all other routes |
 
 ---
 
 ## AI Architecture
 
-LinkedOut uses **Azure AI Foundry IQ** across two tiers. Most of the journey runs on direct inference — fast, parallel, model-level calls. The Chronicle is different. That goes through **the-historian**.
+LinkedOut runs **11 agents** across two tiers on **Azure AI Foundry IQ**. Ten agents run on direct inference — fast, parallel, model-level calls. The Chronicle is different: it passes through `generate-chronicle` and is powered by **the-historian**, a named Foundry IQ agent with persistent memory and a grounded knowledge base.
 
 ```
 Your Career Profile (PDF)
         ↓  pdfjs-dist
         ↓
-  ── analyze-resume ──────────────────────────────────────────────────────
+  ── Agent 1: analyze-resume ─────────────────────────────────────────────
   Career DNA extracted: archetype, pronouns, skills, timeline signature
         ↓
-  ── generate-profile ×6 (parallel) ──────────────────────────────────────
+  ── Agent 2: generate-profile ×6 (parallel) ─────────────────────────────
   Six alternate selves built simultaneously across all universes
   Each: name · profession · world · era · biography · achievements
         ↓
-  ── generate-future-self ──────────────────────────────────────────────
+  ── Agent 3: generate-future-self ────────────────────────────────────────
   Future self narrated: memories, philosophy, regrets, lessons
   Written entirely in the voice and language of their world
         ↓
-  ── future-transmission (live) ────────────────────────────────────────
-  Ongoing chat · timeline stability tracked · Shadow can intercept
+  ── Agent 3: future-transmission (live) ──────────────────────────────────
+  Ongoing chat · relationship stages · timeline stability · Shadow intercepts
         ↓
-  ── the-historian ◄─ Named Foundry IQ Agent (v6) ─────────────────────
-  Chronicle written: prologue · six chapters · epilogue
-  Grounded in linkedoutmultiversememory · persistent memory across sessions
+  ── Agent 10: generate-chronicle ─────────────────────────────────────────
+  Assembles the narrative saga: prologue · chapters · epilogue
+  Grounded in the Historian Log · edition model (never "final")
+        ↓
+  ── Agent 11: the-historian ◄─ Named Foundry IQ Agent ───────────────────
+  Writes the Chronicle · persistent memory · linkedoutmultiversememory KB
 ```
 
-### the-historian
+### The Historian
 
 The only named Foundry IQ agent in LinkedOut. It exists outside all six universes. It is not a future self, a mentor, a recruiter, or a guide. It records what happened.
 
@@ -114,23 +142,28 @@ The only named Foundry IQ agent in LinkedOut. It exists outside all six universe
 | **Tools** | Web search via Grounding with Bing |
 | **Instructions** | *"You are The Historian. You exist outside the six universes. You are not a future self, a mentor, a recruiter, or a guide."* |
 
-The knowledge base `linkedoutmultiversememory` grounds the historian's output — `gpt-4.1-mini`, extractive output mode, connected via the `linkedout-srch` index.
+### All 11 Agents
 
-### Direct Inference Routes
+| # | Agent | Description |
+|---|-------|-------------|
+| 1 | **analyze-resume** | Extracts Career DNA — archetypes, skills, timeline signature, pronouns |
+| 2 | **generate-profile** | Builds all six alternate selves in parallel |
+| 3 | **generate-future-self** + **future-transmission** | Creates the Future Self persona; runs live ongoing chat |
+| 4 | **generate-recruiter** | Writes universe-native job offers as period-authentic documents |
+| 5 | **generate-legendary** | Generates the legendary self — the timeline where everything aligned |
+| 6 | **generate-villain** | Generates the villain self — ambition without values |
+| 7 | **butterfly-effect** | Maps four divergent timelines from a single pivotal decision |
+| 8 | **council-response** | Drives all 8 selves speaking in the Council debate |
+| 9 | **shadow-intercept** | Generates the Shadow's universe-native manifestation and question |
+| 10 | **generate-chronicle** | Assembles the narrative saga grounded in the Historian Log |
+| 11 | **The Historian** *(Foundry IQ)* | Named Foundry IQ agent — writes the Chronicle with persistent memory and knowledge base |
 
-| Route | Role |
-|-------|------|
-| `analyze-resume` | Reads the career profile and extracts Career DNA |
-| `generate-profile` | Builds all six alternate selves in parallel |
-| `generate-future-self` | Narrates the future self in full universe voice |
-| `future-transmission` | Runs the live chat; tracks stability and intercepts |
-| `butterfly-effect` | Maps four alternate timelines from a single decision |
-| `generate-legendary` | Builds the legendary self — the timeline where everything aligned |
-| `generate-villain` | Builds the shadow self — the path ambition took without values |
-| `generate-recruiter` | Writes universe-native job offers as period documents |
-| `council-response` | Runs the council of selves — cross-universe dialogue |
-| `shadow-intercept` | Generates villain counter-messages during transmissions |
-| `suggestions` | Contextual prompts during the journey |
+### Supporting Utilities
+
+| Utility | Description |
+|---------|-------------|
+| **generate-portrait** | gpt-image-2 via Azure Images endpoint — character portrait generation |
+| **suggestions** | Contextual reply hints in Future Transmission and Council chats |
 
 ### Prompt Engineering
 
@@ -181,18 +214,19 @@ Open [http://localhost:3000](http://localhost:3000).
 src/
 ├── app/
 │   └── api/
-│       ├── analyze-resume/
-│       ├── generate-profile/         ×6 universes, parallel
-│       ├── generate-future-self/
-│       ├── future-transmission/      live chat
-│       ├── butterfly-effect/
-│       ├── generate-chronicle/       → the-historian
-│       ├── generate-legendary/
-│       ├── generate-villain/
-│       ├── generate-recruiter/
-│       ├── council-response/
-│       ├── shadow-intercept/
-│       └── suggestions/
+│       ├── analyze-resume/           Agent 1
+│       ├── generate-profile/         Agent 2  ×6 universes, parallel
+│       ├── generate-future-self/     Agent 3
+│       ├── future-transmission/      Agent 3  live chat
+│       ├── generate-recruiter/       Agent 4
+│       ├── generate-legendary/       Agent 5
+│       ├── generate-villain/         Agent 6
+│       ├── butterfly-effect/         Agent 7
+│       ├── council-response/         Agent 8
+│       ├── shadow-intercept/         Agent 9
+│       ├── generate-chronicle/       Agent 10 → the-historian (Foundry IQ)
+│       ├── generate-portrait/        utility
+│       └── suggestions/              utility
 ├── components/
 │   ├── AppOrchestrator.tsx           central state machine
 │   ├── UniverseArrivalModal.tsx      per-universe arrival cards (skeuomorphic)

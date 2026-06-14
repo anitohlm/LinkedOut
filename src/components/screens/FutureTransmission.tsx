@@ -98,12 +98,30 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     }
   }, [answers, relationship, asked]);
 
-  // After the Future Self speaks, alternate into asking a question
-  const maybeAskQuestion = (delay = 900) => {
+  // Pull the last "?" sentence from an AI message so the interview card echoes it.
+  // Normalize literal \n sequences first — the API emits them as two-char escapes,
+  // which trip up both the endsWith check and the boundary search.
+  const extractLastQuestion = (text: string): string | undefined => {
+    const normalized = text.replace(/\\n/g, "\n").trim();
+    if (!normalized.endsWith("?")) return undefined;
+    const lastQ = normalized.lastIndexOf("?");
+    const boundary = Math.max(
+      normalized.lastIndexOf(".", lastQ - 1),
+      normalized.lastIndexOf("!", lastQ - 1),
+      normalized.lastIndexOf("\n", lastQ - 1),
+    );
+    return normalized.slice(boundary + 1, lastQ + 1).trim() || normalized;
+  };
+
+  // After the Future Self speaks, alternate into asking a question.
+  // If the AI message already ended with a question, echo it as the card prompt
+  // so the user sees the same question rather than a mismatched pre-scripted one.
+  const maybeAskQuestion = (delay = 900, overridePrompt?: string) => {
     if (question || !universeId) return;
     const q = getNextQuestion(universeId, asked);
     if (!q) return;
-    setTimeout(() => setQuestion(q), delay);
+    const finalQ = overridePrompt ? { ...q, prompt: overridePrompt } : q;
+    setTimeout(() => setQuestion(finalQ), delay);
   };
 
   const boot = async () => {
@@ -139,7 +157,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       });
       setMessages([{ role: "assistant", content: res.message }]);
       setLoading(false);
-      if (!res.message.trim().endsWith("?")) maybeAskQuestion(1400);
+      maybeAskQuestion(1400, extractLastQuestion(res.message));
     } catch (e: any) {
       console.error(e);
       setError(e.message || "Transmission failed. Try again.");
@@ -180,7 +198,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       // The Shadow is drawn to people who push back and reveal themselves.
       const challenged = /\b(but|no|why|disagree|wrong|don'?t|never|actually)\b/i.test(userMsg);
       const intercepted = considerIntercept({ challenged, surprising: userMsg.length > 90 });
-      if (!intercepted && !res.message.trim().endsWith("?")) maybeAskQuestion(1100);
+      if (!intercepted) maybeAskQuestion(1100, extractLastQuestion(res.message));
     } catch (e: any) {
       setMessages(prev => [...prev, { role: "assistant", content: "...the signal broke. Say that again." }]);
     } finally {
@@ -268,7 +286,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
       setMessages(prev => [...prev, { role: "assistant", content: res.message }]);
       // Interview answers reveal the self — prime Shadow bait. Risky = divergent choice.
       const intercepted = considerIntercept({ revealedSelf: true, risky: opt.stab < 0 });
-      if (!intercepted && !res.message.trim().endsWith("?")) maybeAskQuestion(1600);
+      if (!intercepted) maybeAskQuestion(1600, extractLastQuestion(res.message));
     } catch {
       setMessages(prev => [...prev, { role: "assistant", content: "...I felt that. Give me a moment." }]);
     } finally {
@@ -324,7 +342,7 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
     "...I'm back. She got further than she usually does.\n\nThat version of us chose speed over everything.\n\nSome of what she said will stay with you. Let it sit before you decide what to do with it.",
   ];
 
-  const closeIntercept = (choice: "ignore" | "hear") => {
+  const closeIntercept = async (choice: "ignore" | "hear") => {
     setIntercept(false);
     setInterceptedRecently(true);
 
@@ -358,7 +376,30 @@ export default function FutureTransmission({ state, transitionTo, updateState }:
         updateState({ timelineState: { stability, status }, shadowAffinity: affinity,
           stabilityMessage: "You listened. −10 stability · Shadow Affinity +1." });
       }
-      setMessages(prev => [...prev, { role: "assistant", content: "...you let it in. I felt the timeline lurch.\n\nIt'll come back now. They always do, once you answer.\n\nBe careful what you agree with." }]);
+
+      if (futureSelf) {
+        setLoading(true);
+        try {
+          const history = messages
+            .filter(m => m.role !== "system")
+            .map(m => ({ role: m.role as "user" | "assistant", content: m.content }));
+          const res = await sendFutureTransmission({
+            userMessage: "[The Shadow broke through our channel and they heard it — let it in. The timeline just lurched. You're back now. React as yourself: shaken, urgent, honest about what it means that they listened.]",
+            futureSelf,
+            resumeAnalysis: state.resumeAnalysis!,
+            conversationHistory: history,
+            timelineStability: stability,
+            relationshipStage: stage.name,
+          });
+          setMessages(prev => [...prev, { role: "assistant", content: res.message }]);
+        } catch {
+          setMessages(prev => [...prev, { role: "assistant", content: "...you let it in. I felt the timeline lurch.\n\nIt'll come back now. They always do, once you answer.\n\nBe careful what you agree with." }]);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setMessages(prev => [...prev, { role: "assistant", content: "...you let it in. I felt the timeline lurch.\n\nIt'll come back now. They always do, once you answer.\n\nBe careful what you agree with." }]);
+      }
     }
   };
 
