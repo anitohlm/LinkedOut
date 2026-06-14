@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  output: "standalone", // <--- ADD THIS HERE TO FIX AZURE FUNCTIONS DEPLOYMENT
   webpack: (config, { isServer }) => {
     config.module.rules.push({
       test: /\.pdf$/,
