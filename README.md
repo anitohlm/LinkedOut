@@ -17,7 +17,7 @@ Each universe has its own naming laws, its own language, its own sense of what s
 
 | Universe | What you become |
 |----------|----------------|
-| 🏰 **Medieval Kingdom** | A figure of feudal legend — guild oaths sworn, heraldic legacy carved in stone |
+| 🏰 **Eldergrove Realms** | A figure of the ancient forest kingdom — elven courts, living woodland, guild pacts sworn beneath the canopy |
 | 🌃 **Neon Synthesis** | A ghost in the megacity — digital identity, augmented flesh, reputation sold by the byte |
 | ☠️ **Endless Seas** | A name whispered in port taverns — rank earned by salt and blood, epithet invented by the sea itself |
 | 🐉 **Ancient Draconia** | An elemental force — centuries of mastery, draconic power, memory older than kingdoms |
@@ -40,6 +40,9 @@ Each universe has its own naming laws, its own language, its own sense of what s
 **Timeline**
 - Timeline Stability (0–100%) — shifts with every choice; drives the tone of your narrative
 - Shadow Affinity — a hidden global counter that grows each time you engage the dark path
+
+**Butterfly Effect**
+- Name a pivotal real decision and watch four divergent timelines branch from it, each with its own consequences
 
 **Records**
 - Historian Log — a factual record of every significant event across your multiverse
