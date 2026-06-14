@@ -7,6 +7,10 @@
 
 ---
 
+Demo Video: https://youtu.be/lwJ2ISMpdZk
+
+---
+
 LinkedOut is an AI-powered multiverse game where you upload your career profile and discover six alternate versions of yourself — a medieval knight, a cyberpunk ghost, a pirate captain, a dragon lord, a space pioneer, an immortal vampire — each one built from your actual Career DNA. From there, you open a live transmission and talk directly to your future self, watching the **Timeline Stability** meter rise and fall with every exchange — until the **Shadow** breaks through and intercepts the signal, forcing you to choose which voice to trust. When you're ready, you summon the **Council of Selves**, putting all six versions of you in the same room to debate, clash, and vote on who you really are. And when the multiverse has been fully explored, **The Historian** writes your **Chronicle** — a hardcover narrative book of every life you could have lived, sealed in the Archive forever.
 
 ---
